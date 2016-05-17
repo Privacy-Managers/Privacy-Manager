@@ -1,0 +1,230 @@
+{
+   "activeTabCookies": {
+      "message": "Active tab cookies:"
+   },
+   "activeTabCookies_desc": {
+      "message": "If enabled the cookies tab will always be filtered with the cookie data of active tab page domain."
+   },
+   "allowHostPermissions": {
+      "message": "Additional permissions:"
+   },
+   "allowHostPermissionsNetwork": {
+      "message": "Additional permissions:"
+   },
+   "allowHostPermissionsNetwork_desc": {
+      "message": "You need to allow host permission to be able to manipulate network data."
+   },
+   "allowHostPermissions_desc": {
+      "message": "You need to allow host permission to be able to manipulate cookies."
+   },
+   "alternateErrorPagesEnabled": {
+      "message": "Alternate error pages:"
+   },
+   "alternateErrorPagesEnabled_desc": {
+      "message": "    If enabled, Chrome uses a web service to help resolve navigation errors.\n    It Controls whether Google Chrome shows suggestions for the page you were trying to reach when it is unable to connect to a web address. The user sees suggestions to navigate to other parts of the website or to search for the page with Google."
+   },
+   "appcache": {
+      "message": "App. cache:"
+   },
+   "appcache_desc": {
+      "message": "    Clear websites Application cache at browser startup.\n    Application caching mechanism lets web-based applications run offline. Developers can use the Application Cache (AppCache) interface to specify resources that the browser should cache and make available to offline users. Applications that are cached load and work correctly even if users click the refresh button when they are offline."
+   },
+   "autofillEnabled": {
+      "message": "Auto fill:"
+   },
+   "autofillEnabled_desc": {
+      "message": "    If enabled, Chrome offers to automatically fill in forms.\n    If Autofill is enabled, and you submit a form, Chrome sends the data types you actually used for filling in the form in order to improve its guesses over time. The actual text you typed into the form is not sent.\n    It's important that you use Autofill only on websites you trust, as certain websites might try to capture your information in hidden or hard-to-see fields. Some websites prevent browsers from saving text that you've entered, so Google Chrome won't be able to complete forms on those sites."
+   },
+   "blockUserAgent": {
+      "message": "Block user agent:"
+   },
+   "blockUserAgent_desc": {
+      "message": "If enabled user agent data will not be sent with request, that mean websites couldn't determine the browser you are using, that why in some cases websites will not allow you to view the content when user agent is blocked."
+   },
+   "cache": {
+      "message": "Cache:"
+   },
+   "cache_desc": {
+      "message": "    Clear browser cache at browser startup.\n    Browsers store elements of webpages to speed up the loading of the webpage during your next visit."
+   },
+   "chrome_extension_description": {
+      "message": "Manage privacy settings, data deletion, quickly access page in incognito mode, manage cookies and monitor network traffic."
+   },
+   "chrome_extension_name": {
+      "message": "Privacy manager"
+   },
+   "collectHeaders": {
+      "message": "Collect headers:"
+   },
+   "collectHeaders_desc": {
+      "message": "If enabled the headers will start to be collected, only last 1000 headers would be shown."
+   },
+   "cookies": {
+      "message": "Cookies:"
+   },
+   "cookiesCounterName": {
+      "message": "cookies"
+   },
+   "cookiesHeadlineTitle": {
+      "message": "Cookies"
+   },
+   "cookies_desc": {
+      "message": "    Clear browser cookies at browser startup.\n    Cookies are files created by websites you've visited that store browsing information, such as your site preferences or profile information. There are two types of cookies: \n    * First-party cookies are set by the site domain listed in the address bar. \n    * Third-party cookies come from other domain sources that have items, such as ads or images, embedded on the page."
+   },
+   "cookies_tab": {
+      "message": "Cookies"
+   },
+   "deleteAllData": {
+      "message": "Delete all:"
+   },
+   "deleteAllData_desc": {
+      "message": "Clear all browser data on startup."
+   },
+   "deleteHeaders": {
+      "message": "Delete all"
+   },
+   "downloads": {
+      "message": "Downloads:"
+   },
+   "downloads_desc": {
+      "message": "    Clear browser download list maintained by Google Chrome at browser startup.\n    This action doesn't remove the actual files from your computer."
+   },
+   "fileSystems": {
+      "message": "File systems:"
+   },
+   "fileSystems_desc": {
+      "message": "    Clear browser file system at browser startup.\n    A website may use sandboxed sections of a user's local filesystem. A sanboxed section is just a subdirectory named File System in your Chrome profile directory, where data is stored in files. Websites can manage (create, delete, read, write) files and folders in this sandboxed subdirectory."
+   },
+   "formData": {
+      "message": "Form data:"
+   },
+   "formData_desc": {
+      "message": "    Clear browser stored data at browser startup.\n    If enabled, Chrome browser Auto fill data will be removed on browser startup."
+   },
+   "history": {
+      "message": "History:"
+   },
+   "history_desc": {
+      "message": "    Clear browser history at browser startup.\n    Following will be deleted:\n    * Web addresses you've visited from the History page.\n    * Cached text of those pages\n    * Snapshots of those pages for images that appear on the New Tab page\n    * Any IP addresses pre-fetched from those pages"
+   },
+   "hyperlinkAuditingEnabled": {
+      "message": "Hyperlink auditing:"
+   },
+   "hyperlinkAuditingEnabled_desc": {
+      "message": "    hyperlink auditing allows you to 'attach' resources to a link which, when clicked, will ping a source. This enables the click to be tracked via the desired method e.g. dropping a cookie or sending a HTTP request."
+   },
+   "incognitoButton": {
+      "message": "Run in incognito mode"
+   },
+   "indexedDB": {
+      "message": "Indexed DB:"
+   },
+   "indexedDB_desc": {
+      "message": "    Clear websites Indexed DB data at browser startup.\n    IndexedDB is an client-side storage of significant amounts of structured data and for high performance searches on this data using indexes."
+   },
+   "instantEnabled": {
+      "message": "Instant mode:"
+   },
+   "instantEnabled_desc": {
+      "message": "    With Chrome Instant enabled, search results and in-line predictions appear instantly (before you press Enter) as you type in the address bar. The feature requests search results as you type, so the text you type may be logged as search terms. The specifics of the logging behavior depend on your default search engine."
+   },
+   "localStorage": {
+      "message": "Local storage:"
+   },
+   "localStorage_desc": {
+      "message": "    Clear websites local storage data at browser startup.\n    Local storage is a database that resides in the users browser"
+   },
+   "main_tab": {
+      "message": "Main"
+   },
+   "networkPredictionEnabled": {
+      "message": "Network prediction:"
+   },
+   "networkPredictionEnabled_desc": {
+      "message": "    If enabled, Chrome attempts to speed up your web browsing experience by pre-resolving DNS entries, prerendering sites (\u003Clink rel='prefetch' ...\u003E), and preemptively opening TCP and SSL connections to servers."
+   },
+   "network_tab": {
+      "message": "Network"
+   },
+   "offButton": {
+      "message": "Off"
+   },
+   "onButton": {
+      "message": "On"
+   },
+   "passwords": {
+      "message": "Passwords:"
+   },
+   "passwords_desc": {
+      "message": "    Clear stored passwords at browser startup.\n    Google Chrome can save your usernames and passwords for different websites. The browser can then automatically complete the sign-in fields for you when you next visit these websites."
+   },
+   "pluginData": {
+      "message": "Plugin data:"
+   },
+   "pluginData_desc": {
+      "message": "    Clear plugins data at browser startup.\n    Websites also use different types of local storage as well, including Adobe Flash Player Local Shared Objects (LSOs), referred to by some people as Flash cookies, so this option will delete client-side data stored by plug-ins that obey the NPAPI ClearSiteData API, such as Flash Player.\u201D"
+   },
+   "privacyManagement": {
+      "message": "Privacy management"
+   },
+   "protectedContentEnabled": {
+      "message": "Protect content:"
+   },
+   "protectedContentEnabled_desc": {
+      "message": "    If enabled, Chrome provides a unique ID to plugins in order to run protected content (Will be available soon on ChromeOS)."
+   },
+   "referrersEnabled": {
+      "message": "Referrers:"
+   },
+   "referrersEnabled_desc": {
+      "message": "    If enabled, Chrome sends referer headers with your requests, so browser sends a request to the server holding the destination webpage. The request includes the referer field, which says the last page the user was on"
+   },
+   "refreshHeaders": {
+      "message": "Refresh"
+   },
+   "removeAllCookies": {
+      "message": "Remove All"
+   },
+   "safeBrowsingEnabled": {
+      "message": "Safe browsiong mode:"
+   },
+   "safeBrowsingEnabled_desc": {
+      "message": "    If enabled, Chrome help protect you against phishing and malware attacks. This helps prevent evil-doers from tricking you into sharing personal information with them (\u201Cphishing\u201D) or installing malicious software on your computer (\u201Cmalware\u201D). \n    Please be aware that Chrome will no longer be able to protect you from websites that try to steal your information or install harmful software if you disable this feature. It's not recomended to turn it off."
+   },
+   "searchSuggestEnabled": {
+      "message": "Search suggestions:"
+   },
+   "searchSuggestEnabled_desc": {
+      "message": "    If enabled, Chrome sends the text you type into the Omnibox to your default search engine, which provides predictions of websites and searches that are likely completions of what you've typed so far."
+   },
+   "selectHeaders": {
+      "message": "Select all"
+   },
+   "spellingServiceEnabled": {
+      "message": "Spelling service:"
+   },
+   "spellingServiceEnabled_desc": {
+      "message": "    If enabled, Chrome uses a web service to help correct spelling errors.\n    Chrome spell-checking service sends the text you type into the browser to Google's servers. This allows Chrome to use the same spell-checking technology as Google search."
+   },
+   "startupClear": {
+      "message": "Clear on startup"
+   },
+   "thirdPartyCookiesAllowed": {
+      "message": "3-rd party cookies:"
+   },
+   "thirdPartyCookiesAllowed_desc": {
+      "message": "    If disabled, Chrome blocks third-party sites from setting cookies. \n    Third-party cookies are cookies being set with different domains from the one shown on the address bar"
+   },
+   "translationServiceEnabled": {
+      "message": "Translation service:"
+   },
+   "translationServiceEnabled_desc": {
+      "message": "    If enabled, Chrome offers to translate pages that aren't in a language you read.\n    If you do choose to translate a web page, the text of that page is sent to Google\u2019s translation service for translation. Your cookies are not sent along with that request and, if the page you are on is encrypted with SSL, Google Chrome also sends the translation request over SSL."
+   },
+   "webSQL": {
+      "message": "Web SQL:"
+   },
+   "webSQL_desc": {
+      "message": "    Clear websites WebSQL data at browser startup.\n    Web SQL Database is a database that resides in the users browser."
+   }
+}

@@ -1,0 +1,89 @@
+.cookieHostRow:hover {
+	cursor:pointer;
+	background-color: #DFDFDF;
+}
+
+.cookieHostRowActive {
+	background-color: #DFDFDF;
+}
+#cookiesHeadlineTitle {
+	font-weight: bold;
+	color:#679C16;
+}
+.cookieNameRow {
+	display:none;
+	padding-left: 10px;
+	background-color: #F0F0F0;
+	/*margin: 10px 0 10px 0;*/ 
+}
+
+.cookieNameRow:hover {
+	cursor:pointer;
+	background-color: #DFDFDF;
+}
+
+#cookiesContainer {
+	font-size: 14px;
+}
+
+.cookieHostRowName {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 180px;
+	white-space: pre;
+	display: inline-block;
+}
+
+.cookieHostRowRemove {
+	color:#CCCCCC;
+	font-size: 20px;
+	padding-bottom:3px;
+	margin-left:120px;
+	display: inline-block;
+}
+
+.cookieHostRowRemove:hover {
+	color:#433F38;
+}
+
+.cookieHostRowCounter {
+	display: inline-block;
+	width:100px;
+}
+
+.cookieNameRowName {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 150px;
+	white-space: pre;
+	display: inline-block;
+}
+.cookieNameRowValue {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: pre;
+	display: inline-block;
+	width:180px;
+	padding-left: 20px;
+}
+
+.cookieNameRowRemove {
+	color:#CCCCCC;
+	font-size: 20px;
+	padding-bottom:3px;
+	margin-left:40px;
+	display: inline-block;
+}
+
+.cookieNameRowRemove:hover {
+	color:#433F38;
+}
+
+#searchCookies {
+	font-size:12px;
+	width: 120px;
+}
+#removeAllCookies {
+	font-size:11px;
+	min-height: 21px;
+}

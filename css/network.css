@@ -1,0 +1,11 @@
+#headersTextArea {
+	font-size: 10px;
+	width: 440px;
+	height: 260px;
+	resize: none;
+}
+#selectHeaders, #deleteHeaders, #refreshHeaders {
+	font-size: 11px;
+	min-height: 21px;
+	margin-top: 0px; 
+}
