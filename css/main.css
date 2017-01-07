@@ -1,8 +1,10 @@
-#main {
+#main
+{
 	width: 490px;
 }
 
-.privacyServiceName {
+.privacyServiceName
+{
 	display:inline-table;
 	font-weight: bold;
 	font-size: 12px;
@@ -10,7 +12,8 @@
 	padding-bottom: 4px;
 	width:152;
 }
-.closeBrowserName {
+.closeBrowserName 
+{
 	display:inline-table;
 	font-weight: bold;
 	font-size: 12px;
@@ -38,16 +41,56 @@
 	vertical-align: top;
 }
 
-.cb-enable, .cb-disable, .cb-enable span, .cb-disable span {background: url(img/switch2.gif) repeat-x; display: block; float: left; }
-.cb-enable span, .cb-disable span { line-height: 19px; display: block; background-repeat: no-repeat; font-weight: bold; font-size: 12px; }
-.cb-enable span { background-position: left -57px; padding: 0 6px; }
-.cb-disable span { background-position: right -113px;padding: 0 6px; }
-.cb-disable.selected { background-position: 0 -19px; }
-.cb-disable.selected span { background-position: right -132px; color: #fff; }
-.cb-enable.selected { background-position: 0 -38px; }
-.cb-enable.selected span { background-position: left -94px; color: #fff; }
-.switch label { cursor: pointer; }
-.switch input { display: none; }
+.cb-enable, .cb-disable, .cb-enable span, .cb-disable span
+{
+  background: url(img/switch2.gif) repeat-x;
+  display: block;
+  float: left;
+}
+.cb-enable span, .cb-disable span
+{
+  line-height: 19px;
+  display: block;
+  background-repeat: no-repeat;
+  font-weight: bold;
+  font-size: 12px;
+}
+.cb-enable span
+{
+  background-position: left -57px;
+  padding: 0 6px;
+}
+.cb-disable span
+{
+  background-position: right -113px;
+  padding: 0 6px;
+}
+.cb-disable.selected
+{
+  background-position: 0 -19px;
+}
+.cb-disable.selected span
+{
+  background-position: right -132px;
+  color: #fff;
+}
+.cb-enable.selected
+{
+  background-position: 0 -38px;
+}
+.cb-enable.selected span
+{
+  background-position: left -94px;
+  color: #fff;
+}
+.switch label
+{
+  cursor: pointer;
+}
+.switch input
+{
+  display: none;
+}
 
 .grey .settingName
 {

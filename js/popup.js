@@ -1,12 +1,13 @@
 var loadedTabs = new Array();
-var BGPage = chrome.extension.getBackgroundPage();
 
-$(function() {
+$(function()
+{
 	$("#tabs").tabs();
 	$("#tabs ul").show();
 });
 	
-$(document).ready( function(){
+$(document).ready( function()
+{
 	tabsManipulation();
 	tabsLocalizationBinding();
 	checkLastTab();
@@ -14,88 +15,90 @@ $(document).ready( function(){
 	var selected = $tabs.tabs('option', 'selected');
 });
 
-function tabsLocalizationBinding() {
-	$('[href="#main_tab"]').html(chrome.i18n.getMessage("main_tab"));
-	$('[href="#cookies_tab"]').html(chrome.i18n.getMessage("cookies_tab"));
-	$('[href="#network_tab"]').html(chrome.i18n.getMessage("network_tab"));
+function tabsLocalizationBinding()
+{
+	Elem('[href="#main_tab"]').html(getMsg("main_tab"));
+	Elem('[href="#cookies_tab"]').html(getMsg("cookies_tab"));
+	Elem('[href="#network_tab"]').html(getMsg("network_tab"));
 }
 
-function tabsManipulation() {
-	//var $tabs = $('#tabs').tabs();
-	//var selectedTabId = $tabs.tabs('option', 'selected');
-	//loadTab(selectedTabId);
-	
-	$('#tabs').bind('tabsselect', function(event, ui) {
+function tabsManipulation()
+{
+	Elem('#tabs').bind('tabsselect', function(event, ui)
+	{
 		loadTab(ui.index);
 	});
 }
 
-function loadTab(tabId) {
-	if((tabId == 0)&&(loadedTabs.indexOf(tabId)==-1)) {
-		console.log("Main load");
+function loadTab(tabId)
+{
+	if((tabId == 0)&&(loadedTabs.indexOf(tabId)==-1))
+	{
 		loadedTabs.push(tabId);
-		tabMainLoad();
+		//tabMainLoad();
 	}
-	else if(tabId == 1) {
-		if(loadedTabs.indexOf(tabId)==-1) {
-			console.log("Cookie load");
+	else if(tabId == 1)
+	{
+		if(loadedTabs.indexOf(tabId)==-1)
+		{
 			loadedTabs.push(tabId);
 			tabCookiesLoad();
 		}
-		else {
+		else
+		{
 			checkHostsPermission(false);
 		}
 	}
-	else if(tabId == 2) {
-		
-		if(loadedTabs.indexOf(tabId)==-1) {
-			console.log("Network load");
+	else if(tabId == 2)
+	{
+		if(loadedTabs.indexOf(tabId)==-1)
+		{
 			loadedTabs.push(tabId);
 			tabNetworkLoad();
 		}
-		else {
+		else
+		{
 			checkHostsPermissionNetwork(false);
 		}
 	}
-	else if((tabId == 3)&&(loadedTabs.indexOf(tabId)==-1)) {
-		console.log("Other load");
+	else if((tabId == 3)&&(loadedTabs.indexOf(tabId)==-1))
+	{
 		loadedTabs.push(tabId);
 		tabOtherLoad();
 	}
 	var settings = localStorage.getItem("settings");
 	var settingsJson = JSON.parse(settings);
 	settingsJson.lastSelectedTab = tabId; 
-	localStorage.setItem("settings", JSON.stringify(settingsJson));
-	
+	localStorage.setItem("settings", JSON.stringify(settingsJson));	
 }
 
-function checkLastTab() {
+function checkLastTab()
+{
 	var $tabs = $('#tabs').tabs();
 	var settings = localStorage.getItem("settings");
-	if(settings == null) {
+	if(settings == null)
+	{
 		var settingsJson = {};
 		settingsJson.activeTabCookies = true;
 		localStorage.setItem("settings", JSON.stringify(settingsJson));
 		//loadTab(0);
 		loadTab(0);
 	}
-	else {
+	else
+	{
 		var settingsJson = JSON.parse(settings);
-		if(settingsJson.lastSelectedTab) {
+		if(settingsJson.lastSelectedTab)
+		{
 			$tabs.tabs('select', settingsJson.lastSelectedTab);
 		}
 		// Also in case if last tab equl to 0
-		else if(settingsJson.lastSelectedTab == 0) {
+		else if(settingsJson.lastSelectedTab == 0)
+		{
 			loadTab(0);
 		}
-		else {
+		else
+		{
 			loadTab(0);
 		}
 	}
 }
-
-
-
-
-
-

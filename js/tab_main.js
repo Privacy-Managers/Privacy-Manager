@@ -20,12 +20,18 @@ var MainTab =
 
   init: function()
   {
+    this.generatePrivacyList();
     this.setLocalizedTexts();
     this.updatePrivacySwitchStates();
     this.updateBrowsingDataSwitchStates();
     this.addPrivacySwitchListener();
     this.addBrowsingDataSwitchListener();
     this.addIncognitoListener();
+  },
+
+  generatePrivacyList: function()
+  {
+    
   },
 
   setLocalizedTexts: function()
@@ -49,6 +55,9 @@ var MainTab =
   {
     for (var privacyService in chrome.privacy)
     {
+      if (!mainTabDataObject.privacy[privacyService])
+        continue;
+
       mainTabDataObject.privacy[privacyService].forEach(function (privacyName)
       {
         try {
@@ -148,7 +157,6 @@ var MainTab =
         }
         else 
         {
-          // Maybe it's not make sense ?
           alert("Sorry you can't run current active page in incognito mode.");
         }
       });

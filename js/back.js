@@ -1,9 +1,8 @@
-
 var listenerRunning = false; 
 deleteBrowsingData();
 checkHostPermissionsBackground ();
 var headersArray = new Array();
-chrome.privacy.services.autofillEnabled.get({},function(){console.log("hello")});
+chrome.privacy.services.autofillEnabled.get({},function(){});
 updatePrivacySettings();
 
 function deleteBrowsingData () {
