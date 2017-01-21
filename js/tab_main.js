@@ -31,7 +31,7 @@ var MainTab =
 
   generatePrivacyList: function()
   {
-    
+    //TODO Generate HTML from the template
   },
 
   setLocalizedTexts: function()

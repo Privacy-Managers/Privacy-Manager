@@ -453,7 +453,6 @@ function cookieRemove(elem, type) {
 			$("#cookiesContainer").html("");
     	});
 	}
-	
 }
 
 function getCookieIdFromElement(elementId) {
@@ -481,5 +480,3 @@ var sort_by = function(field, reverse, primer){
                (A > B) ? +1 : 0) * [-1,1][+!!reverse];                  
    }
 }
-
-

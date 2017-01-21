@@ -1,4 +1,5 @@
 var loadedTabs = new Array();
+var switchEvent = new Event("switch");
 
 $(function()
 {
@@ -8,7 +9,21 @@ $(function()
 	
 $(document).ready( function()
 {
-	tabsManipulation();
+	Elem("#navigation_tab").addEventListener("click", function(ev)
+	{
+		switchTab(ev.target);
+	}, false);
+
+	Elem("#navigation_tab").addEventListener("switch", function(ev)
+	{
+		console.log(ev.activeTab);
+	}, false);
+
+	Elem('#tabs').bind('tabsselect', function(event, ui)
+	{
+		loadTab(ui.index);
+	});
+
 	tabsLocalizationBinding();
 	checkLastTab();
 	var $tabs = $('#tabs').tabs();
@@ -22,12 +37,25 @@ function tabsLocalizationBinding()
 	Elem('[href="#network_tab"]').html(getMsg("network_tab"));
 }
 
-function tabsManipulation()
+function switchTab(tab)
 {
-	Elem('#tabs').bind('tabsselect', function(event, ui)
+	while(tab)
 	{
-		loadTab(ui.index);
-	});
+		if (tab.getAttribute("role") == "tab")
+			break;
+		tab = tab.parentElement;
+	}
+
+	var selectedNav = Elem("#navigation_tab").querySelector("[aria-selected]");
+	if (selectedNav)
+		selectedNav.removeAttribute("aria-selected");
+
+	tab.setAttribute("aria-selected", "true");
+	document.body.setAttribute("data-tab", tab.getAttribute("data-tab"));
+
+	switchEvent.activeTab = tab.getAttribute("data-tab");
+	Elem("#navigation_tab").dispatchEvent(switchEvent);
+	saveData("lastSelectedTab", tab.getAttribute("data-tab"));
 }
 
 function loadTab(tabId)
@@ -70,6 +98,14 @@ function loadTab(tabId)
 	var settingsJson = JSON.parse(settings);
 	settingsJson.lastSelectedTab = tabId; 
 	localStorage.setItem("settings", JSON.stringify(settingsJson));	
+}
+
+function saveData(property, value)
+{
+	var settings = localStorage.getItem("settings");
+	var settingsJson = JSON.parse(settings);
+	settingsJson[property] = value;
+	localStorage.setItem("settings", JSON.stringify(settingsJson));
 }
 
 function checkLastTab()
