@@ -3,9 +3,41 @@ function Elem(selector)
   return document.querySelector(selector);
 }
 
-function getMsg(str)
+function getMsg(text)
 {
-  return chrome.i18n.getMessage(str);
+  return chrome.i18n.getMessage(text);
+}
+
+/*
+ * Saves data into LocalStorage 
+ * @param {String} property setting name
+ * @param value can be any JSON value
+ */
+function saveData(property, value)
+{
+  var settings = localStorage.getItem("settings");
+  var settingsJson = JSON.parse(settings);
+  settingsJson[property] = value;
+  localStorage.setItem("settings", JSON.stringify(settingsJson));
+}
+
+/*
+ * Load data from LocalStorage
+ * @param {String} property setting name
+ * @return JSON value
+ */
+function loadData(property)
+{
+  var settings = localStorage.getItem("settings");
+  if(settings == null)
+  {
+    var settingsJson = {};
+    settingsJson.activeTabCookies = true;
+    localStorage.setItem("settings", JSON.stringify(settingsJson));
+    return null;
+  }
+
+  return JSON.parse(settings)[property];
 }
 
 var switcher = 
