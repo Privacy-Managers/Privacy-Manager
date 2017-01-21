@@ -1,11 +1,15 @@
-#main
+body
 {
 	width: 490px;
+  background-color: #F9F9F9;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/*******************************************************************************
+ * Tabs
+ ******************************************************************************/
 #navigation_tab
 {
-  font-family: Arial;
   padding: 0px;
   border-bottom: 1px solid #c0c0c0;
 }
@@ -55,50 +59,16 @@
   display: block;
 }
 
-
-.closeBrowserName,
-.privacyServiceName
-{
-	display:inline-table;
-	font-weight: bold;
-	font-size: 12px;
-	font-family: Arial;
-	padding-bottom: 4px;
-	width:110px;
-}
-
-.privacyServiceName
-{
-  width: 150px;
-}
-
-.switch {
-	height: 10px;
-  margin: 0px;
-}
-.rowContainer {
-	
-}
-
-.serviceHeader {
-	font-size: 21px;
-	font-weight: bold;
-	padding-bottom: 8px;
-	font-family: Arial;
-	color: #679c16;
-}
-
-.serviceContainer {
-	display:inline-table;
-	vertical-align: top;
-}
-
+/*******************************************************************************
+ * Switches
+ ******************************************************************************/
 .cb-enable, .cb-disable, .cb-enable span, .cb-disable span
 {
   background: url(img/switch2.gif) repeat-x;
   display: block;
   float: left;
 }
+
 .cb-enable span, .cb-disable span
 {
   line-height: 19px;
@@ -107,16 +77,19 @@
   font-weight: bold;
   font-size: 12px;
 }
+
 .cb-enable span
 {
   background-position: left -57px;
   padding: 0 6px;
 }
+
 .cb-disable span
 {
   background-position: right -113px;
   padding: 0 6px;
 }
+
 .cb-disable.selected
 {
   background-position: 0 -19px;
@@ -126,19 +99,28 @@
   background-position: right -132px;
   color: #fff;
 }
+
 .cb-enable.selected
 {
   background-position: 0 -38px;
 }
+
 .cb-enable.selected span
 {
   background-position: left -94px;
   color: #fff;
 }
+
+.switch
+{
+  display: inline-block;
+}
+
 .switch label
 {
   cursor: pointer;
 }
+
 .switch input
 {
   display: none;
@@ -157,130 +139,258 @@
   font-weight: bold;
   font-size: 12px;
   line-height: 19px;
-  font-family: Arial, Helvetica, sans-serif;
 }
+
 .switch span 
 {
    background-repeat: no-repeat;
    padding: 0 6px;
 }
+
 .on span 
 { 
   background-position: left -57px;
 }
+
 .turn-on .off span 
 { 
   background-position: right -113px;
 }
+
 .turn-on .off
 {
   background-position: 0 0;
 }
+
 .turn-on .off span
 {
   color: #312e25;
 }
+
 .off
 {
   background-position: 0 -19px;
 }
+
 .off span
 { 
   background-position: right -132px; color: #fff; 
 }
+
 .turn-on .on
 {
   background-position: 0 -38px;
 }
+
 .turn-on .on span
 {
   background-position: left -94px; color: #fff;
 }
+
 .switch label
 {
   cursor: pointer;
 }
+
 .switch input
 {
   display: none;
 }
 
-#incognito, #submitPassword {
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background-color:#ededed;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	color:#679c16;
-	font-family:arial;
-	font-size:12px;
-	font-weight:bold;
-	padding:1px 39px;
-	text-decoration:none;
-	text-shadow:1px 1px 0px #ffffff;
-}#incognito:hover, #submitPassword:hover {
-	cursor:pointer;
-	background-color:#dfdfdf;
-}#incognito:active, #submitPassword:hover {
+/*******************************************************************************
+ * Main
+ ******************************************************************************/
+
+.serviceContainer
+{
+  display:inline-table;
+  vertical-align: top;
+  padding-right: 28px;
+}
+
+.rowContainer > div:first-child
+{
+  display: inline-block;
+  font-weight: bold;
+  font-size: 12px;
+  padding-bottom: 4px;
+  width:110px;
+  vertical-align: top;
+}
+
+.rowContainer > div:last-child
+{
+  height: 10px;
+  margin: 0px;
+  vertical-align: top;
+}
+
+.serviceHeader
+{
+	font-size: 21px;
+	font-weight: bold;
+	padding-bottom: 8px;
+	color: #679c16;
+}
+
+#incognito
+{
+  display: inline-block;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background-color: #ededed;
+	border-radius: 6px;
+	border: 1px solid #dcdcdc;
+	color: #679c16;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 1px 39px;
+	text-decoration: none;
+	text-shadow: 1px 1px 0px #ffffff;
+}
+
+#incognito:hover
+{
+	cursor: pointer;
+	background-color: #dfdfdf;
+}
+
+#incognito:active
+{
 	position:relative;
 	top:1px;
 }
 
-#tabs {
-	padding: 0px;
-}
-#tabs .ui-tabs-panel {
-}
-#tabs {
-	padding: 0px;
-	background: none;
-	border-width: 0px;
+/*******************************************************************************
+ * Cookies tab
+ ******************************************************************************/
+.cookieHostRow:hover
+{
+  cursor:pointer;
+  background-color: #DFDFDF;
 }
 
-#tabs .ui-tabs-nav {
-	padding-left: 0px;
-	background: transparent;
-	border-width: 0px 0px 1px 0px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
+.cookieHostRowActive
+{
+  background-color: #DFDFDF;
 }
 
-#tabs {
-	background: transparent;
-	border: none;
-}
-#tabs .ui-widget-header {
-	background: transparent;
-	border: none;
-	border-bottom: 1px solid #c0c0c0;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-}
-#tabs .ui-state-default {
-	background: transparent;
-	border: none;
-}
-#tabs .ui-state-active {
-	background: transparent url('img/uiTabsArrow.png') no-repeat bottom center;
-	border: none;
-}
-#tabs .ui-state-default a {
-	color: #c0c0c0;
-}
-#tabs .ui-state-active a {
-	color: #459E00;
+#cookiesHeadlineTitle
+{
+  font-weight: bold;
+  color:#679C16;
 }
 
-
-#tabs .ui-tabs-nav li a {
-	padding-top: 0em;
+.cookieNameRow 
+{
+  display:none;
+  padding-left: 10px;
+  background-color: #F0F0F0;
+  /*margin: 10px 0 10px 0;*/ 
 }
-#tabs .ui-tabs-panel {
-	padding-bottom: 0em;
+
+.cookieNameRow:hover
+{
+  cursor:pointer;
+  background-color: #DFDFDF;
+}
+
+#cookiesContainer
+{
+  font-size: 14px;
+  max-height: 270px;
+  overflow: auto;
+}
+
+.cookieHostRowName
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 180px;
+  white-space: pre;
+  display: inline-block;
+}
+
+.cookieHostRowRemove
+{
+  color:#CCCCCC;
+  font-size: 20px;
+  padding-bottom:3px;
+  margin-left:120px;
+  display: inline-block;
+}
+
+.cookieHostRowRemove:hover
+{
+  color:#433F38;
+}
+
+.cookieHostRowCounter
+{
+  display: inline-block;
+  width:100px;
+}
+
+.cookieNameRowName
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 150px;
+  white-space: pre;
+  display: inline-block;
+}
+
+.cookieNameRowValue
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  display: inline-block;
+  width:180px;
+  padding-left: 20px;
+}
+
+.cookieNameRowRemove
+{
+  color:#CCCCCC;
+  font-size: 20px;
+  padding-bottom:3px;
+  margin-left:40px;
+  display: inline-block;
+}
+
+.cookieNameRowRemove:hover
+{
+  color:#433F38;
+}
+
+#searchCookies
+{
+  font-size:12px;
+  width: 120px;
+}
+
+#removeAllCookies
+{
+  font-size:11px;
+  min-height: 21px;
+}
+
+/*******************************************************************************
+ * Network tab
+ ******************************************************************************/
+#headersTextArea
+{
+  font-size: 10px;
+  width: 440px;
+  height: 260px;
+  resize: none;
+}
+
+#selectHeaders,
+#deleteHeaders,
+#refreshHeaders
+{
+  font-size: 11px;
+  min-height: 21px;
+  margin-top: 0px; 
 }

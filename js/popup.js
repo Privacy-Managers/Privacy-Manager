@@ -26,6 +26,7 @@ function initTabs()
 	else
 		switchTab(tabsContainer.firstChild);
 }
+
 /*
  * Switches the tab
  * @param {Element} tab element that defines or has parent with role="tab" and
