@@ -12,6 +12,12 @@ var mainTabDataObject =
                  "indexedDB", "localStorage", "pluginData", "passwords", "webSQL"]
 };
 
+function generateMainContent()
+{
+  //TODO Generate HTML content
+  
+}
+
 var MainTab =
 {
   privacyArray: mainTabDataObject.privacy.network.concat(mainTabDataObject.privacy.services, mainTabDataObject.privacy.websites),
@@ -166,4 +172,13 @@ var MainTab =
   }
 };
 
-document.addEventListener("DOMContentLoaded" , MainTab.init.bind(MainTab), false);
+//document.addEventListener("DOMContentLoaded" , MainTab.init.bind(MainTab), false);
+
+document.addEventListener("DOMContentLoaded" , function()
+{
+  Elem("#navigation_tab").addEventListener("switch", function(ev)
+  {
+    if (ev.activeTab == "main")
+      generateMainContent();
+  }, false);
+}, false);

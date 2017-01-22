@@ -50,6 +50,7 @@ body
 [role="tabpanel"]
 {
   display: none;
+  margin-left: 10px;
 }
 
 [data-tab="main"] #main_tab,
@@ -248,12 +249,16 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Main
  ******************************************************************************/
-
 .serviceContainer
 {
-  display:inline-table;
+  display:inline-block;
   vertical-align: top;
   padding-right: 28px;
+}
+
+.rowContainer
+{
+  display: flex;
 }
 
 .rowContainer > div:first-child
@@ -262,8 +267,8 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   font-weight: bold;
   font-size: 12px;
   padding-bottom: 4px;
-  width:110px;
   vertical-align: top;
+  flex-grow: 1;
 }
 
 .rowContainer > div:last-child
