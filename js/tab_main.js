@@ -15,7 +15,77 @@ var mainTabDataObject =
 function generateMainContent()
 {
   //TODO Generate HTML content
-  
+  var template = Elem("#privacyManagement template");
+  var label = template.content.querySelector("label");
+  var switcher = template.content.querySelector("button");
+  var infoIcon = template.content.querySelector("img");
+  for (var category in chrome.privacy)
+  {
+    // We don't need IPHandlingPolicy type property
+    if (category != "network" && 
+        category != "services" &&
+        category != "websites")
+      continue;
+
+    for (var settingName in chrome.privacy[category])
+    {
+      label.textContent = getMsg(settingName) || settingName;
+      label.appendChild(infoIcon);
+      label.setAttribute("for", settingName);
+      switcher.id = settingName;
+      var listItem = document.createElement("li");
+
+      listItem.appendChild(document.importNode(template.content, true));
+      Elem("#privacyManagement").appendChild(listItem);
+
+      var setting = chrome.privacy[category][settingName];
+
+
+      // Passing variables from an outer scope to call ASYNC API
+      (function(setting, settingName)
+      {
+        //TODO: Creating a function with callback might make this more readable
+        setting.get({}, function(details)
+        {
+          var switcher = Elem("#" + settingName);
+          switcher.setAttribute("aria-checked", details.value);
+          
+          // Toggle the state on click
+          switcher.addEventListener("click", function(event)
+          {
+            // Request again, to get current value
+            setting.get({}, function(details)
+            {
+              if (details.levelOfControl == "controllable_by_this_extension" || 
+                details.levelOfControl == "controlled_by_this_extension")
+              {
+                setting.set({ value: !details.value }, function()
+                {
+                  if (chrome.runtime.lastError != undefined)
+                  {
+                    //TODO: Inform user about error
+                  }
+                });
+              }
+              else
+              {
+                //TODO: Inform user if control level is not controlable by extension
+                console.log(details.levelOfControl);
+              }
+            });
+            
+          }, false);
+        });
+
+        setting.onChange.addListener(function(detail)
+        {
+          var switcher = Elem("#" + settingName);
+          console.log(switcher, detail.value);
+          switcher.setAttribute("aria-checked", detail.value);
+        })
+      })(setting, settingName);
+    }
+  }
 }
 
 var MainTab =
@@ -176,9 +246,10 @@ var MainTab =
 
 document.addEventListener("DOMContentLoaded" , function()
 {
+  generateMainContent();
+  
   Elem("#navigation_tab").addEventListener("switch", function(ev)
   {
-    if (ev.activeTab == "main")
-      generateMainContent();
+      
   }, false);
 }, false);

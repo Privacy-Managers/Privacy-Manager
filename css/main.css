@@ -249,6 +249,42 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Main
  ******************************************************************************/
+#main_tab section
+{
+  display:inline-block;
+  vertical-align: top;
+  padding-right: 28px;
+}
+
+#main_tab section h2
+{
+  font-size: 21px;
+  font-weight: bold;
+  padding-bottom: 8px;
+  color: #679c16;
+  margin: 0px;
+}
+
+#main_tab li
+{
+  display: flex;
+}
+
+#main_tab li img
+{
+  width: 12px;
+  height: 12px;
+}
+
+#main_tab li label
+{
+  flex-grow: 1;
+  font-weight: bold;
+  font-size: 12px;
+  padding-bottom: 4px;
+  vertical-align: top;
+}
+
 .serviceContainer
 {
   display:inline-block;
@@ -276,14 +312,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   height: 10px;
   margin: 0px;
   vertical-align: top;
-}
-
-.serviceHeader
-{
-	font-size: 21px;
-	font-weight: bold;
-	padding-bottom: 8px;
-	color: #679c16;
 }
 
 #incognito

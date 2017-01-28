@@ -30,344 +30,193 @@
 				<span>Off</span>
 			</button>
 			<div id="main_tab" role="tabpanel">
-				<div class="serviceContainer" id="privacyManagement">
-					<div class="serviceHeader">Privacy management</div>
-					<!-- spellingServiceEnabled -->
-					<div class="rowContainer" id="spellingServiceEnabled">
-						<div>
-								<span class="settingName">Spelling service:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px"/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+			<section id="privacyManagement">
+				<h2>Privacy management</h2>
+				<template>
+	      	<label>Spelling service
+				 	  <img src="css/img/info.png" class="infoIcon">
+				 	</label>
+			 		<button role="checkbox" aria-checked="false">
+						<span>On</span>
+						<span>Off</span>
+					</button>
+	      </template>
+			</section>
+
+			<!-- After closing browser -->
+			<div class="serviceContainer" id="startupClear">
+				<div class="serviceHeader">Clear on startup</div>
+				
+				<!-- deleteAllData -->
+				<div class="rowContainer" id="deleteAllData">
+					<div>
+							<span class="settingName">Delete all:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- searchSuggestEnabled -->
-					<div class="rowContainer" id="searchSuggestEnabled">
-						<div>
-								<span class="settingName">Search suggestions:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px"/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- Cookies -->
+				<div class="rowContainer" id="cookies">
+					<div>
+							<span class="settingName">Cookies:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- passwordSavingEnabled -->
-					<div class="rowContainer" id="passwordSavingEnabled">
-						<div>
-								<span class="settingName">instant mode:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px"/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- appcache -->
+				<div class="rowContainer" id="appcache">
+					<div>
+							<span class="settingName">appcache:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- alternateErrorPagesEnabled -->
-					<div class="rowContainer" id="alternateErrorPagesEnabled">
-						<div>
-								<span class="settingName">Alternate error pages:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- cache -->
+				<div class="rowContainer" id="cache">
+					<div>
+							<span class="settingName">cache:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- safeBrowsingEnabled -->
-					<div class="rowContainer" id="safeBrowsingEnabled">
-						<div>
-								<span class="settingName">Safe browsiong mode:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- downloads -->
+				<div class="rowContainer" id="downloads">
+					<div>
+							<span class="settingName">downloads:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- autofillEnabled -->
-					<div class="rowContainer" id="autofillEnabled">
-						<div>
-								<span class="settingName">auto fill:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- fileSystems -->
+				<div class="rowContainer" id="fileSystems">
+					<div>
+							<span class="settingName">fileSystems:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- translationServiceEnabled -->
-					<div class="rowContainer" id="translationServiceEnabled">
-						<div>
-								<span class="settingName">Translation service:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- formData -->
+				<div class="rowContainer" id="formData">
+					<div>
+							<span class="settingName">formData:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- hyperlinkAuditingEnabled -->
-					<div class="rowContainer" id="hyperlinkAuditingEnabled">
-						<div>
-								<span class="settingName">Hyperlink auditing:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>	
+				</div>
+				
+				<!-- history -->
+				<div class="rowContainer" id="history">
+					<div>
+							<span class="settingName">history:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- thirdPartyCookiesAllowed -->
-					<div class="rowContainer" id="thirdPartyCookiesAllowed">
-						<div title="If disabled, Chrome blocks third-party sites from setting cookies.">
-								<span class="settingName">3-rd party cookies:</span> 
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- referrersEnabled -->
-					<div class="rowContainer" id="referrersEnabled">
-						<div>
-								<span class="settingName">Referrers:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- networkPredictionEnabled -->
-					<div class="rowContainer" id="networkPredictionEnabled">
-						<div>
-								<span class="settingName">Network prediction:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- protectedContentEnabled -->
-					<div class="rowContainer" id="protectedContentEnabled">
-						<div>
-								<span class="settingName">Protect content:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
-					<div class="rowContainer">
-						<input type="button" id="incognito" value="Run in incognito mode" />
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
 					</div>
 				</div>
 				
-				
-				<!-- After closing browser -->
-				<div class="serviceContainer" id="startupClear">
-					<div class="serviceHeader">Clear on startup</div>
-					
-					<!-- deleteAllData -->
-					<div class="rowContainer" id="deleteAllData">
-						<div>
-								<span class="settingName">Delete all:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+				<!-- indexedDB -->
+				<div class="rowContainer" id="indexedDB">
+					<div>
+							<span class="settingName">indexedDB:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
 					</div>
-					
-					<!-- Cookies -->
-					<div class="rowContainer" id="cookies">
-						<div>
-								<span class="settingName">Cookies:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
 					</div>
-					
-					<!-- appcache -->
-					<div class="rowContainer" id="appcache">
-						<div>
-								<span class="settingName">appcache:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- cache -->
-					<div class="rowContainer" id="cache">
-						<div>
-								<span class="settingName">cache:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- downloads -->
-					<div class="rowContainer" id="downloads">
-						<div>
-								<span class="settingName">downloads:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- fileSystems -->
-					<div class="rowContainer" id="fileSystems">
-						<div>
-								<span class="settingName">fileSystems:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- formData -->
-					<div class="rowContainer" id="formData">
-						<div>
-								<span class="settingName">formData:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
-					
-					<!-- history -->
-					<div class="rowContainer" id="history">
-						<div>
-								<span class="settingName">history:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
-					<!-- indexedDB -->
-					<div class="rowContainer" id="indexedDB">
-						<div>
-								<span class="settingName">indexedDB:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
-					<!-- localStorage -->
-					<div class="rowContainer" id="localStorage">
-						<div>
-								<span class="settingName">localStorage:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
-					<!-- pluginData -->
-					<div class="rowContainer" id="pluginData">
-						<div>
-								<span class="settingName">pluginData:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
-					<!-- passwords -->
-					<div class="rowContainer" id="passwords">
-						<div>
-								<span class="settingName">passwords:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
-					<!-- webSQL -->
-					<div class="rowContainer" id="webSQL">
-						<div>
-								<span class="settingName">webSQL:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" />
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					
 				</div>
+				
+				<!-- localStorage -->
+				<div class="rowContainer" id="localStorage">
+					<div>
+							<span class="settingName">localStorage:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
+					</div>
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>
+				</div>
+				
+				<!-- pluginData -->
+				<div class="rowContainer" id="pluginData">
+					<div>
+							<span class="settingName">pluginData:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
+					</div>
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>
+				</div>
+				
+				<!-- passwords -->
+				<div class="rowContainer" id="passwords">
+					<div>
+							<span class="settingName">passwords:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
+					</div>
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>
+				</div>
+				
+				<!-- webSQL -->
+				<div class="rowContainer" id="webSQL">
+					<div>
+							<span class="settingName">webSQL:</span>
+							<img src="css/img/info.png" class="infoIcon" width="12px" />
+					</div>
+					<div class="switch">
+						<label class="cb-enable on"><span>On</span></label>
+						<label class="cb-disable selected off"><span>Off</span></label>
+						<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
+					</div>
+				</div>
+				
+			</div>
 			</div>
 			<div id="cookies_tab" role="tabpanel">
 				<div class="serviceContainer" id="privacyManagement">
