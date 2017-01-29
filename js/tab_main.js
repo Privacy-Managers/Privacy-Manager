@@ -14,11 +14,7 @@ var mainTabDataObject =
 
 function generateMainContent()
 {
-  //TODO Generate HTML content
   var template = Elem("#privacyManagement template");
-  var label = template.content.querySelector("label");
-  var switcher = template.content.querySelector("button");
-  var infoIcon = template.content.querySelector("img");
   for (var category in chrome.privacy)
   {
     // We don't need IPHandlingPolicy type property
@@ -29,63 +25,98 @@ function generateMainContent()
 
     for (var settingName in chrome.privacy[category])
     {
-      label.textContent = getMsg(settingName) || settingName;
-      label.appendChild(infoIcon);
-      label.setAttribute("for", settingName);
-      switcher.id = settingName;
-      var listItem = document.createElement("li");
-
-      listItem.appendChild(document.importNode(template.content, true));
+      var listItem = createListItem(template, settingName);
       Elem("#privacyManagement").appendChild(listItem);
-
       var setting = chrome.privacy[category][settingName];
-
-
-      // Passing variables from an outer scope to call ASYNC API
-      (function(setting, settingName)
-      {
-        //TODO: Creating a function with callback might make this more readable
-        setting.get({}, function(details)
-        {
-          var switcher = Elem("#" + settingName);
-          switcher.setAttribute("aria-checked", details.value);
-          
-          // Toggle the state on click
-          switcher.addEventListener("click", function(event)
-          {
-            // Request again, to get current value
-            setting.get({}, function(details)
-            {
-              if (details.levelOfControl == "controllable_by_this_extension" || 
-                details.levelOfControl == "controlled_by_this_extension")
-              {
-                setting.set({ value: !details.value }, function()
-                {
-                  if (chrome.runtime.lastError != undefined)
-                  {
-                    //TODO: Inform user about error
-                  }
-                });
-              }
-              else
-              {
-                //TODO: Inform user if control level is not controlable by extension
-                console.log(details.levelOfControl);
-              }
-            });
-            
-          }, false);
-        });
-
-        setting.onChange.addListener(function(detail)
-        {
-          var switcher = Elem("#" + settingName);
-          console.log(switcher, detail.value);
-          switcher.setAttribute("aria-checked", detail.value);
-        })
-      })(setting, settingName);
+      privacyManagement(setting, settingName);
     }
   }
+
+  var template = Elem("#startupClear template");
+  for (var dataType in chrome.browsingData)
+  {
+    if (dataType.indexOf("remove") == -1)
+      continue;
+
+    var listItem = createListItem(template, dataType);
+    Elem("#startupClear").appendChild(listItem);
+
+    var remove = loadData("remove");
+    if (!remove)
+    {
+      saveData("remove", {});
+      remove = loadData("remove");
+    }
+    
+  }
+}
+
+/*
+ * Creates a list item using template 
+ * @param {Element} template HTML element
+ * @param {itemID} itemID UniqueID associated with the element
+ */
+function createListItem(template, itemID)
+{
+  var content = template.content;
+  // TODO: optimize the query selector for each item
+  var label = content.querySelector("label");
+  var switcher = content.querySelector("button");
+  var infoIcon = content.querySelector("img");
+
+  label.textContent = getMsg(itemID) || itemID;
+  //TODO: Focus button on label click
+  switcher.id = itemID;
+  var listItem = document.createElement("li");
+
+  listItem.appendChild(document.importNode(template.content, true));
+  return listItem;
+}
+
+/*
+ * Get state for each Privacy setting and manage it 
+ * @param {Object} setting a chrome.privacy[settingName] API object
+ * @param {Strings} settingName privacy settingName
+ */
+function privacyManagement(setting, settingName)
+{
+  setting.get({}, function(details)
+  {
+    var switcher = Elem("#" + settingName);
+    switcher.setAttribute("aria-checked", details.value);
+    
+    // Toggle the state on click
+    switcher.addEventListener("click", function(event)
+    {
+      // Request again, to get current value
+      setting.get({}, function(details)
+      {
+        if (details.levelOfControl == "controllable_by_this_extension" || 
+          details.levelOfControl == "controlled_by_this_extension")
+        {
+          setting.set({ value: !details.value }, function()
+          {
+            if (chrome.runtime.lastError != undefined)
+            {
+              //TODO: Inform user about error
+            }
+          });
+        }
+        else
+        {
+          //TODO: Inform user if control level is not controlable by extension
+          console.log(details.levelOfControl);
+        }
+      });
+      
+    }, false);
+  });
+
+  setting.onChange.addListener(function(detail)
+  {
+    var switcher = Elem("#" + settingName);
+    switcher.setAttribute("aria-checked", detail.value);
+  })
 }
 
 var MainTab =

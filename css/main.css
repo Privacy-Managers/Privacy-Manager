@@ -256,6 +256,11 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   padding-right: 28px;
 }
 
+#main_tab section:last-child
+{
+  padding-right: 0px;
+}
+
 #main_tab section h2
 {
   font-size: 21px;
@@ -276,13 +281,15 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   height: 12px;
 }
 
-#main_tab li label
+#main_tab li div
 {
   flex-grow: 1;
   font-weight: bold;
   font-size: 12px;
   padding-bottom: 4px;
   vertical-align: top;
+  width: 150px;
+  word-wrap: break-word;
 }
 
 .serviceContainer

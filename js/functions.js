@@ -40,6 +40,8 @@ function loadData(property)
   return JSON.parse(settings)[property];
 }
 
+
+
 var switcher = 
 {
   toggleState: function(ev)
