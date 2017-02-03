@@ -16,7 +16,7 @@
    "manifest_version": 2,
    "name": "__MSG_chrome_extension_name__",
    "optional_permissions": [ "http://*/*", "https://*/*" ],
-   "permissions": [ "privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking" ],
+   "permissions": [ "privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking", "storage" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "2.9"
 }

@@ -40,14 +40,6 @@ function generateMainContent()
 
     var listItem = createListItem(template, dataType);
     Elem("#startupClear").appendChild(listItem);
-
-    var remove = loadData("remove");
-    if (!remove)
-    {
-      saveData("remove", {});
-      remove = loadData("remove");
-    }
-    
   }
 }
 

@@ -20,11 +20,14 @@ function initTabs()
 		// use ev.activeTab to determine which
 	}, false);
 
-	var lastSelectedTab = loadData("lastSelectedTab");
-	if (lastSelectedTab)
-		switchTab(tabsContainer.querySelector("[data-tab=" + lastSelectedTab + "]"));
-	else
-		switchTab(tabsContainer.firstChild);
+	getStorage("lastSelectedTab", function(dataObj)
+	{
+		var lastSelectedTab = dataObj.lastSelectedTab;
+		if (lastSelectedTab)
+			switchTab(tabsContainer.querySelector("[data-tab=" + lastSelectedTab + "]"));
+		else
+			switchTab(tabsContainer.firstChild);
+	});
 }
 
 /*
@@ -50,5 +53,5 @@ function switchTab(tab)
 
 	switchEvent.activeTab = tab.getAttribute("data-tab");
 	Elem("#navigation_tab").dispatchEvent(switchEvent);
-	saveData("lastSelectedTab", tab.getAttribute("data-tab"));
+	setStorage({"lastSelectedTab": tab.getAttribute("data-tab")});
 }
