@@ -1,17 +1,3 @@
-//Use Own privacy object also to keep descriptions of privacy updated
-var mainTabDataObject =
-{
-  privacy:
-  {
-    network: ["networkPredictionEnabled"],
-    services: ["alternateErrorPagesEnabled", "autofillEnabled", "passwordSavingEnabled", "safeBrowsingEnabled", "searchSuggestEnabled",
-              "spellingServiceEnabled", "translationServiceEnabled"],
-    websites: ["thirdPartyCookiesAllowed", "hyperlinkAuditingEnabled", "referrersEnabled", "protectedContentEnabled"]
-  },
-  browsingData: ["deleteAllData", "cookies", "appcache", "cache", "downloads", "fileSystems", "formData", "history", 
-                 "indexedDB", "localStorage", "pluginData", "passwords", "webSQL"]
-};
-
 function generateMainContent()
 {
   var template = Elem("#privacyManagement template");
@@ -33,22 +19,25 @@ function generateMainContent()
   }
 
   var template = Elem("#startupClear template");
-  for (var dataType in chrome.browsingData)
+  for (var i = 0; i < browsingData.length; i++) 
   {
-    //Filter options that are only related to the removal of browsing Data
-    if (dataType.indexOf("remove") == -1)
-      continue;
-
+    var dataType = browsingData[i];
     var listItem = createListItem(template, dataType);
     Elem("#startupClear").appendChild(listItem);
 
     (function(dataType)
     {
-      Elem("#" + dataType).addEventListener("click", function()
+      getSwitcher(dataType).addEventListener("click", function()
       {
         getStorage("browsingData", function(data)
         {
-          data.browsingData[dataType] = !data.browsingData[dataType];
+          if (data.browsingData)
+            data.browsingData[dataType] = !data.browsingData[dataType];
+          else
+          {
+            data.browsingData = {};
+            data.browsingData[dataType] = true;
+          }
           setStorage(data);
         });
       }, false);
@@ -72,9 +61,9 @@ function updateBrowsingDataSwitches(dataObj)
 {
   for (var id in dataObj)
   {
-    var switcher = Elem("#" + id);
-    //TODO: this is probably a duplication
-    switcher.setAttribute("aria-checked", dataObj[id]);
+    var switcher = getSwitcher(id);
+    if (switcher)
+      switcher.setAttribute("aria-checked", dataObj[id]);
   }
 }
 
@@ -86,18 +75,17 @@ function updateBrowsingDataSwitches(dataObj)
 function createListItem(template, itemID)
 {
   var content = template.content;
-  // TODO: optimize the query selector for each item
-  var label = content.querySelector("label");
-  var switcher = content.querySelector("button");
-  var infoIcon = content.querySelector("img");
-
-  label.textContent = getMsg(itemID) || itemID;
-  //TODO: Focus button on label click
-  switcher.id = itemID;
+  content.querySelector("label").textContent = getMsg(itemID) || itemID;
   var listItem = document.createElement("li");
+  listItem.id = itemID;
 
-  listItem.appendChild(document.importNode(template.content, true));
+  listItem.appendChild(document.importNode(content, true));
   return listItem;
+}
+
+function getSwitcher(Id)
+{
+  return Elem("#" + Id + " button");
 }
 
 /*
@@ -109,7 +97,7 @@ function privacyManagement(setting, settingName)
 {
   setting.get({}, function(details)
   {
-    var switcher = Elem("#" + settingName);
+    var switcher = getSwitcher(settingName);
     switcher.setAttribute("aria-checked", details.value);
     
     // Toggle the state on click
@@ -141,7 +129,7 @@ function privacyManagement(setting, settingName)
 
   setting.onChange.addListener(function(detail)
   {
-    var switcher = Elem("#" + settingName);
+    var switcher = getSwitcher(settingName);
     switcher.setAttribute("aria-checked", detail.value);
   })
 }
@@ -164,7 +152,6 @@ function addIncognitoListener()
   
   Elem("#incognito").addEventListener("click", listener, false);
 }
-
 
 document.addEventListener("DOMContentLoaded" , function()
 {

@@ -26,7 +26,7 @@ function initTabs()
 		if (lastSelectedTab)
 			switchTab(tabsContainer.querySelector("[data-tab=" + lastSelectedTab + "]"));
 		else
-			switchTab(tabsContainer.firstChild);
+			switchTab(tabsContainer.firstElementChild);
 	});
 }
 

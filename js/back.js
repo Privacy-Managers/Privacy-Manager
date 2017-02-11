@@ -1,59 +1,39 @@
-var listenerRunning = false; 
-deleteBrowsingData();
-checkHostPermissionsBackground ();
-var headersArray = new Array();
-chrome.privacy.services.autofillEnabled.get({},function(){});
-
-function deleteBrowsingData () {
-	var settings = localStorage.getItem("settings");
-	if(settings == null) {
-		var settingsJson = {};
-		settingsJson.activeTabCookies = true;
-		localStorage.setItem("settings", JSON.stringify(settingsJson));
-	}
-	else {
-		var settingsJson = JSON.parse(settings);
-		if(settingsJson.deleteAllData == true) {
-			console.log("Delete All");
-				chrome.browsingData.remove({}, {
-				"appcache": true,
-				"cache": true,
-				"cookies": true,
-				"downloads": true,
-				"fileSystems": true,
-				"formData": true,
-				"history": true,
-				"indexedDB": true,
-				"localStorage": true,
-				"pluginData": true,
-				"passwords": true,
-				"webSQL": true
-			});
-		}
-		else {
-			console.log("Delete Partial");
-			chrome.browsingData.remove({}, {
-				
-				"appcache": settingsJson.appcache==true?true:false,
-				"cache": settingsJson.cache==true?true:false,
-				"cookies": settingsJson.cookies==true?true:false,
-				"downloads": settingsJson.downloads==true?true:false,
-				"fileSystems": settingsJson.fileSystems==true?true:false,
-				"formData": settingsJson.formData==true?true:false,
-				"history": settingsJson.history==true?true:false,
-				"indexedDB": settingsJson.indexedDB==true?true:false,
-				"localStorage": settingsJson.localStorage==true?true:false,
-				"pluginData": settingsJson.pluginData==true?true:false,
-				"passwords": settingsJson.passwords==true?true:false,
-				"webSQL": settingsJson.webSQL==true?true:false
-			});
-		}
-		
-	}	
+function profileStart()
+{
+	getStorage("browsingData", function(data){
+		deleteBrowsingData(data.browsingData);
+	});
 }
 
+function deleteBrowsingData(data)
+{
+	if (data.removeAll == true)
+	{
+		var data = browsingData.reduce(function(accumulator, dataType)
+		{
+			if (dataType != "removeAll")
+				accumulator[dataType] = true;
+
+			return accumulator;
+		}, {});
+		chrome.browsingData.remove({}, data);
+	}
+	else
+	{
+		delete data.removeAll;
+		chrome.browsingData.remove({}, data);
+	}
+}
+
+// Fired on a profile start up
+chrome.runtime.onStartup.addListener(profileStart);
+
+
+var listenerRunning = false; 
+checkHostPermissionsBackground ();
+var headersArray = new Array();
+
 function checkHostPermissionsBackground () {
-	console.log("CHEKC BAKC");
 	chrome.permissions.contains({
 		origins: ['http://*/*', 'https://*/*']
 	}, function(result) {

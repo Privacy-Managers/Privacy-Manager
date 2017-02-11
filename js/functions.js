@@ -1,6 +1,3 @@
-const setStorage = chrome.storage.local.set;
-const getStorage = chrome.storage.local.get;
-
 function Elem(selector)
 {
   return document.querySelector(selector);
