@@ -4,22 +4,8 @@ var cookiesTab =
   
   init: function()
   {
-    this.setLocalizedTexts();
     this.updateSwitchStates();
     this.addSwitchListener();
-  },
-  
-  setLocalizedTexts: function()
-  {
-    this.switchers.forEach(function (item)
-    {
-      Elem("#"+item+" .settingName").innerHTML = getMsg(item);
-      Elem("#"+item+" .settingName").setAttribute("title", getMsg(item+"_desc"));
-      Elem("#"+item+" .infoIcon").setAttribute("title", getMsg(item+"_desc"));
-    });
-    
-    Elem("#cookiesHeadlineTitle").innerHTML = getMsg("cookiesHeadlineTitle");
-    Elem("#removeAllCookies").value = getMsg("removeAllCookies");
   },
   
   updateSwitchStates: function()

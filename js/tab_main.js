@@ -12,7 +12,7 @@ function generateMainContent()
     for (var settingName in chrome.privacy[category])
     {
       var listItem = createListItem(template, settingName);
-      Elem("#privacyManagement").appendChild(listItem);
+      Elem("#privacyManagement ul").appendChild(listItem);
       var setting = chrome.privacy[category][settingName];
       privacyManagement(setting, settingName);
     }
@@ -23,7 +23,7 @@ function generateMainContent()
   {
     var dataType = browsingData[i];
     var listItem = createListItem(template, dataType);
-    Elem("#startupClear").appendChild(listItem);
+    Elem("#startupClear ul").appendChild(listItem);
 
     (function(dataType)
     {
@@ -76,11 +76,9 @@ function createListItem(template, itemID)
 {
   var content = template.content;
   content.querySelector("label").textContent = getMsg(itemID) || itemID;
-  var listItem = document.createElement("li");
-  listItem.id = itemID;
+  content.querySelector("li").id = itemID;
 
-  listItem.appendChild(document.importNode(content, true));
-  return listItem;
+  return document.importNode(content, true);
 }
 
 function getSwitcher(Id)

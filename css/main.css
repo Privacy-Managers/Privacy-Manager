@@ -1,6 +1,6 @@
 body
 {
-	width: 490px;
+	width: 500px;
   background-color: #F9F9F9;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -247,6 +247,37 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 }
 
 /*******************************************************************************
+ * Settings list
+ ******************************************************************************/
+.settings-list
+{
+  list-style: none;
+  padding: 0px;
+}
+
+.settings-list li
+{
+  display: flex;
+}
+
+.settings-list li img
+{
+  width: 12px;
+  height: 12px;
+}
+
+.settings-list li div
+{
+  flex-grow: 1;
+  font-weight: bold;
+  font-size: 12px;
+  padding-bottom: 4px;
+  vertical-align: top;
+  width: 160px;
+  word-wrap: break-word;
+}
+
+/*******************************************************************************
  * Main
  ******************************************************************************/
 #main_tab section
@@ -268,28 +299,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   padding-bottom: 8px;
   color: #679c16;
   margin: 0px;
-}
-
-#main_tab li
-{
-  display: flex;
-}
-
-#main_tab li img
-{
-  width: 12px;
-  height: 12px;
-}
-
-#main_tab li div
-{
-  flex-grow: 1;
-  font-weight: bold;
-  font-size: 12px;
-  padding-bottom: 4px;
-  vertical-align: top;
-  width: 150px;
-  word-wrap: break-word;
 }
 
 .serviceContainer
@@ -351,6 +360,22 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Cookies tab
  ******************************************************************************/
+.settings-container
+{
+  display: flex;
+}
+
+.settings-container .separator
+{
+  flex-grow: 1;
+}
+
+section h4
+{
+  font-weight: bold;
+  color:#679C16;
+}
+
 .cookieHostRow:hover
 {
   cursor:pointer;
@@ -360,12 +385,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 .cookieHostRowActive
 {
   background-color: #DFDFDF;
-}
-
-#cookiesHeadlineTitle
-{
-  font-weight: bold;
-  color:#679C16;
 }
 
 .cookieNameRow 

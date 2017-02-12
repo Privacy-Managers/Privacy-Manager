@@ -29,72 +29,82 @@
 			<div id="main_tab" role="tabpanel">
 				<section id="privacyManagement">
 					<h2>Privacy management</h2>
-					<template>
-						<div>
-			      	<label>Spelling service</label>
-						 	<img src="css/img/info.png" class="infoIcon">
-					 	</div>
-				 		<button role="checkbox" aria-checked="false">
-							<span>On</span>
-							<span>Off</span>
-						</button>
-		      </template>
+					<ul class="settings-list">
+						<template>
+							<li>
+								<div>
+					      	<label>Spelling service</label>
+								 	<img src="css/img/info.png" class="infoIcon">
+							 	</div>
+						 		<button role="checkbox" aria-checked="false">
+									<span>On</span>
+									<span>Off</span>
+								</button>
+							</li>
+			      </template>
+					</ul>
 				</section>
 
 				<section id="startupClear">
 					<h2>Clear on startup</h2>
-					<template>
-						<div>
-							<label>Spelling service</label>
-					 		<img src="css/img/info.png" class="infoIcon">
-						</div>
-				 		<button role="checkbox" aria-checked="false">
-							<span>On</span>
-							<span>Off</span>
-						</button>
-		      </template>
+					<ul class="settings-list">
+						<template>
+							<li>
+								<div>
+									<label>Spelling service</label>
+							 		<img src="css/img/info.png" class="infoIcon">
+								</div>
+						 		<button role="checkbox" aria-checked="false">
+									<span>On</span>
+									<span>Off</span>
+								</button>
+							</li>
+			      </template>
+					</ul>
 				</section>
 			</div>
+
 			<div id="cookies_tab" role="tabpanel">
-				<div class="serviceContainer" id="privacyManagement">
-					<!-- allowHostPermissions -->
-					<div class="rowContainer" id="allowHostPermissions">
-						<div title="You need to allow host permission to be able to manipulate cookies.">
-								<span class="settingName">Allow host permissions:</span> 
-								<img src="css/img/info.png" class="infoIcon" width="12px"/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
+				<div class="settings-container">
+					<ul class="settings-list">
+						<li class="allow-host">
+							<div>
+								<label data-i18n="allowHostPermissions"></label>
+						 		<img src="css/img/info.png" class="infoIcon">
+							</div>
+							<button role="checkbox" aria-checked="false">
+								<span>On</span>
+								<span>Off</span>
+							</button>
+						</li>
+					</ul>
+					<div class="separator"></div>
+					<ul class="settings-list">
+						<li id="activeTabCookies">
+							<div>
+								<label data-i18n="activeTabCookies"></label>
+						 		<img src="css/img/info.png" class="infoIcon">
+							</div>
+							<button role="checkbox" aria-checked="false">
+								<span>On</span>
+								<span>Off</span>
+							</button>
+						</li>
+					</ul>
 				</div>
-				
-				<div class="serviceContainer">
-					<!-- Active tab website cookies -->
-					<div class="rowContainer" id="activeTabCookies">
-						<div style="width:130px">
-								<span class="settingName">Active tab cookies:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" title="If enabled the cookies tab will always be filtered with the cookie data of active tab page domain."/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-				</div>
-				<div id="cookiesHeadlineTitle" style="display: inline-table; width:240px">
-					Cookies
-				</div>
-				<div style="display:inline-table">
-						<input type="search" id="searchCookies" placeholder="Search cookies">
-						<input type="button" id="removeAllCookies" value="Remove All" />
+
+				<section>
+					<h4 data-i18n="cookiesHeadlineTitle"></h4>
+				</section>
+
+				<div>
+					<input type="search" id="searchCookies" placeholder="Search cookies">
+					<button id="removeAllCookies">Remove All</button>
 				</div>
 				<div id="cookiesContainer"></div>
-				
+
 			</div>
+
 			<div id="network_tab" role="tabpanel">
 				<div class="serviceContainer">
 					<!-- allowHostPermissionsNetwork -->
