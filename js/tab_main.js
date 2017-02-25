@@ -81,11 +81,6 @@ function createListItem(template, itemID)
   return document.importNode(content, true);
 }
 
-function getSwitcher(Id)
-{
-  return Elem("#" + Id + " button");
-}
-
 /*
  * Get state for each Privacy setting and manage it 
  * @param {Object} setting a chrome.privacy[settingName] API object

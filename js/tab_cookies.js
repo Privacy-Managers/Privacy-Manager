@@ -1,3 +1,50 @@
+const checkPermission = chrome.permissions.contains;
+const removePermission = chrome.permissions.remove;
+const requestPermission = chrome.permissions.request;
+var additionalPermission = ["http://*/*", "https://*/*"];
+
+function updateSwitches(list, value)
+{
+  list.forEach(function(switchBtn)
+  {
+    switchBtn.setAttribute("aria-checked", value);
+  });
+}
+
+document.addEventListener("DOMContentLoaded" , function()
+{
+  checkPermission({"origins": additionalPermission}, function(result)
+  {
+    var permissionSwitches = getSwitches("allowHost");
+    permissionSwitches.forEach(function(switchBtn)
+    {
+      switchBtn.setAttribute("aria-checked", result);
+      switchBtn.addEventListener("click", function()
+      {
+        checkPermission({"origins": additionalPermission}, function(result)
+        {
+          if (result)
+          {
+            removePermission({"origins": additionalPermission}, function(removed)
+            {
+              if (removed)
+                updateSwitches(permissionSwitches, false);
+            });
+          }
+          else
+          {
+            requestPermission({"origins": additionalPermission}, function(granted) 
+            {
+              if (granted)
+                updateSwitches(permissionSwitches, true);
+            });
+          }
+        });
+      }, false);
+    });
+  });
+}, false);
+
 var cookiesTab =
 {
   switchers: ["allowHostPermissions", "activeTabCookies"],
@@ -162,7 +209,7 @@ var cookiesTab =
   }
 };
 
-document.addEventListener("DOMContentLoaded" , cookiesTab.init.bind(cookiesTab), false);
+//document.addEventListener("DOMContentLoaded" , cookiesTab.init.bind(cookiesTab), false);
 
 var activeHostNameContId = "";
 var finalCookiesArray = new Array();

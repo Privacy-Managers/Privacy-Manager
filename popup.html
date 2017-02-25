@@ -67,7 +67,7 @@
 			<div id="cookies_tab" role="tabpanel">
 				<div class="settings-container">
 					<ul class="settings-list">
-						<li class="allow-host">
+						<li id="allowHostCookies" class="allowHost">
 							<div>
 								<label data-i18n="allowHostPermissions"></label>
 						 		<img src="css/img/info.png" class="infoIcon">
@@ -108,17 +108,18 @@
 			<div id="network_tab" role="tabpanel">
 				<div class="serviceContainer">
 					<!-- allowHostPermissionsNetwork -->
-					<div class="rowContainer" id="allowHostPermissionsNetwork">
-						<div title="You need to allow host permission to be able to manipulate network data.">
-								<span class="settingName">Allow host permissions:</span> 
-								<img src="css/img/info.png" class="infoIcon" width="12px"/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
-					</div>
+					<ul class="settings-list">
+						<li class="allowHost">
+							<div>
+								<label data-i18n="allowHostPermissions"></label>
+						 		<img src="css/img/info.png" class="infoIcon">
+							</div>
+							<button role="checkbox" aria-checked="false">
+								<span>On</span>
+								<span>Off</span>
+							</button>
+						</li>
+					</ul>
 					<!-- blockUserAgent -->
 					<div class="rowContainer" id="blockUserAgent">
 						<div title="If enabled user agent data will not be sent with request.">

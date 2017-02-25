@@ -8,6 +8,16 @@ function getMsg(text)
   return chrome.i18n.getMessage(text);
 }
 
+function getSwitcher(Id)
+{
+  return Elem("#" + Id + " button");
+}
+
+function getSwitches(className)
+{
+  return document.querySelectorAll("." + className + " button");
+}
+
 var switcher = 
 {
   toggleState: function(ev)
