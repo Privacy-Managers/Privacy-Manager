@@ -376,99 +376,111 @@ section h4
   color:#679C16;
 }
 
-.cookieHostRow:hover
+#cookiesContainer,
+#cookiesContainer ul
 {
-  cursor:pointer;
-  background-color: #DFDFDF;
-}
-
-.cookieHostRowActive
-{
-  background-color: #DFDFDF;
-}
-
-.cookieNameRow 
-{
-  display:none;
-  padding-left: 10px;
-  background-color: #F0F0F0;
-  /*margin: 10px 0 10px 0;*/ 
-}
-
-.cookieNameRow:hover
-{
-  cursor:pointer;
-  background-color: #DFDFDF;
-}
-
-#cookiesContainer
-{
+  list-style: none;
   font-size: 14px;
   max-height: 270px;
   overflow: auto;
+  padding: 0px;
 }
 
-.cookieHostRowName
+#cookiesContainer ul
 {
+  padding-bottom: 10px;
+}
+
+#cookiesContainer li > div
+{
+  display: flex;
+  padding: 5px 5px;
+  align-items: center;
+  cursor: pointer;
+}
+
+#cookiesContainer li > div:hover
+{
+  background-color: #cee0c2;
+}
+
+#cookiesContainer li[data-expanded="true"] > ul
+{
+  border-top: 1px solid #324B2C;
+}
+
+#cookiesContainer li .data-container
+{
+  flex-grow: 1;
+}
+
+#cookiesContainer li span
+{
+  display: inline-block;
+}
+
+#cookiesContainer .domainName
+{
+  width: 300px
+}
+
+#cookiesContainer .cookieName
+{
+  width: 260px;
+}
+
+#cookiesContainer .cookieValue
+{
+  width: 100px;
+  white-space: pre;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 180px;
-  white-space: pre;
-  display: inline-block;
 }
 
-.cookieHostRowRemove
+#cookiesContainer button
 {
-  color:#CCCCCC;
-  font-size: 20px;
-  padding-bottom:3px;
-  margin-left:120px;
-  display: inline-block;
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
 }
 
-.cookieHostRowRemove:hover
+#cookiesContainer button:after
 {
-  color:#433F38;
+  display: block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin: 0px auto;
 }
 
-.cookieHostRowCounter
+#cookiesContainer button.edit
 {
-  display: inline-block;
-  width:100px;
+  margin: 0px 10px;
 }
 
-.cookieNameRowName
+#cookiesContainer button.delete:after
 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 150px;
-  white-space: pre;
-  display: inline-block;
+  background-image: url(/css/img/delete.svg);
 }
 
-.cookieNameRowValue
+#cookiesContainer button.delete:hover:after
 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre;
-  display: inline-block;
-  width:180px;
-  padding-left: 20px;
+  background-image: url(/css/img/delete-hover.svg);
 }
 
-.cookieNameRowRemove
+#cookiesContainer button.edit:after
 {
-  color:#CCCCCC;
-  font-size: 20px;
-  padding-bottom:3px;
-  margin-left:40px;
-  display: inline-block;
+  background-image: url(/css/img/edit.svg);
 }
 
-.cookieNameRowRemove:hover
+#cookiesContainer button.edit:hover:after
 {
-  color:#433F38;
+  background-image: url(/css/img/edit-hover.svg);
 }
+
+
 
 #searchCookies
 {

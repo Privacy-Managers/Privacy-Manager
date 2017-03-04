@@ -1,7 +1,17 @@
 const checkPermission = chrome.permissions.contains;
 const removePermission = chrome.permissions.remove;
 const requestPermission = chrome.permissions.request;
-var additionalPermission = ["http://*/*", "https://*/*"];
+const permissionRemoved = chrome.permissions.onRemoved;
+const permissionAdded = chrome.permissions.onAdded;
+var additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
+
+function comparePermissions(permissionObj)
+{
+  for (var i = 0; i < additionalPermission.origins.length; i++)
+    if (permissionObj.origins.indexOf(additionalPermission.origins[i]) == -1)
+      return false;
+  return true;
+}
 
 function updateSwitches(list, value)
 {
@@ -13,37 +23,215 @@ function updateSwitches(list, value)
 
 document.addEventListener("DOMContentLoaded" , function()
 {
-  checkPermission({"origins": additionalPermission}, function(result)
+  var permissionSwitches = getSwitches("allowHost");
+  checkPermission(additionalPermission, function(result)
   {
-    var permissionSwitches = getSwitches("allowHost");
+    if (result)
+      loadCookies();
+
     permissionSwitches.forEach(function(switchBtn)
     {
       switchBtn.setAttribute("aria-checked", result);
-      switchBtn.addEventListener("click", function()
-      {
-        checkPermission({"origins": additionalPermission}, function(result)
-        {
-          if (result)
-          {
-            removePermission({"origins": additionalPermission}, function(removed)
-            {
-              if (removed)
-                updateSwitches(permissionSwitches, false);
-            });
-          }
-          else
-          {
-            requestPermission({"origins": additionalPermission}, function(granted) 
-            {
-              if (granted)
-                updateSwitches(permissionSwitches, true);
-            });
-          }
-        });
-      }, false);
     });
   });
+
+  permissionSwitches.forEach(function(switchBtn)
+  {
+    switchBtn.addEventListener("click", function()
+    {
+      checkPermission(additionalPermission, function(result)
+      {
+        if (result)
+          removePermission(additionalPermission);
+        else
+          requestPermission(additionalPermission);
+      });
+    }, false);
+  });
+
+  permissionRemoved.addListener(function(permission)
+  {
+    updateSwitches(permissionSwitches, false);
+  });
+
+  permissionAdded.addListener(function(permission)
+  {
+    updateSwitches(permissionSwitches, true);
+    loadCookies();
+  });
+
+  Elem("#cookiesContainer").addEventListener("click", onCookiesClick, false);
 }, false);
+
+function loadCookies()
+{
+  chrome.cookies.getAll({}, function(cookies)
+  {
+    var domains = [];
+    for (var i = 0; i < cookies.length; i++)
+      domains.push(cookies[i].domain.replace(/^\./, ""));
+
+    domains.sort();
+
+    var templateContent = Elem("#cookiesListTemplate").content;
+    var lastDomain = domains[0];
+    var cookiesNumber = 1;
+    for (var i = 1; i < domains.length; i++)
+    {
+      var domain = domains[i];
+      if (lastDomain != domain)
+      {
+        var domainListElem = templateContent.querySelector("li");
+        var domainNameElem = templateContent.querySelector(".domainName");
+        var cookiesNumberElem = templateContent.querySelector(".cookiesNumber");
+        
+        domainListElem.setAttribute("data-domain", lastDomain);
+        domainNameElem.textContent = lastDomain;
+        cookiesNumberElem.textContent = cookiesNumber + " Cookies";
+
+        var listElem = document.importNode(templateContent, true);
+        Elem("#cookiesContainer").appendChild(listElem);
+
+        lastDomain = domain;
+        cookiesNumber = 1;
+      }
+      else
+      {
+        cookiesNumber++;
+      }
+    }
+    var templateContent = Elem("#cookiesListTemplate").content;
+    return;
+    for (var i = 0; i < cookies.length; i++)
+    {
+      var cookie = cookies[i];
+      var domain = cookie.domain;
+      var expirationDate = cookie.expirationDate;
+      var hostOnly = cookie.hostOnly;
+      var httpOnly = cookie.httpOnly;
+      var name = cookie.name;
+      var path = cookie.path;
+      var sameSite = cookie.sameSite;
+      var secure = cookie.secure;
+      var session = cookie.session;
+      var storeId = cookie.storeId;
+      var value = cookie.value;
+
+      templateContent.querySelector("li").id = "cookieId-" + i;
+
+    }
+  });
+}
+
+function onCookiesClick(e)
+{
+  var element = e.target;
+  var cookieElement = null;
+  var action = null;
+  var domain = null;
+  var cookie = null;
+  var path = null;
+  var secure = false;
+
+  while (true)
+  {
+    if (element == this)
+      return;
+
+    if (element.hasAttribute("data-action"))
+      action = action == null ? element.getAttribute("data-action") : action;
+
+    if (element.hasAttribute("data-cookie"))
+    {
+      cookie = element.getAttribute("data-cookie");
+      cookieElement = element;
+    }
+
+    if (element.hasAttribute("data-secure"))
+      secure = element.getAttribute("data-secure") == "true";
+
+    if (element.hasAttribute("data-path"))
+      path = element.getAttribute("data-path");
+
+    if (element.hasAttribute("data-domain"))
+    {
+      domain = element.getAttribute("data-domain");
+      break;
+    }
+
+    element = element.parentElement;
+  }
+
+  if (action == "get-cookies")
+  {
+    if (element.dataset.expanded == "true")
+    {
+      var sublistElem = element.querySelector("ul");
+      sublistElem.parentNode.removeChild(sublistElem);
+      element.dataset.expanded = false;
+      return;
+    }
+    chrome.cookies.getAll({"domain": domain}, function(cookies)
+    {
+      var listElem = document.createElement("ul");
+      for (var i = 0; i < cookies.length; i++)
+      {
+        var cookie = cookies[i];
+        var templateContent = Elem("#cookiesSubListTemplate").content;
+
+        var cookieListElem = templateContent.querySelector("li");
+        var cookieNameElem = templateContent.querySelector(".cookieName");
+        var cookieValueElem = templateContent.querySelector(".cookieValue");
+        
+        cookieListElem.setAttribute("data-cookie", cookie.name);
+        cookieListElem.setAttribute("data-secure", cookie.secure);
+        cookieListElem.setAttribute("data-path", cookie.path);
+        cookieNameElem.textContent = cookie.name;
+        cookieValueElem.textContent = cookie.value;
+
+        var listItem = document.importNode(templateContent, true);
+        listElem.appendChild(listItem);
+      }
+      element.dataset.expanded = true;
+      element.appendChild(listElem);
+    });
+  }
+  else if (action == "delete-domain-cookies")
+  {
+    chrome.cookies.getAll({"domain": domain}, function(cookies)
+    {
+      var callbackCount = 0;
+      for (var i = 0; i < cookies.length; i++)
+      {
+        removeCookie(cookies[i], function()
+        {
+          callbackCount++;
+          if (cookies.length == callbackCount)
+            element.parentNode.removeChild(element);
+        });
+      }
+    });
+  }
+  else if (action == "delete-cookie")
+  {
+    var url = "http" + (secure ? "s" : "") + "://" + domain + path;
+    chrome.cookies.remove({"url": url, "name": cookie}, function(cookie)
+    {
+      if (cookieElement.parentNode.querySelectorAll("li").length == 1)
+        element.parentNode.removeChild(element);
+      else
+        cookieElement.parentNode.removeChild(cookieElement);
+    });
+  }
+}
+
+function removeCookie(cookie, callback)
+{
+  var url = "http" + (cookie.secure ? "s" : "") + "://" + cookie.domain +
+            cookie.path;
+  chrome.cookies.remove({"url": url, "name": cookie.name}, callback);
+}
+
 
 var cookiesTab =
 {
