@@ -6,7 +6,6 @@
 
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>
-		<script type="text/javascript" src="js/table.js"></script>
 		<script type="text/javascript" src="js/i18n.js"></script>
 		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="js/tab_main.js"></script>
@@ -96,11 +95,8 @@
 
 				<section>
 					<h4 data-i18n="cookiesHeadlineTitle"></h4>
-					<div>
-						<input type="search" id="searchCookies" placeholder="Search cookies">
-						<button id="removeAllCookies">Remove All</button>
-					</div>
-					<ul id="cookiesContainer">
+					<div id="cookiesContainer">
+						<ul id="cookiesList"></ul>
 						<template id="cookiesListTemplate">
 							<li data-action="get-cookies">
 							<div>
@@ -108,24 +104,115 @@
 									<span class="domainName"></span>
 									<span class="cookiesNumber"></span>
 								</div>
-								<button class="delete" data-action="delete-domain-cookies"></button>
+								<button class="icon delete" data-action="delete-domain-cookies"></button>
 							</div>
 							</li>
 						</template>
 						<template id="cookiesSubListTemplate">
 							<li>
 							  <div>
-							  	<button class="edit">
-									</button>
+							  	<button class="icon edit" data-action="edit-cookie"></button>
 									<div class="data-container">
 										<span class="cookieName"></span>
 										<span class="cookieValue"></span>
 									</div>
-									<button class="delete" data-action="delete-cookie"></button>
+									<button class="icon delete" data-action="delete-cookie"></button>
 							  </div>
 							</li>
 						</template>
-					</ul>
+						<footer>
+							<input type="search" id="search-domain" placeholder="Search domain">
+							<button data-action="add-cookie" class="icon edit">Add cookie</button>
+							<button data-action="delete-all-cookie" class="icon delete">Delete all</button>
+						</footer>
+						<div role="dialog" aria-hidden="true" class="dialogContainer">
+							<div class="dialog">
+								<header class="header">
+									<span>Edit Cookie</span>
+									<button data-action="close-dialog" class="icon delete"></button>
+								</header>
+								<div class="body">
+									<form>
+										<div>
+											<p>
+												<label>
+													<span>Domain:</span>
+													<input id="cookie-domain" type="text" disabled="disabled">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Name:</span>
+													<input id="cookie-name" type="text">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Value:</span>
+													<input id="cookie-value" type="text">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Path:</span>
+													<input id="cookie-path" type="text">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Exp. date:</span>
+														<input id="cookie-expiration-date" type="date">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Exp. time:</span>
+														<input id="cookie-expiration-time" type="time" step="1">
+												</label>
+											</p>
+										</div>
+										<div>
+											<p>
+												<label>
+													<span>Host only:</span>
+													<input id="cookie-host-only" type="checkbox">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>HTTP only:</span>
+													<input id="cookie-http-only" type="checkbox">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Secure:</span>
+													<input id="cookie-secure" type="checkbox">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Session:</span>
+													<input id="cookie-session" type="checkbox">
+												</label>
+											</p>
+											<p>
+												<label>
+													<span>Store ID:</span>
+													<input id="cookie-store-id" type="number">
+												</label>
+											</p>
+										</div>
+									</form>
+								</div>
+								<footer>
+									<!-- Todo: Connect to form -->
+									<button data-action="update-cookie" class="icon edit">Update</button>
+									<button data-action="delete-cookie" class="icon delete">Delete</button>
+								</footer>
+							</div>
+						</div>	
+					</div>
 				</section>
 			</div>
 

@@ -376,8 +376,13 @@ section h4
   color:#679C16;
 }
 
-#cookiesContainer,
-#cookiesContainer ul
+#cookiesContainer
+{
+  position: relative;
+}
+
+#cookiesList,
+#cookiesList ul
 {
   list-style: none;
   font-size: 14px;
@@ -386,12 +391,12 @@ section h4
   padding: 0px;
 }
 
-#cookiesContainer ul
+#cookiesList ul
 {
   padding-bottom: 10px;
 }
 
-#cookiesContainer li > div
+#cookiesList li > div
 {
   display: flex;
   padding: 5px 5px;
@@ -399,37 +404,37 @@ section h4
   cursor: pointer;
 }
 
-#cookiesContainer li > div:hover
+#cookiesList li > div:hover
 {
   background-color: #cee0c2;
 }
 
-#cookiesContainer li[data-expanded="true"] > ul
+#cookiesList li[data-expanded="true"] > ul
 {
   border-top: 1px solid #324B2C;
 }
 
-#cookiesContainer li .data-container
+#cookiesList li .data-container
 {
   flex-grow: 1;
 }
 
-#cookiesContainer li span
+#cookiesList li span
 {
   display: inline-block;
 }
 
-#cookiesContainer .domainName
+#cookiesList .domainName
 {
   width: 300px
 }
 
-#cookiesContainer .cookieName
+#cookiesList .cookieName
 {
   width: 260px;
 }
 
-#cookiesContainer .cookieValue
+#cookiesList .cookieValue
 {
   width: 100px;
   white-space: pre;
@@ -437,7 +442,7 @@ section h4
   text-overflow: ellipsis;
 }
 
-#cookiesContainer button
+button.icon
 {
   background-color: transparent;
   border: none;
@@ -446,41 +451,174 @@ section h4
   padding: 0px;
 }
 
-#cookiesContainer button:after
+button.icon:after
 {
-  display: block;
+  display: inline-block;
   content: "";
   width: 10px;
   height: 10px;
   margin: 0px auto;
 }
 
-#cookiesContainer button.edit
+#cookiesList button.icon.edit
 {
   margin: 0px 10px;
 }
 
-#cookiesContainer button.delete:after
+button.icon.delete:after
 {
   background-image: url(/css/img/delete.svg);
 }
 
-#cookiesContainer button.delete:hover:after
+button.icon.delete:hover:after
 {
   background-image: url(/css/img/delete-hover.svg);
 }
 
-#cookiesContainer button.edit:after
+button.icon.edit:after
 {
   background-image: url(/css/img/edit.svg);
 }
 
-#cookiesContainer button.edit:hover:after
+button.icon.edit:hover:after
 {
   background-image: url(/css/img/edit-hover.svg);
 }
 
+.dialogContainer
+{
+  position: absolute;
+  display: flex;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(219, 226, 221, 0.5);
+}
 
+[aria-hidden="true"]
+{
+  display: none;
+}
+
+.dialog
+{
+  width: 90%;
+  background-color: #DDD;
+  border-radius: 10px;
+  box-shadow: 0 4px 23px -3px black;
+  margin: auto;
+}
+
+.dialog .header
+{
+  display: flex;
+  background-image: linear-gradient(#83c51e, #476913);
+  height: 25px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dialog .header span
+{
+  padding: 5px;
+  flex-grow: 1;
+}
+
+.dialog .body
+{
+  padding: 10px;
+  font-weight: bold;
+}
+
+.dialog footer
+{
+
+}
+
+.dialog form
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog form label
+{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dialog form label
+{
+  flex-wrap: wrap;
+}
+
+.dialog form label
+{
+  padding: 0px 20px;
+}
+
+.dialog form label span
+{
+  padding: 0px 10px;
+}
+
+.dialog form input[type="text"],
+.dialog form input[type="date"],
+.dialog form input[type="time"]
+{
+  width: 150px;
+}
+
+.dialog form input[type="number"]
+{
+  width: 30px;
+}
+
+#cookiesContainer footer
+{
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px;
+  align-items: center;
+}
+
+.dialog footer
+{
+  padding: 0px 20px;
+}
+
+#cookiesContainer footer input
+{
+  flex-grow: 1;
+  height: 25px;
+  margin: 5px;
+}
+
+#cookiesContainer footer button
+{
+  cursor: pointer;
+  line-height: 12px;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 2px;
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+  width: auto;
+  margin: 5px;
+  padding: 5px;
+  background-image: linear-gradient(#83c51e, #476913);
+}
+
+#cookiesContainer footer button:after
+{
+  margin-left: 5px;
+}
 
 #searchCookies
 {
