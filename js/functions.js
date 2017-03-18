@@ -1,6 +1,6 @@
-function Elem(selector)
+function Elem(selector, parent)
 {
-  return document.querySelector(selector);
+  return (parent || document).querySelector(selector);
 }
 
 function getMsg(text)
