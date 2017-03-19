@@ -3,47 +3,40 @@ const removePermission = chrome.permissions.remove;
 const requestPermission = chrome.permissions.request;
 const permissionRemoved = chrome.permissions.onRemoved;
 const permissionAdded = chrome.permissions.onAdded;
+const getAllCookies = chrome.cookies.getAll;
+const removeCookie = chrome.cookies.remove;
+const getCookie = chrome.cookies.get;
+const setCookie = chrome.cookies.set;
+const onCookieChange = chrome.cookies.onChanged;
+
 const activeTabCookieId = "activeTabCookies";
 
-var cookiesListTemplate = null;
+var cookiesListTmplContent = null;
 var cookiesListElem = null;
 var domains = [];
 
 var additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
 var isAdditionalPermission = false;
 
-function comparePermissions(permissionObj)
-{
-  for (var i = 0; i < additionalPermission.origins.length; i++)
-    if (permissionObj.origins.indexOf(additionalPermission.origins[i]) == -1)
-      return false;
-  return true;
-}
-
-function updateSwitches(list, value)
-{
-  list.forEach(function(switchBtn)
-  {
-    switchBtn.setAttribute("aria-checked", value);
-  });
-}
-
 document.addEventListener("DOMContentLoaded" , function()
 {
   cookiesListElem = Elem("#cookiesList");
-  cookiesListTemplate = Elem("#cookiesListTemplate").content;
+  cookiesListTmplContent = Elem("#cookiesListTemplate").content;
 
-  var permissionSwitches = getSwitches("allowHost");
-  Elem("#search-domain").addEventListener("keyup", loadCookies, false);
-  // Not a standart
-  //TODO: exclude Enter and Esc
-  Elem("#search-domain").addEventListener("search", loadCookies, false);
+  Elem("#search-domain").addEventListener("search", populateDomainList, false);
+  Elem("#search-domain").addEventListener("keyup", function(ev)
+  {
+    if (ev.key != "Enter" && ev.key != "Escape")
+      populateDomainList();
+  }, false);
   var activeTabCookieSwitch = getSwitcher(activeTabCookieId);
+  var permissionSwitches = getSwitches("allowHost");
+
   getStorage(activeTabCookieId, function(data)
   { 
     activeTabCookieSwitch.setAttribute("aria-checked", data[activeTabCookieId]);
     if (data[activeTabCookieId])
-      searchByActiveDomain();
+      updateFilterToActiveDomain();
   });
   activeTabCookieSwitch.addEventListener("click", function()
   {
@@ -60,7 +53,7 @@ document.addEventListener("DOMContentLoaded" , function()
     if (result)
     {
       isAdditionalPermission = true;
-      loadCookies();
+      populateDomainList();
     }
 
     permissionSwitches.forEach(function(switchBtn)
@@ -93,19 +86,30 @@ document.addEventListener("DOMContentLoaded" , function()
   {
     isAdditionalPermission = true;
     updateSwitches(permissionSwitches, true);
-    loadCookies();
+    populateDomainList();
   });
 
   Elem("#cookiesContainer").addEventListener("click", onCookiesClick, false);
 }, false);
 
-function loadCookies()
+function updateSwitches(list, value)
+{
+  list.forEach(function(switchBtn)
+  {
+    switchBtn.setAttribute("aria-checked", value);
+  });
+}
+
+/*
+ * Populates cookies component with domains 
+ */
+function populateDomainList()
 {
   Elem("#cookiesList").innerHTML = "";
   var searchExpression = new RegExp(Elem("#search-domain").value);
   // Use repeative domains to count cookies number
   var repeativeDomains = [];
-  chrome.cookies.getAll({}, function(cookies)
+  getAllCookies({}, function(cookies)
   {
     for (var i = 0; i < cookies.length; i++)
     {
@@ -115,7 +119,7 @@ function loadCookies()
 
     repeativeDomains.sort();
 
-    var templateContent = Elem("#cookiesListTemplate").content;
+    var templateContent = cookiesListTmplContent;
     var cookieListContainer = Elem("#cookiesList");
     var lastDomain = repeativeDomains[0];
     var cookiesNumber = 1;
@@ -135,25 +139,31 @@ function loadCookies()
         cookiesNumber++;
       }
     }
-    var templateContent = Elem("#cookiesListTemplate").content;
   });
 }
 
-
-function removeStartDot(string)
+/*
+ * Get parent element using data-* attribute 
+ * @param {Node} Node Dom node
+ * @param {String} date data-* attribute value
+ * @return {String} value of data attribute
+ */
+function getParentData(node, data)
 {
-  return string.replace(/^\./, "");
+  if (node.hasAttribute(data))
+    return node.getAttribute(data);
+
+  return getParentData(node.parentElement, data);
 }
 
-function onCookiesClick(e)
+/*
+ * Track global click inside of cookies managamenet component 
+ * @param {Event} ev Click event
+ */
+function onCookiesClick(ev)
 {
-  var element = e.target;
-  var cookieElement = null;
-  var actions = null;
-  var domain = null;
-  var cookie = null;
-  var path = null;
-  var secure = false;
+  var element = ev.target;
+  var action = null;
 
   while (true)
   {
@@ -161,217 +171,233 @@ function onCookiesClick(e)
       break;
 
     if (element.hasAttribute("data-action"))
-      actions = actions == null ? element.getAttribute("data-action").split(",") 
-                                : actions;
-
-    if (element.hasAttribute("data-cookie"))
     {
-      cookie = element.getAttribute("data-cookie");
-      cookieElement = element;
-    }
-
-    if (element.hasAttribute("data-secure"))
-      secure = element.getAttribute("data-secure") == "true";
-
-    if (element.hasAttribute("data-path"))
-      path = element.getAttribute("data-path");
-
-    if (element.hasAttribute("data-domain"))
-    {
-      domain = element.getAttribute("data-domain");
+      action = element.getAttribute("data-action");
       break;
     }
 
     element = element.parentElement;
   }
 
-  if (!actions)
+  if (!action)
     return;
 
-  for (var i = 0; i < actions.length; i++)
+  switch (action)
   {
-    switch (actions[i])
-    {
-      case "get-cookies":
-        if (element.dataset.expanded == "true")
+    case "get-cookies":
+      if (element.dataset.expanded == "true")
+      {
+        var sublistElem = element.querySelector("ul");
+        sublistElem.parentNode.removeChild(sublistElem);
+        element.dataset.expanded = false;
+        return;
+      }
+      var domain = element.getAttribute("data-domain");
+      getAllCookies({"domain": domain}, function(cookies)
+      {
+        var listElem = document.createElement("ul");
+        for (var i = 0; i < cookies.length; i++)
         {
-          var sublistElem = element.querySelector("ul");
-          sublistElem.parentNode.removeChild(sublistElem);
-          element.dataset.expanded = false;
-          return;
-        }
-        chrome.cookies.getAll({"domain": domain}, function(cookies)
-        {
-          var listElem = document.createElement("ul");
-          for (var i = 0; i < cookies.length; i++)
-          {
-            var cookie = cookies[i];
-            // Filter subdomains matched cookies
-            if (cookie.domain.indexOf(domain) > 1)
-              continue;
+          var cookie = cookies[i];
+          // Filter subdomains matched cookies
+          if (cookie.domain.indexOf(domain) > 1)
+            continue;
 
-            createAddCookieListItem(cookie, listElem);
-          }
-          element.dataset.expanded = true;
-          element.appendChild(listElem);
-        });
-        break;
-      case "delete-domain-cookies":
-        chrome.cookies.getAll({"domain": domain}, function(cookies)
+          createAddCookieListItem(cookie, listElem);
+        }
+        element.dataset.expanded = true;
+        element.appendChild(listElem);
+      });
+      break;
+    case "delete-domain-cookies":
+      var domain = getParentData(element, "data-domain");
+      getAllCookies({"domain": domain}, function(cookies)
+      {
+        var callbackCount = 0;
+        for (var i = 0; i < cookies.length; i++)
         {
-          var callbackCount = 0;
-          for (var i = 0; i < cookies.length; i++)
+          var cookie = cookies[i];
+          var url = getUrl(cookie.domain, cookie.path, cookie.secure);
+          removeCookie({"url": url, "name": cookie.name}, function()
           {
-            removeCookie(cookies[i], function()
-            {
-              callbackCount++;
-              if (cookies.length == callbackCount)
-                element.parentNode.removeChild(element);
-            });
-          }
-        });
-        break;
-      case "delete-cookie":
-        var url = "http" + (secure ? "s" : "") + "://" + domain + path;
-        chrome.cookies.remove({"url": url, "name": cookie}, function(cookie)
+            callbackCount++;
+            if (cookies.length == callbackCount)
+              element.parentNode.removeChild(element);
+          });
+        }
+      });
+      break;
+    case "delete-sublist-cookie":
+      var cookieName = getParentData(element, "data-cookie");
+      var url = getUrl(getParentData(element, "data-domain"), 
+                        getParentData(element, "data-path"), 
+                        getParentData(element, "data-secure") == "true");
+      removeCookie({"url": url, "name": cookieName});
+      break;
+    case "delete-cookie":
+      var fieldsObj = getCookieDialogData().fields;
+      var url = getUrl(fieldsObj.domain.value, fieldsObj.path.value, 
+                      fieldsObj.secure.checked);
+
+      var name = fieldsObj.name.value;
+      removeCookie({"url": url, "name": name}, function(cookie)
+      {
+        if (cookie)
+          closeDialog();
+      });
+      break;
+    case "close-dialog":
+      closeDialog();
+      break;
+    case "add-cookie":
+      var dialogObj = getCookieDialogData();
+      dialogObj.dialog.setAttribute("data-dialog", "add-cookie");
+      dialogObj.dialog.setAttribute("aria-hidden", false);
+      dialogObj.form.reset();
+      var fieldsObj = dialogObj.fields;
+      fieldsObj.domain.removeAttribute("disabled");
+      fieldsObj.name.removeAttribute("disabled");
+      dialogObj.header.textContent = "Add Cookie";
+      fieldsObj.submitBtn.textContent = "Add";
+      break;
+    case "edit-cookie":
+      var dialogObj = getCookieDialogData();
+      dialogObj.form.reset();
+      var cookieName = getParentData(element, "data-cookie");
+      var url = getUrl(getParentData(element, "data-domain"), 
+                        getParentData(element, "data-path"), 
+                        getParentData(element, "data-secure") == "true");
+      getCookie({"url": url, "name": cookieName}, function(cookie)
+      {
+        dialogObj.dialog.setAttribute("aria-hidden", false);
+        dialogObj.dialog.setAttribute("data-dialog", "edit-cookie");
+        dialogObj.header.textContent = "Edit Cookie";
+
+        var fieldsObj = dialogObj.fields;
+        fieldsObj.submitBtn.textContent = "Update";
+        fieldsObj.domain.setAttribute("disabled", "disabled");
+        fieldsObj.name.setAttribute("disabled", "disabled");
+        fieldsObj.name.value = cookie.name;
+        fieldsObj.value.value = cookie.value;
+        fieldsObj.domain.value = cookie.domain;
+        fieldsObj.path.value = cookie.path;
+        fieldsObj.hostOnly.checked = cookie.hostOnly;
+        fieldsObj.httpOnly.checked = cookie.httpOnly;
+        fieldsObj.secure.checked = cookie.secureElem;
+        fieldsObj.session.checked = cookie.session;
+        fieldsObj.storeId.value = cookie.storeId;
+
+        var times = new Date(cookie.expirationDate * 1000).toISOString().
+                    split("T");
+        fieldsObj.expDate.value = times[0];
+        fieldsObj.expTime.value = times[1].split(".")[0];
+      });
+      break;
+    case "update-cookie":
+        var dialogObj = getCookieDialogData();
+        if (dialogObj.form.checkValidity())
+          ev.preventDefault(); //stop from submiting
+        else
+          return;
+
+        var fieldsObj = dialogObj.fields;
+        var datetime = fieldsObj.expDate.value;
+        var time = fieldsObj.expTime.value;
+        datetime += time ? "T" + time : "";
+        //TODO: Past expirationDate is invalid
+        var expirationDate = new Date(datetime).getTime() / 1000;
+
+        var cookieSetObj = {
+                            "url": getUrl(fieldsObj.domain.value, 
+                                          fieldsObj.path.value, 
+                                          fieldsObj.secure.value), 
+                            "name": fieldsObj.name.value,
+                            "value": fieldsObj.value.value, 
+                            "secure": fieldsObj.secure.checked,
+                            "httpOnly": fieldsObj.httpOnly.checked, 
+                            "storeId": fieldsObj.storeId.value,
+                            "expirationDate": expirationDate
+                          };
+        
+        // Omitted domain makes host-only cookie
+        if (!fieldsObj.hostOnly.checked)
+          cookieSetObj.domain = domain;
+
+        setCookie(cookieSetObj, function(cookie)
         {
           if (cookie)
             closeDialog();
         });
-        break;
-      case "close-dialog":
-        closeDialog();
-        break;
-      case "add-cookie":
-        var dialog = Elem("[role='dialog']");
-        dialog.setAttribute("data-dialog", "add-cookie");
-        dialog.setAttribute("aria-hidden", false);
-        Elem("#cookiesContainer form").reset();
-        Elem("#cookie-domain").removeAttribute("disabled");
-        Elem("#dialog-header-text").textContent = "Add Cookie";
-        Elem("#update-cookie").textContent = "Add";
-        break;
-      case "edit-cookie":
-        Elem("#cookiesContainer form").reset();
-        //TODO: remove duplication
-        var url = "http" + (secure ? "s" : "") + "://" + domain + path;
-        chrome.cookies.get({"url": url, "name": cookie}, function(cookie)
-        {
-          Elem("#dialog-header-text").textContent = "Edit Cookie";
-          Elem("#update-cookie").textContent = "Update";
-          Elem("#cookie-domain").setAttribute("disabled", "disabled");
-          var dialog = Elem("[role='dialog']");
-          dialog.setAttribute("aria-hidden", false);
-          dialog.setAttribute("data-dialog", "edit-cookie");
-          dialog.dataset.domain = cookie.domain;
-          dialog.dataset.cookie = cookie.name;
-          dialog.dataset.secure = cookie.secure;
-          dialog.dataset.path = cookie.path;
-
-          var nameElem = Elem("#cookie-name");
-          var valueElem = Elem("#cookie-value");
-          var domainElem = Elem("#cookie-domain");
-          var pathElem = Elem("#cookie-path");
-          var hostOnlyElem = Elem("#cookie-host-only");
-          var httpOnlyElem = Elem("#cookie-http-only");
-          var secureElem = Elem("#cookie-secure");
-          var sessionElem = Elem("#cookie-session");
-          var expirationDateElem = Elem("#cookie-expiration-date");
-          var expirationTimeElem = Elem("#cookie-expiration-time");
-          var storeIdElem = Elem("#cookie-store-id");
-          
-          nameElem.value = cookie.name;
-          valueElem.value = cookie.value;
-          domainElem.value = cookie.domain;
-          pathElem.value = cookie.path;
-          // convert expirationDate in seconds to milliseconds
-          var times = new Date(cookie.expirationDate * 1000).toISOString().
-                      split("T");
-          var date = times[0];
-          var time = times[1].split(".")[0];
-
-          expirationDateElem.value = date;
-          expirationTimeElem.value = time;
-          hostOnlyElem.checked = cookie.hostOnly;
-          httpOnlyElem.checked = cookie.httpOnly;
-          secureElem.checked = cookie.secureElem;
-          sessionElem.checked = cookie.session;
-          storeIdElem.value = cookie.storeId;
-        });
-        break;
-      case "update-cookie":
-          var formElem = Elem("#cookie-form");
-          if (formElem.checkValidity())
-            e.preventDefault(); //stop from submiting
-          else
-            return;
-
-          var name = Elem("#cookie-name").value;
-          var value = Elem("#cookie-value").value;
-          var domain = Elem("#cookie-domain").value;
-          var path = Elem("#cookie-path").value;
-          
-          var datetime = Elem("#cookie-expiration-date").value;
-          var time = Elem("#cookie-expiration-time").value
-          datetime += time ? "T" + time : "";
-          var expirationDate = new Date(datetime).getTime() / 1000;
-          //TODO: Past expirationDate is invalid
-          var hostOnly = Elem("#cookie-host-only").checked;
-          var httpOnly = Elem("#cookie-http-only").checked;
-          var secure = Elem("#cookie-secure").checked;
-          var session = Elem("#cookie-session").checked;
-          var storeId = Elem("#cookie-store-id").value;
-          var url = "http" + (secure ? "s" : "") + "://" + domain + path;
-
-          chrome.cookies.set({"url": url, "name": name, "value": value, 
-                            "domain": domain, "path": path, "secure":secure, 
-                            "httpOnly": httpOnly, "storeId": storeId,
-                            "expirationDate": expirationDate}, function(cookie)
-          {
-            if (cookie)
-              closeDialog();
-          });
-        break;
-      case "promt-cookies-delete":
-          var dialog = Elem("[role='alertdialog']");
-          dialog.setAttribute("aria-hidden", false);
-        break;
-      case "cancel-promt":
-        closePromt();
-        break;
-      case "delete-all-cookies":
-        chrome.browsingData.removeCookies({}, function()
-        {
-          loadCookies();
-        });
-        closePromt();
-        break;
-    }
+      break;
+    case "open-promt":
+        Elem("[role='alertdialog']").setAttribute("aria-hidden", false);
+      break;
+    case "cancel-promt":
+      closePromt();
+      break;
+    case "delete-all-cookies":
+      chrome.browsingData.removeCookies({}, function()
+      {
+        populateDomainList();
+      });
+      closePromt();
+      break;
   }
 }
 
+/*
+ * Get Dialog and Elements in JSON format 
+ */
+function getCookieDialogData()
+{
+  return {
+    "dialog": Elem("[role='dialog']"),
+    "header": Elem("#dialog-header-text"),
+    "form": Elem("#cookie-form"),
+    "fields":
+    {
+      "domain": Elem("#cookie-domain"), "name": Elem("#cookie-name"),
+      "path": Elem("#cookie-path"), "value": Elem("#cookie-value"),
+      "hostOnly": Elem("#cookie-host-only"), 
+      "httpOnly": Elem("#cookie-http-only"), "secure": Elem("#cookie-secure"),
+      "session": Elem("#cookie-session"),
+      "expDate": Elem("#cookie-expiration-date"),
+      "expTime": Elem("#cookie-expiration-time"),
+      "storeId": Elem("#cookie-store-id"), "submitBtn": Elem("#update-cookie")
+    }
+  };
+}
+
+/*
+ * Create Domain list item and add to the Domains list element
+ * @param {String} domain domain name
+ * @param {Number} cookiesNum number of cookies that applies to domain
+ * @param {Number} position position in the list
+ */
 function createDomainListItem(domain, cookiesNum, position)
 {
-  var domainListElem = cookiesListTemplate.querySelector("li");
-  var domainNameElem = cookiesListTemplate.querySelector(".domainName");
-  var cookiesNumberElem = cookiesListTemplate.querySelector(".cookiesNumber");
-  
-  domainListElem.setAttribute("data-domain", domain);
-  domainNameElem.textContent = domain;
-  cookiesNumberElem.textContent = cookiesNum + " Cookies";
+  var template = cookiesListTmplContent;
+  template.querySelector("li").setAttribute("data-domain", domain);
+  template.querySelector(".domainName").textContent = domain;
+  template.querySelector(".cookiesNumber").textContent = cookiesNum + " Cookies";
 
-  var listElem = document.importNode(cookiesListTemplate, true);
+  var listItem = document.importNode(template, true);
   if (position)
   {
     var nextElem = Elem("#cookiesList > li:nth-child(" + position + ")");
-    cookiesListElem.insertBefore(listElem ,nextElem);
+    cookiesListElem.insertBefore(listItem ,nextElem);
   }
   else
   {
-    cookiesListElem.appendChild(listElem);
+    cookiesListElem.appendChild(listItem);
   }
 }
 
+/*
+ * Create Cookie list item and add as a sublist to a domain
+ * @param {Cookie} cookie cookie OBJ as specified by cookies API
+ * @param {Node} parent list Element to be added to
+ */
 function createAddCookieListItem(cookie, parent)
 {
   var templateContent = Elem("#cookiesSubListTemplate").content;
@@ -386,8 +412,24 @@ function createAddCookieListItem(cookie, parent)
   cookieNameElem.textContent = cookie.name;
   cookieValueElem.textContent = cookie.value;
 
-  //TODO: We do not know sort position
   parent.appendChild(document.importNode(templateContent, true));
+}
+
+/*
+ * Filter cookies list according to the active tab URL
+ */
+function updateFilterToActiveDomain()
+{
+  chrome.tabs.query({active: true}, function(tab)
+  {
+    var url = tab[0].url;
+    if (url.indexOf("://") > -1)
+    {
+       var domain = url.split('/')[2].split(':')[0];
+       Elem("#search-domain").value = domain;
+       populateDomainList();
+    }
+  });
 }
 
 function closeDialog()
@@ -400,28 +442,17 @@ function closePromt()
   Elem("[role='alertdialog']").setAttribute("aria-hidden", true);
 }
 
-function removeCookie(cookie, callback)
+function removeStartDot(string)
 {
-  var url = "http" + (cookie.secure ? "s" : "") + "://" + cookie.domain +
-            cookie.path;
-  chrome.cookies.remove({"url": url, "name": cookie.name}, callback);
+  return string.replace(/^\./, "");
 }
 
-function searchByActiveDomain()
+function getUrl(domain, path, isSecure)
 {
-  chrome.tabs.query({active: true}, function(tab)
-  {
-    var url = tab[0].url;
-    if (url.indexOf("://") > -1)
-    {
-       var domain = url.split('/')[2].split(':')[0];
-       Elem("#search-domain").value = domain;
-       loadCookies();
-    }
-  });
+  return "http" + (isSecure ? "s" : "") + "://" + domain + path;
 }
 
-chrome.cookies.onChanged.addListener(function(changeInfo)
+onCookieChange.addListener(function(changeInfo)
 {
   var cookie = changeInfo.cookie;
   var domain = removeStartDot(cookie.domain);
@@ -429,7 +460,7 @@ chrome.cookies.onChanged.addListener(function(changeInfo)
 
   if (!domainListElem)
   {
-    var templateContent = Elem("#cookiesListTemplate").content;
+    var templateContent = cookiesListTmplContent;
     var cookieListContainer = Elem("#cookiesList");
     domains.push(domain);
     domains.sort();
@@ -475,6 +506,6 @@ chrome.storage.onChanged.addListener(function(change)
     var isActive = change[activeTabCookieId].newValue;
     getSwitcher(activeTabCookieId).setAttribute("aria-checked", isActive);
     if (isActive)
-      searchByActiveDomain();
+      updateFilterToActiveDomain();
   }
 });
