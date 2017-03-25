@@ -98,18 +98,27 @@
 					<div id="cookiesContainer">
 						<ul id="cookiesList"></ul>
 						<template id="cookiesListTemplate">
-							<li data-action="get-cookies">
+							<li data-action="get-cookies" 
+									data-key-action="get-cookies" 
+									data-key-down="next-sibling"
+									data-key-up="previouse-sibling" 
+									data-key-delete="delete-domain-cookies">
 							<div>
 								<div class="data-container">
 									<span class="domainName"></span>
 									<span class="cookiesNumber"></span>
 								</div>
-								<button class="icon delete" data-action="delete-domain-cookies"></button>
+								<button class="icon delete" data-action="delete-domain-cookies" tabindex="-1"></button>
 							</div>
 							</li>
 						</template>
 						<template id="cookiesSubListTemplate">
-							<li>
+							<li tabindex="-1"
+									data-key-down="next-sibling"
+									data-key-up="previouse-sibling"
+									data-key-action="edit-cookie"
+									data-key-delete="delete-sublist-cookie"
+									data-key-quite="close-expanded-domain">
 							  <div>
 							  	<button class="icon edit" data-action="edit-cookie"></button>
 									<div class="data-container">
@@ -120,7 +129,7 @@
 							  </div>
 							</li>
 						</template>
-						<div class="controls">
+						<div id="cookie-controls" class="controls">
 							<input type="search" id="search-domain" placeholder="Search domain">
 							<button data-action="add-cookie" class="icon edit">Add cookie</button>
 							<button data-action="open-promt" class="icon delete">Delete all</button>

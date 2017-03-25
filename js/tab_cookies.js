@@ -17,6 +17,7 @@ var domains = [];
 
 var additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
 var isAdditionalPermission = false;
+var cookieTabIndex = 1;
 
 document.addEventListener("DOMContentLoaded" , function()
 {
@@ -35,9 +36,8 @@ document.addEventListener("DOMContentLoaded" , function()
   getStorage(activeTabCookieId, function(data)
   { 
     activeTabCookieSwitch.setAttribute("aria-checked", data[activeTabCookieId]);
-    if (data[activeTabCookieId])
-      updateFilterToActiveDomain();
   });
+
   activeTabCookieSwitch.addEventListener("click", function()
   {
     getStorage(activeTabCookieId, function(data)
@@ -53,7 +53,19 @@ document.addEventListener("DOMContentLoaded" , function()
     if (result)
     {
       isAdditionalPermission = true;
-      populateDomainList();
+      disableControls(false);
+      getStorage(activeTabCookieId, function(data)
+      {
+        // Avoide runing populateDomainList() twice
+        if (data[activeTabCookieId])
+          updateFilterToActiveDomain();
+        else
+          populateDomainList();
+      });
+    }
+    else
+    {
+      disableControls(true);
     }
 
     permissionSwitches.forEach(function(switchBtn)
@@ -79,17 +91,28 @@ document.addEventListener("DOMContentLoaded" , function()
   permissionRemoved.addListener(function(permission)
   {
     isAdditionalPermission = false;
+    disableControls(true);
     updateSwitches(permissionSwitches, false);
   });
 
   permissionAdded.addListener(function(permission)
   {
     isAdditionalPermission = true;
+    disableControls(false);
     updateSwitches(permissionSwitches, true);
     populateDomainList();
   });
-
+  
+  Elem("#cookiesList").addEventListener("keydown", function(ev)
+  {
+    // Prevent the scrollable list from scrolling
+    if (ev.key == "ArrowDown" || ev.key == "ArrowUp")
+    {
+      ev.preventDefault();
+    }
+  }, false);
   Elem("#cookiesContainer").addEventListener("click", onCookiesClick, false);
+  Elem("#cookiesContainer").addEventListener("keyup", onCookiesKeyUp, false);
 }, false);
 
 function updateSwitches(list, value)
@@ -105,6 +128,7 @@ function updateSwitches(list, value)
  */
 function populateDomainList()
 {
+  cookieTabIndex = 1;
   Elem("#cookiesList").innerHTML = "";
   var searchExpression = new RegExp(Elem("#search-domain").value);
   // Use repeative domains to count cookies number
@@ -139,6 +163,9 @@ function populateDomainList()
         cookiesNumber++;
       }
     }
+    if (lastDomain)
+      createDomainListItem(lastDomain, cookiesNumber);
+
   });
 }
 
@@ -148,13 +175,14 @@ function populateDomainList()
  * @param {String} date data-* attribute value
  * @return {String} value of data attribute
  */
-function getParentData(node, data)
+function getParentData(node, data, getElement)
 {
   if (node.hasAttribute(data))
-    return node.getAttribute(data);
+    return getElement ? node : node.getAttribute(data);
 
-  return getParentData(node.parentElement, data);
+  return getParentData(node.parentElement, data, getElement);
 }
+
 
 /*
  * Track global click inside of cookies managamenet component 
@@ -182,14 +210,57 @@ function onCookiesClick(ev)
   if (!action)
     return;
 
+  onCookiesAction(action, element);
+}
+
+function onCookiesKeyUp(ev)
+{
+  var key = ev.key;
+  var activeElem = document.activeElement;
+  var tabIndex = activeElem.getAttribute("tabindex");
+  var action = null;
+
+  switch (key)
+  {
+    case " ":
+    case "Enter":
+      action = activeElem.dataset.keyAction;
+      break;
+    case "Delete":
+    case "Backspace":
+      action = activeElem.dataset.keyDelete;
+      break;
+    case "ArrowUp":
+      action = activeElem.dataset.keyUp;
+      break;
+    case "ArrowDown":
+      action = activeElem.dataset.keyDown;
+      break;
+    case "Escape":
+      if (Elem("[role='dialog']").getAttribute("aria-hidden") != "true")
+        closeDialog();
+      else if (Elem("[role='alertdialog']").getAttribute("aria-hidden") != "true")
+        closePromt();
+      else
+        action = activeElem.dataset.keyQuite;
+      break;
+  }
+
+  if (!action)
+      return;
+
+  ev.preventDefault;
+  onCookiesAction(action, activeElem);
+}
+
+function onCookiesAction(action, element)
+{
   switch (action)
   {
     case "get-cookies":
       if (element.dataset.expanded == "true")
       {
-        var sublistElem = element.querySelector("ul");
-        sublistElem.parentNode.removeChild(sublistElem);
-        element.dataset.expanded = false;
+        onCookiesAction("close-expanded-domain", element);
         return;
       }
       var domain = element.getAttribute("data-domain");
@@ -207,7 +278,16 @@ function onCookiesClick(ev)
         }
         element.dataset.expanded = true;
         element.appendChild(listElem);
+        
+        focusEdgeElem(listElem, true);
       });
+      break;
+    case "close-expanded-domain":
+      var domainElem = getParentData(element, "data-expanded", true);
+      var sublistElem = domainElem.querySelector("ul");
+      sublistElem.parentNode.removeChild(sublistElem);
+      domainElem.dataset.expanded = false;
+      domainElem.focus();
       break;
     case "delete-domain-cookies":
       var domain = getParentData(element, "data-domain");
@@ -222,7 +302,10 @@ function onCookiesClick(ev)
           {
             callbackCount++;
             if (cookies.length == callbackCount)
+            {
+              onCookiesAction("next-sibling" ,element);
               element.parentNode.removeChild(element);
+            }
           });
         }
       });
@@ -256,6 +339,7 @@ function onCookiesClick(ev)
       dialogObj.form.reset();
       var fieldsObj = dialogObj.fields;
       fieldsObj.domain.removeAttribute("disabled");
+      fieldsObj.domain.focus();
       fieldsObj.name.removeAttribute("disabled");
       dialogObj.header.textContent = "Add Cookie";
       fieldsObj.submitBtn.textContent = "Add";
@@ -279,6 +363,7 @@ function onCookiesClick(ev)
         fieldsObj.name.setAttribute("disabled", "disabled");
         fieldsObj.name.value = cookie.name;
         fieldsObj.value.value = cookie.value;
+        fieldsObj.value.focus();
         fieldsObj.domain.value = cookie.domain;
         fieldsObj.path.value = cookie.path;
         fieldsObj.hostOnly.checked = cookie.hostOnly;
@@ -329,6 +414,18 @@ function onCookiesClick(ev)
             closeDialog();
         });
       break;
+    case "next-sibling":
+      var isNext = true;
+    case "previouse-sibling":
+      var sibling = isNext ? element.nextSibling : element.previousSibling;
+      while (sibling && sibling.nodeType != 1)
+        sibling = isNext ? sibling.nextSibling : sibling.previousSibling;
+
+      if (sibling)
+        sibling.focus();
+      else
+        focusEdgeElem(element.parentNode, isNext);
+      break;
     case "open-promt":
         Elem("[role='alertdialog']").setAttribute("aria-hidden", false);
       break;
@@ -372,14 +469,22 @@ function getCookieDialogData()
  * Create Domain list item and add to the Domains list element
  * @param {String} domain domain name
  * @param {Number} cookiesNum number of cookies that applies to domain
- * @param {Number} position position in the list
+ * @param {Number} position position in the list [optional]
  */
 function createDomainListItem(domain, cookiesNum, position)
 {
   var template = cookiesListTmplContent;
-  template.querySelector("li").setAttribute("data-domain", domain);
+  var tmpList = template.querySelector("li");
+  tmpList.setAttribute("data-domain", domain);
+
+  if (cookiesListElem.childElementCount == 0)
+    tmpList.setAttribute("tabindex", "0");
+  else
+    tmpList.setAttribute("tabindex", "-1");
+
   template.querySelector(".domainName").textContent = domain;
-  template.querySelector(".cookiesNumber").textContent = cookiesNum + " Cookies";
+  template.querySelector(".cookiesNumber").textContent = cookiesNum + 
+                                                         " Cookies";
 
   var listItem = document.importNode(template, true);
   if (position)
@@ -390,6 +495,7 @@ function createDomainListItem(domain, cookiesNum, position)
   else
   {
     cookiesListElem.appendChild(listItem);
+    cookieTabIndex++;
   }
 }
 
@@ -432,6 +538,22 @@ function updateFilterToActiveDomain()
   });
 }
 
+/*
+ * Enable/disable control elements
+ * @param {Boolean} disabled
+ */
+function disableControls(disabled)
+{
+  Elem("#cookie-controls").childNodes.forEach(function(Node)
+  {
+    if (Node.nodeType == 1)
+      if (disabled)
+        Node.setAttribute("disabled", disabled);
+      else
+        Node.removeAttribute("disabled");
+  });
+}
+
 function closeDialog()
 {
   Elem("[role='dialog']").setAttribute("aria-hidden", true);
@@ -450,6 +572,16 @@ function removeStartDot(string)
 function getUrl(domain, path, isSecure)
 {
   return "http" + (isSecure ? "s" : "") + "://" + domain + path;
+}
+
+function focusEdgeElem(element, isFirst)
+{
+  var childElem = isFirst ? element.firstChild : element.lastChild;
+  while(childElem != null && childElem.nodeType == 3)
+    childElem = isFirst ? childElem.nextSibling : childElem.previousSibling;
+
+  if (childElem)
+    childElem.focus();
 }
 
 onCookieChange.addListener(function(changeInfo)
@@ -485,9 +617,15 @@ onCookieChange.addListener(function(changeInfo)
     if (cookieListElem)
     {
       if (domainListElem.querySelectorAll("li").length == 1)
+      {
+        onCookiesAction("next-sibling" ,domainListElem);
         domainListElem.parentNode.removeChild(domainListElem);
+      }
       else
+      {
+        onCookiesAction("next-sibling" ,cookieListElem);
         cookieListElem.parentNode.removeChild(cookieListElem);
+      }
     }
   }
   else
