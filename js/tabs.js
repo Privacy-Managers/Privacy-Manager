@@ -1,57 +1,61 @@
-var loadedTabs = new Array();
-var switchEvent = new Event("switch");
+"use strict";
 
-document.addEventListener("DOMContentLoaded", function()
+(function(global)
 {
-	initTabs();
-}, false);
+	global.switchEvent = new Event("switch");
 
-function initTabs()
-{
-	var tabsContainer = Elem("#navigation_tab");
-	tabsContainer.addEventListener("click", function(ev)
+	document.addEventListener("DOMContentLoaded", function()
 	{
-		switchTab(ev.target);
+		initTabs();
 	}, false);
 
-	tabsContainer.addEventListener("switch", function(ev)
+	function initTabs()
 	{
-		// Fires whenever new tab is becoming active
-		// use ev.activeTab to determine which
-	}, false);
+		var tabsContainer = Elem("#navigation_tab");
+		tabsContainer.addEventListener("click", function(ev)
+		{
+			switchTab(ev.target);
+		}, false);
 
-	getStorage("lastSelectedTab", function(dataObj)
-	{
-		var lastSelectedTab = dataObj.lastSelectedTab;
-		if (lastSelectedTab)
-			switchTab(tabsContainer.querySelector("[data-tab=" + lastSelectedTab + "]"));
-		else
-			switchTab(tabsContainer.firstElementChild);
-	});
-}
+		tabsContainer.addEventListener("switch", function(ev)
+		{
+			// Fires whenever new tab is becoming active
+			// use ev.activeTab to determine which
+		}, false);
 
-/*
- * Switches the tab
- * @param {Element} tab element that defines or has parent with role="tab" and
- * data-tab attribute
-*/
-function switchTab(tab)
-{
-	while(tab)
-	{
-		if (tab.getAttribute("role") == "tab")
-			break;
-		tab = tab.parentElement;
+		getStorage("lastSelectedTab", function(dataObj)
+		{
+			var lastSelectedTab = dataObj.lastSelectedTab;
+			if (lastSelectedTab)
+				switchTab(tabsContainer.querySelector("[data-tab=" + lastSelectedTab + "]"));
+			else
+				switchTab(tabsContainer.firstElementChild);
+		});
 	}
 
-	var selectedNav = Elem("#navigation_tab").querySelector("[aria-selected]");
-	if (selectedNav)
-		selectedNav.removeAttribute("aria-selected");
+	/*
+	 * Switches the tab
+	 * @param {Element} tab element that defines or has parent with role="tab" and
+	 * data-tab attribute
+	*/
+	function switchTab(tab)
+	{
+		while(tab)
+		{
+			if (tab.getAttribute("role") == "tab")
+				break;
+			tab = tab.parentElement;
+		}
 
-	tab.setAttribute("aria-selected", "true");
-	document.body.setAttribute("data-tab", tab.getAttribute("data-tab"));
+		var selectedNav = Elem("#navigation_tab").querySelector("[aria-selected]");
+		if (selectedNav)
+			selectedNav.removeAttribute("aria-selected");
 
-	switchEvent.activeTab = tab.getAttribute("data-tab");
-	Elem("#navigation_tab").dispatchEvent(switchEvent);
-	setStorage({"lastSelectedTab": tab.getAttribute("data-tab")});
-}
+		tab.setAttribute("aria-selected", "true");
+		document.body.setAttribute("data-tab", tab.getAttribute("data-tab"));
+
+		switchEvent.activeTab = tab.getAttribute("data-tab");
+		Elem("#navigation_tab").dispatchEvent(switchEvent);
+		setStorage({"lastSelectedTab": tab.getAttribute("data-tab")});
+	}
+})(this);

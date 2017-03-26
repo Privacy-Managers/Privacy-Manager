@@ -7,7 +7,6 @@
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>
 		<script type="text/javascript" src="js/i18n.js"></script>
-		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="js/tab_main.js"></script>
 		<script type="text/javascript" src="js/tab_cookies.js"></script>
 		<script type="text/javascript" src="js/tab_network.js"></script>
@@ -249,7 +248,7 @@
 			</div>
 
 			<div id="network_tab" role="tabpanel">
-				<div class="serviceContainer">
+				<div class="settings-container">
 					<!-- allowHostPermissionsNetwork -->
 					<ul class="settings-list">
 						<li class="allowHost">
@@ -262,43 +261,40 @@
 								<span>Off</span>
 							</button>
 						</li>
+						<li id="blockUserAgent">
+							<div>
+								<label data-i18n="blockUserAgent"></label>
+						 		<img src="css/img/info.png" class="infoIcon">
+							</div>
+							<button role="checkbox" aria-checked="false">
+								<span>On</span>
+								<span>Off</span>
+							</button>
+						</li>
 					</ul>
-					<!-- blockUserAgent -->
-					<div class="rowContainer" id="blockUserAgent">
-						<div title="If enabled user agent data will not be sent with request.">
-								<span class="settingName">Block user agent:</span> 
-								<img src="css/img/info.png" class="infoIcon" width="12px"/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>	
+					<div class="separator"></div>
+					<ul class="settings-list">
+						<li id="collectHeaders">
+							<div>
+								<label data-i18n="collectHeaders"></label>
+						 		<img src="css/img/info.png" class="infoIcon">
+							</div>
+							<button role="checkbox" aria-checked="false">
+								<span>On</span>
+								<span>Off</span>
+							</button>
+						</li>
+					</ul>
+				</div>
+				<div>
+					<textarea id="headersTextArea" readonly="readonly" style="display:none"></textarea>
+					<div class="controls">
+						<button id="selectHeaders">Select all</button>
+						<button id="deleteHeaders">Delete all</button>
+						<button id="refreshHeaders">Refresh</button>
 					</div>
 				</div>
-				
-				<div class="serviceContainer">
-					<!-- StartCollectHeaders -->
-					<div class="rowContainer" id="collectHeaders">
-						<div style="width:120px">
-								<span class="settingName">Collect headers:</span>
-								<img src="css/img/info.png" class="infoIcon" width="12px" title="If enabled the headers will start to be collected, only last 1000 headers would be shown."/>
-						</div>
-						<div class="switch">
-							<label class="cb-enable on"><span>On</span></label>
-							<label class="cb-disable selected off"><span>Off</span></label>
-							<input type="checkbox" id="checkbox" class="checkbox" name="field2" />
-						</div>
-					</div>
-					<div style="display:inline-table">
-						<input type="button" value="Select all" id="selectHeaders" />
-						<input type="button" value="Delete all" id="deleteHeaders" />
-						<input type="button" value="Refresh" id="refreshHeaders" />
-					</div>
-				</div>
-				<textarea id="headersTextArea" readonly="readonly" style="display:none"></textarea>
 			</div>
 		</div>
 	</body>
-	
 </html>

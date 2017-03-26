@@ -1,3 +1,5 @@
+"use strict";
+
 const setStorage = chrome.storage.local.set;
 const getStorage = chrome.storage.local.get;
 

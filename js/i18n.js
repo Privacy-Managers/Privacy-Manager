@@ -1,7 +1,12 @@
-document.addEventListener("DOMContentLoaded", function()
+"use strict";
+
+(function()
 {
-  document.querySelectorAll("[data-i18n]").forEach(function(node)
+  document.addEventListener("DOMContentLoaded", function()
   {
-    node.textContent = getMsg(node.dataset.i18n);
-  });
-}, false);
+    document.querySelectorAll("[data-i18n]").forEach(function(node)
+    {
+      node.textContent = getMsg(node.dataset.i18n);
+    });
+  }, false);
+})();
