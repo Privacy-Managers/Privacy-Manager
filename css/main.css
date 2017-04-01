@@ -140,6 +140,10 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 }
 
 /*******************************************************************************
+ * Table list
+ ******************************************************************************/
+
+/*******************************************************************************
  * Main
  ******************************************************************************/
 #main_tab section
@@ -222,12 +226,12 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Cookies tab
  ******************************************************************************/
-.settings-container
+.settings-list-container
 {
   display: flex;
 }
 
-.settings-container .separator
+.settings-list-container .separator
 {
   flex-grow: 1;
 }
@@ -243,8 +247,8 @@ section h4
   position: relative;
 }
 
-#cookiesList,
-#cookiesList ul
+.tableList,
+.tableList ul
 {
   list-style: none;
   font-size: 14px;
@@ -253,12 +257,12 @@ section h4
   padding: 0px;
 }
 
-#cookiesList ul
+.tableList ul
 {
   padding-bottom: 10px;
 }
 
-#cookiesList li > div
+.tableList li > div
 {
   display: flex;
   padding: 5px 5px;
@@ -266,37 +270,37 @@ section h4
   cursor: pointer;
 }
 
-#cookiesList li > div:hover
+.tableList li > div:hover
 {
   background-color: #cee0c2;
 }
 
-#cookiesList li[data-expanded="true"] > ul
+.tableList li[data-expanded="true"] > ul
 {
   border-top: 1px solid #324B2C;
 }
 
-#cookiesList li .data-container
+.tableList li .data-container
 {
   flex-grow: 1;
 }
 
-#cookiesList li span
+.tableList li span
 {
   display: inline-block;
 }
 
-#cookiesList .domainName
+.tableList .domainName
 {
   width: 300px
 }
 
-#cookiesList .cookieName
+.tableList .cookieName
 {
   width: 260px;
 }
 
-#cookiesList .cookieValue
+.tableList .cookieValue
 {
   width: 100px;
   white-space: pre;

@@ -2,11 +2,6 @@
 
 (function()
 {
-  const checkPermission = chrome.permissions.contains;
-  const removePermission = chrome.permissions.remove;
-  const requestPermission = chrome.permissions.request;
-  const permissionRemoved = chrome.permissions.onRemoved;
-  const permissionAdded = chrome.permissions.onAdded;
   const getAllCookies = chrome.cookies.getAll;
   const removeCookie = chrome.cookies.remove;
   const getCookie = chrome.cookies.get;
@@ -20,12 +15,11 @@
   var domains = [];
 
   var additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
-  var isAdditionalPermission = false;
   var cookieTabIndex = 1;
 
   document.addEventListener("DOMContentLoaded" , function()
   {
-    cookiesListElem = Elem("#cookiesList");
+    cookiesListElem = Elem("#cookies_tab .tableList");
     cookiesListTmplContent = Elem("#cookiesListTemplate").content;
 
     Elem("#search-domain").addEventListener("search", populateDomainList, false);
@@ -34,80 +28,32 @@
       if (ev.key != "Enter" && ev.key != "Escape")
         populateDomainList();
     }, false);
-    var activeTabCookieSwitch = getSwitcher(activeTabCookieId);
-    var permissionSwitches = getSwitches("allowHost");
 
-    getStorage(activeTabCookieId, function(data)
+    var leftSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(1)");
+    var rightSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(2)");
+    addSettingItem(leftSettingList, "allowHostPermissions", "permission", function(enabled)
     {
-      activeTabCookieSwitch.setAttribute("aria-checked", data[activeTabCookieId]);
-    });
-
-    activeTabCookieSwitch.addEventListener("click", function()
-    {
-      getStorage(activeTabCookieId, function(data)
+      disableControls(!enabled);
+      if (enabled)
       {
-        var obj = {};
-        obj[activeTabCookieId] = !data[activeTabCookieId];
-        setStorage(obj);
-      });
-    }, false);
-
-    checkPermission(additionalPermission, function(result)
-    {
-      if (result)
-      {
-        isAdditionalPermission = true;
-        disableControls(false);
-        getStorage(activeTabCookieId, function(data)
+        checkSettingState(activeTabCookieId, function(active)
         {
           // Avoide runing populateDomainList() twice
-          if (data[activeTabCookieId])
+          if (active)
             updateFilterToActiveDomain();
           else
             populateDomainList();
         });
       }
-      else
-      {
-        disableControls(true);
-      }
-
-      permissionSwitches.forEach(function(switchBtn)
-      {
-        switchBtn.setAttribute("aria-checked", result);
-      });
     });
 
-    permissionSwitches.forEach(function(switchBtn)
+    addSettingItem(rightSettingList, activeTabCookieId, "storage", function(active)
     {
-      switchBtn.addEventListener("click", function()
-      {
-        checkPermission(additionalPermission, function(result)
-        {
-          if (result)
-            removePermission(additionalPermission);
-          else
-            requestPermission(additionalPermission);
-        });
-      }, false);
+      if (active)
+        updateFilterToActiveDomain();
     });
 
-    permissionRemoved.addListener(function(permission)
-    {
-      isAdditionalPermission = false;
-      disableControls(true);
-      updateSwitches(permissionSwitches, false);
-    });
-
-    permissionAdded.addListener(function(permission)
-    {
-      isAdditionalPermission = true;
-      disableControls(false);
-      updateSwitches(permissionSwitches, true);
-      populateDomainList();
-    });
-    
-    Elem("#cookiesList").addEventListener("keydown", function(ev)
+    cookiesListElem.addEventListener("keydown", function(ev)
     {
       // Prevent the scrollable list from scrolling
       if (ev.key == "ArrowDown" || ev.key == "ArrowUp")
@@ -133,7 +79,7 @@
   function populateDomainList()
   {
     cookieTabIndex = 1;
-    Elem("#cookiesList").innerHTML = "";
+    cookiesListElem.innerHTML = "";
     var searchExpression = new RegExp(Elem("#search-domain").value);
     // Use repeative domains to count cookies number
     var repeativeDomains = [];
@@ -148,7 +94,6 @@
       repeativeDomains.sort();
 
       var templateContent = cookiesListTmplContent;
-      var cookieListContainer = Elem("#cookiesList");
       var lastDomain = repeativeDomains[0];
       var cookiesNumber = 1;
       for (var i = 1; i < repeativeDomains.length; i++)
@@ -493,7 +438,8 @@
     var listItem = document.importNode(template, true);
     if (position)
     {
-      var nextElem = Elem("#cookiesList > li:nth-child(" + position + ")");
+      // TODO: Find alternative to :scope
+      var nextElem = Elem("#cookies_tab .tableList > li:nth-child(" + position + ")");
       cookiesListElem.insertBefore(listItem ,nextElem);
     }
     else
@@ -592,12 +538,11 @@
   {
     var cookie = changeInfo.cookie;
     var domain = removeStartDot(cookie.domain);
-    var domainListElem = Elem("#cookiesList [data-domain='" + domain + "']");
+    var domainListElem = Elem("[data-domain='" + domain + "']", cookiesListElem);
 
     if (!domainListElem)
     {
       var templateContent = cookiesListTmplContent;
-      var cookieListContainer = Elem("#cookiesList");
       domains.push(domain);
       domains.sort();
       var position = domains.indexOf(domain) + 1;
@@ -638,17 +583,6 @@
                                   replace(cookiesNum, cookiesNum + 1);
       if (domainListElem.dataset.expanded)
         createAddCookieListItem(cookie, Elem("ul", domainListElem));
-    }
-  });
-
-  chrome.storage.onChanged.addListener(function(change)
-  {
-    if (activeTabCookieId in change)
-    {
-      var isActive = change[activeTabCookieId].newValue;
-      getSwitcher(activeTabCookieId).setAttribute("aria-checked", isActive);
-      if (isActive)
-        updateFilterToActiveDomain();
     }
   });
 })();

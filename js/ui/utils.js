@@ -5,6 +5,12 @@ function Elem(selector, parent)
   return (parent || document).querySelector(selector);
 }
 
+function Elems(selector, parent)
+{
+  return (parent || document).querySelectorAll(selector);
+}
+
+// TODO: this can be constant
 function getMsg(text)
 {
   return chrome.i18n.getMessage(text);

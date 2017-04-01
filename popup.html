@@ -12,6 +12,18 @@
 		<script type="text/javascript" src="js/ui/tab_network.js"></script>
 	</head>
 	<body>
+		<template id="settings-list">
+			<li>
+				<div>
+	      	<label>Spelling service</label>
+				 	<img src="css/img/info.png" class="infoIcon">
+			 	</div>
+		 		<button role="checkbox" aria-checked="false">
+					<span>On</span>
+					<span>Off</span>
+				</button>
+			</li>
+    </template>
 		<div id="main">
 			<ul id="navigation_tab">
 				<li role="tab" data-tab="main" aria-selected="true">
@@ -27,74 +39,26 @@
 			<div id="main_tab" role="tabpanel">
 				<section id="privacyManagement">
 					<h2>Privacy management</h2>
-					<ul class="settings-list">
-						<template>
-							<li>
-								<div>
-					      	<label>Spelling service</label>
-								 	<img src="css/img/info.png" class="infoIcon">
-							 	</div>
-						 		<button role="checkbox" aria-checked="false">
-									<span>On</span>
-									<span>Off</span>
-								</button>
-							</li>
-			      </template>
-					</ul>
+					<ul class="settings-list"></ul>
 				</section>
 
 				<section id="startupClear">
 					<h2>Clear on startup</h2>
-					<ul class="settings-list">
-						<template>
-							<li>
-								<div>
-									<label>Spelling service</label>
-							 		<img src="css/img/info.png" class="infoIcon">
-								</div>
-						 		<button role="checkbox" aria-checked="false">
-									<span>On</span>
-									<span>Off</span>
-								</button>
-							</li>
-			      </template>
-					</ul>
+					<ul class="settings-list"></ul>
 				</section>
 			</div>
 
 			<div id="cookies_tab" role="tabpanel">
-				<div class="settings-container">
-					<ul class="settings-list">
-						<li id="allowHostCookies" class="allowHost">
-							<div>
-								<label data-i18n="allowHostPermissions"></label>
-						 		<img src="css/img/info.png" class="infoIcon">
-							</div>
-							<button role="checkbox" aria-checked="false">
-								<span>On</span>
-								<span>Off</span>
-							</button>
-						</li>
-					</ul>
+				<div class="settings-list-container">
+					<ul class="settings-list"></ul>
 					<div class="separator"></div>
-					<ul class="settings-list">
-						<li id="activeTabCookies">
-							<div>
-								<label data-i18n="activeTabCookies"></label>
-						 		<img src="css/img/info.png" class="infoIcon">
-							</div>
-							<button role="checkbox" aria-checked="false">
-								<span>On</span>
-								<span>Off</span>
-							</button>
-						</li>
-					</ul>
+					<ul class="settings-list"></ul>
 				</div>
 
 				<section>
 					<h4 data-i18n="cookiesHeadlineTitle"></h4>
 					<div id="cookiesContainer">
-						<ul id="cookiesList"></ul>
+						<ul class="tableList"></ul>
 						<template id="cookiesListTemplate">
 							<li data-action="get-cookies" 
 									data-key-action="get-cookies" 
@@ -247,46 +211,26 @@
 			</div>
 
 			<div id="network_tab" role="tabpanel">
-				<div class="settings-container">
+				<div class="settings-list-container">
 					<!-- allowHostPermissionsNetwork -->
-					<ul class="settings-list">
-						<li class="allowHost">
-							<div>
-								<label data-i18n="allowHostPermissions"></label>
-						 		<img src="css/img/info.png" class="infoIcon">
-							</div>
-							<button role="checkbox" aria-checked="false">
-								<span>On</span>
-								<span>Off</span>
-							</button>
-						</li>
-						<li id="blockUserAgent">
-							<div>
-								<label data-i18n="blockUserAgent"></label>
-						 		<img src="css/img/info.png" class="infoIcon">
-							</div>
-							<button role="checkbox" aria-checked="false">
-								<span>On</span>
-								<span>Off</span>
-							</button>
-						</li>
-					</ul>
+					<ul class="settings-list"></ul>
 					<div class="separator"></div>
-					<ul class="settings-list">
-						<li id="collectHeaders">
-							<div>
-								<label data-i18n="collectHeaders"></label>
-						 		<img src="css/img/info.png" class="infoIcon">
-							</div>
-							<button role="checkbox" aria-checked="false">
-								<span>On</span>
-								<span>Off</span>
-							</button>
-						</li>
-					</ul>
+					<ul class="settings-list"></ul>
 				</div>
 				<div>
-					<textarea id="headersTextArea" readonly="readonly" style="display:none"></textarea>
+					<ul class="tableList">
+						<template id="networkListTemplate">
+							<li>
+							<div>
+								<input type="checkbox" name="">
+								<div class="data-container">
+									<span></span>
+									<span></span>
+								</div>
+							</div>
+							</li>
+						</template>
+					</ul>
 					<div class="controls">
 						<button id="selectHeaders">Select all</button>
 						<button id="deleteHeaders">Delete all</button>

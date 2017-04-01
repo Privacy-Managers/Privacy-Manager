@@ -4,13 +4,16 @@
 {
 	function profileStart()
 	{
-		getStorage("browsingData", function(data){
-			deleteBrowsingData(data.browsingData);
+		getStorage("settingList", function(data){
+			deleteBrowsingData(data.settingList);
 		});
 	}
 
 	function deleteBrowsingData(data)
 	{
+		if (!data)
+			return;
+
 		if (data.removeAll == true)
 		{
 			var data = browsingData.reduce(function(accumulator, dataType)

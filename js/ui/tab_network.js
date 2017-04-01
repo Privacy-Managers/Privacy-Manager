@@ -2,35 +2,24 @@
 
 (function()
 {
-	var networkSettingIds = ["blockUserAgent", "collectHeaders"];
+	const blockUserAgentId = "blockUserAgent";
+	const collectHeadersId = "collectHeaders";
 
 	document.addEventListener("DOMContentLoaded" , function()
 	{
-		networkSettingIds.forEach(function(id)
+		var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
+		var rightSettingList = Elem("#network_tab ul.settings-list:nth-of-type(2)");
+		addSettingItem(leftSettingList, "allowHostPermissions", "permission");
+		addSettingItem(leftSettingList, blockUserAgentId, "storage", function(enabled)
 		{
-			manageSwitcherById(id);
+			onNetworkSettingChange(blockUserAgentId, enabled)
+		});
+
+		addSettingItem(rightSettingList, collectHeadersId, "storage", function(enabled)
+		{
+			onNetworkSettingChange(collectHeadersId, enabled)
 		});
 	},false);
-
-	function manageSwitcherById(id)
-	{
-		var switcherElem = getSwitcher(id);
-		getStorage(id, function(data)
-	  {
-	  	switcherElem.setAttribute("aria-checked", data[id]);
-	  	onNetworkSettingChange(id, data[id]);
-	  });
-
-	  switcherElem.addEventListener("click", function()
-	  {
-	    getStorage(id, function(data)
-	    {
-	      var obj = {};
-	      obj[id] = !data[id];
-	      setStorage(obj);
-	    });
-	  }, false);
-	}
 
 	function onNetworkSettingChange(settingName, isActive)
 	{
@@ -62,19 +51,9 @@
 
 	function collectHeaders()
 	{
-
-	}
-
-	chrome.storage.onChanged.addListener(function(change)
-	{
-		for (var settingName in change)
+		chrome.webRequest.onHeadersReceived.addListener(function(details)
 		{
-			if (networkSettingIds.indexOf(settingName) != -1)
-			{
-				var switcherElem = getSwitcher(settingName);
-				switcherElem.setAttribute("aria-checked", change[settingName].newValue);
-				onNetworkSettingChange(settingName, change[settingName].newValue);
-			}
-		}
-	});
+			console.log(details);
+		}, {urls: ["<all_urls>"]});
+	}
 })();
