@@ -1,17 +1,17 @@
 "use strict";
 
 const privacyData = {
-                      websites: 
-                        ["thirdPartyCookiesAllowed", "hyperlinkAuditingEnabled", 
+                      websites:
+                        ["thirdPartyCookiesAllowed", "hyperlinkAuditingEnabled",
                         "referrersEnabled", "protectedContentEnabled"],
                       services:
-                        ["alternateErrorPagesEnabled", "autofillEnabled", 
-                        "hotwordSearchEnabled", "passwordSavingEnabled", 
+                        ["alternateErrorPagesEnabled", "autofillEnabled",
+                        "hotwordSearchEnabled", "passwordSavingEnabled",
                         "safeBrowsingEnabled",
-                        "safeBrowsingExtendedReportingEnabled", 
-                        "searchSuggestEnabled", "spellingServiceEnabled", 
+                        "safeBrowsingExtendedReportingEnabled",
+                        "searchSuggestEnabled", "spellingServiceEnabled",
                         "translationServiceEnabled"],
-                      network: 
+                      network:
                         ["networkPredictionEnabled", "webRTCIPHandlingPolicy"]
                     };
 const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
@@ -124,7 +124,7 @@ function addSettingItem(parent, accessor, type, callback)
       {
         privacyObject.get({}, function(details)
         {
-          if (details.levelOfControl == "controllable_by_this_extension" || 
+          if (details.levelOfControl == "controllable_by_this_extension" ||
           details.levelOfControl == "controlled_by_this_extension")
           {
             privacyObject.set({ value: !details.value }, function()
@@ -249,3 +249,322 @@ chrome.storage.onChanged.addListener(function(change)
       settingState(accessor, newValue[accessor]);
   }
 });
+
+/*******************************************************************************
+ * Data Action handler
+ ******************************************************************************/
+(function(global)
+{
+  global.registerActionListener = function(target, callback)
+  {
+    target.addEventListener("keyup", function(ev)
+    {
+      onKeyUp(ev, callback);
+    }, false);
+
+    target.addEventListener("click", function(ev)
+    {
+      onClick(ev, callback);
+    }, false);
+  }
+
+  function onKeyUp(ev, callback)
+  {
+    var key = ev.key;
+    var activeElem = document.activeElement;
+    var action = null;
+
+    switch (key)
+    {
+      case " ":
+      case "Enter":
+        action = activeElem.dataset.keyAction;
+        break;
+      case "Delete":
+      case "Backspace":
+        action = activeElem.dataset.keyDelete;
+        break;
+      case "ArrowUp":
+        action = activeElem.dataset.keyUp;
+        break;
+      case "ArrowDown":
+        action = activeElem.dataset.keyDown;
+        break;
+      case "Escape":
+        action = activeElem.dataset.keyQuite;
+        break;
+    }
+
+    if (!action)
+        return;
+
+    ev.preventDefault;
+    callback(action, activeElem);
+  }
+
+  function onClick(ev, callback)
+  {
+    var element = ev.target;
+    var action = null;
+
+    while (true)
+    {
+      if (element == this)
+        break;
+
+      if (element.hasAttribute("data-action"))
+      {
+        action = element.getAttribute("data-action");
+        break;
+      }
+
+      element = element.parentElement;
+    }
+
+    if (!action)
+      return;
+
+    ev.preventDefault;
+    callback(action, element);
+  }
+})(this);
+
+/*******************************************************************************
+ * Table list
+ ******************************************************************************/
+function TableList(lisElem, listItemTemplate, listSubItemTemplate)
+{
+  this.items = [];
+  this.lisElem = lisElem;
+  this.listItemTemplate = listItemTemplate;
+  this.listSubItemTemplate = listSubItemTemplate;
+  this.callback = null;
+
+  lisElem.addEventListener("keydown", function(ev)
+  {
+    // Prevent the scrollable list from scrolling
+    if (ev.key == "ArrowDown" || ev.key == "ArrowUp")
+    {
+      ev.preventDefault();
+    }
+  }, false);
+
+  registerActionListener(this.lisElem, this.onAction.bind(this));
+}
+
+/*
+ * Add item to the Table list
+ * @param {JSON} itemObj represents list item data assignment ex.:
+ *   {
+ *     dataset:  { access: "example.com", path: "/" },
+ *     texts: {domain: "example.com", cookienum: "3 Cookies"}
+ *   }
+ */
+TableList.prototype.addItem = function(itemObj)
+{
+  this.items.push(itemObj);
+  this.items.sort(function (a, b)
+  {
+    return a.dataset.access.localeCompare(b.dataset.access);
+  });
+
+  var listItem = this._itemFromTmpl(itemObj, this.listItemTemplate);
+  var elemAfter = this.lisElem.children[this.items.indexOf(itemObj)];
+
+  if (elemAfter)
+    this.lisElem.insertBefore(listItem, elemAfter);
+  else
+    this.lisElem.appendChild(listItem);
+}
+
+TableList.prototype.addSubItem = function(itemObj, accessor)
+{
+  var itemIndex = this.indexOfAccessor(accessor);
+  if (itemIndex === false)
+    return false;
+
+  var subListItemElem = this._itemFromTmpl(itemObj, this.listSubItemTemplate);
+  var item = this.items[itemIndex];
+  var listItemElem = this.lisElem.children[itemIndex];
+  
+  if (!item.subItems || item.subItems.length == 0)
+  {
+    listItemElem.dataset.expanded = true;
+    item.subItems = [];
+    var subListElem = document.createElement("ul");
+    subListElem.appendChild(subListItemElem);
+    listItemElem.appendChild(subListElem);
+    this.focusEdgeElem(subListElem, true);
+  }
+  else
+  {
+    listItemElem.querySelector("ul").appendChild(subListItemElem);
+  }
+  item.subItems.push(itemObj);
+  this.listSubItemTemplate
+}
+
+TableList.prototype.removeSubItem = function(parentAccessor, accessor)
+{
+  var itemIndex = this.indexOfAccessor(parentAccessor);
+  if (itemIndex === false)
+    return false;
+
+  var item = this.items[itemIndex];
+  var listItemElem = this.lisElem.children[itemIndex];
+  var subListItemElem = listItemElem.querySelector("ul");
+
+  for (var i = 0; i < item.subItems.length; i++)
+  {
+    if (item.subItems[i].dataset.access == accessor)
+    {
+      if (item.subItems.length == 1)
+      {
+        this.onAction("next-sibling", listItemElem);
+        listItemElem.removeChild(subListItemElem);
+      }
+      else 
+      {
+        subListItemElem.children[i].parentElement.removeChild(
+          subListItemElem.children[i]);
+      }
+      item.subItems.splice(i, 1);
+    }
+  }
+}
+
+TableList.prototype.removeAllSubItems = function(accessor)
+{
+  var item = this.getItem(accessor);
+  if (!item)
+    return false;
+
+  var i = item.subItems.length;
+  while (i--) // Avoide re-indexing
+    this.removeSubItem(item.dataset.access, item.subItems[i].dataset.access);
+}
+
+TableList.prototype.hasSubItem = function(parentAccessor, accessor)
+{
+  var parentItem = this.getItem(parentAccessor);
+  if (!parentItem || !parentItem.subItems)
+    return false;
+
+  for (var i = 0; i < parentItem.subItems.length; i++)
+  {
+    if (parentItem.subItems[i].dataset.access == accessor)
+      return true;
+  }
+  return false;
+}
+
+TableList.prototype._updateListElem = function(itemObj, listElem)
+{
+  var datasetObj = itemObj.dataset;
+  for (var name in datasetObj)
+    listElem.dataset[name] = datasetObj[name];
+
+  var textsObj = itemObj.texts;
+  for (var name in textsObj)
+  {
+    var textElement = listElem.querySelector("[data-text='"+ name +"']");
+    if (textElement)
+      textElement.textContent = textsObj[name];
+  }
+
+  // Set default tabindex to the first list Element
+  if (this.lisElem.childElementCount == 0)
+    listElem.setAttribute("tabindex", "0");
+  else
+    listElem.setAttribute("tabindex", "-1");
+
+  return listElem;
+}
+
+TableList.prototype._itemFromTmpl = function(itemObj, template)
+{
+  var tmpContent = template.content;
+  var tmpList = tmpContent.querySelector("li");
+
+  this._updateListElem(itemObj, tmpList);
+  return document.importNode(tmpContent, true);
+}
+
+TableList.prototype.empty = function()
+{
+  this.items = [];
+  this.lisElem.innerHTML = "";
+}
+
+TableList.prototype.indexOfAccessor = function(accessor)
+{
+  for (var i = 0; i < this.items.length; i++) 
+  {
+    if (this.items[i].dataset.access == accessor)
+      return i;
+  }
+  return false;
+}
+
+TableList.prototype.getItem = function(accessor)
+{
+  var itemIndex = this.indexOfAccessor(accessor);
+  if (itemIndex >= 0)
+    return this.items[itemIndex];
+  else
+    return false;
+}
+
+TableList.prototype.updateItem = function(newItemObj, accessor)
+{
+  var itemIndex = this.indexOfAccessor(accessor);
+  this.items[itemIndex] = newItemObj;
+  this._updateListElem(newItemObj, this.lisElem.children[itemIndex]);
+}
+
+TableList.prototype.removeItem = function(accessor)
+{
+  var itemIndex = this.indexOfAccessor(accessor);
+  if (itemIndex >= 0)
+  {
+    this.items.splice(itemIndex, 1);
+    this.onAction("next-sibling", this.lisElem.children[itemIndex]);
+    this.lisElem.removeChild(this.lisElem.children[itemIndex]);
+    return true;
+  }
+  return false;
+}
+
+TableList.prototype.onAction = function(action, element)
+{
+  switch (action)
+  {
+    case "next-sibling":
+      var isNext = true;
+    case "previouse-sibling":
+      var sibling = isNext ? element.nextSibling : element.previousSibling;
+      while (sibling && sibling.nodeType != 1)
+        sibling = isNext ? sibling.nextSibling : sibling.previousSibling;
+
+      if (sibling)
+        sibling.focus();
+      else
+        this.focusEdgeElem(element.parentNode, isNext);
+      break;
+  }
+}
+
+TableList.prototype.focusEdgeElem = function(element, isFirst)
+{
+  var childElem = isFirst ? element.firstChild : element.lastChild;
+  while(childElem != null && childElem.nodeType == 3)
+    childElem = isFirst ? childElem.nextSibling : childElem.previousSibling;
+
+  if (childElem)
+    childElem.focus();
+}
+
+TableList.prototype.setActionListener = function(callback)
+{
+  this.callback = callback;
+}

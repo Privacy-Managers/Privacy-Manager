@@ -58,7 +58,7 @@
 				<section>
 					<h4 data-i18n="cookiesHeadlineTitle"></h4>
 					<div id="cookiesContainer">
-						<ul class="tableList"></ul>
+						<ul id="cookieListAlt" class="tableList"></ul>
 						<template id="cookiesListTemplate">
 							<li data-action="get-cookies" 
 									data-key-action="get-cookies" 
@@ -67,8 +67,8 @@
 									data-key-delete="delete-domain-cookies">
 							<div>
 								<div class="data-container">
-									<span class="domainName"></span>
-									<span class="cookiesNumber"></span>
+									<span data-text="domain" class="domainName"></span>
+									<span data-text="cookienum" class="cookiesNumber"></span>
 								</div>
 								<button class="icon delete" data-action="delete-domain-cookies" tabindex="-1"></button>
 							</div>
@@ -80,12 +80,13 @@
 									data-key-up="previouse-sibling"
 									data-key-action="edit-cookie"
 									data-key-delete="delete-sublist-cookie"
-									data-key-quite="close-expanded-domain">
+									data-key-quite="close-expanded-domain"
+									data-action="">
 							  <div>
 							  	<button class="icon edit" data-action="edit-cookie"></button>
 									<div class="data-container">
-										<span class="cookieName"></span>
-										<span class="cookieValue"></span>
+										<span data-text="name" class="cookieName"></span>
+										<span data-text="value" class="cookieValue"></span>
 									</div>
 									<button class="icon delete" data-action="delete-sublist-cookie"></button>
 							  </div>

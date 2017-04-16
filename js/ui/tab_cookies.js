@@ -10,18 +10,9 @@
 
   const activeTabCookieId = "activeTabCookies";
 
-  var cookiesListTmplContent = null;
-  var cookiesListElem = null;
-  var domains = [];
-
-  var additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
-  var cookieTabIndex = 1;
-
+  var tableList = null;
   document.addEventListener("DOMContentLoaded" , function()
   {
-    cookiesListElem = Elem("#cookies_tab .tableList");
-    cookiesListTmplContent = Elem("#cookiesListTemplate").content;
-
     Elem("#search-domain").addEventListener("search", populateDomainList, false);
     Elem("#search-domain").addEventListener("keyup", function(ev)
     {
@@ -53,16 +44,11 @@
         updateFilterToActiveDomain();
     });
 
-    cookiesListElem.addEventListener("keydown", function(ev)
-    {
-      // Prevent the scrollable list from scrolling
-      if (ev.key == "ArrowDown" || ev.key == "ArrowUp")
-      {
-        ev.preventDefault();
-      }
-    }, false);
-    Elem("#cookiesContainer").addEventListener("click", onCookiesClick, false);
-    Elem("#cookiesContainer").addEventListener("keyup", onCookiesKeyUp, false);
+    tableList = new TableList(
+      Elem("#cookieListAlt"), 
+      Elem("#cookiesListTemplate"),
+      Elem("#cookiesSubListTemplate"));
+    registerActionListener(Elem("#cookiesContainer"), onCookiesActionAlt);
   }, false);
 
   function updateSwitches(list, value)
@@ -73,13 +59,9 @@
     });
   }
 
-  /*
-   * Populates cookies component with domains 
-   */
   function populateDomainList()
   {
-    cookieTabIndex = 1;
-    cookiesListElem.innerHTML = "";
+    tableList.empty();
     var searchExpression = new RegExp(Elem("#search-domain").value);
     // Use repeative domains to count cookies number
     var repeativeDomains = [];
@@ -93,18 +75,17 @@
 
       repeativeDomains.sort();
 
-      var templateContent = cookiesListTmplContent;
       var lastDomain = repeativeDomains[0];
       var cookiesNumber = 1;
+
       for (var i = 1; i < repeativeDomains.length; i++)
       {
         var domain = repeativeDomains[i];
-        if (lastDomain != domain)
+        if (lastDomain != domain || i == repeativeDomains.length - 1)
         {
-          createDomainListItem(lastDomain, cookiesNumber);
-          
+          tableList.addItem(createDomainObj(lastDomain, cookiesNumber));
+
           lastDomain = domain;
-          domains.push(domain);
           cookiesNumber = 1;
         }
         else
@@ -112,14 +93,13 @@
           cookiesNumber++;
         }
       }
-      if (lastDomain)
-        createDomainListItem(lastDomain, cookiesNumber);
 
+      tableList.addItem(createDomainObj(lastDomain, cookiesNumber));
     });
   }
 
   /*
-   * Get parent element using data-* attribute 
+   * Get parent element using data-* attribute
    * @param {Node} Node Dom node
    * @param {String} date data-* attribute value
    * @return {String} value of data attribute
@@ -132,90 +112,20 @@
     return getParentData(node.parentElement, data, getElement);
   }
 
-
-  /*
-   * Track global click inside of cookies managamenet component 
-   * @param {Event} ev Click event
-   */
-  function onCookiesClick(ev)
-  {
-    var element = ev.target;
-    var action = null;
-
-    while (true)
-    {
-      if (element == this)
-        break;
-
-      if (element.hasAttribute("data-action"))
-      {
-        action = element.getAttribute("data-action");
-        break;
-      }
-
-      element = element.parentElement;
-    }
-
-    if (!action)
-      return;
-
-    onCookiesAction(action, element);
-  }
-
-  function onCookiesKeyUp(ev)
-  {
-    var key = ev.key;
-    var activeElem = document.activeElement;
-    var tabIndex = activeElem.getAttribute("tabindex");
-    var action = null;
-
-    switch (key)
-    {
-      case " ":
-      case "Enter":
-        action = activeElem.dataset.keyAction;
-        break;
-      case "Delete":
-      case "Backspace":
-        action = activeElem.dataset.keyDelete;
-        break;
-      case "ArrowUp":
-        action = activeElem.dataset.keyUp;
-        break;
-      case "ArrowDown":
-        action = activeElem.dataset.keyDown;
-        break;
-      case "Escape":
-        if (Elem("[role='dialog']").getAttribute("aria-hidden") != "true")
-          closeDialog();
-        else if (Elem("[role='alertdialog']").getAttribute("aria-hidden") != "true")
-          closePromt();
-        else
-          action = activeElem.dataset.keyQuite;
-        break;
-    }
-
-    if (!action)
-        return;
-
-    ev.preventDefault;
-    onCookiesAction(action, activeElem);
-  }
-
-  function onCookiesAction(action, element)
+  function onCookiesActionAlt(action, element)
   {
     switch (action)
     {
       case "get-cookies":
         if (element.dataset.expanded == "true")
         {
-          onCookiesAction("close-expanded-domain", element);
+          onCookiesActionAlt("close-expanded-domain", element);
           return;
         }
-        var domain = element.getAttribute("data-domain");
+
+        var domain = element.getAttribute("data-access");
         getAllCookies({"domain": domain}, function(cookies)
         {
-          var listElem = document.createElement("ul");
           for (var i = 0; i < cookies.length; i++)
           {
             var cookie = cookies[i];
@@ -223,23 +133,18 @@
             if (cookie.domain.indexOf(domain) > 1)
               continue;
 
-            createAddCookieListItem(cookie, listElem);
+            tableList.addSubItem(createCookieSubitemObj(cookie), domain);
           }
-          element.dataset.expanded = true;
-          element.appendChild(listElem);
-          
-          focusEdgeElem(listElem, true);
         });
         break;
-      case "close-expanded-domain":
+        case "close-expanded-domain":
         var domainElem = getParentData(element, "data-expanded", true);
-        var sublistElem = domainElem.querySelector("ul");
-        sublistElem.parentNode.removeChild(sublistElem);
+        tableList.removeAllSubItems(domainElem.dataset.access);
+        domainElem.focus(); 
         domainElem.dataset.expanded = false;
-        domainElem.focus();
         break;
       case "delete-domain-cookies":
-        var domain = getParentData(element, "data-domain");
+        var domain = getParentData(element, "data-access");
         getAllCookies({"domain": domain}, function(cookies)
         {
           var callbackCount = 0;
@@ -247,26 +152,18 @@
           {
             var cookie = cookies[i];
             var url = getUrl(cookie.domain, cookie.path, cookie.secure);
-            removeCookie({"url": url, "name": cookie.name}, function()
-            {
-              callbackCount++;
-              if (cookies.length == callbackCount)
-              {
-                onCookiesAction("next-sibling" ,element);
-                element.parentNode.removeChild(element);
-              }
-            });
+            removeCookie({"url": url, "name": cookie.name});
           }
         });
         break;
       case "delete-sublist-cookie":
-        var cookieName = getParentData(element, "data-cookie");
-        var url = getUrl(getParentData(element, "data-domain"), 
-                          getParentData(element, "data-path"), 
-                          getParentData(element, "data-secure") == "true");
-        removeCookie({"url": url, "name": cookieName});
+        var accessObj = JSON.parse(getParentData(element, "data-access"));
+        var domain = getParentData(getParentData(element, "data-access", true).
+          parentElement, "data-access");
+        var url = getUrl(domain, accessObj.path, accessObj.secure);
+        removeCookie({"url": url, "name": accessObj.cookie});
         break;
-      case "delete-cookie":
+      case "delete-cookie": // From Dialog
         var fieldsObj = getCookieDialogData().fields;
         var url = getUrl(fieldsObj.domain.value, fieldsObj.path.value, 
                         fieldsObj.secure.checked);
@@ -277,9 +174,6 @@
           if (cookie)
             closeDialog();
         });
-        break;
-      case "close-dialog":
-        closeDialog();
         break;
       case "add-cookie":
         var dialogObj = getCookieDialogData();
@@ -296,11 +190,11 @@
       case "edit-cookie":
         var dialogObj = getCookieDialogData();
         dialogObj.form.reset();
-        var cookieName = getParentData(element, "data-cookie");
-        var url = getUrl(getParentData(element, "data-domain"), 
-                          getParentData(element, "data-path"), 
-                          getParentData(element, "data-secure") == "true");
-        getCookie({"url": url, "name": cookieName}, function(cookie)
+        var subItemElem = getParentData(element, "data-access", true);
+        var accessObj = JSON.parse(subItemElem.dataset.access);
+        var domain = getParentData(subItemElem.parentElement, "data-access");
+        var url = getUrl(domain, accessObj.path, accessObj.secure);
+        getCookie({"url": url, "name": accessObj.cookie}, function(cookie)
         {
           dialogObj.dialog.setAttribute("aria-hidden", false);
           dialogObj.dialog.setAttribute("data-dialog", "edit-cookie");
@@ -327,53 +221,43 @@
           fieldsObj.expTime.value = times[1].split(".")[0];
         });
         break;
-      case "update-cookie":
-          var dialogObj = getCookieDialogData();
-          if (dialogObj.form.checkValidity())
-            ev.preventDefault(); //stop from submiting
-          else
-            return;
-
-          var fieldsObj = dialogObj.fields;
-          var datetime = fieldsObj.expDate.value;
-          var time = fieldsObj.expTime.value;
-          datetime += time ? "T" + time : "";
-          //TODO: Past expirationDate is invalid
-          var expirationDate = new Date(datetime).getTime() / 1000;
-
-          var cookieSetObj = {
-                              "url": getUrl(fieldsObj.domain.value, 
-                                            fieldsObj.path.value, 
-                                            fieldsObj.secure.value), 
-                              "name": fieldsObj.name.value,
-                              "value": fieldsObj.value.value, 
-                              "secure": fieldsObj.secure.checked,
-                              "httpOnly": fieldsObj.httpOnly.checked, 
-                              "storeId": fieldsObj.storeId.value,
-                              "expirationDate": expirationDate
-                            };
-          
-          // Omitted domain makes host-only cookie
-          if (!fieldsObj.hostOnly.checked)
-            cookieSetObj.domain = domain;
-
-          setCookie(cookieSetObj, function(cookie)
-          {
-            if (cookie)
-              closeDialog();
-          });
+      case "close-dialog":
+        //TODO: Close dialog on ESC
+        closeDialog();
         break;
-      case "next-sibling":
-        var isNext = true;
-      case "previouse-sibling":
-        var sibling = isNext ? element.nextSibling : element.previousSibling;
-        while (sibling && sibling.nodeType != 1)
-          sibling = isNext ? sibling.nextSibling : sibling.previousSibling;
+      case "update-cookie":
+        var dialogObj = getCookieDialogData();
+        if (!dialogObj.form.checkValidity())
+          return;
 
-        if (sibling)
-          sibling.focus();
-        else
-          focusEdgeElem(element.parentNode, isNext);
+        var fieldsObj = dialogObj.fields;
+        var datetime = fieldsObj.expDate.value;
+        var time = fieldsObj.expTime.value;
+        datetime += time ? "T" + time : "";
+        //TODO: Past expirationDate is invalid
+        var expirationDate = new Date(datetime).getTime() / 1000;
+
+        var cookieSetObj = {
+                            "url": getUrl(fieldsObj.domain.value,
+                                          fieldsObj.path.value,
+                                          fieldsObj.secure.value),
+                            "name": fieldsObj.name.value,
+                            "value": fieldsObj.value.value,
+                            "secure": fieldsObj.secure.checked,
+                            "httpOnly": fieldsObj.httpOnly.checked,
+                            "storeId": fieldsObj.storeId.value,
+                            "expirationDate": expirationDate
+                          };
+
+        // Omitted domain makes host-only cookie
+        if (!fieldsObj.hostOnly.checked)
+          cookieSetObj.domain = domain;
+
+        setCookie(cookieSetObj, function(cookie)
+        {
+          if (cookie)
+            closeDialog();
+        });
         break;
       case "open-promt":
           Elem("[role='alertdialog']").setAttribute("aria-hidden", false);
@@ -392,7 +276,7 @@
   }
 
   /*
-   * Get Dialog and Elements in JSON format 
+   * Get Dialog and Elements in JSON format
    */
   function getCookieDialogData()
   {
@@ -404,7 +288,7 @@
       {
         "domain": Elem("#cookie-domain"), "name": Elem("#cookie-name"),
         "path": Elem("#cookie-path"), "value": Elem("#cookie-value"),
-        "hostOnly": Elem("#cookie-host-only"), 
+        "hostOnly": Elem("#cookie-host-only"),
         "httpOnly": Elem("#cookie-http-only"), "secure": Elem("#cookie-secure"),
         "session": Elem("#cookie-session"),
         "expDate": Elem("#cookie-expiration-date"),
@@ -412,63 +296,6 @@
         "storeId": Elem("#cookie-store-id"), "submitBtn": Elem("#update-cookie")
       }
     };
-  }
-
-  /*
-   * Create Domain list item and add to the Domains list element
-   * @param {String} domain domain name
-   * @param {Number} cookiesNum number of cookies that applies to domain
-   * @param {Number} position position in the list [optional]
-   */
-  function createDomainListItem(domain, cookiesNum, position)
-  {
-    var template = cookiesListTmplContent;
-    var tmpList = template.querySelector("li");
-    tmpList.setAttribute("data-domain", domain);
-
-    if (cookiesListElem.childElementCount == 0)
-      tmpList.setAttribute("tabindex", "0");
-    else
-      tmpList.setAttribute("tabindex", "-1");
-
-    template.querySelector(".domainName").textContent = domain;
-    template.querySelector(".cookiesNumber").textContent = cookiesNum + 
-                                                           " Cookies";
-
-    var listItem = document.importNode(template, true);
-    if (position)
-    {
-      // TODO: Find alternative to :scope
-      var nextElem = Elem("#cookies_tab .tableList > li:nth-child(" + position + ")");
-      cookiesListElem.insertBefore(listItem ,nextElem);
-    }
-    else
-    {
-      cookiesListElem.appendChild(listItem);
-      cookieTabIndex++;
-    }
-  }
-
-  /*
-   * Create Cookie list item and add as a sublist to a domain
-   * @param {Cookie} cookie cookie OBJ as specified by cookies API
-   * @param {Node} parent list Element to be added to
-   */
-  function createAddCookieListItem(cookie, parent)
-  {
-    var templateContent = Elem("#cookiesSubListTemplate").content;
-
-    var cookieListElem = templateContent.querySelector("li");
-    var cookieNameElem = templateContent.querySelector(".cookieName");
-    var cookieValueElem = templateContent.querySelector(".cookieValue");
-    
-    cookieListElem.setAttribute("data-cookie", cookie.name);
-    cookieListElem.setAttribute("data-secure", cookie.secure);
-    cookieListElem.setAttribute("data-path", cookie.path);
-    cookieNameElem.textContent = cookie.name;
-    cookieValueElem.textContent = cookie.value;
-
-    parent.appendChild(document.importNode(templateContent, true));
   }
 
   /*
@@ -534,55 +361,87 @@
       childElem.focus();
   }
 
+  function createSubitemAccessor(cookie)
+  {
+    return JSON.stringify({
+      cookie: cookie.name,
+      secure: cookie.secure,
+      path: cookie.path
+    });
+  }
+
+  function createCookieSubitemObj(cookie)
+  {
+    return {
+      dataset: { 
+        access: createSubitemAccessor(cookie)
+      },
+      texts: {
+        name: cookie.name,
+        value: cookie.value
+      }
+    };
+  }
+
+  function createDomainObj(domain, cookienum)
+  {
+    return {
+      dataset: {
+        access: domain
+      },
+      texts: {
+        domain: domain,
+        cookienum: cookienum + " Cookies"
+      }
+    };
+  }
+
   onCookieChange.addListener(function(changeInfo)
   {
     var cookie = changeInfo.cookie;
     var domain = removeStartDot(cookie.domain);
-    var domainListElem = Elem("[data-domain='" + domain + "']", cookiesListElem);
+    var domainListElem = tableList.getItem(domain);
 
     if (!domainListElem)
     {
-      var templateContent = cookiesListTmplContent;
-      domains.push(domain);
-      domains.sort();
-      var position = domains.indexOf(domain) + 1;
-      createDomainListItem(domain, 1, position);
+      tableList.addItem(createDomainObj(domain, 1));
       return;
     }
 
-    var cookiesNumElem = domainListElem.querySelector(".cookiesNumber");
-    var cookiesNum = cookiesNumElem.textContent;
-    var spaceIndex = cookiesNum.indexOf(" ");
-    cookiesNum = parseInt(cookiesNum.substring(0, spaceIndex));
-    
+    var cookieNum = domainListElem.texts.cookienum.split(" ")[0];
     if (changeInfo.removed)
     {
-      cookiesNumElem.textContent = cookiesNumElem.textContent.
-                                  replace(cookiesNum, cookiesNum - 1);
-
-      var cookieListElem = domainListElem.querySelector("[data-cookie='" + 
-                  cookie.name +"'][data-path='" + cookie.path + "']");
-
-      if (cookieListElem)
+      var subItemAccessor = createSubitemAccessor(cookie);
+      if (tableList.hasSubItem(domain, subItemAccessor))
       {
-        if (domainListElem.querySelectorAll("li").length == 1)
+        domainListElem.texts.cookienum = cookieNum - 1 + " Cookies";
+        tableList.updateItem(domainListElem, domain);
+
+        if (cookieNum == 1)
+          tableList.removeItem(domain);
+        else
+          tableList.removeSubItem(domain, subItemAccessor);
+      }
+      else
+      {
+        if (cookieNum == 1)
         {
-          onCookiesAction("next-sibling" ,domainListElem);
-          domainListElem.parentNode.removeChild(domainListElem);
+          tableList.removeItem(domain);
         }
         else
         {
-          onCookiesAction("next-sibling" ,cookieListElem);
-          cookieListElem.parentNode.removeChild(cookieListElem);
+          domainListElem.texts.cookienum = cookieNum - 1 + " Cookies";
+          tableList.updateItem(domainListElem, domain);
         }
       }
     }
     else
     {
-      cookiesNumElem.textContent = cookiesNumElem.textContent.
-                                  replace(cookiesNum, cookiesNum + 1);
-      if (domainListElem.dataset.expanded)
-        createAddCookieListItem(cookie, Elem("ul", domainListElem));
+      domainListElem.texts.cookienum = parseInt(cookieNum) + 1 + " Cookies";
+      tableList.updateItem(domainListElem, domain);
+
+      if (domainListElem.subItems)
+        tableList.addSubItem(createCookieSubitemObj(cookie), domain);
     }
   });
 })();
