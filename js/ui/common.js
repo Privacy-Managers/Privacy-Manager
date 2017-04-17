@@ -332,15 +332,20 @@ chrome.storage.onChanged.addListener(function(change)
 /*******************************************************************************
  * Table list
  ******************************************************************************/
-function TableList(lisElem, listItemTemplate, listSubItemTemplate)
+/*
+ * Constructor TableList 
+ * @param {Node} listElem parent <ul> element
+ * @param {Template} listItemTemplate <template>
+ * @param {Template} listSubItemTemplate <template> (optional)
+ */
+function TableList(listElem, listItemTemplate, listSubItemTemplate)
 {
   this.items = [];
-  this.lisElem = lisElem;
+  this.listElem = listElem;
   this.listItemTemplate = listItemTemplate;
   this.listSubItemTemplate = listSubItemTemplate;
-  this.callback = null;
 
-  lisElem.addEventListener("keydown", function(ev)
+  listElem.addEventListener("keydown", function(ev)
   {
     // Prevent the scrollable list from scrolling
     if (ev.key == "ArrowDown" || ev.key == "ArrowUp")
@@ -349,7 +354,7 @@ function TableList(lisElem, listItemTemplate, listSubItemTemplate)
     }
   }, false);
 
-  registerActionListener(this.lisElem, this.onAction.bind(this));
+  registerActionListener(this.listElem, this.onAction.bind(this));
 }
 
 /*
@@ -369,12 +374,12 @@ TableList.prototype.addItem = function(itemObj)
   });
 
   var listItem = this._itemFromTmpl(itemObj, this.listItemTemplate);
-  var elemAfter = this.lisElem.children[this.items.indexOf(itemObj)];
+  var elemAfter = this.listElem.children[this.items.indexOf(itemObj)];
 
   if (elemAfter)
-    this.lisElem.insertBefore(listItem, elemAfter);
+    this.listElem.insertBefore(listItem, elemAfter);
   else
-    this.lisElem.appendChild(listItem);
+    this.listElem.appendChild(listItem);
 }
 
 /*
@@ -388,8 +393,8 @@ TableList.prototype.removeItem = function(accessor)
   if (itemIndex >= 0)
   {
     this.items.splice(itemIndex, 1);
-    this.onAction("next-sibling", this.lisElem.children[itemIndex]);
-    this.lisElem.removeChild(this.lisElem.children[itemIndex]);
+    this.onAction("next-sibling", this.listElem.children[itemIndex]);
+    this.listElem.removeChild(this.listElem.children[itemIndex]);
     return true;
   }
   return false;
@@ -408,7 +413,7 @@ TableList.prototype.addSubItem = function(itemObj, accessor)
 
   var subListItemElem = this._itemFromTmpl(itemObj, this.listSubItemTemplate);
   var item = this.items[itemIndex];
-  var listItemElem = this.lisElem.children[itemIndex];
+  var listItemElem = this.listElem.children[itemIndex];
   
   if (!item.subItems || item.subItems.length == 0)
   {
@@ -439,7 +444,7 @@ TableList.prototype.removeSubItem = function(parentAccessor, accessor)
     return false;
 
   var item = this.items[itemIndex];
-  var listItemElem = this.lisElem.children[itemIndex];
+  var listItemElem = this.listElem.children[itemIndex];
   var subListItemElem = listItemElem.querySelector("ul");
 
   for (var i = 0; i < item.subItems.length; i++)
@@ -516,7 +521,7 @@ TableList.prototype._updateListElem = function(itemObj, listElem)
   }
 
   // Set default tabindex to the first list Element
-  if (this.lisElem.childElementCount == 0)
+  if (this.listElem.childElementCount == 0)
     listElem.setAttribute("tabindex", "0");
   else
     listElem.setAttribute("tabindex", "-1");
@@ -545,7 +550,7 @@ TableList.prototype._itemFromTmpl = function(itemObj, template)
 TableList.prototype.empty = function()
 {
   this.items = [];
-  this.lisElem.innerHTML = "";
+  this.listElem.innerHTML = "";
 }
 
 /*
@@ -586,12 +591,17 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
 {
   var itemIndex = this.indexOfAccessor(accessor);
   this.items[itemIndex] = newItemObj;
-  this._updateListElem(newItemObj, this.lisElem.children[itemIndex]);
+  this._updateListElem(newItemObj, this.listElem.children[itemIndex]);
 }
 
-TableList.prototype.focusEdgeElem = function(element, isFirst)
+/*
+ * Reverse focus first or last list item
+ * @param {Node} parentElement list item parent element
+ * @param {Boolean} isFirst focus first if true otherwise last element
+ */
+TableList.prototype.focusEdgeElem = function(parentElement, isFirst)
 {
-  var childElem = isFirst ? element.firstChild : element.lastChild;
+  var childElem = isFirst ? parentElement.firstChild : parentElement.lastChild;
   while(childElem != null && childElem.nodeType == 3)
     childElem = isFirst ? childElem.nextSibling : childElem.previousSibling;
 
@@ -599,6 +609,11 @@ TableList.prototype.focusEdgeElem = function(element, isFirst)
     childElem.focus();
 }
 
+/*
+ * Action listener
+ * @param {String} action
+ * @param {Node} element target
+ */
 TableList.prototype.onAction = function(action, element)
 {
   switch (action)
@@ -616,11 +631,6 @@ TableList.prototype.onAction = function(action, element)
         this.focusEdgeElem(element.parentNode, isNext);
       break;
   }
-}
-
-TableList.prototype.setActionListener = function(callback)
-{
-  this.callback = callback;
 }
 
 /*******************************************************************************
