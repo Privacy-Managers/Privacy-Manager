@@ -356,8 +356,8 @@ function TableList(lisElem, listItemTemplate, listSubItemTemplate)
  * Add item to the Table list
  * @param {JSON} itemObj represents list item data assignment ex.:
  *   {
- *     dataset:  { access: "example.com", path: "/" },
- *     texts: {domain: "example.com", cookienum: "3 Cookies"}
+ *     dataset:  { access: "example.com", datasetname: "/" },
+ *     texts: {data-text-value: "example.com", data-text-value: "3 Cookies"}
  *   }
  */
 TableList.prototype.addItem = function(itemObj)
@@ -377,6 +377,29 @@ TableList.prototype.addItem = function(itemObj)
     this.lisElem.appendChild(listItem);
 }
 
+/*
+ * Remove main item by ID
+ * @param {String} accessor main item ID
+ * @param {Boolean} result
+ */
+TableList.prototype.removeItem = function(accessor)
+{
+  var itemIndex = this.indexOfAccessor(accessor);
+  if (itemIndex >= 0)
+  {
+    this.items.splice(itemIndex, 1);
+    this.onAction("next-sibling", this.lisElem.children[itemIndex]);
+    this.lisElem.removeChild(this.lisElem.children[itemIndex]);
+    return true;
+  }
+  return false;
+}
+
+/*
+ * Add subitem
+ * @param {JSON} itemObj as specified in addItem
+ * @param {String} accessor item ID
+ */
 TableList.prototype.addSubItem = function(itemObj, accessor)
 {
   var itemIndex = this.indexOfAccessor(accessor);
@@ -404,6 +427,11 @@ TableList.prototype.addSubItem = function(itemObj, accessor)
   this.listSubItemTemplate
 }
 
+/*
+ * Remove subitem
+ * @param {String} parentAccessor main item ID
+ * @param {String} accessor subItem ID
+ */
 TableList.prototype.removeSubItem = function(parentAccessor, accessor)
 {
   var itemIndex = this.indexOfAccessor(parentAccessor);
@@ -433,6 +461,10 @@ TableList.prototype.removeSubItem = function(parentAccessor, accessor)
   }
 }
 
+/*
+ * Remove All sub items
+ * @param {String} accessor main item ID
+ */
 TableList.prototype.removeAllSubItems = function(accessor)
 {
   var item = this.getItem(accessor);
@@ -444,6 +476,12 @@ TableList.prototype.removeAllSubItems = function(accessor)
     this.removeSubItem(item.dataset.access, item.subItems[i].dataset.access);
 }
 
+/*
+ * Check for subItem existance
+ * @param {String} accessor main item ID
+ * @param {String} accessor subItem ID
+ * @return {Boolean} result
+ */
 TableList.prototype.hasSubItem = function(parentAccessor, accessor)
 {
   var parentItem = this.getItem(parentAccessor);
@@ -458,6 +496,11 @@ TableList.prototype.hasSubItem = function(parentAccessor, accessor)
   return false;
 }
 
+/*
+ * Update list element using itemObj
+ * @param {JSON} itemObj
+ * @param {Node} listElem target <li> element
+ */
 TableList.prototype._updateListElem = function(itemObj, listElem)
 {
   var datasetObj = itemObj.dataset;
@@ -477,10 +520,14 @@ TableList.prototype._updateListElem = function(itemObj, listElem)
     listElem.setAttribute("tabindex", "0");
   else
     listElem.setAttribute("tabindex", "-1");
-
-  return listElem;
 }
 
+/*
+ * Create list element from template
+ * @param {JSON} itemObj
+ * @param {Template} template
+ * @return {Node} node
+ */
 TableList.prototype._itemFromTmpl = function(itemObj, template)
 {
   var tmpContent = template.content;
@@ -490,12 +537,22 @@ TableList.prototype._itemFromTmpl = function(itemObj, template)
   return document.importNode(tmpContent, true);
 }
 
+/*
+ * Create list element from template
+ * @param {JSON} itemObj
+ * @param {Template} template
+ */
 TableList.prototype.empty = function()
 {
   this.items = [];
   this.lisElem.innerHTML = "";
 }
 
+/*
+ * Get the index (position) of the item
+ * @param {String} accessor
+ * @return {Number} index of the item or false if can't find
+ */
 TableList.prototype.indexOfAccessor = function(accessor)
 {
   for (var i = 0; i < this.items.length; i++) 
@@ -506,6 +563,11 @@ TableList.prototype.indexOfAccessor = function(accessor)
   return false;
 }
 
+/*
+ * Getting the item
+ * @param {String} accessor main item ID
+ * @return {JSON} itemObj or false if doesn't exist
+ */
 TableList.prototype.getItem = function(accessor)
 {
   var itemIndex = this.indexOfAccessor(accessor);
@@ -515,6 +577,11 @@ TableList.prototype.getItem = function(accessor)
     return false;
 }
 
+/*
+ * Update the item and DOM
+ * @param {JSON} newItemObj
+ * @param {String} accessor ID of the main Item
+ */
 TableList.prototype.updateItem = function(newItemObj, accessor)
 {
   var itemIndex = this.indexOfAccessor(accessor);
@@ -522,17 +589,14 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
   this._updateListElem(newItemObj, this.lisElem.children[itemIndex]);
 }
 
-TableList.prototype.removeItem = function(accessor)
+TableList.prototype.focusEdgeElem = function(element, isFirst)
 {
-  var itemIndex = this.indexOfAccessor(accessor);
-  if (itemIndex >= 0)
-  {
-    this.items.splice(itemIndex, 1);
-    this.onAction("next-sibling", this.lisElem.children[itemIndex]);
-    this.lisElem.removeChild(this.lisElem.children[itemIndex]);
-    return true;
-  }
-  return false;
+  var childElem = isFirst ? element.firstChild : element.lastChild;
+  while(childElem != null && childElem.nodeType == 3)
+    childElem = isFirst ? childElem.nextSibling : childElem.previousSibling;
+
+  if (childElem)
+    childElem.focus();
 }
 
 TableList.prototype.onAction = function(action, element)
@@ -554,17 +618,12 @@ TableList.prototype.onAction = function(action, element)
   }
 }
 
-TableList.prototype.focusEdgeElem = function(element, isFirst)
-{
-  var childElem = isFirst ? element.firstChild : element.lastChild;
-  while(childElem != null && childElem.nodeType == 3)
-    childElem = isFirst ? childElem.nextSibling : childElem.previousSibling;
-
-  if (childElem)
-    childElem.focus();
-}
-
 TableList.prototype.setActionListener = function(callback)
 {
   this.callback = callback;
 }
+
+/*******************************************************************************
+ * Dialog
+ ******************************************************************************/
+

@@ -45,10 +45,10 @@
     });
 
     tableList = new TableList(
-      Elem("#cookieListAlt"), 
+      Elem("#cookieList"), 
       Elem("#cookiesListTemplate"),
       Elem("#cookiesSubListTemplate"));
-    registerActionListener(Elem("#cookiesContainer"), onCookiesActionAlt);
+    registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
   }, false);
 
   function updateSwitches(list, value)
@@ -112,14 +112,14 @@
     return getParentData(node.parentElement, data, getElement);
   }
 
-  function onCookiesActionAlt(action, element)
+  function onCookiesAction(action, element)
   {
     switch (action)
     {
       case "get-cookies":
         if (element.dataset.expanded == "true")
         {
-          onCookiesActionAlt("close-expanded-domain", element);
+          onCookiesAction("close-expanded-domain", element);
           return;
         }
 
