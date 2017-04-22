@@ -272,40 +272,44 @@ chrome.storage.onChanged.addListener(function(change)
   {
     var key = ev.key;
     var activeElem = document.activeElement;
-    var action = null;
+    var actions = null;
 
     switch (key)
     {
       case " ":
       case "Enter":
-        action = activeElem.dataset.keyAction;
+        actions = activeElem.dataset.keyAction;
         break;
       case "Delete":
       case "Backspace":
-        action = activeElem.dataset.keyDelete;
+        actions = activeElem.dataset.keyDelete;
         break;
       case "ArrowUp":
-        action = activeElem.dataset.keyUp;
+        actions = activeElem.dataset.keyUp;
         break;
       case "ArrowDown":
-        action = activeElem.dataset.keyDown;
+        actions = activeElem.dataset.keyDown;
         break;
       case "Escape":
-        action = activeElem.dataset.keyQuite;
+        actions = activeElem.dataset.keyQuite;
         break;
     }
 
-    if (!action)
+    if (!actions)
         return;
 
+    // TODO: Fix duplication
     ev.preventDefault;
-    callback(action, activeElem);
+    actions.split(",").forEach(function(action)
+    {
+      callback(action, activeElem);
+    });
   }
 
   function onClick(ev, callback)
   {
     var element = ev.target;
-    var action = null;
+    var actions = null;
 
     while (true)
     {
@@ -314,18 +318,21 @@ chrome.storage.onChanged.addListener(function(change)
 
       if (element.hasAttribute("data-action"))
       {
-        action = element.getAttribute("data-action");
+        actions = element.getAttribute("data-action");
         break;
       }
 
       element = element.parentElement;
     }
 
-    if (!action)
+    if (!actions)
       return;
 
     ev.preventDefault;
-    callback(action, element);
+    actions.split(",").forEach(function(action)
+    {
+      callback(action, element);
+    });
   }
 })(this);
 
@@ -333,7 +340,7 @@ chrome.storage.onChanged.addListener(function(change)
  * Table list
  ******************************************************************************/
 /*
- * Constructor TableList 
+ * Constructor TableList
  * @param {Node} listElem parent <ul> element
  * @param {Template} listItemTemplate <template>
  * @param {Template} listSubItemTemplate <template> (optional)
@@ -380,7 +387,7 @@ TableList.prototype.addItem = function(itemObj)
     this.listElem.insertBefore(listItem, elemAfter);
   else
     this.listElem.appendChild(listItem);
-}
+};
 
 /*
  * Remove main item by ID
@@ -398,7 +405,7 @@ TableList.prototype.removeItem = function(accessor)
     return true;
   }
   return false;
-}
+};
 
 /*
  * Add subitem
@@ -430,7 +437,7 @@ TableList.prototype.addSubItem = function(itemObj, accessor)
   }
   item.subItems.push(itemObj);
   this.listSubItemTemplate
-}
+};
 
 /*
  * Remove subitem
@@ -464,7 +471,7 @@ TableList.prototype.removeSubItem = function(parentAccessor, accessor)
       item.subItems.splice(i, 1);
     }
   }
-}
+};
 
 /*
  * Remove All sub items
@@ -479,7 +486,7 @@ TableList.prototype.removeAllSubItems = function(accessor)
   var i = item.subItems.length;
   while (i--) // Avoide re-indexing
     this.removeSubItem(item.dataset.access, item.subItems[i].dataset.access);
-}
+};
 
 /*
  * Check for subItem existance
@@ -499,7 +506,7 @@ TableList.prototype.hasSubItem = function(parentAccessor, accessor)
       return true;
   }
   return false;
-}
+};
 
 /*
  * Update list element using itemObj
@@ -525,7 +532,7 @@ TableList.prototype._updateListElem = function(itemObj, listElem)
     listElem.setAttribute("tabindex", "0");
   else
     listElem.setAttribute("tabindex", "-1");
-}
+};
 
 /*
  * Create list element from template
@@ -540,7 +547,7 @@ TableList.prototype._itemFromTmpl = function(itemObj, template)
 
   this._updateListElem(itemObj, tmpList);
   return document.importNode(tmpContent, true);
-}
+};
 
 /*
  * Create list element from template
@@ -551,7 +558,7 @@ TableList.prototype.empty = function()
 {
   this.items = [];
   this.listElem.innerHTML = "";
-}
+};
 
 /*
  * Get the index (position) of the item
@@ -566,7 +573,7 @@ TableList.prototype.indexOfAccessor = function(accessor)
       return i;
   }
   return false;
-}
+};
 
 /*
  * Getting the item
@@ -580,7 +587,7 @@ TableList.prototype.getItem = function(accessor)
     return this.items[itemIndex];
   else
     return false;
-}
+};
 
 /*
  * Update the item and DOM
@@ -592,7 +599,7 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
   var itemIndex = this.indexOfAccessor(accessor);
   this.items[itemIndex] = newItemObj;
   this._updateListElem(newItemObj, this.listElem.children[itemIndex]);
-}
+};
 
 /*
  * Reverse focus first or last list item
@@ -607,7 +614,7 @@ TableList.prototype.focusEdgeElem = function(parentElement, isFirst)
 
   if (childElem)
     childElem.focus();
-}
+};
 
 /*
  * Action listener
@@ -631,9 +638,35 @@ TableList.prototype.onAction = function(action, element)
         this.focusEdgeElem(element.parentNode, isNext);
       break;
   }
-}
+};
 
 /*******************************************************************************
  * Dialog
  ******************************************************************************/
+(function(global)
+{
+  document.addEventListener("DOMContentLoaded", function()
+  {
+    registerActionListener(document.body, onAction);
+  }, false);
 
+  function onAction(action, element)
+  {
+    var dialog = Elem("#dialog");
+    switch (action)
+    {
+      case "open-dialog":
+        dialog.setAttribute("aria-hidden", false);
+        dialog.dataset.dialog = element.dataset.dialog;
+        break;
+      case "close-dialog":
+        closeDialog();
+        break;
+    }
+  }
+
+  global.closeDialog = function()
+  {
+    dialog.setAttribute("aria-hidden", true);
+  };
+})(this);

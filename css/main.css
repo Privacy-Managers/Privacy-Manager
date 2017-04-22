@@ -1,5 +1,7 @@
 body
 {
+  margin: 0px;
+  position: relative;
 	width: 500px;
   background-color: #F9F9F9;
   font-family: Arial, Helvetica, sans-serif;
@@ -10,7 +12,8 @@ body
  ******************************************************************************/
 #navigation_tab
 {
-  padding: 0px;
+  margin: 0px;
+  padding: 8px 0px 0px 0px;
   border-bottom: 1px solid #c0c0c0;
 }
 
@@ -350,11 +353,6 @@ button.icon.edit:hover:after
   background-image: url(/css/img/edit-hover.svg);
 }
 
-#cookiesContainer [data-dialog="add-cookie"] button[data-action="delete-cookie"]
-{
-  display: none;
-}
-
 /* CONTROLS */
 .controls
 {
@@ -393,8 +391,11 @@ button.icon.edit:hover:after
   margin-left: 5px;
 }
 
-/* DIALOG */
-.dialog
+/*******************************************************************************
+ * DIALOG
+ ******************************************************************************/
+
+#dialog
 {
   position: absolute;
   display: flex;
@@ -408,7 +409,7 @@ button.icon.edit:hover:after
 }
 
 /* Dialog animation */
-.dialog[aria-hidden="true"]
+#dialog[aria-hidden="true"]
 {
   opacity: 0;
   transform: scale(0.5, 0.5);
@@ -416,14 +417,32 @@ button.icon.edit:hover:after
 }
 
 /* Dialog animation */
-.dialog[aria-hidden="false"]
+#dialog[aria-hidden="false"]
 {
   transform: scale(1, 1);
   visibility: visible;
   opacity: 1;
 }
 
-.dialog > div:first-child
+#dialog .body > div,
+#dialog .header > span,
+#dialog[data-dialog="cookie-add"] #cookie-edit-control,
+#dialog[data-dialog="cookie-edit"] #cookie-add-control
+{
+  display: none;
+}
+
+#dialog[data-dialog="cookie-add"] #dialog-header-cookie-add,
+#dialog[data-dialog="cookie-edit"] #dialog-header-cookie-edit,
+#dialog[data-dialog="cookies-delete-all"] #dialog-header-cookie-delete-all,
+#dialog[data-dialog="cookie-add"] #dialog-content-cookie-form,
+#dialog[data-dialog="cookie-edit"] #dialog-content-cookie-form,
+#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all
+{
+  display: block;
+}
+
+#dialog > div:first-child
 {
   width: 90%;
   background-color: #DDD;
@@ -432,7 +451,7 @@ button.icon.edit:hover:after
   margin: auto;
 }
 
-.dialog .header
+#dialog .header
 {
   display: flex;
   background-image: linear-gradient(#83c51e, #476913);
@@ -442,59 +461,59 @@ button.icon.edit:hover:after
   font-weight: bold;
 }
 
-.dialog .header span
+#dialog .header span
 {
   padding: 5px;
   flex-grow: 1;
 }
 
-.dialog .body
+#dialog .body
 {
   padding: 10px;
   font-weight: bold;
 }
 
-.dialog .fieldset-container
+#dialog .fieldset-container
 {
   display: flex;
   justify-content: space-between;
 }
 
-.dialog form label
+#dialog form label
 {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.dialog form label
+#dialog form label
 {
   flex-wrap: wrap;
 }
 
-.dialog form label
+#dialog form label
 {
   padding: 0px 20px;
 }
 
-.dialog form label span
+#dialog form label span
 {
   padding: 0px 10px;
 }
 
-.dialog form input[type="text"],
-.dialog form input[type="date"],
-.dialog form input[type="time"]
+#dialog form input[type="text"],
+#dialog form input[type="date"],
+#dialog form input[type="time"]
 {
   width: 150px;
 }
 
-.dialog form input[type="number"]
+#dialog form input[type="number"]
 {
   width: 30px;
 }
 
-.dialog .controls
+#dialog .controls
 {
   padding: 0px 20px;
 }

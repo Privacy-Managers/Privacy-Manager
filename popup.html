@@ -78,12 +78,13 @@
 							<li tabindex="-1"
 									data-key-down="next-sibling"
 									data-key-up="previouse-sibling"
-									data-key-action="edit-cookie"
+									data-key-action="open-dialog,edit-cookie"
 									data-key-delete="delete-sublist-cookie"
 									data-key-quite="close-expanded-domain"
-									data-action="">
+									data-action=""
+									data-dialog="cookie-edit">
 							  <div>
-							  	<button class="icon edit" data-action="edit-cookie"></button>
+							  	<button class="icon edit" data-action="open-dialog,edit-cookie" data-dialog="cookie-edit"></button>
 									<div class="data-container">
 										<span data-text="name" class="cookieName"></span>
 										<span data-text="value" class="cookieValue"></span>
@@ -94,118 +95,8 @@
 						</template>
 						<div id="cookie-controls" class="controls">
 							<input type="search" id="search-domain" placeholder="Search domain">
-							<button data-action="add-cookie" class="icon edit">Add cookie</button>
-							<button data-action="open-promt" class="icon delete">Delete all</button>
-						</div>
-
-						<!-- Cookies dialog -->
-						<div role="dialog" aria-hidden="true" class="dialog">
-							<div>
-								<header class="header">
-									<span id="dialog-header-text">Edit Cookie</span>
-									<button data-action="close-dialog" class="icon delete"></button>
-								</header>
-								<div class="body">
-									<form id="cookie-form" action="#">
-										<div class="fieldset-container">
-											<div>
-												<p>
-													<label>
-														<span>Domain:</span>
-														<!-- TODO: Revisit the Domain pattern -->
-														<input required="true" id="cookie-domain" type="text" disabled="disabled" title="Not a valid Domain name" pattern="^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_.]*">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Name:</span>
-														<input id="cookie-name" type="text" required="true">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Value:</span>
-														<input id="cookie-value" type="text" required="true">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Path:</span>
-														<input id="cookie-path" type="text" title="Should start with '/'" pattern="^\/.*" value="/" required="true">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Exp. date:</span>
-															<input id="cookie-expiration-date" type="date" required="true">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Exp. time:</span>
-															<input id="cookie-expiration-time" type="time" step="1">
-													</label>
-												</p>
-											</div>
-											<div>
-												<p>
-													<label>
-														<span>Host only:</span>
-														<input id="cookie-host-only" type="checkbox">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>HTTP only:</span>
-														<input id="cookie-http-only" type="checkbox">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Secure:</span>
-														<input id="cookie-secure" type="checkbox">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Session:</span>
-														<input id="cookie-session" type="checkbox">
-													</label>
-												</p>
-												<p>
-													<label>
-														<span>Store ID:</span>
-														<input id="cookie-store-id" type="number" required="true" value="0">
-													</label>
-												</p>
-											</div>
-										</div>
-										<div class="controls">
-											<button id="update-cookie" data-action="update-cookie" class="icon edit">Update</button>
-											<button data-action="delete-cookie" class="icon delete">Delete</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-
-						<!-- Cookies promt dialog -->
-						<div role="alertdialog" aria-hidden="true" class="dialog">
-							<div>
-								<header class="header">
-									<span id="alertdialog-header-text">Delete all cookies</span>
-									<button data-action="cancel-promt" class="icon delete"></button>
-								</header>
-								<div class="body">
-									<div class="message">
-										You are about to delete all cookies, are you sure ?
-									</div>
-									<div class="controls">
-										<button data-action="cancel-promt">Cancel</button>
-										<button data-action="delete-all-cookies">Delete All</button>
-									</div>
-								</div>
-							</div>
+							<button data-action="open-dialog,add-cookie" data-dialog="cookie-add" class="icon edit">Add cookie</button>
+							<button data-action="open-dialog" data-dialog="cookies-delete-all" class="icon delete">Delete all</button>
 						</div>
 					</div>
 				</section>
@@ -239,6 +130,118 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- Dialog -->
+			<div id="dialog" role="dialog" aria-hidden="true">
+				<div>
+					<header class="header">
+						<span id="dialog-header-cookie-add">Add Cookie</span>
+						<span id="dialog-header-cookie-edit">Edit Cookie</span>
+						<span id="dialog-header-cookie-delete-all">Delete All</span>
+						<button data-action="close-dialog" class="icon delete"></button>
+					</header>
+					<div class="body">
+
+						<!-- Dialog Cookie Form -->
+						<div id="dialog-content-cookie-form">
+							<form id="cookie-form" action="#">
+								<div class="fieldset-container">
+									<div>
+										<p>
+											<label>
+												<span>Domain:</span>
+												<!-- TODO: Revisit the Domain pattern -->
+												<input required="true" id="cookie-domain" type="text" disabled="disabled" title="Not a valid Domain name" pattern="^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_.]*">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Name:</span>
+												<input id="cookie-name" type="text" required="true">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Value:</span>
+												<input id="cookie-value" type="text" required="true">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Path:</span>
+												<input id="cookie-path" type="text" title="Should start with '/'" pattern="^\/.*" value="/" required="true">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Exp. date:</span>
+													<input id="cookie-expiration-date" type="date" required="true">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Exp. time:</span>
+													<input id="cookie-expiration-time" type="time" step="1">
+											</label>
+										</p>
+									</div>
+									<div>
+										<p>
+											<label>
+												<span>Host only:</span>
+												<input id="cookie-host-only" type="checkbox">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>HTTP only:</span>
+												<input id="cookie-http-only" type="checkbox">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Secure:</span>
+												<input id="cookie-secure" type="checkbox">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Session:</span>
+												<input id="cookie-session" type="checkbox">
+											</label>
+										</p>
+										<p>
+											<label>
+												<span>Store ID:</span>
+												<input id="cookie-store-id" type="number" required="true" value="0">
+											</label>
+										</p>
+									</div>
+								</div>
+								<div id="cookie-add-control" class="controls">
+									<button data-action="update-cookie" class="icon edit">Add</button>
+								</div>
+								<div id="cookie-edit-control" class="controls">
+									<button data-action="update-cookie" class="icon edit">Update</button>
+									<button data-action="delete-cookie" class="icon delete">Delete</button>
+								</div>
+							</form>
+						</div>
+
+						<!-- Dialog Cookie Delete All -->
+						<div id="dialog-content-cookie-delete-all">
+							<div class="message">
+								You are about to delete all cookies, are you sure ?
+							</div>
+							<div class="controls">
+								<button data-action="close-dialog">Cancel</button>
+								<button data-action="delete-all-cookies">Delete All</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</body>
 </html>

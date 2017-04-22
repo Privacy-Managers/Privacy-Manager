@@ -177,15 +177,11 @@
         break;
       case "add-cookie":
         var dialogObj = getCookieDialogData();
-        dialogObj.dialog.setAttribute("data-dialog", "add-cookie");
-        dialogObj.dialog.setAttribute("aria-hidden", false);
         dialogObj.form.reset();
         var fieldsObj = dialogObj.fields;
         fieldsObj.domain.removeAttribute("disabled");
         fieldsObj.domain.focus();
         fieldsObj.name.removeAttribute("disabled");
-        dialogObj.header.textContent = "Add Cookie";
-        fieldsObj.submitBtn.textContent = "Add";
         break;
       case "edit-cookie":
         var dialogObj = getCookieDialogData();
@@ -196,12 +192,7 @@
         var url = getUrl(domain, accessObj.path, accessObj.secure);
         getCookie({"url": url, "name": accessObj.cookie}, function(cookie)
         {
-          dialogObj.dialog.setAttribute("aria-hidden", false);
-          dialogObj.dialog.setAttribute("data-dialog", "edit-cookie");
-          dialogObj.header.textContent = "Edit Cookie";
-
           var fieldsObj = dialogObj.fields;
-          fieldsObj.submitBtn.textContent = "Update";
           fieldsObj.domain.setAttribute("disabled", "disabled");
           fieldsObj.name.setAttribute("disabled", "disabled");
           fieldsObj.name.value = cookie.name;
@@ -220,10 +211,6 @@
           fieldsObj.expDate.value = times[0];
           fieldsObj.expTime.value = times[1].split(".")[0];
         });
-        break;
-      case "close-dialog":
-        //TODO: Close dialog on ESC
-        closeDialog();
         break;
       case "update-cookie":
         var dialogObj = getCookieDialogData();
@@ -259,18 +246,12 @@
             closeDialog();
         });
         break;
-      case "open-promt":
-          Elem("[role='alertdialog']").setAttribute("aria-hidden", false);
-        break;
-      case "cancel-promt":
-        closePromt();
-        break;
       case "delete-all-cookies":
         chrome.browsingData.removeCookies({}, function()
         {
           populateDomainList();
         });
-        closePromt();
+        closeDialog();
         break;
     }
   }
@@ -281,8 +262,6 @@
   function getCookieDialogData()
   {
     return {
-      "dialog": Elem("[role='dialog']"),
-      "header": Elem("#dialog-header-text"),
       "form": Elem("#cookie-form"),
       "fields":
       {
@@ -329,16 +308,6 @@
         else
           Node.removeAttribute("disabled");
     });
-  }
-
-  function closeDialog()
-  {
-    Elem("[role='dialog']").setAttribute("aria-hidden", true);
-  }
-
-  function closePromt()
-  {
-    Elem("[role='alertdialog']").setAttribute("aria-hidden", true);
   }
 
   function removeStartDot(string)
