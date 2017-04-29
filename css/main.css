@@ -145,111 +145,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Table list
  ******************************************************************************/
-
-/*******************************************************************************
- * Main
- ******************************************************************************/
-#main_tab section
-{
-  display:inline-block;
-  vertical-align: top;
-  padding-right: 28px;
-}
-
-#main_tab section:last-child
-{
-  padding-right: 0px;
-}
-
-#main_tab section h2
-{
-  font-size: 21px;
-  font-weight: bold;
-  padding-bottom: 8px;
-  color: #679c16;
-  margin: 0px;
-}
-
-.serviceContainer
-{
-  display:inline-block;
-  vertical-align: top;
-  padding-right: 28px;
-}
-
-.rowContainer
-{
-  display: flex;
-}
-
-.rowContainer > div:first-child
-{
-  display: inline-block;
-  font-weight: bold;
-  font-size: 12px;
-  padding-bottom: 4px;
-  vertical-align: top;
-  flex-grow: 1;
-}
-
-.rowContainer > div:last-child
-{
-  height: 10px;
-  margin: 0px;
-  vertical-align: top;
-}
-
-#incognito
-{
-  display: inline-block;
-	box-shadow: inset 0px 1px 0px 0px #ffffff;
-	background-color: #ededed;
-	border-radius: 6px;
-	border: 1px solid #dcdcdc;
-	color: #679c16;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 1px 39px;
-	text-decoration: none;
-	text-shadow: 1px 1px 0px #ffffff;
-}
-
-#incognito:hover
-{
-	cursor: pointer;
-	background-color: #dfdfdf;
-}
-
-#incognito:active
-{
-	position:relative;
-	top:1px;
-}
-
-/*******************************************************************************
- * Cookies tab
- ******************************************************************************/
-.settings-list-container
-{
-  display: flex;
-}
-
-.settings-list-container .separator
-{
-  flex-grow: 1;
-}
-
-section h4
-{
-  font-weight: bold;
-  color:#679C16;
-}
-
-#cookiesContainer
-{
-  position: relative;
-}
-
 .tableList,
 .tableList ul
 {
@@ -293,108 +188,9 @@ section h4
   display: inline-block;
 }
 
-.tableList .domainName
-{
-  width: 300px
-}
-
-.tableList .cookieName
-{
-  width: 260px;
-}
-
-.tableList .cookieValue
-{
-  width: 100px;
-  white-space: pre;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-button.icon
-{
-  background-color: transparent;
-  border: none;
-  width: 20px;
-  padding: 0px;
-}
-
-button.icon:after
-{
-  display: inline-block;
-  content: "";
-  width: 10px;
-  height: 10px;
-  margin: 0px auto;
-}
-
-#cookiesList button.icon.edit
-{
-  margin: 0px 10px;
-}
-
-button.icon.delete:after
-{
-  background-image: url(/css/img/delete.svg);
-}
-
-button.icon.delete:hover:after
-{
-  background-image: url(/css/img/delete-hover.svg);
-}
-
-button.icon.edit:after
-{
-  background-image: url(/css/img/edit.svg);
-}
-
-button.icon.edit:hover:after
-{
-  background-image: url(/css/img/edit-hover.svg);
-}
-
-/* CONTROLS */
-.controls
-{
-  height: 30px;
-  display: flex;
-  justify-content: flex-end;
-  padding: 0px;
-  align-items: center;
-}
-
-.controls input
-{
-  flex-grow: 1;
-  height: 25px;
-  margin: 5px;
-}
-
-.controls button
-{
-  cursor: pointer;
-  line-height: 12px;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 2px;
-  background-color: transparent;
-  border: none;
-  display: inline-block;
-  width: auto;
-  margin: 5px;
-  padding: 7px;
-  background-image: linear-gradient(#83c51e, #476913);
-}
-
-.controls button:after
-{
-  margin-left: 5px;
-}
-
 /*******************************************************************************
  * DIALOG
  ******************************************************************************/
-
 #dialog
 {
   position: absolute;
@@ -519,5 +315,245 @@ button.icon.edit:hover:after
 }
 
 /*******************************************************************************
+ * Main
+ ******************************************************************************/
+#main_tab section
+{
+  display:inline-block;
+  vertical-align: top;
+  padding-right: 28px;
+}
+
+#main_tab section:last-child
+{
+  padding-right: 0px;
+}
+
+#main_tab section h2
+{
+  font-size: 21px;
+  font-weight: bold;
+  padding-bottom: 8px;
+  color: #679c16;
+  margin: 0px;
+}
+
+.serviceContainer
+{
+  display:inline-block;
+  vertical-align: top;
+  padding-right: 28px;
+}
+
+.rowContainer
+{
+  display: flex;
+}
+
+.rowContainer > div:first-child
+{
+  display: inline-block;
+  font-weight: bold;
+  font-size: 12px;
+  padding-bottom: 4px;
+  vertical-align: top;
+  flex-grow: 1;
+}
+
+.rowContainer > div:last-child
+{
+  height: 10px;
+  margin: 0px;
+  vertical-align: top;
+}
+
+#incognito
+{
+  display: inline-block;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background-color: #ededed;
+	border-radius: 6px;
+	border: 1px solid #dcdcdc;
+	color: #679c16;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 1px 39px;
+	text-decoration: none;
+	text-shadow: 1px 1px 0px #ffffff;
+}
+
+#incognito:hover
+{
+	cursor: pointer;
+	background-color: #dfdfdf;
+}
+
+#incognito:active
+{
+	position:relative;
+	top:1px;
+}
+
+/*******************************************************************************
+ * Cookies tab
+ ******************************************************************************/
+.settings-list-container
+{
+  display: flex;
+}
+
+.settings-list-container .separator
+{
+  flex-grow: 1;
+}
+
+section h4
+{
+  font-weight: bold;
+  color:#679C16;
+}
+
+#cookiesContainer
+{
+  position: relative;
+}
+
+.tableList .domainName
+{
+  width: 300px
+}
+
+.tableList .cookieName
+{
+  width: 260px;
+}
+
+.tableList .cookieValue
+{
+  width: 100px;
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button.icon
+{
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  padding: 0px;
+}
+
+button.icon:after
+{
+  display: inline-block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin: 0px auto;
+}
+
+#cookiesList button.icon.edit
+{
+  margin: 0px 10px;
+}
+
+button.icon.delete:after
+{
+  background-image: url(/css/img/delete.svg);
+}
+
+button.icon.delete:hover:after
+{
+  background-image: url(/css/img/delete-hover.svg);
+}
+
+button.icon.edit:after
+{
+  background-image: url(/css/img/edit.svg);
+}
+
+button.icon.edit:hover:after
+{
+  background-image: url(/css/img/edit-hover.svg);
+}
+
+/* CONTROLS */
+.controls
+{
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px;
+  align-items: center;
+}
+
+.controls input
+{
+  flex-grow: 1;
+  height: 25px;
+  margin: 5px;
+}
+
+.controls button
+{
+  cursor: pointer;
+  line-height: 12px;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 2px;
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+  width: auto;
+  margin: 5px;
+  padding: 7px;
+  background-image: linear-gradient(#83c51e, #476913);
+}
+
+.controls button:after
+{
+  margin-left: 5px;
+}
+
+/*******************************************************************************
  * Network tab
  ******************************************************************************/
+#requestList.tableList .data-container > span:nth-child(1)
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  width: 300px;
+  margin: 0px 5px;
+}
+
+#requestList.tableList .data-container > span:nth-child(2)
+{
+  width: 120px;
+  margin: 0px 5px;
+}
+
+#requestList.tableList .data-container span
+{
+  vertical-align: middle;
+}
+
+#requestList.tableList li[data-type="send"] .data-container::before
+{
+  content: "";
+  display: inline-block;
+  background-image: url(/css/img/up-arrow.svg);
+  height: 10px;
+  width: 10px;
+}
+
+#requestList.tableList li[data-type="receive"] .data-container::before
+{
+  content: "";
+  display: inline-block;
+  background-image: url(/css/img/up-arrow.svg);
+  transform: rotate(180deg);
+  height: 10px;
+  width: 10px;
+}

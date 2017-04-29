@@ -1,13 +1,23 @@
 "use strict";
 
-(function()
+(function(global)
 {
+	global.collectedRequests = [];
+
 	function profileStart()
 	{
-		getStorage("settingList", function(data){
+		getStorage("settingList", function(data)
+		{
 			deleteBrowsingData(data.settingList);
 		});
 	}
+
+	//TODO: Think about duplication
+	getStorage("settingList", function(data)
+	{
+		if (data.settingList.collectHeaders)
+			startCollectingRequests();
+	});
 
 	function deleteBrowsingData(data)
 	{
@@ -32,47 +42,54 @@
 		}
 	}
 
-	// Fired on a profile start up
-	chrome.runtime.onStartup.addListener(profileStart);
+	global.startCollectingRequests = function()
+	{
+		addRequestListener(onSendHeaders, onHeadersReceived);
+	};
 
+	global.stopCollectingRequests = function()
+	{
+		removeRequestListener(onSendHeaders, onHeadersReceived);
+	};
 
-	var listenerRunning = false; 
-	checkHostPermissionsBackground ();
-	var headersArray = new Array();
-
-	function checkHostPermissionsBackground () {
-		chrome.permissions.contains({
-			origins: ['http://*/*', 'https://*/*']
-		}, function(result) {
-			if (result) {
-				if(!listenerRunning) {
-					addListenersNetwork();
-				}
-			} else {
-			}
-		});
+	function onSendHeaders(details)
+	{
+		updateRequestObj(details, "send");
+		addToRequestArray(details);
 	}
 
-	function addListenersNetwork() {
-		chrome.webRequest.onHeadersReceived.addListener(
-		function (details){
-			listenerRunning = true;
-			var settings = localStorage.getItem("settings");
-			if(settings == null) {
-				var settingsJson = {};
-				localStorage.setItem("settings", JSON.stringify(settingsJson));
-			}
-			else {
-				var settingsJson = JSON.parse(settings);
-				if(settingsJson.collectHeaders == true) {
-					if(headersArray.length>1000) {
-						headersArray.shift();
-					}
-					headersArray.push(details);
-				}
-		}
-	}, {urls: ["http://*/*", "https://*/*"]});
+	function onHeadersReceived(details)
+	{
+		updateRequestObj(details, "receive");
+		addToRequestArray(details);
+	}
 
+	function addToRequestArray(details)
+	{
+		if(collectedRequests.length > 1000)
+			collectedRequests.shift();
+
+		collectedRequests.push(details);
+	}
+
+	chrome.storage.onChanged.addListener(function(change)
+	{
+	  if (change.settingList)
+	  {
+	    var newValue = change.settingList.newValue.collectHeaders;
+	    var oldValue = change.settingList.oldValue.collectHeaders;
+	    if (newValue != oldValue)
+	    {
+	    	if(newValue)
+	    		startCollectingRequests();
+	    	else
+	    		stopCollectingRequests();
+	    }
+	  }
+	});
+
+	// Fired on a profile start up
+	chrome.runtime.onStartup.addListener(profileStart);
 
 
 	chrome.webRequest.onBeforeSendHeaders.addListener(
@@ -97,5 +114,4 @@
 	  },
 	  {urls: ["http://*/*", "https://*/*"]},
 		["blocking", "requestHeaders"]);
-	}
-})();
+})(this);

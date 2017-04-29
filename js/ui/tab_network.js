@@ -5,6 +5,8 @@
 	const blockUserAgentId = "blockUserAgent";
 	const collectHeadersId = "collectHeaders";
 
+	var tableList = null;
+
 	document.addEventListener("DOMContentLoaded" , function()
 	{
 		var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
@@ -18,6 +20,16 @@
 		addSettingItem(rightSettingList, collectHeadersId, "storage", function(enabled)
 		{
 			onNetworkSettingChange(collectHeadersId, enabled)
+		});
+
+		tableList = new TableList(Elem("#requestList"), Elem("#requestListTemplate"), null, null);
+
+		chrome.runtime.getBackgroundPage(function(window)
+		{
+			for (var i = 0; i < window.collectedRequests.length; i++)
+  		{
+  			tableList.addItem(window.collectedRequests[i]);
+  		}
 		});
 	},false);
 
@@ -38,22 +50,39 @@
 			case "collectHeaders":
 				if (isActive)
 				{
-					collectHeaders();
+					addRequestListener(onSendHeaders, onHeadersReceived);
 				}
 				else
 				{
-					
+					removeRequestListener(onSendHeaders, onHeadersReceived);
 				}
 				break;
 		}
 
 	}
 
-	function collectHeaders()
+	function onSendHeaders(details)
 	{
-		chrome.webRequest.onHeadersReceived.addListener(function(details)
-		{
-			console.log(details);
-		}, {urls: ["<all_urls>"]});
+		updateRequestObj(details, "send");
+		tableList.addItem(details);
 	}
+
+	function onHeadersReceived(details)
+	{
+		updateRequestObj(details, "receive");
+		tableList.addItem(details);
+	}
+
+	function createRequestObj(url, statusCode)
+  {
+    return {
+      dataset: {
+        access: "id"
+      },
+      texts: {
+        url: url,
+        statusCode: statusCode
+      }
+    };
+  }
 })();

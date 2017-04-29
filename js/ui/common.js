@@ -344,10 +344,12 @@ chrome.storage.onChanged.addListener(function(change)
  * @param {Node} listElem parent <ul> element
  * @param {Template} listItemTemplate <template>
  * @param {Template} listSubItemTemplate <template> (optional)
+ * @param {Function} sort sorting function or "reverse" (optional)
  */
-function TableList(listElem, listItemTemplate, listSubItemTemplate)
+function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
 {
   this.items = [];
+  this.sort = sort;
   this.listElem = listElem;
   this.listItemTemplate = listItemTemplate;
   this.listSubItemTemplate = listSubItemTemplate;
@@ -374,11 +376,22 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate)
  */
 TableList.prototype.addItem = function(itemObj)
 {
-  this.items.push(itemObj);
-  this.items.sort(function (a, b)
+  if (this.sort)
   {
-    return a.dataset.access.localeCompare(b.dataset.access);
-  });
+    if (this.sort == "reverse")
+    {
+      this.items.unshift(itemObj);
+    }
+    else
+    {
+      this.items.push(itemObj);
+      this.items.sort(this.sort);
+    }
+  }
+  else
+  {
+    this.items.push(itemObj);
+  }
 
   var listItem = this._itemFromTmpl(itemObj, this.listItemTemplate);
   var elemAfter = this.listElem.children[this.items.indexOf(itemObj)];

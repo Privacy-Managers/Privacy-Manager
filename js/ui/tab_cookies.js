@@ -44,10 +44,16 @@
         updateFilterToActiveDomain();
     });
 
+    var sortTable = function(a, b)
+    {
+      return a.dataset.access.localeCompare(b.dataset.access);
+    };
+
     tableList = new TableList(
       Elem("#cookieList"), 
       Elem("#cookiesListTemplate"),
-      Elem("#cookiesSubListTemplate"));
+      Elem("#cookiesSubListTemplate"),
+      sortTable);
     registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
   }, false);
 

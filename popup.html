@@ -110,19 +110,17 @@
 					<ul class="settings-list"></ul>
 				</div>
 				<div>
-					<ul class="tableList">
-						<template id="networkListTemplate">
-							<li>
+					<ul id="requestList" class="tableList"></ul>
+					<template id="requestListTemplate">
+						<li data-key-down="next-sibling" data-key-up="previouse-sibling">
 							<div>
-								<input type="checkbox" name="">
 								<div class="data-container">
-									<span></span>
-									<span></span>
+									<span data-text="url"></span>
+									<span data-text="type"></span>
 								</div>
 							</div>
-							</li>
-						</template>
-					</ul>
+						</li>
+					</template>
 					<div class="controls">
 						<button id="selectHeaders">Select all</button>
 						<button id="deleteHeaders">Delete all</button>
