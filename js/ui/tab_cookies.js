@@ -104,7 +104,7 @@
     });
   }
 
-  /*
+  /**
    * Get parent element using data-* attribute
    * @param {Node} Node Dom node
    * @param {String} date data-* attribute value
@@ -262,7 +262,7 @@
     }
   }
 
-  /*
+  /**
    * Get Dialog and Elements in JSON format
    */
   function getCookieDialogData()
@@ -283,7 +283,7 @@
     };
   }
 
-  /*
+  /**
    * Filter cookies list according to the active tab URL
    */
   function updateFilterToActiveDomain()
@@ -300,7 +300,7 @@
     });
   }
 
-  /*
+  /**
    * Enable/disable control elements
    * @param {Boolean} disabled
    */

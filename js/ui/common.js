@@ -52,7 +52,7 @@ const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
     });
   }
 
-  /*
+  /**
    * Switches the tab
    * @param {Element} tab element that defines or has parent with role="tab" and
    * data-tab attribute
@@ -339,7 +339,7 @@ chrome.storage.onChanged.addListener(function(change)
 /*******************************************************************************
  * Table list
  ******************************************************************************/
-/*
+/**
  * Constructor TableList
  * @param {Node} listElem parent <ul> element
  * @param {Template} listItemTemplate <template>
@@ -366,7 +366,7 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
   registerActionListener(this.listElem, this.onAction.bind(this));
 }
 
-/*
+/**
  * Add item to the Table list
  * @param {JSON} itemObj represents list item data assignment ex.:
  *   {
@@ -402,7 +402,7 @@ TableList.prototype.addItem = function(itemObj)
     this.listElem.appendChild(listItem);
 };
 
-/*
+/**
  * Remove main item by ID
  * @param {String} accessor main item ID
  * @param {Boolean} result
@@ -420,7 +420,7 @@ TableList.prototype.removeItem = function(accessor)
   return false;
 };
 
-/*
+/**
  * Add subitem
  * @param {JSON} itemObj as specified in addItem
  * @param {String} accessor item ID
@@ -452,7 +452,7 @@ TableList.prototype.addSubItem = function(itemObj, accessor)
   this.listSubItemTemplate
 };
 
-/*
+/**
  * Remove subitem
  * @param {String} parentAccessor main item ID
  * @param {String} accessor subItem ID
@@ -486,7 +486,7 @@ TableList.prototype.removeSubItem = function(parentAccessor, accessor)
   }
 };
 
-/*
+/**
  * Remove All sub items
  * @param {String} accessor main item ID
  */
@@ -501,7 +501,7 @@ TableList.prototype.removeAllSubItems = function(accessor)
     this.removeSubItem(item.dataset.access, item.subItems[i].dataset.access);
 };
 
-/*
+/**
  * Check for subItem existance
  * @param {String} accessor main item ID
  * @param {String} accessor subItem ID
@@ -521,7 +521,7 @@ TableList.prototype.hasSubItem = function(parentAccessor, accessor)
   return false;
 };
 
-/*
+/**
  * Update list element using itemObj
  * @param {JSON} itemObj
  * @param {Node} listElem target <li> element
@@ -547,7 +547,7 @@ TableList.prototype._updateListElem = function(itemObj, listElem)
     listElem.setAttribute("tabindex", "-1");
 };
 
-/*
+/**
  * Create list element from template
  * @param {JSON} itemObj
  * @param {Template} template
@@ -562,7 +562,7 @@ TableList.prototype._itemFromTmpl = function(itemObj, template)
   return document.importNode(tmpContent, true);
 };
 
-/*
+/**
  * Create list element from template
  * @param {JSON} itemObj
  * @param {Template} template
@@ -573,7 +573,7 @@ TableList.prototype.empty = function()
   this.listElem.innerHTML = "";
 };
 
-/*
+/**
  * Get the index (position) of the item
  * @param {String} accessor
  * @return {Number} index of the item or false if can't find
@@ -588,7 +588,7 @@ TableList.prototype.indexOfAccessor = function(accessor)
   return false;
 };
 
-/*
+/**
  * Getting the item
  * @param {String} accessor main item ID
  * @return {JSON} itemObj or false if doesn't exist
@@ -602,7 +602,7 @@ TableList.prototype.getItem = function(accessor)
     return false;
 };
 
-/*
+/**
  * Update the item and DOM
  * @param {JSON} newItemObj
  * @param {String} accessor ID of the main Item
@@ -614,7 +614,7 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
   this._updateListElem(newItemObj, this.listElem.children[itemIndex]);
 };
 
-/*
+/**
  * Reverse focus first or last list item
  * @param {Node} parentElement list item parent element
  * @param {Boolean} isFirst focus first if true otherwise last element
@@ -629,7 +629,7 @@ TableList.prototype.focusEdgeElem = function(parentElement, isFirst)
     childElem.focus();
 };
 
-/*
+/**
  * Action listener
  * @param {String} action
  * @param {Node} element target
