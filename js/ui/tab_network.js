@@ -22,13 +22,15 @@
 			onNetworkSettingChange(collectHeadersId, enabled)
 		});
 
-		tableList = new TableList(Elem("#requestList"), Elem("#requestListTemplate"), null, null);
+		tableList = new TableList(Elem("#requestsWidget .tableList"), 
+			Elem("#requestListTemplate"), Elem("#requestSubListTemplate"), null);
 
+		registerActionListener(Elem("#requestsWidget"), onRequestsWidgetAction);
 		chrome.runtime.getBackgroundPage(function(window)
 		{
 			for (var i = 0; i < window.collectedRequests.length; i++)
   		{
-  			tableList.addItem(window.collectedRequests[i]);
+  			tableList.addItem(cloneObj(window.collectedRequests[i]));
   		}
 		});
 	},false);
@@ -73,16 +75,56 @@
 		tableList.addItem(details);
 	}
 
-	function createRequestObj(url, statusCode)
+  function onRequestsWidgetAction(action, element)
   {
-    return {
-      dataset: {
-        access: "id"
-      },
-      texts: {
-        url: url,
-        statusCode: statusCode
-      }
-    };
+    switch (action)
+    {
+      case "get-request":
+      	if (element.dataset.expanded == "true")
+	      {
+	        onRequestsWidgetAction("close-expanded-request", element);
+	        return;
+	      }
+
+      	var accessor = element.dataset.access;
+      	createSubItem(tableList.getItem(accessor), accessor);
+        break;
+      case "close-expanded-request":
+      	//TODO: Remove duplications
+      	var requestElem = getParentData(element, "data-expanded", true);
+        tableList.removeAllSubItems(requestElem.dataset.access);
+        requestElem.focus(); 
+        requestElem.dataset.expanded = false;
+      	break;
+    }
   }
+
+  function createSubItem(itemObj, accessor)
+  {
+  	for (var param in itemObj)
+  	{
+  		if (param == "texts" || param == "dataset")
+  			continue;
+
+  		if (param == "requestHeaders" || param == "responseHeaders")
+  		{
+  			var headers = itemObj[param];
+  			for (var i = 0; i < headers.length; i++)
+  			{
+  				tableList.addSubItem({
+		  			"dataset": {"access": headers[i].name},
+		  			"texts": {"name": headers[i].name, "value": headers[i].value}
+		  		}, accessor);
+  			}
+  			continue;
+  		}
+  		tableList.addSubItem({
+  			"dataset": {"access": param},
+  			"texts": {"name": param, "value": itemObj[param]}
+  		}, accessor);
+  		//tableList.addSubItem(itemObj, accessor)
+  		//console.log(itemObj[param]);
+  	}
+  }
+
 })();

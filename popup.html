@@ -109,14 +109,24 @@
 					<div class="separator"></div>
 					<ul class="settings-list"></ul>
 				</div>
-				<div>
-					<ul id="requestList" class="tableList"></ul>
+				<div id="requestsWidget">
+					<ul class="tableList"></ul>
 					<template id="requestListTemplate">
-						<li data-key-down="next-sibling" data-key-up="previouse-sibling">
+						<li data-action="get-request" data-key-down="next-sibling" data-key-up="previouse-sibling">
 							<div>
 								<div class="data-container">
 									<span data-text="url"></span>
 									<span data-text="type"></span>
+								</div>
+							</div>
+						</li>
+					</template>
+					<template id="requestSubListTemplate">
+						<li data-key-down="next-sibling" data-key-up="previouse-sibling">
+							<div>
+								<div class="data-container">
+									<span data-text="name"></span>
+									<span data-text="value"></span>
 								</div>
 							</div>
 						</li>

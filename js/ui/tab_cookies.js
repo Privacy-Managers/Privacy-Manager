@@ -143,7 +143,7 @@
           }
         });
         break;
-        case "close-expanded-domain":
+      case "close-expanded-domain":
         var domainElem = getParentData(element, "data-expanded", true);
         tableList.removeAllSubItems(domainElem.dataset.access);
         domainElem.focus(); 

@@ -364,7 +364,7 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
   }, false);
 
   registerActionListener(this.listElem, this.onAction.bind(this));
-}
+};
 
 /**
  * Add item to the Table list
@@ -392,6 +392,12 @@ TableList.prototype.addItem = function(itemObj)
   {
     this.items.push(itemObj);
   }
+
+  if (!itemObj.dataset)
+    itemObj.dataset = {};
+
+  if (!itemObj.dataset.access)
+    itemObj.dataset.access = this.items.indexOf(itemObj);
 
   var listItem = this._itemFromTmpl(itemObj, this.listItemTemplate);
   var elemAfter = this.listElem.children[this.items.indexOf(itemObj)];
@@ -449,7 +455,6 @@ TableList.prototype.addSubItem = function(itemObj, accessor)
     listItemElem.querySelector("ul").appendChild(subListItemElem);
   }
   item.subItems.push(itemObj);
-  this.listSubItemTemplate
 };
 
 /**
@@ -499,6 +504,8 @@ TableList.prototype.removeAllSubItems = function(accessor)
   var i = item.subItems.length;
   while (i--) // Avoide re-indexing
     this.removeSubItem(item.dataset.access, item.subItems[i].dataset.access);
+
+  delete item.subItems;
 };
 
 /**

@@ -3,6 +3,7 @@
 (function(global)
 {
 	global.collectedRequests = [];
+	const requestCollectionLength = 500;
 
 	function profileStart()
 	{
@@ -66,7 +67,7 @@
 
 	function addToRequestArray(details)
 	{
-		if(collectedRequests.length > 1000)
+		if(collectedRequests.length > requestCollectionLength)
 			collectedRequests.shift();
 
 		collectedRequests.push(details);
