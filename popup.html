@@ -112,7 +112,10 @@
 				<div id="requestsWidget">
 					<ul class="tableList"></ul>
 					<template id="requestListTemplate">
-						<li data-action="get-request" data-key-down="next-sibling" data-key-up="previouse-sibling">
+						<li data-action="get-request" 
+								data-key-action="get-request"
+								data-key-down="next-sibling" 
+								data-key-up="previouse-sibling">
 							<div>
 								<div class="data-container">
 									<span data-text="url"></span>
@@ -122,7 +125,10 @@
 						</li>
 					</template>
 					<template id="requestSubListTemplate">
-						<li data-key-down="next-sibling" data-key-up="previouse-sibling">
+						<li data-key-down="next-sibling" 
+								data-key-up="previouse-sibling"
+								data-key-quite="close-expanded-request"
+								data-action="tba">
 							<div>
 								<div class="data-container">
 									<span data-text="name"></span>
@@ -132,9 +138,8 @@
 						</li>
 					</template>
 					<div class="controls">
-						<button id="selectHeaders">Select all</button>
-						<button id="deleteHeaders">Delete all</button>
-						<button id="refreshHeaders">Refresh</button>
+						<button data-action="copy-all" download="requests.txt">Download all</button>
+						<button data-action="delete-all">Delete all</button>
 					</div>
 				</div>
 			</div>

@@ -570,9 +570,7 @@ TableList.prototype._itemFromTmpl = function(itemObj, template)
 };
 
 /**
- * Create list element from template
- * @param {JSON} itemObj
- * @param {Template} template
+ * Empty data and view
  */
 TableList.prototype.empty = function()
 {
