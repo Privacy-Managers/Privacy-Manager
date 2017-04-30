@@ -4,6 +4,9 @@
 {
 	const blockUserAgentId = "blockUserAgent";
 	const collectHeadersId = "collectHeaders";
+  const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
+
+  var downloadText = "";
 	var collectedRequests = [];
 
 	var tableList = null;
@@ -88,8 +91,6 @@
 	        return;
 	      }
 
-	      const filterParams = ["statusLine", "statusCode", "type", "url", 
-	      	"method"];
       	var accessor = element.dataset.access;
       	var itemObj = tableList.getItem(accessor);
       	for (var param in itemObj)
@@ -120,49 +121,51 @@
 					tableList.empty();
 				});
       	break;
-      case "copy-all":
-      	var dowanloadText = "";
+      case "download-all":
       	for (var i = 0; i < collectedRequests.length; i++)
       	{
-      		dowanloadText += "\n\n";
       		var requestObj = collectedRequests[i];
       		for (var param in requestObj)
       		{
       			if (param == "requestHeaders" || param == "responseHeaders")
       			{
-              for (var id in requestObj[param])
+              for (var j = 0; j < requestObj[param].length; j++)
               {
-                var header = requestObj[param][id];
-                dowanloadText += "  " + header.name + " : " + header.value + 
-                  "\n";
+                var header = requestObj[param][j];
+                downloadText += "  ";
+                updateDownloadText(header.name, header.value);
               }
       			}
             else if (param == "dataset")
             {
-              dowanloadText += "Action type : " + requestObj[param].type + 
-                "\n";
+              updateDownloadText("Action type", requestObj[param].type);
             }
-            else if (param != "texts")
+            else if (filterParams.indexOf(param) >= 0)
             {
-              dowanloadText += param + " : " + requestObj[param] + "\n";
+              updateDownloadText(param, requestObj[param]);
             }
       		}
+          downloadText += "\n\n";
       	}
-      	download("requests.txt", dowanloadText);
+
+        //Download requests
+        var element = document.createElement("a");
+        element.setAttribute("href", "data:text/plain;charset=utf-8," + 
+          encodeURIComponent(downloadText));
+
+        element.setAttribute("download", "requests.txt");
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+        downloadText = "";
       	break;
     }
   }
 
-  function download(filename, text)
+  function updateDownloadText(name, value)
   {
-	  var element = document.createElement("a");
-	  element.setAttribute("href", "data:text/plain;charset=utf-8," + 
-	  	encodeURIComponent(text));
-	  element.setAttribute("download", filename);
-	  element.style.display = 'none';
-	  document.body.appendChild(element);
-	  element.click();
-	  document.body.removeChild(element);
+	  downloadText += name + " : " + value + "\n";
 	}
 
   function addSubItem(name, value, accessor)

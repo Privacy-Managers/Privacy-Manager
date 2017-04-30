@@ -542,7 +542,7 @@ button.icon.edit:hover:after
 {
   content: "";
   display: inline-block;
-  background-image: url(/css/img/up-arrow.svg);
+  background-image: url(/css/img/arrow-up.svg);
   height: 10px;
   width: 10px;
 }
@@ -551,8 +551,7 @@ button.icon.edit:hover:after
 {
   content: "";
   display: inline-block;
-  background-image: url(/css/img/up-arrow.svg);
-  transform: rotate(180deg);
+  background-image: url(/css/img/arrow-down.svg);
   height: 10px;
   width: 10px;
 }

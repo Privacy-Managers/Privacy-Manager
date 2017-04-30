@@ -55,6 +55,7 @@
       Elem("#cookiesSubListTemplate"),
       sortTable);
     registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
+    registerActionListener(Elem("#dialog-content-cookie-form"), onCookiesAction);
   }, false);
 
   function updateSwitches(list, value)
@@ -102,20 +103,6 @@
 
       tableList.addItem(createDomainObj(lastDomain, cookiesNumber));
     });
-  }
-
-  /**
-   * Get parent element using data-* attribute
-   * @param {Node} Node Dom node
-   * @param {String} date data-* attribute value
-   * @return {String} value of data attribute
-   */
-  function getParentData(node, data, getElement)
-  {
-    if (node.hasAttribute(data))
-      return getElement ? node : node.getAttribute(data);
-
-    return getParentData(node.parentElement, data, getElement);
   }
 
   function onCookiesAction(action, element)

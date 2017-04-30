@@ -663,14 +663,20 @@ TableList.prototype.onAction = function(action, element)
  ******************************************************************************/
 (function(global)
 {
+  var dialog = null;
   document.addEventListener("DOMContentLoaded", function()
   {
+    dialog = Elem("#dialog");
     registerActionListener(document.body, onAction);
+    dialog.addEventListener("keyup", function(ev)
+    {
+      if (ev.key == "Escape")
+        onAction("close-dialog", dialog);
+    }, false);
   }, false);
 
   function onAction(action, element)
   {
-    var dialog = Elem("#dialog");
     switch (action)
     {
       case "open-dialog":
