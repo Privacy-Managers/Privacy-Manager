@@ -10,7 +10,7 @@
       {
         if (!chrome.privacy[category][settingName])
           return;
-        var accessor = category + "-" + settingName;
+        var accessor = category + "_" + settingName;
         addSettingItem(Elem("#privacyManagement ul"), accessor, "privacy");
       });
     }
@@ -19,28 +19,26 @@
       addSettingItem(Elem("#startupClear ul"), browsingData[i], "storage");
   }
 
-  function addIncognitoListener()
+  function onAction(action, element)
   {
-    var listener = function()
+    switch (action)
     {
-      chrome.tabs.query({active:true},function(tab){
-        var currentUrl = tab[0].url.toString();
-        if(currentUrl.indexOf("chrome://") ==-1) {
-          chrome.windows.create({url: tab[0].url, incognito: true});
-        }
-        else 
+      case "open-in-incognito":
+        chrome.tabs.query({active:true}, function(tab)
         {
-          alert("Sorry you can't run current active page in incognito mode.");
-        }
-      });
-    };
-    
-    Elem("#incognito").addEventListener("click", listener, false);
+          if (tab[0].url.toString().indexOf("chrome://") == -1)
+            chrome.windows.create({url: tab[0].url, incognito: true});
+          else 
+            alert("Sorry you can't run current active page in incognito mode.");
+        });
+        break;
+    }
   }
 
   document.addEventListener("DOMContentLoaded" , function()
   {
     generateMainContent();
+    registerActionListener(Elem("#main_tab"), onAction);
     Elem("#navigation_tab").addEventListener("switch", function(ev)
     {
       

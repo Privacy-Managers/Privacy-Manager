@@ -112,8 +112,8 @@ function addSettingItem(parent, accessor, type, callback)
   switch (type)
   {
     case "privacy":
-      var category = accessor.split("-")[0];
-      var settingName = accessor.split("-")[1];
+      var category = accessor.split("_")[0];
+      var settingName = accessor.split("_")[1];
       var privacyObject = chrome.privacy[category][settingName];
 
       privacyObject.get({}, function(details)

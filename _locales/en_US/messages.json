@@ -1,4 +1,116 @@
 {
+   "websites_thirdPartyCookiesAllowed": {
+      "message": "3-rd party cookies",
+      "description": "Privacy setting label"
+   },
+   "websites_thirdPartyCookiesAllowed_desc": {
+      "message": "    If disabled, Chrome blocks third-party sites from setting cookies. \n    Third-party cookies are cookies being set with different domains from the one shown on the address bar",
+      "description": "Privacy setting description"
+   },
+   "websites_hyperlinkAuditingEnabled": {
+      "message": "Hyperlink auditing:",
+      "description": "Privacy setting label"
+   },
+   "websites_hyperlinkAuditingEnabled_desc": {
+      "message": "    hyperlink auditing allows you to 'attach' resources to a link which, when clicked, will ping a source. This enables the click to be tracked via the desired method e.g. dropping a cookie or sending a HTTP request.",
+      "description": "Privacy setting description"
+   },
+   "websites_referrersEnabled": {
+      "message": "Referrers:",
+      "description": "Privacy setting label"
+   },
+   "websites_referrersEnabled_desc": {
+      "message": "    If enabled, Chrome sends referer headers with your requests, so browser sends a request to the server holding the destination webpage. The request includes the referer field, which says the last page the user was on",
+      "description": "Privacy setting description"
+   },
+   "services_alternateErrorPagesEnabled": {
+      "message": "Alternate error pages:",
+      "description": "Privacy setting label"
+   },
+   "services_alternateErrorPagesEnabled_desc": {
+      "message": "    If enabled, Chrome uses a web service to help resolve navigation errors.\n    It Controls whether Google Chrome shows suggestions for the page you were trying to reach when it is unable to connect to a web address. The user sees suggestions to navigate to other parts of the website or to search for the page with Google.",
+      "description": "Privacy setting description"
+   },
+   "services_autofillEnabled": {
+      "message": "Auto fill:",
+      "description": "Privacy setting label"
+   },
+   "services_autofillEnabled_desc": {
+      "message": "    If enabled, Chrome offers to automatically fill in forms.\n    If Autofill is enabled, and you submit a form, Chrome sends the data types you actually used for filling in the form in order to improve its guesses over time. The actual text you typed into the form is not sent.\n    It's important that you use Autofill only on websites you trust, as certain websites might try to capture your information in hidden or hard-to-see fields. Some websites prevent browsers from saving text that you've entered, so Google Chrome won't be able to complete forms on those sites.",
+      "description": "Privacy setting description"
+   },
+   "services_hotwordSearchEnabled": {
+      "message": "TBA:",
+      "description": "Privacy setting label"
+   },
+   "services_hotwordSearchEnabled_desc": {
+      "message": "",
+      "description": "Privacy setting description"
+   },
+   "services_passwordSavingEnabled": {
+      "message": "Password saving:",
+      "description": "Privacy setting label"
+   },
+   "services_passwordSavingEnabled_desc": {
+      "message": "    Offer to save your web passwords..",
+      "description": "Privacy setting description"
+   },
+   "services_safeBrowsingEnabled": {
+      "message": "Safe browsiong mode:",
+      "description": "Privacy setting label"
+   },
+   "services_safeBrowsingEnabled_desc": {
+      "message": "    If enabled, Chrome help protect you against phishing and malware attacks. This helps prevent evil-doers from tricking you into sharing personal information with them (\u201Cphishing\u201D) or installing malicious software on your computer (\u201Cmalware\u201D). \n    Please be aware that Chrome will no longer be able to protect you from websites that try to steal your information or install harmful software if you disable this feature. It's not recomended to turn it off.",
+      "description": "Privacy setting description"
+   },
+   "services_safeBrowsingExtendedReportingEnabled": {
+      "message": "TBA:",
+      "description": "Privacy setting label"
+   },
+   "services_safeBrowsingExtendedReportingEnabled_desc": {
+      "message": "",
+      "description": "Privacy setting description"
+   },
+   "services_searchSuggestEnabled": {
+      "message": "Search suggestions:",
+      "description": "Privacy setting label"
+   },
+   "services_searchSuggestEnabled_desc": {
+      "message": "    If enabled, Chrome sends the text you type into the Omnibox to your default search engine, which provides predictions of websites and searches that are likely completions of what you've typed so far.",
+      "description": "Privacy setting description"
+   },
+   "services_spellingServiceEnabled": {
+      "message": "Spelling service:",
+      "description": "Privacy setting label"
+   },
+   "services_spellingServiceEnabled_desc": {
+      "message": "    If enabled, Chrome uses a web service to help correct spelling errors.\n    Chrome spell-checking service sends the text you type into the browser to Google's servers. This allows Chrome to use the same spell-checking technology as Google search.",
+      "description": "Privacy setting description"
+   },
+   "services_translationServiceEnabled": {
+      "message": "Translation service:",
+      "description": "Privacy setting label"
+   },
+   "services_translationServiceEnabled_desc": {
+      "message": "    If enabled, Chrome offers to translate pages that aren't in a language you read.\n    If you do choose to translate a web page, the text of that page is sent to Google\u2019s translation service for translation. Your cookies are not sent along with that request and, if the page you are on is encrypted with SSL, Google Chrome also sends the translation request over SSL.",
+      "description": "Privacy setting description"
+   },
+   "network_networkPredictionEnabled": {
+      "message": "Network prediction:",
+      "description": "Privacy setting label"
+   },
+   "network_networkPredictionEnabled_desc": {
+      "message": "    If enabled, Chrome attempts to speed up your web browsing experience by pre-resolving DNS entries, prerendering sites (\u003Clink rel='prefetch' ...\u003E), and preemptively opening TCP and SSL connections to servers.",
+      "description": "Privacy setting description"
+   },
+   "network_webRTCIPHandlingPolicy": {
+      "message": "TBA:",
+      "description": "Privacy setting label"
+   },
+   "network_webRTCIPHandlingPolicy_desc": {
+      "message": "",
+      "description": "Privacy setting description"
+   },
    "activeTabCookies": {
       "message": "Active tab cookies:"
    },
@@ -17,23 +129,11 @@
    "allowHostPermissions_desc": {
       "message": "You need to allow host permission to be able to manipulate cookies."
    },
-   "alternateErrorPagesEnabled": {
-      "message": "Alternate error pages:"
-   },
-   "alternateErrorPagesEnabled_desc": {
-      "message": "    If enabled, Chrome uses a web service to help resolve navigation errors.\n    It Controls whether Google Chrome shows suggestions for the page you were trying to reach when it is unable to connect to a web address. The user sees suggestions to navigate to other parts of the website or to search for the page with Google."
-   },
    "appcache": {
       "message": "App. cache:"
    },
    "appcache_desc": {
       "message": "    Clear websites Application cache at browser startup.\n    Application caching mechanism lets web-based applications run offline. Developers can use the Application Cache (AppCache) interface to specify resources that the browser should cache and make available to offline users. Applications that are cached load and work correctly even if users click the refresh button when they are offline."
-   },
-   "autofillEnabled": {
-      "message": "Auto fill:"
-   },
-   "autofillEnabled_desc": {
-      "message": "    If enabled, Chrome offers to automatically fill in forms.\n    If Autofill is enabled, and you submit a form, Chrome sends the data types you actually used for filling in the form in order to improve its guesses over time. The actual text you typed into the form is not sent.\n    It's important that you use Autofill only on websites you trust, as certain websites might try to capture your information in hidden or hard-to-see fields. Some websites prevent browsers from saving text that you've entered, so Google Chrome won't be able to complete forms on those sites."
    },
    "blockUserAgent": {
       "message": "Block user agent:"
@@ -107,12 +207,6 @@
    "history_desc": {
       "message": "    Clear browser history at browser startup.\n    Following will be deleted:\n    * Web addresses you've visited from the History page.\n    * Cached text of those pages\n    * Snapshots of those pages for images that appear on the New Tab page\n    * Any IP addresses pre-fetched from those pages"
    },
-   "hyperlinkAuditingEnabled": {
-      "message": "Hyperlink auditing:"
-   },
-   "hyperlinkAuditingEnabled_desc": {
-      "message": "    hyperlink auditing allows you to 'attach' resources to a link which, when clicked, will ping a source. This enables the click to be tracked via the desired method e.g. dropping a cookie or sending a HTTP request."
-   },
    "incognitoButton": {
       "message": "Run in incognito mode"
    },
@@ -122,12 +216,6 @@
    "indexedDB_desc": {
       "message": "    Clear websites Indexed DB data at browser startup.\n    IndexedDB is an client-side storage of significant amounts of structured data and for high performance searches on this data using indexes."
    },
-   "passwordSavingEnabled": {
-      "message": "Password saving:"
-   },
-   "passwordSavingEnabled_desc": {
-      "message": "    Offer to save your web passwords.."
-   },
    "localStorage": {
       "message": "Local storage:"
    },
@@ -136,12 +224,6 @@
    },
    "main_tab": {
       "message": "Main"
-   },
-   "networkPredictionEnabled": {
-      "message": "Network prediction:"
-   },
-   "networkPredictionEnabled_desc": {
-      "message": "    If enabled, Chrome attempts to speed up your web browsing experience by pre-resolving DNS entries, prerendering sites (\u003Clink rel='prefetch' ...\u003E), and preemptively opening TCP and SSL connections to servers."
    },
    "network_tab": {
       "message": "Network"
@@ -173,53 +255,17 @@
    "protectedContentEnabled_desc": {
       "message": "    If enabled, Chrome provides a unique ID to plugins in order to run protected content (Will be available soon on ChromeOS)."
    },
-   "referrersEnabled": {
-      "message": "Referrers:"
-   },
-   "referrersEnabled_desc": {
-      "message": "    If enabled, Chrome sends referer headers with your requests, so browser sends a request to the server holding the destination webpage. The request includes the referer field, which says the last page the user was on"
-   },
    "refreshHeaders": {
       "message": "Refresh"
    },
    "removeAllCookies": {
       "message": "Remove All"
    },
-   "safeBrowsingEnabled": {
-      "message": "Safe browsiong mode:"
-   },
-   "safeBrowsingEnabled_desc": {
-      "message": "    If enabled, Chrome help protect you against phishing and malware attacks. This helps prevent evil-doers from tricking you into sharing personal information with them (\u201Cphishing\u201D) or installing malicious software on your computer (\u201Cmalware\u201D). \n    Please be aware that Chrome will no longer be able to protect you from websites that try to steal your information or install harmful software if you disable this feature. It's not recomended to turn it off."
-   },
-   "searchSuggestEnabled": {
-      "message": "Search suggestions:"
-   },
-   "searchSuggestEnabled_desc": {
-      "message": "    If enabled, Chrome sends the text you type into the Omnibox to your default search engine, which provides predictions of websites and searches that are likely completions of what you've typed so far."
-   },
    "selectHeaders": {
       "message": "Select all"
    },
-   "spellingServiceEnabled": {
-      "message": "Spelling service:"
-   },
-   "spellingServiceEnabled_desc": {
-      "message": "    If enabled, Chrome uses a web service to help correct spelling errors.\n    Chrome spell-checking service sends the text you type into the browser to Google's servers. This allows Chrome to use the same spell-checking technology as Google search."
-   },
    "startupClear": {
       "message": "Clear on startup"
-   },
-   "thirdPartyCookiesAllowed": {
-      "message": "3-rd party cookies:"
-   },
-   "thirdPartyCookiesAllowed_desc": {
-      "message": "    If disabled, Chrome blocks third-party sites from setting cookies. \n    Third-party cookies are cookies being set with different domains from the one shown on the address bar"
-   },
-   "translationServiceEnabled": {
-      "message": "Translation service:"
-   },
-   "translationServiceEnabled_desc": {
-      "message": "    If enabled, Chrome offers to translate pages that aren't in a language you read.\n    If you do choose to translate a web page, the text of that page is sent to Google\u2019s translation service for translation. Your cookies are not sent along with that request and, if the page you are on is encrypted with SSL, Google Chrome also sends the translation request over SSL."
    },
    "webSQL": {
       "message": "Web SQL:"
