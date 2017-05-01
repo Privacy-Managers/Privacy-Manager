@@ -10,10 +10,10 @@ function Elems(selector, parent)
   return (parent || document).querySelectorAll(selector);
 }
 
-// TODO: this can be constant
+// TODO: Add || text
 function getMsg(text)
 {
-  return chrome.i18n.getMessage(text);
+  return chrome.i18n.getMessage(text) || text;
 }
 
 function getSwitcher(Id)

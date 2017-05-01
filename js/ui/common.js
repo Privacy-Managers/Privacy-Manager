@@ -17,6 +17,42 @@ const privacyData = {
 const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
 
 /*******************************************************************************
+ * General
+ ******************************************************************************/
+(function()
+{
+  document.addEventListener("DOMContentLoaded", function()
+  {
+    registerActionListener(document.body, function(action, element)
+    {
+      switch (action)
+      {
+        case "open-dialog":
+          var infoMsgId = element.dataset.info;
+          if (infoMsgId)
+          {
+            var msgId = getParentData(element, "data-access");
+            var dialogHeader = Elem("#dialog-header-setting-info");
+            dialogHeader.textContent = getMsg(msgId);
+            var infoTextElem = Elem("#dialog-content-setting-info-text");
+            var msgInfoId = msgId + "_desc";
+            infoTextElem.textContent = getMsg(msgInfoId);
+          }
+          break;
+      }
+    });
+  }, false);
+})();
+
+function createBasicSettingObj(text)
+{
+  return {
+    dataset: {access: text},
+    text: getMsg(text)
+  };
+}
+
+/*******************************************************************************
  * Tabs
  ******************************************************************************/
 (function(global)
@@ -96,25 +132,42 @@ const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
 /*******************************************************************************
  * Setting list
  ******************************************************************************/
- // TODO: Document
-function addSettingItem(parent, accessor, type, callback)
+/**
+ * Add setting list item
+ * @param {Node} parent <ul> element
+ * @param {JSON} dataObj data describing the structure ex.:
+ * {
+ *   dataset:  { access: "access", info: "access_desc" },
+ *   text: "",
+ *   privacyObj: [Chrome privacy object]
+ * }
+ * @param {String} type "privacy", "storage" or "permission"
+ * @param {Function} callback triggered after creation and on change.
+ * The callback parameter should be a function that looks like this:
+ * function(state) {...}; where "state" is boolean
+ */ 
+function addSettingItem(parent, dataObj, type, callback)
 {
   var content = Elem("#settings-list").content;
-  content.querySelector("label").textContent = getMsg(accessor) || accessor;
-  content.querySelector("li").dataset.access = accessor;
-  content.querySelector("li").dataset.type = type;
+  var accessor = dataObj.dataset.access;
+  content.querySelector("label").textContent = dataObj.text;
+
+  var listElem = content.querySelector("li");
+  var datasetObj = dataObj.dataset;
+
+  for (var name in datasetObj)
+    listElem.dataset[name] = datasetObj[name];
+
   var node = document.importNode(content, true);
   parent.appendChild(node);
 
   var settingItem = Elem("[data-access='" + accessor + "']", parent);
-  var settingButton = Elem("button", settingItem);
+  var settingButton = Elem("button[role='checkbox']", settingItem);
 
   switch (type)
   {
     case "privacy":
-      var category = accessor.split("_")[0];
-      var settingName = accessor.split("_")[1];
-      var privacyObject = chrome.privacy[category][settingName];
+      var privacyObject = dataObj.privacyObj;
 
       privacyObject.get({}, function(details)
       {
@@ -236,7 +289,7 @@ function settingState(setting, state)
   }
   else
   {
-    Elem("button", setting).setAttribute("aria-checked", state);
+    Elem("button[role='checkbox']", setting).setAttribute("aria-checked", state);
   }
 }
 

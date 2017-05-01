@@ -144,6 +144,16 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   word-wrap: break-word;
 }
 
+.settings-list .infoIcon
+{
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-image: url(/css/img/info.svg);
+}
+
 /*******************************************************************************
  * Table list
  ******************************************************************************/
@@ -237,9 +247,11 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog[data-dialog="cookie-add"] #dialog-header-cookie-add,
 #dialog[data-dialog="cookie-edit"] #dialog-header-cookie-edit,
 #dialog[data-dialog="cookies-delete-all"] #dialog-header-cookie-delete-all,
+#dialog[data-dialog="setting-info"] #dialog-header-setting-info,
 #dialog[data-dialog="cookie-add"] #dialog-content-cookie-form,
 #dialog[data-dialog="cookie-edit"] #dialog-content-cookie-form,
-#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all
+#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all,
+#dialog[data-dialog="setting-info"] #dialog-content-setting-info
 {
   display: block;
 }

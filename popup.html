@@ -14,9 +14,13 @@
 	<body>
 		<template id="settings-list">
 			<li>
-				<div>
+				<div data-key-action="open-dialog"
+							data-action="open-dialog"
+							data-dialog="setting-info"
+              data-info="true"
+							tabindex="0">
 	      	<label>Spelling service</label>
-				 	<img src="css/img/info.svg" class="infoIcon">
+	      	<button class="infoIcon" tabindex="-1"></button>
 			 	</div>
 		 		<button role="checkbox" aria-checked="false">
 					<span>On</span>
@@ -152,6 +156,7 @@
 						<span id="dialog-header-cookie-add">Add Cookie</span>
 						<span id="dialog-header-cookie-edit">Edit Cookie</span>
 						<span id="dialog-header-cookie-delete-all">Delete All</span>
+						<span id="dialog-header-setting-info">Info</span>
 						<button data-action="close-dialog" class="icon delete"></button>
 					</header>
 					<div class="body">
@@ -251,6 +256,10 @@
 								<button data-action="close-dialog">Cancel</button>
 								<button data-action="delete-all-cookies">Delete All</button>
 							</div>
+						</div>
+						<!-- Setting list info -->
+						<div id="dialog-content-setting-info">
+							<div id="dialog-content-setting-info-text"></div>
 						</div>
 					</div>
 				</div>

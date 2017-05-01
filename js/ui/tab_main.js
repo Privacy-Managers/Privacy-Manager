@@ -10,13 +10,17 @@
       {
         if (!chrome.privacy[category][settingName])
           return;
-        var accessor = category + "_" + settingName;
-        addSettingItem(Elem("#privacyManagement ul"), accessor, "privacy");
+        var settingObj = createBasicSettingObj(settingName);
+        settingObj.privacyObj = chrome.privacy[category][settingName];
+        addSettingItem(Elem("#privacyManagement ul"), settingObj, "privacy");
       });
     }
-    
+
     for (var i = 0; i < browsingData.length; i++)
-      addSettingItem(Elem("#startupClear ul"), browsingData[i], "storage");
+    {
+      var settingObj = createBasicSettingObj(browsingData[i]);
+      addSettingItem(Elem("#startupClear ul"), settingObj, "storage");
+    }
   }
 
   function onAction(action, element)

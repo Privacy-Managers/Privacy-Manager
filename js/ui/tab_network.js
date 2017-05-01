@@ -15,13 +15,17 @@
 	{
 		var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
 		var rightSettingList = Elem("#network_tab ul.settings-list:nth-of-type(2)");
-		addSettingItem(leftSettingList, "allowHostPermissions", "permission");
-		addSettingItem(leftSettingList, blockUserAgentId, "storage", function(enabled)
+
+    var settingObj = createBasicSettingObj("allowHostPermissions");
+		addSettingItem(leftSettingList, settingObj, "permission");
+    settingObj = createBasicSettingObj(blockUserAgentId);
+		addSettingItem(leftSettingList, settingObj, "storage", function(enabled)
 		{
 			onNetworkSettingChange(blockUserAgentId, enabled)
 		});
 
-		addSettingItem(rightSettingList, collectHeadersId, "storage", function(enabled)
+    settingObj = createBasicSettingObj(collectHeadersId);
+		addSettingItem(rightSettingList, settingObj, "storage", function(enabled)
 		{
 			onNetworkSettingChange(collectHeadersId, enabled)
 		});

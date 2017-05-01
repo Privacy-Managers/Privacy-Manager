@@ -22,7 +22,9 @@
 
     var leftSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(1)");
     var rightSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(2)");
-    addSettingItem(leftSettingList, "allowHostPermissions", "permission", function(enabled)
+
+    var settingObj = createBasicSettingObj("allowHostPermissions");
+    addSettingItem(leftSettingList, settingObj, "permission", function(enabled)
     {
       disableControls(!enabled);
       if (enabled)
@@ -38,7 +40,8 @@
       }
     });
 
-    addSettingItem(rightSettingList, activeTabCookieId, "storage", function(active)
+    var settingObj = createBasicSettingObj(activeTabCookieId);
+    addSettingItem(rightSettingList, settingObj, "storage", function(active)
     {
       if (active)
         updateFilterToActiveDomain();
