@@ -10,7 +10,6 @@ function Elems(selector, parent)
   return (parent || document).querySelectorAll(selector);
 }
 
-// TODO: Add || text
 function getMsg(text)
 {
   return chrome.i18n.getMessage(text) || text;

@@ -721,9 +721,9 @@ TableList.prototype.onAction = function(action, element)
   {
     dialog = Elem("#dialog");
     registerActionListener(document.body, onAction);
-    dialog.addEventListener("keyup", function(ev)
+    document.body.addEventListener("keyup", function(ev)
     {
-      if (ev.key == "Escape")
+      if (ev.key == "Escape" && dialog.getAttribute("aria-hidden") == "false" )
         onAction("close-dialog", dialog);
     }, false);
   }, false);
