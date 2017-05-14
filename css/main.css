@@ -2,7 +2,7 @@ body
 {
   margin: 0px;
   position: relative;
-	width: 500px;
+	max-width: 700px;
   background-color: #F9F9F9;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -40,7 +40,7 @@ body
 #navigation_tab li[aria-selected] 
 {
   color: #459e00;
-  background: transparent url(img/uiTabsArrow.png) no-repeat bottom center;
+  background: transparent url(img/tabs-arrow.svg) no-repeat bottom center;
 }
 
 #navigation_tab span
@@ -73,13 +73,13 @@ button[role="checkbox"]
   border: 0px;
   cursor: pointer;
   padding: 0px;
+  display: flex;
 }
 
 button[role="checkbox"] > span
 {
   font-size: 12px;
   line-height: 19px;
-  display: inline-block;
   padding: 0 6px;
   border: 1px solid #d5d5d5;
   font-weight: bold;
@@ -140,8 +140,8 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   font-size: 12px;
   padding-bottom: 4px;
   vertical-align: top;
-  width: 160px;
   word-wrap: break-word;
+  margin-right: 10px;
 }
 
 .settings-list .infoIcon
@@ -335,9 +335,15 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Main
  ******************************************************************************/
+#main_tab .settings-list-container
+{
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 500px;
+}
+
 #main_tab section
 {
-  display:inline-block;
   vertical-align: top;
   padding-right: 28px;
 }
@@ -436,6 +442,7 @@ section h4
 #cookiesContainer
 {
   position: relative;
+  min-width: 500px;
 }
 
 .tableList .domainName
@@ -539,6 +546,11 @@ button.icon.edit:hover:after
 /*******************************************************************************
  * Network tab
  ******************************************************************************/
+#requestsWidget
+{
+  min-width: 500px;
+}
+
 #requestsWidget .tableList > li > div .data-container > span:nth-child(1)
 {
   overflow: hidden;
