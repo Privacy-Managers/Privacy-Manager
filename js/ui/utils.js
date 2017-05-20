@@ -34,6 +34,18 @@ function cloneObj(obj)
   return newObj;
 }
 
+function nextSiblingElem(elem)
+{
+  return elem.nextElementSibling ? 
+    elem.nextElementSibling : elem.parentElement.firstElementChild;
+}
+
+function prevSiblingElem(elem)
+{
+  return elem.previousElementSibling ? 
+    elem.previousElementSibling : elem.parentElement.lastElementChild;
+}
+
 /**
  * Get parent element using data-* attribute
  * @param {Node} Node Dom node

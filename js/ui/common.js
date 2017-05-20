@@ -58,6 +58,7 @@ function createBasicSettingObj(text)
 (function(global)
 {
   global.switchEvent = new Event("switch");
+  var tabsContainer = null;
 
   document.addEventListener("DOMContentLoaded", function()
   {
@@ -66,11 +67,29 @@ function createBasicSettingObj(text)
 
   function initTabs()
   {
-    var tabsContainer = Elem("#navigation_tab");
-    tabsContainer.addEventListener("click", function(ev)
+    tabsContainer = Elem("#navigation_tab");
+    registerActionListener(tabsContainer, function(action, element)
     {
-      switchTab(ev.target);
-    }, false);
+      switch (action)
+      {
+        case "switch-tab":
+          switchTab(element);
+          break;
+        case "next-tab":
+          element.setAttribute("tabindex", "-1");
+          switchTab(nextSiblingElem(element));
+          break;
+        case "previouse-tab":
+          element.setAttribute("tabindex", "-1");
+          switchTab(prevSiblingElem(element));
+          break;
+      }
+    });
+
+    function getSelected()
+    {
+      return Elem("[aria-selected='true']", tabsContainer);
+    }
 
     tabsContainer.addEventListener("switch", function(ev)
     {
@@ -97,6 +116,9 @@ function createBasicSettingObj(text)
   {
     while(tab)
     {
+      if (tab == tabsContainer)
+        return false;
+
       if (tab.getAttribute("role") == "tab")
         break;
       tab = tab.parentElement;
@@ -107,7 +129,9 @@ function createBasicSettingObj(text)
       selectedNav.removeAttribute("aria-selected");
 
     tab.setAttribute("aria-selected", "true");
-    document.body.setAttribute("data-tab", tab.getAttribute("data-tab"));
+    tab.setAttribute("tabindex", "0");
+    tab.focus();
+    document.body.dataset.tab = tab.getAttribute("data-tab");
 
     switchEvent.activeTab = tab.getAttribute("data-tab");
     Elem("#navigation_tab").dispatchEvent(switchEvent);
@@ -342,6 +366,12 @@ chrome.storage.onChanged.addListener(function(change)
         break;
       case "ArrowDown":
         actions = activeElem.dataset.keyDown;
+        break;
+      case "ArrowRight":
+        actions = activeElem.dataset.keyRight;
+        break;
+      case "ArrowLeft":
+        actions = activeElem.dataset.keyLeft;
         break;
       case "Escape":
         actions = activeElem.dataset.keyQuite;
@@ -679,6 +709,7 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
  */
 TableList.prototype.focusEdgeElem = function(parentElement, isFirst)
 {
+  //TODO: use utils method instead 
   var childElem = isFirst ? parentElement.firstChild : parentElement.lastChild;
   while(childElem != null && childElem.nodeType == 3)
     childElem = isFirst ? childElem.nextSibling : childElem.previousSibling;

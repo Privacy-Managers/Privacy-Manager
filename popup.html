@@ -30,13 +30,35 @@
     </template>
 		<div id="main">
 			<ul id="navigation_tab">
-				<li role="tab" data-tab="main" aria-selected="true">
+				<li role="tab"
+						tabindex="-1"
+						data-action="switch-tab"
+						data-key-down="next-tab"
+						data-key-up="previouse-tab"
+						data-key-left="previouse-tab"
+						data-key-right="next-tab" 
+						data-tab="main" 
+						aria-selected="true">
 					<span data-i18n="main_tab">Main</span>
 				</li>
-				<li role="tab" data-tab="cookies">
+				<li role="tab" 
+						tabindex="-1"
+						data-action="switch-tab"
+						data-key-down="next-tab"
+						data-key-up="previouse-tab"
+						data-key-left="previouse-tab"
+						data-key-right="next-tab"
+						data-tab="cookies">
 					<span data-i18n="cookies_tab">Cookies</span>
 				</li>
-				<li role="tab" data-tab="network">
+				<li role="tab"
+						tabindex="-1"
+						data-action="switch-tab"
+						data-key-down="next-tab"
+						data-key-up="previouse-tab"
+						data-key-left="previouse-tab"
+						data-key-right="next-tab"
+						data-tab="network">
 					<span data-i18n="network_tab">Network</span>
 				</li>
 			</ul>
