@@ -436,6 +436,9 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
   this.listElem = listElem;
   this.listItemTemplate = listItemTemplate;
   this.listSubItemTemplate = listSubItemTemplate;
+  this.loaded = 0;
+  this.loadAmount = 50;
+  this.scrollLoadPercentage = 0.8;
 
   listElem.addEventListener("keydown", function(ev)
   {
@@ -446,6 +449,7 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
     }
   }, false);
 
+  this.listElem.addEventListener("scroll", this.onScroll.bind(this), false);
   registerActionListener(this.listElem, this.onAction.bind(this));
 };
 
@@ -476,6 +480,17 @@ TableList.prototype.addItem = function(itemObj)
     this.items.push(itemObj);
   }
 
+  var itemIndex = this.items.indexOf(itemObj);
+  if (itemIndex < this.loaded || itemIndex <= this.loadAmount)
+    this.loadItem(itemObj);
+};
+
+/**
+ * Load item into the view
+ * @param  {JSON} itemObj as specified in addItem
+ */
+TableList.prototype.loadItem = function(itemObj)
+{
   if (!itemObj.dataset)
     itemObj.dataset = {};
 
@@ -483,13 +498,34 @@ TableList.prototype.addItem = function(itemObj)
     itemObj.dataset.access = this.items.indexOf(itemObj);
 
   var listItem = this._itemFromTmpl(itemObj, this.listItemTemplate);
-  var elemAfter = this.listElem.children[this.items.indexOf(itemObj)];
+  var itemIndex = this.items.indexOf(itemObj);
+  var elemAfter = this.listElem.children[itemIndex];
 
   if (elemAfter)
     this.listElem.insertBefore(listItem, elemAfter);
   else
     this.listElem.appendChild(listItem);
-};
+
+  this.loaded++;
+}
+
+/**
+ * Scroll bar event handler
+ */
+TableList.prototype.onScroll = function()
+{
+  var listClientScrollBottom = this.listElem.scrollTop + 
+    this.listElem.clientHeight;
+  var percentage = listClientScrollBottom / this.listElem.scrollHeight;
+  if (percentage > this.scrollLoadPercentage && this.loaded < this.items.length)
+  {
+    var loadLimit = this.loaded + this.loadAmount;
+    for (var i = this.loaded; i < loadLimit && i < this.items.length; i++)
+    {
+      this.loadItem(this.items[i]);
+    }
+  }
+}
 
 /**
  * Remove main item by ID
