@@ -449,7 +449,7 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
     }
   }, false);
 
-  this.listElem.addEventListener("scroll", this.onScroll.bind(this), false);
+  this.listElem.addEventListener("scroll", this._onScroll.bind(this), false);
   registerActionListener(this.listElem, this.onAction.bind(this));
 };
 
@@ -482,14 +482,14 @@ TableList.prototype.addItem = function(itemObj)
 
   var itemIndex = this.items.indexOf(itemObj);
   if (itemIndex < this.loaded || itemIndex <= this.loadAmount)
-    this.loadItem(itemObj);
+    this._loadItem(itemObj);
 };
 
 /**
  * Load item into the view
  * @param  {JSON} itemObj as specified in addItem
  */
-TableList.prototype.loadItem = function(itemObj)
+TableList.prototype._loadItem = function(itemObj)
 {
   if (!itemObj.dataset)
     itemObj.dataset = {};
@@ -512,7 +512,7 @@ TableList.prototype.loadItem = function(itemObj)
 /**
  * Scroll bar event handler
  */
-TableList.prototype.onScroll = function()
+TableList.prototype._onScroll = function()
 {
   var listClientScrollBottom = this.listElem.scrollTop + 
     this.listElem.clientHeight;
@@ -522,7 +522,7 @@ TableList.prototype.onScroll = function()
     var loadLimit = this.loaded + this.loadAmount;
     for (var i = this.loaded; i < loadLimit && i < this.items.length; i++)
     {
-      this.loadItem(this.items[i]);
+      this._loadItem(this.items[i]);
     }
   }
 }
