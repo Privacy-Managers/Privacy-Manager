@@ -159,6 +159,14 @@
       "description": "Section name",
       "message": "Clear on startup"
    },
+   "removeAll": {
+      "description": "Clear on startup setting label",
+      "message": "Remove All:"
+   },
+   "removeAll_desc": {
+      "description": "Remove All description in 'Clear on startup' section",
+      "message": "Clears all browsing data at browser startup."
+   },
    "appcache": {
       "description": "Clear on startup setting label",
       "message": "App. cache:"

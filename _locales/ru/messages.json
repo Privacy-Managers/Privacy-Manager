@@ -1,254 +1,394 @@
 {
-  "chrome_extension_name": {
-    "message": "Privacy manager"
-  },
-  "chrome_extension_description": {
-    "message": "Управление личными настройками, данными браузера, доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого траффика."
-  },
-  
-  "privacyManagement": {
-    "message": "Личные настройки"
-  },
-  
-  "incognitoButton": {
-    "message": "Запуск в режиме incognito"
-  },
-  
-  "onButton": {
-    "message": "Вкл"
-  },
-  
-  "offButton": {
-    "message": "Выкл"
-  },
-  
-  "startupClear": {
-    "message": "Стереть при запуске"
-  },
-  
-  "thirdPartyCookiesAllowed": {
-    "message": "Сторонние куки:"
-  },
-  "thirdPartyCookiesAllowed_desc": {
-    "message": "Если выключено, Хром блокирует сторонние сайты от установки данных и файлов в куки (cookie) браузера."
-  },
-    
-  "autofillEnabled": {
-    "message": "Автозаполнение:"
-  },
-  "autofillEnabled_desc": {
-    "message": "Если включено, Хром автоматически заполняет веб-форму."
-  },
-      
-  "passwordSavingEnabled": {
-    "message": "Сохранение пароля:"
-  },
-  "passwordSavingEnabled_desc": {
-    "message": "Предложение о сохраниние пароля"
-  },
-        
-  "safeBrowsingEnabled": {
-    "message": "Безопасный режим:"
-  },
-  "safeBrowsingEnabled_desc": {
-    "message": "Включить/выключить защиту от фишинга и вредоносного ПО."
-  },
-          
-  "searchSuggestEnabled": {
-    "message": "Подсказки поиска:"
-  },
-  "searchSuggestEnabled_desc": {
-    "message": "Если включено, Хром Использует подсказки для завершения поисковых запросов и URL, вводимых в адресную строку."
-  },
-            
-  "spellingServiceEnabled": {
-    "message": "Пров. правописания:"
-  },
-  "spellingServiceEnabled_desc": {
-    "message": "Если включено, Хром использует веб-службу для проверки правописания."
-  },
-              
-  "translationServiceEnabled": {
-    "message": "Перевод страниц:"
-  },
-  "translationServiceEnabled_desc": {
-    "message": "Если включено, Хром предлагает перевод страниц, которые на иностранных языках."
-  },
-                
-  "hyperlinkAuditingEnabled": {
-    "message": "Аудит ссылок:"
-  },
-  "hyperlinkAuditingEnabled_desc": {
-    "message": "Если выключено, Хром посылает проверочный запрос для проверки гиперссылок."
-  },
-                  
-  "referrersEnabled": {
-    "message": "Реферер:"
-  },
-  "referrersEnabled_desc": {
-    "message": "Если включено, Хром посылает Реферер (referer) headers вместе с запросами."
-  },
-                    
-  "networkPredictionEnabled": {
-    "message": "Сетевые подсказки:"
-  },
-  "networkPredictionEnabled_desc": {
-    "message": "Если включено, Хром предсказывает сетевые действия для ускорения загрузки страниц."
-  },
-                      
-  "alternateErrorPagesEnabled": {
-    "message": "Разрешения проблем:"
-  },
-  "alternateErrorPagesEnabled_desc": {
-    "message": "Если включено, Хром использует веб-службу для разрешения проблем, связанных с навигацией."
-  },
-                        
-  "cookies": {
-    "message": "Куки:"
-  },
-  "cookies_desc": {
-    "message": "Очистить Куки (cookies) во время загрузки Браузера."
-  },
-                          
-  "appcache": {
-    "message": "Кэш прилож.:"
-  },
-  "appcache_desc": {
-    "message": "Очистить кэш приложений (Application cache) во время загрузки Браузера."
-  },
-                            
-  "cache": {
-    "message": "Кэш:"
-  },
-  "cache_desc": {
-    "message": "Очистить кэш во время загрузки Браузера."
-  },
-                              
-  "downloads": {
-    "message": "Загрузки:"
-  },
-  "downloads_desc": {
-    "message": "Очистить историю загрузок во время загрузки Браузера."
-  },
-                                
-  "fileSystems": {
-    "message": "Файл. Система:"
-  },
-  "fileSystems_desc": {
-    "message": "Очистить Файловую систему (File system) во время загрузки Браузера."
-  },
-                                  
-  "formData": {
-    "message": "Данные форм:"
-  },
-  "formData_desc": {
-    "message": "Очистить сохраненные данные авто-заполнения форм во время загрузки Браузера."
-  },
-                                    
-  "history": {
-    "message": "История:"
-  },
-  "history_desc": {
-    "message": "Очистить историю просмотров во время загрузки Браузера."
-  },
-                                      
-  "indexedDB": {
-    "message": "индекс. БД:"
-  },
-  "indexedDB_desc": {
-    "message": "Очистить индексируемые БД (indexedDB) во время загрузки Браузера."
-  },
-                                        
-  "localStorage": {
-    "message": "Хранилище:"
-  },
-  "localStorage_desc": {
-    "message": "Очистить Интернет-хранилище (Local Storage) во время загрузки Браузера."
-  },
-                                          
-  "pluginData": {
-    "message": "Модули:"
-  },
-  "pluginData_desc": {
-    "message": "Очистить данные подключаемых модулей во время загрузки Браузера."
-  },
-                                            
-  "passwords": {
-    "message": "Пароли:"
-  },
-  "passwords_desc": {
-    "message": "Очистить сохраненные пароли во время загрузки Браузера."
-  },
-                                              
-  "webSQL": {
-    "message": "WebSQL:"
-  },
-  "webSQL_desc": {
-    "message": "Очистить WebSQL-данные сайтов во время загрузки Браузера."
-  },
-  
-  "main_tab": {
-    "message": "Главное"
-  },
-  "cookies_tab": {
-    "message": "Куки"
-  },
-  "network_tab": {
-    "message": "Сеть"
-  },
-  
-  "allowHostPermissions": {
-    "message": "Доп. права:"
-  },
-  "allowHostPermissions_desc": {
-    "message": "Вам нужно включить дополнительные разрешения для того, чтобы иметь доступ к Куки."
-  },
-  
-  "activeTabCookies": {
-    "message": "Куки тек. вкладки:"
-  },
-  "activeTabCookies_desc": {
-    "message": "Если включено, Куки будут всегда отфильтрованным по домену текущей активной вкладки."
-  },
-  
-  "cookiesHeadlineTitle": {
-    "message": "Куки"
-  },
-  
-  "removeAllCookies": {
-    "message": "Удал. все"
-  },
-  
-  "cookiesCounterName": {
-    "message": "куки"
-  },
-  
-  
-  "allowHostPermissionsNetwork": {
-    "message": "Доп. права:"
-  },
-  "allowHostPermissionsNetwork_desc": {
-    "message": "Вам нужно включить дополнительные разрешения для того, чтобы иметь доступ к сетевым настройкам."
-  },
-    "blockUserAgent": {
-    "message": "Блок. user-agent:"
-  },
-  "blockUserAgent_desc": {
-    "message": "Если включено, user-agent не будет посылаться вместе с запросом. Это значит, что сайты не смогут получать данные о вашем браузере, поэтому в некоторых случаях сайты могут не показать вам свой контент."
-  },
-  "collectHeaders": {
-    "message": "Соб. заголовки:"
-  },
-  "collectHeaders_desc": {
-    "message": "Если включено, заголовки (http Headers) будут собираться с каждым запросом, показываться будут только последние 1000 заголовок."
-  },
-  "selectHeaders": {
-    "message": "Выделить"
-  },
-  "deleteHeaders": {
-    "message": "Стереть"
-  },
-  "refreshHeaders": {
-    "message": "Обновить"
+  "chrome_extension_name":{
+    "description":"Extension name",
+    "message":"Privacy manager"
+  },
+  "chrome_extension_description":{
+    "description":"Extension description",
+    "message":"Управление личными настройками, данными браузера, доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого траффика."
+  },
+  "main_tab":{
+    "description":"Tab label",
+    "message":"Главное"
+  },
+  "cookies_general":{
+    "description":"General text used in various places",
+    "message":"Куки"
+  },
+  "network_tab":{
+    "description":"Tab label",
+    "message":"Сеть"
+  },
+  "off":{
+    "description":"Switch's 'off' text",
+    "message":"Выкл"
+  },
+  "on":{
+    "description":"Switch's 'on' text",
+    "message":"Вкл"
+  },
+  "privacyManagement":{
+    "description":"Section name",
+    "message":"Личные настройки"
+  },
+  "thirdPartyCookiesAllowed":{
+    "description":"Privacy setting label",
+    "message":"Сторонние куки:"
+  },
+  "thirdPartyCookiesAllowed_desc":{
+    "description":"Privacy setting description",
+    "message":"Если выключено, Хром блокирует сторонние сайты от установки данных и файлов в куки (cookie) браузера."
+  },
+  "hyperlinkAuditingEnabled":{
+    "description":"Privacy setting label",
+    "message":"Аудит ссылок:"
+  },
+  "hyperlinkAuditingEnabled_desc":{
+    "description":"Privacy setting description",
+    "message":"Если выключено, Хром посылает проверочный запрос для проверки гиперссылок."
+  },
+  "referrersEnabled":{
+    "description":"Privacy setting label",
+    "message":"Реферер:"
+  },
+  "referrersEnabled_desc":{
+    "description":"'Referrers' privacy setting description",
+    "message":"Если включено, Хром посылает Реферер (referer) headers вместе с запросами."
+  },
+  "protectedContentEnabled":{
+    "description":"Privacy setting label",
+    "message":"Анонимность контента:"
+  },
+  "protectedContentEnabled_desc":{
+    "description":"'Protect content' privacy setting description (ChromeOS specific)",
+    "message":" Если этот параметр включен, Chrome предоставляет уникальный идентификатор для плагинов для анонимности."
+  },
+  "alternateErrorPagesEnabled":{
+    "description":"Privacy setting label",
+    "message":"Разрешения проблем:"
+  },
+  "alternateErrorPagesEnabled_desc":{
+    "description":"'Alternate error pages' privacy setting description",
+    "message":"Если включено, Хром использует веб-службу для разрешения проблем, связанных с навигацией."
+  },
+  "autofillEnabled":{
+    "description":"Privacy setting label",
+    "message":"Автозаполнение:"
+  },
+  "autofillEnabled_desc":{
+    "description":"'Auto fill' privacy setting description",
+    "message":"Если включено, Хром автоматически заполняет веб-форму."
+  },
+  "hotwordSearchEnabled":{
+    "description":"Privacy setting label",
+    "message":"Поиск 'ок гугл':"
+  },
+  "hotwordSearchEnabled_desc":{
+    "description":"'Hot word search' privacy setting description",
+    "message":"Если этот параметр включен, Chrome позволит «OK, Google» начать голосовой поиск."
+  },
+  "passwordSavingEnabled":{
+    "description":"Privacy setting label",
+    "message":"Сохранение пароля:"
+  },
+  "passwordSavingEnabled_desc":{
+    "description":"'Password saving' privacy setting description",
+    "message":"Предложение о сохраниние пароля"
+  },
+  "safeBrowsingEnabled":{
+    "description":"Privacy setting label",
+    "message":"Безопасный режим:"
+  },
+  "safeBrowsingEnabled_desc":{
+    "description":"'Safe browsiong mode' privacy setting description",
+    "message":"Включить\/выключить защиту от фишинга и вредоносного ПО."
+  },
+  "safeBrowsingExtendedReportingEnabled":{
+    "description":"Privacy setting label",
+    "message":"Отчет опасных сайтов:"
+  },
+  "safeBrowsingExtendedReportingEnabled_desc":{
+    "description":"'Safe browsing reporting' privacy setting description",
+    "message":"Если этот параметр включен, Chrome отправит дополнительную информацию в Google, когда SafeBrowsing блокирует страницы."
+  },
+  "searchSuggestEnabled":{
+    "description":"Privacy setting label",
+    "message":"Подсказки поиска:"
+  },
+  "searchSuggestEnabled_desc":{
+    "description":"'Search suggestions' privacy setting description",
+    "message":"Если включено, Хром Использует подсказки для завершения поисковых запросов и URL, вводимых в адресную строку."
+  },
+  "spellingServiceEnabled":{
+    "description":"Privacy setting label",
+    "message":"Пров. правописания:"
+  },
+  "spellingServiceEnabled_desc":{
+    "description":"'Spelling service' privacy setting description",
+    "message":"Если включено, Хром использует веб-службу для проверки правописания."
+  },
+  "translationServiceEnabled":{
+    "description":"Privacy setting label",
+    "message":"Перевод страниц:"
+  },
+  "translationServiceEnabled_desc":{
+    "description":"'Translation service' privacy setting description",
+    "message":"Если включено, Хром предлагает перевод страниц, которые на иностранных языках."
+  },
+  "networkPredictionEnabled":{
+    "description":"Privacy setting label",
+    "message":"Сетевые подсказки:"
+  },
+  "networkPredictionEnabled_desc":{
+    "description":"'Network prediction' privacy setting description",
+    "message":"Если включено, Хром предсказывает сетевые действия для ускорения загрузки страниц."
+  },
+  "webRTCIPHandlingPolicy":{
+    "description":"Privacy setting label",
+    "message":"Web RTC IP handling:"
+  },
+  "webRTCIPHandlingPolicy_desc":{
+    "description":"'Web RTC IP handling' privacy setting description",
+    "message":"Позволяют пользователям указывать компромиссы производительность\/конфиденциальности средства массовой информации, которые влияет как WebRTC трафик будет маршрутизироваться и сколько локальной информаций посылается."
+  },
+  "openIncognito":{
+    "description":"Button text",
+    "message":"Открыть в режиме инкогнито"
+  },
+  "startupClear":{
+    "description":"Section name",
+    "message":"Стереть при запуске"
+  },
+  "removeAll":{
+    "description":"Clear on startup setting label",
+    "message":"Удалить все:"
+  },
+  "removeAll_desc":{
+    "description":"Remove All description in 'Clear on startup' section",
+    "message":"Очистить все данные навигации во время старта браузера."
+  },
+  "appcache":{
+    "description":"Clear on startup setting label",
+    "message":"Кэш прилож.:"
+  },
+  "appcache_desc":{
+    "description":"App. cache description in 'Clear on startup' section",
+    "message":"Очистить кэш приложений (Application cache) во время загрузки Браузера."
+  },
+  "cache":{
+    "description":"Clear on startup setting label",
+    "message":"Кэш:"
+  },
+  "cache_desc":{
+    "description":"Cache description in 'Clear on startup' section",
+    "message":"Очистить кэш во время загрузки Браузера."
+  },
+  "cookies":{
+    "description":"Clear on startup setting label",
+    "message":"Куки:"
+  },
+  "cookies_desc":{
+    "description":"Cookies description in 'Clear on startup' section",
+    "message":"Очистить Куки (cookies) во время загрузки Браузера."
+  },
+  "downloads":{
+    "description":"Clear on startup setting label",
+    "message":"Загрузки:"
+  },
+  "downloads_desc":{
+    "description":"Downloads description in 'Clear on startup' section",
+    "message":"Очистить историю загрузок во время загрузки Браузера."
+  },
+  "fileSystems":{
+    "description":"Clear on startup setting label",
+    "message":"Файл. Система:"
+  },
+  "fileSystems_desc":{
+    "description":"File system description in 'Clear on startup' section",
+    "message":"Очистить Файловую систему (File system) во время загрузки Браузера."
+  },
+  "formData":{
+    "description":"Clear on startup setting label",
+    "message":"Данные форм:"
+  },
+  "formData_desc":{
+    "description":"Form data description in 'Clear on startup' section",
+    "message":"Очистить сохраненные данные авто-заполнения форм во время загрузки Браузера."
+  },
+  "history":{
+    "description":"Clear on startup setting label",
+    "message":"История:"
+  },
+  "history_desc":{
+    "description":"History description in 'Clear on startup' section",
+    "message":"Очистить историю просмотров во время загрузки Браузера."
+  },
+  "indexedDB":{
+    "description":"Clear on startup setting label",
+    "message":"индекс. БД:"
+  },
+  "indexedDB_desc":{
+    "description":"Indexed DB description in 'Clear on startup' section",
+    "message":"Очистить индексируемые БД (indexedDB) во время загрузки Браузера."
+  },
+  "localStorage":{
+    "description":"Clear on startup setting label",
+    "message":"Хранилище:"
+  },
+  "localStorage_desc":{
+    "description":"Local storage description in 'Clear on startup' section",
+    "message":"Очистить Интернет-хранилище (Local Storage) во время загрузки Браузера."
+  },
+  "serverBoundCertificates":{
+    "description":"Clear on startup setting label",
+    "message":"Server-bound certificates:"
+  },
+  "serverBoundCertificates_desc":{
+    "description":"Server-bound certificates description in 'Clear on startup' section",
+    "message":"Удалить Server-bound certificates при запуске браузера."
+  },
+  "passwords":{
+    "description":"Clear on startup setting label",
+    "message":"Пароли:"
+  },
+  "passwords_desc":{
+    "description":"Passwords description in 'Clear on startup' section",
+    "message":"Очистить сохраненные пароли во время загрузки Браузера."
+  },
+  "pluginData":{
+    "description":"Clear on startup setting label",
+    "message":"Модули:"
+  },
+  "pluginData_desc":{
+    "description":"Plugin data description in 'Clear on startup' section",
+    "message":"Очистить данные подключаемых модулей во время загрузки Браузера."
+  },
+  "serviceWorkers":{
+    "description":"Clear on startup setting label",
+    "message":"Service Workers:"
+  },
+  "serviceWorkers_desc":{
+    "description":"Service workers description in 'Clear on startup' section",
+    "message":"Удалить данные Service Workers при запуске браузера."
+  },
+  "webSQL":{
+    "description":"Clear on startup setting label",
+    "message":"WebSQL:"
+  },
+  "webSQL_desc":{
+    "description":"Web SQL description in 'Clear on startup' section",
+    "message":"Очистить WebSQL-данные сайтов во время загрузки Браузера."
+  },
+  "addCookie":{
+    "description":"Text in Cookies section",
+    "message":"Добавить куки"
+  },
+  "editCookie":{
+    "description":"Text in Cookies section",
+    "message":"Редактировать куки"
+  },
+  "cookieDialog_domain":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Домэйн:"
+  },
+  "cookieDialog_name":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Имя:"
+  },
+  "cookieDialog_value":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Значение:"
+  },
+  "cookieDialog_path":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Путь:"
+  },
+  "cookieDialog_expDate":{
+    "description":"Text in Cookies edit dialog",
+    "message":"До даты:"
+  },
+  "cookieDialog_expTime":{
+    "description":"Text in Cookies edit dialog",
+    "message":"До времени:"
+  },
+  "cookieDialog_hostOnyl":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Только Host:"
+  },
+  "cookieDialog_httpOnyl":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Только HTTP:"
+  },
+  "cookieDialog_secure":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Зашищенный:"
+  },
+  "cookieDialog_session":{
+    "description":"Text in Cookies edit dialog",
+    "message":"Сессия:"
+  },
+  "cookieDialog_storeId":{
+    "description":"Text in Cookies edit dialog",
+    "message":"ID базы:"
+  },
+  "cookieDialog_add":{
+    "description":"Button text in Cookies edit dialog",
+    "message":"Добавить"
+  },
+  "cookieDialog_update":{
+    "description":"Button text in Cookies edit dialog",
+    "message":"Обновление"
+  },
+  "cookieDialog_delete":{
+    "description":"Button text in Cookies edit dialog",
+    "message":"Удалить"
+  },
+  "cookieDialog_cancel":{
+    "description":"Button text in Cookies 'delete all' dialog",
+    "message":"Отмена"
+  },
+  "cookieDialog_deleteAll_msg":{
+    "description":"text in Cookies 'delete all' dialog",
+    "message":"Вы собираетесь удалить все cookies, вы уверены?"
+  },
+  "additionalPermissions":{
+    "description":"Label for requesting additional permission setting",
+    "message":"Дополнительные разрешения:"
+  },
+  "additionalPermissions_desc":{
+    "description":"Description for requesting additional permission setting",
+    "message":"Вам нужно дополнительное разрешение чтобы манипулировать куки и сетевой трафик."
+  },
+  "activeTabCookies":{
+    "description":"Setting label in cookies section",
+    "message":"Куки тек. вкладки:"
+  },
+  "activeTabCookies_desc":{
+    "description":"Active tab setting description",
+    "message":"Если включено, Куки будут всегда отфильтрованным по домену текущей активной вкладки."
+  },
+  "blockUserAgent":{
+    "description":"Label for blocking user agent setting",
+    "message":"Блок. user-agent:"
+  },
+  "blockUserAgent_desc":{
+    "description":"Descrption for blocking user agent setting",
+    "message":"Если включено, user-agent не будет посылаться вместе с запросом. Это значит, что сайты не смогут получать данные о вашем браузере, поэтому в некоторых случаях сайты могут не показать вам свой контент."
+  },
+  "collectHeaders":{
+    "description":"Setting label in network section",
+    "message":"Соб. заголовки:"
+  },
+  "collectHeaders_desc":{
+    "description":"'Collect headers' setting description",
+    "message":"Если включено, заголовки (http Headers) будут собираться с каждым запросом, показываться будут только последние 1000 заголовок."
+  },
+  "downloadAll":{
+    "description":"button text in network section",
+    "message":"Скачать все"
+  },
+  "deleteAll":{
+    "description":"General text used in various places",
+    "message":"Удалить все"
   }
 }

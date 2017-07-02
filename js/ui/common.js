@@ -173,6 +173,8 @@ function createBasicSettingObj(text)
     {
       node.textContent = getMsg(node.dataset.i18n);
     });
+
+    document.documentElement.lang = getMsg("@@ui_locale");
   }, false);
 })();
 
