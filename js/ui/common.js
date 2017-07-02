@@ -59,6 +59,11 @@ const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
           break;
       }
     });
+
+    // Settings list localization
+    var content = Elem("#settings-list").content;
+    content.querySelector("#btn-on-label").textContent = getMsg("on");
+    content.querySelector("#btn-off-label").textContent = getMsg("off");
   }, false);
 })();
 

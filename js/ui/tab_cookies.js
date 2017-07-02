@@ -41,7 +41,7 @@
     var leftSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(1)");
     var rightSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(2)");
 
-    var settingObj = createBasicSettingObj("allowHostPermissions");
+    var settingObj = createBasicSettingObj("additionalPermissions");
     addSettingItem(leftSettingList, settingObj, "permission", function(enabled)
     {
       disableControls(!enabled);

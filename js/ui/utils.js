@@ -33,6 +33,20 @@ function getMsg(text)
   return chrome.i18n.getMessage(text) || text;
 }
 
+function getMessages(id)
+{
+  let messages = [];
+  for (let i = 1; true; i++)
+  {
+    let message = ext.i18n.getMessage(id + "_" + i);
+    if (!message)
+      break;
+
+    messages.push(message);
+  }
+  return messages;
+}
+
 function getSwitcher(Id)
 {
   return Elem("#" + Id + " button");

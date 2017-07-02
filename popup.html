@@ -19,7 +19,7 @@
 
 <html>
 	<head>
-		<title>Privacy Manager</title>
+		<title data-i18n="chrome_extension_name"></title>
 		<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
 
 		<script type="text/javascript" src="js/ui/utils.js"></script>
@@ -37,12 +37,12 @@
 							data-dialog="setting-info"
               data-info="true"
 							tabindex="0">
-	      	<label>Spelling service</label>
+	      	<label></label>
 	      	<button class="infoIcon" tabindex="-1"></button>
 			 	</div>
 		 		<button role="checkbox" aria-checked="false">
-					<span>On</span>
-					<span>Off</span>
+					<span id="btn-on-label"></span>
+					<span id="btn-off-label"></span>
 				</button>
 			</li>
     </template>
@@ -57,7 +57,7 @@
 						data-key-right="next-tab" 
 						data-tab="main" 
 						aria-selected="true">
-					<span data-i18n="main_tab">Main</span>
+					<span data-i18n="main_tab"></span>
 				</li>
 				<li role="tab" 
 						tabindex="-1"
@@ -67,7 +67,7 @@
 						data-key-left="previouse-tab"
 						data-key-right="next-tab"
 						data-tab="cookies">
-					<span data-i18n="cookies_tab">Cookies</span>
+					<span data-i18n="cookies_general"></span>
 				</li>
 				<li role="tab"
 						tabindex="-1"
@@ -77,18 +77,18 @@
 						data-key-left="previouse-tab"
 						data-key-right="next-tab"
 						data-tab="network">
-					<span data-i18n="network_tab">Network</span>
+					<span data-i18n="network_tab"></span>
 				</li>
 			</ul>
 			<div id="main_tab" role="tabpanel">
 				<div class="settings-list-container">
 					<section id="privacyManagement">
-						<h2>Privacy management</h2>
+						<h2 data-i18n="privacyManagement"></h2>
 						<ul class="settings-list"></ul>
-						<button data-action="open-in-incognito" id="incognito">Open in incognito</button>
+						<button data-i18n="openIncognito" data-action="open-in-incognito" id="incognito"></button>
 					</section>
 					<section id="startupClear">
-						<h2>Clear on startup</h2>
+						<h2 data-i18n="startupClear"></h2>
 						<ul class="settings-list"></ul>
 					</section>
 				</div>
@@ -102,7 +102,7 @@
 				</div>
 
 				<section>
-					<h4 data-i18n="cookiesHeadlineTitle"></h4>
+					<h4 data-i18n="cookies_general"></h4>
 					<div id="cookiesContainer">
 						<ul id="cookieList" class="tableList"></ul>
 						<template id="cookiesListTemplate">
@@ -141,8 +141,8 @@
 						</template>
 						<div id="cookie-controls" class="controls">
 							<input type="search" id="search-domain" placeholder="Search domain">
-							<button data-action="open-dialog,add-cookie" data-dialog="cookie-add" class="icon edit">Add cookie</button>
-							<button data-action="open-dialog" data-dialog="cookies-delete-all" class="icon delete">Delete all</button>
+							<button data-i18n="addCookie" data-action="open-dialog,add-cookie" data-dialog="cookie-add" class="icon edit"></button>
+							<button data-i18n="deleteAll" data-action="open-dialog" data-dialog="cookies-delete-all" class="icon delete"></button>
 						</div>
 					</div>
 				</section>
@@ -150,7 +150,6 @@
 
 			<div id="network_tab" role="tabpanel">
 				<div class="settings-list-container">
-					<!-- allowHostPermissionsNetwork -->
 					<ul class="settings-list"></ul>
 					<div class="separator"></div>
 					<ul class="settings-list"></ul>
@@ -184,8 +183,8 @@
 						</li>
 					</template>
 					<div class="controls">
-						<button data-action="download-all" download="requests.txt">Download all</button>
-						<button data-action="delete-all">Delete all</button>
+						<button data-i18n="downloadAll" data-action="download-all" download="requests.txt"></button>
+						<button data-i18n="deleteAll" data-action="delete-all"></button>
 					</div>
 				</div>
 			</div>
@@ -194,10 +193,10 @@
 			<div id="dialog" data-keyQuite="close-dialog" role="dialog" aria-hidden="true">
 				<div>
 					<header class="header">
-						<span id="dialog-header-cookie-add">Add Cookie</span>
-						<span id="dialog-header-cookie-edit">Edit Cookie</span>
-						<span id="dialog-header-cookie-delete-all">Delete All</span>
-						<span id="dialog-header-setting-info">Info</span>
+						<span data-i18n="addCookie" id="dialog-header-cookie-add"></span>
+						<span data-i18n="editCookie" id="dialog-header-cookie-edit"></span>
+						<span id="dialog-header-cookie-delete-all" data-i18n="deleteAll"></span>
+						<span id="dialog-header-setting-info"></span>
 						<button data-action="close-dialog" class="icon delete"></button>
 					</header>
 					<div class="body">
@@ -209,38 +208,38 @@
 									<div>
 										<p>
 											<label>
-												<span>Domain:</span>
+												<span data-i18n="cookieDialog_domain"></span>
 												<!-- TODO: Revisit the Domain pattern -->
 												<input required="true" id="cookie-domain" type="text" disabled="disabled" title="Not a valid Domain name" pattern="^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_.]*">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Name:</span>
+												<span data-i18n="cookieDialog_name"></span>
 												<input id="cookie-name" type="text" required="true">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Value:</span>
+												<span data-i18n="cookieDialog_value"></span>
 												<input id="cookie-value" type="text" required="true">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Path:</span>
+												<span data-i18n="cookieDialog_path"></span>
 												<input id="cookie-path" type="text" title="Should start with '/'" pattern="^\/.*" value="/" required="true">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Exp. date:</span>
+												<span data-i18n="cookieDialog_expDate"></span>
 													<input id="cookie-expiration-date" type="date" required="true">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Exp. time:</span>
+												<span data-i18n="cookieDialog_expTime"></span>
 													<input id="cookie-expiration-time" type="time" step="1">
 											</label>
 										</p>
@@ -248,54 +247,52 @@
 									<div>
 										<p>
 											<label>
-												<span>Host only:</span>
+												<span data-i18n="cookieDialog_hostOnyl"></span>
 												<input id="cookie-host-only" type="checkbox">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>HTTP only:</span>
+												<span data-i18n="cookieDialog_httpOnyl"></span>
 												<input id="cookie-http-only" type="checkbox">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Secure:</span>
+												<span data-i18n="cookieDialog_secure"></span>
 												<input id="cookie-secure" type="checkbox">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Session:</span>
+												<span data-i18n="cookieDialog_session"></span>
 												<input id="cookie-session" type="checkbox">
 											</label>
 										</p>
 										<p>
 											<label>
-												<span>Store ID:</span>
+												<span data-i18n="cookieDialog_storeId"></span>
 												<input id="cookie-store-id" type="number" required="true" value="0">
 											</label>
 										</p>
 									</div>
 								</div>
 								<div id="cookie-add-control" class="controls">
-									<button data-action="update-cookie" class="icon edit">Add</button>
+									<button data-i18n="cookieDialog_add" data-action="update-cookie" class="icon edit"></button>
 								</div>
 								<div id="cookie-edit-control" class="controls">
-									<button data-action="update-cookie" class="icon edit">Update</button>
-									<button data-action="delete-cookie" class="icon delete">Delete</button>
+									<button data-i18n="cookieDialog_update" data-action="update-cookie" class="icon edit"></button>
+									<button data-i18n="cookieDialog_delete" data-action="delete-cookie" class="icon delete"></button>
 								</div>
 							</form>
 						</div>
 
 						<!-- Dialog Cookie Delete All -->
 						<div id="dialog-content-cookie-delete-all">
-							<div class="message">
-								You are about to delete all cookies, are you sure ?
-							</div>
+							<div data-i18n="cookieDialog_deleteAll_msg" class="message"></div>
 							<div class="controls">
-								<button data-action="close-dialog">Cancel</button>
-								<button data-action="delete-all-cookies">Delete All</button>
+								<button data-i18n="cookieDialog_cancel" data-action="close-dialog"></button>
+								<button data-action="delete-all-cookies" data-i18n="deleteAll"></button>
 							</div>
 						</div>
 						<!-- Setting list info -->

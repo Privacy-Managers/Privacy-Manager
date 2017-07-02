@@ -34,7 +34,7 @@
 		var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
 		var rightSettingList = Elem("#network_tab ul.settings-list:nth-of-type(2)");
 
-    var settingObj = createBasicSettingObj("allowHostPermissions");
+    var settingObj = createBasicSettingObj("additionalPermissions");
 		addSettingItem(leftSettingList, settingObj, "permission");
     settingObj = createBasicSettingObj(blockUserAgentId);
 		addSettingItem(leftSettingList, settingObj, "storage", function(enabled)
