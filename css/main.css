@@ -25,6 +25,16 @@ body
   font-family: Arial, Helvetica, sans-serif;
 }
 
+#main
+{
+  min-width: 520px;
+}
+
+[lang="ru"]
+{
+  min-width: 550px;
+}
+
 /*******************************************************************************
  * Tabs
  ******************************************************************************/
@@ -356,8 +366,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #main_tab .settings-list-container
 {
   justify-content: center;
-  flex-wrap: wrap;
-  min-width: 500px;
 }
 
 #main_tab section
@@ -460,7 +468,6 @@ section h4
 #cookiesContainer
 {
   position: relative;
-  min-width: 500px;
 }
 
 .tableList .domainName
@@ -564,11 +571,6 @@ button.icon.edit:hover:after
 /*******************************************************************************
  * Network tab
  ******************************************************************************/
-#requestsWidget
-{
-  min-width: 500px;
-}
-
 #requestsWidget .tableList > li > div .data-container > span:nth-child(1)
 {
   overflow: hidden;
