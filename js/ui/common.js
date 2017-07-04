@@ -200,6 +200,8 @@ function addSettingItem(parent, dataObj, type, callback)
   var content = Elem("#settings-list").content;
   var accessor = dataObj.dataset.access;
   content.querySelector("label").textContent = dataObj.text;
+  content.querySelector("[data-dialog='setting-info']").title = 
+    getMsg(dataObj.dataset.access + "_desc");
 
   var listElem = content.querySelector("li");
   var datasetObj = dataObj.dataset;
