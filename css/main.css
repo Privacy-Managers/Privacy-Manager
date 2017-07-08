@@ -153,6 +153,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 {
   margin-top: 3px; 
   display: flex;
+  align-items: center;
 }
 
 .settings-list li img
@@ -163,6 +164,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 .settings-list li div
 {
+  display: flex;
   flex-grow: 1;
   font-weight: bold;
   font-size: 12px;
@@ -170,6 +172,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   vertical-align: top;
   word-wrap: break-word;
   margin-right: 10px;
+  align-items: center;
 }
 
 .settings-list .infoIcon
@@ -180,6 +183,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   width: 12px;
   height: 12px;
   background-image: url(/css/img/info.svg);
+  margin: 0px 3px;
 }
 
 /*******************************************************************************
@@ -196,7 +200,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 .tableList
 {
-  max-height: 270px;
+  height: 270px;
 }
 
 .tableList ul

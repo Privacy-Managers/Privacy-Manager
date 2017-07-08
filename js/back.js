@@ -31,7 +31,7 @@
 		});
 	}
 
-	//TODO: Think about duplication
+	//TODO: Find a solution to avoide duplication
 	getStorage("settingList", function(data)
 	{
 		if (data.settingList.collectHeaders)
@@ -43,21 +43,31 @@
 		if (!data)
 			return;
 
-		if (data.removeAll == true)
+		// Filter "data" object to only match properties from "browsingData".
+		var browsingDataObj = Object.keys(data).filter(function(key)
 		{
-			var data = browsingData.reduce(function(accumulator, dataType)
+			return browsingData.includes(key);
+		}).reduce(function(accumulator, dataType) 
+		{
+			accumulator[dataType] = data[dataType];
+			return accumulator;
+		}, {});
+
+		if (browsingDataObj.removeAll == true)
+		{
+			var browsingDataObj = browsingData.reduce(function(accumulator, dataType)
 			{
 				if (dataType != "removeAll")
 					accumulator[dataType] = true;
 
 				return accumulator;
 			}, {});
-			chrome.browsingData.remove({}, data);
+			chrome.browsingData.remove({}, browsingDataObj);
 		}
 		else
 		{
-			delete data.removeAll;
-			chrome.browsingData.remove({}, data);
+			delete browsingDataObj.removeAll;
+			chrome.browsingData.remove({}, browsingDataObj);
 		}
 	}
 
