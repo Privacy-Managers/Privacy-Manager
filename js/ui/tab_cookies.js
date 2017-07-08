@@ -96,6 +96,9 @@
     var repeativeDomains = [];
     getAllCookies({}, function(cookies)
     {
+      if (cookies.length == 0)
+        return;
+
       for (var i = 0; i < cookies.length; i++)
       {
         if (searchExpression.test(cookies[i].domain))
