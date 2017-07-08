@@ -77,6 +77,7 @@
       sortTable);
     registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
     registerActionListener(Elem("#dialog-content-cookie-form"), onCookiesAction);
+    registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
   }, false);
 
   function updateSwitches(list, value)

@@ -565,8 +565,11 @@ TableList.prototype.removeItem = function(accessor)
   if (itemIndex >= 0)
   {
     this.items.splice(itemIndex, 1);
-    this.onAction("next-sibling", this.listElem.children[itemIndex]);
-    this.listElem.removeChild(this.listElem.children[itemIndex]);
+    if (this.loaded >= itemIndex)
+    {
+      this.onAction("next-sibling", this.listElem.children[itemIndex]);
+      this.listElem.removeChild(this.listElem.children[itemIndex]);
+    }
     return true;
   }
   return false;
@@ -762,7 +765,9 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
 {
   var itemIndex = this.indexOfAccessor(accessor);
   this.items[itemIndex] = newItemObj;
-  this._updateListElem(newItemObj, this.listElem.children[itemIndex]);
+  
+  if (this.loaded >= itemIndex)
+    this._updateListElem(newItemObj, this.listElem.children[itemIndex]);
 };
 
 /**
