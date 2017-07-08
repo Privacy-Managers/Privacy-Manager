@@ -96,17 +96,16 @@
     var repeativeDomains = [];
     getAllCookies({}, function(cookies)
     {
-      if (cookies.length == 0)
-        return;
-
       for (var i = 0; i < cookies.length; i++)
       {
         if (searchExpression.test(cookies[i].domain))
           repeativeDomains.push(removeStartDot(cookies[i].domain));
       }
 
-      repeativeDomains.sort();
+      if (cookies.length == 0 || repeativeDomains.length == 0)
+        return;
 
+      repeativeDomains.sort();
       var lastDomain = repeativeDomains[0];
       var cookiesNumber = 1;
 
