@@ -5,7 +5,7 @@
   },
   "chrome_extension_description":{
     "description":"Extension description",
-    "message":"Управление личными настройками, данными браузера, доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого траффика."
+    "message":"Управление личными настройками, данными браузера, быстрый доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого трафика."
   },
   "main_tab":{
     "description":"Tab label",
@@ -145,7 +145,7 @@
   },
   "webRTCIPHandlingPolicy":{
     "description":"Privacy setting label",
-    "message":"Web RTC IP handling:"
+    "message":"Настройка WebRTC IP:"
   },
   "webRTCIPHandlingPolicy_desc":{
     "description":"'Web RTC IP handling' privacy setting description",
@@ -169,7 +169,7 @@
   },
   "appcache":{
     "description":"Clear on startup setting label",
-    "message":"Кэш прилож.:"
+    "message":"Кэш приложений:"
   },
   "appcache_desc":{
     "description":"App. cache description in 'Clear on startup' section",
@@ -225,7 +225,7 @@
   },
   "indexedDB":{
     "description":"Clear on startup setting label",
-    "message":"индекс. БД:"
+    "message":"Индексированная БД:"
   },
   "indexedDB_desc":{
     "description":"Indexed DB description in 'Clear on startup' section",
@@ -233,7 +233,7 @@
   },
   "localStorage":{
     "description":"Clear on startup setting label",
-    "message":"Хранилище:"
+    "message":"Локальное хранилище:"
   },
   "localStorage_desc":{
     "description":"Local storage description in 'Clear on startup' section",
@@ -289,7 +289,7 @@
   },
   "cookieDialog_domain":{
     "description":"Text in Cookies edit dialog",
-    "message":"Домэйн:"
+    "message":"Домен:"
   },
   "cookieDialog_name":{
     "description":"Text in Cookies edit dialog",
@@ -337,7 +337,7 @@
   },
   "cookieDialog_update":{
     "description":"Button text in Cookies edit dialog",
-    "message":"Обновление"
+    "message":"Обновить"
   },
   "cookieDialog_delete":{
     "description":"Button text in Cookies edit dialog",
@@ -353,7 +353,7 @@
   },
   "additionalPermissions":{
     "description":"Label for requesting additional permission setting",
-    "message":"Дополнительные разрешения:"
+    "message":"Доп. разрешения:"
   },
   "additionalPermissions_desc":{
     "description":"Description for requesting additional permission setting",
@@ -361,7 +361,7 @@
   },
   "activeTabCookies":{
     "description":"Setting label in cookies section",
-    "message":"Куки тек. вкладки:"
+    "message":"Куки текущей вкладки:"
   },
   "activeTabCookies_desc":{
     "description":"Active tab setting description",
@@ -369,7 +369,7 @@
   },
   "blockUserAgent":{
     "description":"Label for blocking user agent setting",
-    "message":"Блок. user-agent:"
+    "message":"Блокировать user-agent:"
   },
   "blockUserAgent_desc":{
     "description":"Descrption for blocking user agent setting",
@@ -377,11 +377,11 @@
   },
   "collectHeaders":{
     "description":"Setting label in network section",
-    "message":"Соб. заголовки:"
+    "message":"Собирать заголовки:"
   },
   "collectHeaders_desc":{
     "description":"'Collect headers' setting description",
-    "message":"Если включено, заголовки (http Headers) будут собираться с каждым запросом, показываться будут только последние 1000 заголовок."
+    "message":"Если включено, заголовки (HTTP Headers) будут собираться с каждым запросом, показываться будут только последние 1000 заголовков."
   },
   "downloadAll":{
     "description":"button text in network section",
