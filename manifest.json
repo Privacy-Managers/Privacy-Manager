@@ -1,4 +1,8 @@
 {
+   "manifest_version": 2,
+   "default_locale": "en_US",
+   "name": "__MSG_chrome_extension_name__",
+   "description": "__MSG_chrome_extension_description__",
    "background": {
       "scripts": ["js/common.js", "js/back.js"],
       "persistence": false 
@@ -7,17 +11,13 @@
       "default_icon": "css/img/icon.png",
       "default_popup": "popup.html"
    },
-   "default_locale": "en_US",
-   "description": "__MSG_chrome_extension_description__",
    "icons": {
       "128": "css/img/icon.png",
       "16": "css/img/16x16.png",
       "48": "css/img/48x48.png"
    },
-   "manifest_version": 2,
-   "name": "__MSG_chrome_extension_name__",
    "optional_permissions": [ "http://*/*", "https://*/*" ],
    "permissions": [ "privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking", "storage" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "2.9"
+   "version": "3"
 }
