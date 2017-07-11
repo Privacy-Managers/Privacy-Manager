@@ -227,7 +227,6 @@ button[role="checkbox"] {
  ******************************************************************************/
 #main_tab .settings-list-container {
   justify-content: center; }
-
 #main_tab section {
   vertical-align: top;
   padding-right: 28px; }
@@ -297,10 +296,8 @@ section h4 {
 
 .tableList .domainName {
   width: 300px; }
-
 .tableList .cookieName {
   width: 260px; }
-
 .tableList .cookieValue {
   width: 100px;
   white-space: pre;
@@ -324,13 +321,10 @@ button.icon {
 
 button.icon.delete:after {
   background-image: url(/css/img/delete.svg); }
-
 button.icon.delete:hover:after {
   background-image: url(/css/img/delete-hover.svg); }
-
 button.icon.edit:after {
   background-image: url(/css/img/edit.svg); }
-
 button.icon.edit:hover:after {
   background-image: url(/css/img/edit-hover.svg); }
 
@@ -370,34 +364,31 @@ button.icon.edit:hover:after {
   white-space: pre;
   width: 300px;
   margin: 0 5px; }
-
 #requestsWidget .tableList > li > div .data-container > span:nth-child(2) {
   width: 110px;
   margin: 0 5px; }
-
 #requestsWidget .tableList > li[data-type="send"] > div .data-container::before {
   content: "";
   display: inline-block;
   background-image: url(/css/img/arrow-up.svg);
   height: 10px;
   width: 10px; }
-
 #requestsWidget .tableList > li[data-type="receive"] > div .data-container::before {
   content: "";
   display: inline-block;
   background-image: url(/css/img/arrow-down.svg);
   height: 10px;
   width: 10px; }
-
 #requestsWidget .tableList li li .data-container > span:nth-child(1) {
   margin: 0 5px;
   width: 120px; }
   #requestsWidget .tableList li li .data-container > span:nth-child(1)::after {
     content: ":";
     margin: 0 2px; }
-
 #requestsWidget .tableList li li .data-container > span:nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: pre;
   width: 300px; }
+
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,38 @@
+/*******************************************************************************
+ * Settings list
+ ******************************************************************************/
+
+.settings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    img {
+      width: 12px;
+      height: 12px;
+    }
+    div {
+      display: flex;
+      flex-grow: 1;
+      font-weight: bold;
+      font-size: 12px;
+      padding-bottom: 4px;
+      vertical-align: top;
+      word-wrap: break-word;
+      margin-right: 10px;
+      align-items: center;
+    }
+  }
+  .infoIcon {
+    background-color: transparent;
+    border: none;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url(/css/img/info.svg);
+    margin: 0 3px;
+  }
+}

@@ -1,0 +1,72 @@
+/*******************************************************************************
+ * Main
+ ******************************************************************************/
+
+#main_tab {
+  .settings-list-container {
+    justify-content: center;
+  }
+  section {
+    vertical-align: top;
+    padding-right: 28px;
+    &:last-child {
+      padding-right: 0;
+    }
+    h2 {
+      font-size: 21px;
+      font-weight: bold;
+      padding-bottom: 8px;
+      color: #679c16;
+      margin: 0;
+    }
+  }
+}
+
+.serviceContainer {
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 28px;
+}
+
+.rowContainer {
+  display: flex;
+  > div {
+    &:first-child {
+      display: inline-block;
+      font-weight: bold;
+      font-size: 12px;
+      padding-bottom: 4px;
+      vertical-align: top;
+      flex-grow: 1;
+    }
+    &:last-child {
+      height: 10px;
+      margin: 0;
+      vertical-align: top;
+    }
+  }
+}
+
+#incognito {
+  margin-top: 3px;
+  width: 100%;
+  display: inline-block;
+  box-shadow: inset 0 1px 0 0 #ffffff;
+  background-color: #ededed;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  color: #679c16;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 1px 39px;
+  text-decoration: none;
+  text-shadow: 1px 1px 0 #ffffff;
+  &:hover {
+    cursor: pointer;
+    background-color: #dfdfdf;
+  }
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+}

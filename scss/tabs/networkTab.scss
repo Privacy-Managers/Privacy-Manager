@@ -1,0 +1,51 @@
+/*******************************************************************************
+ * Network tab
+ ******************************************************************************/
+
+#requestsWidget .tableList {
+  > li {
+    > div .data-container > span {
+      &:nth-child(1) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre;
+        width: 300px;
+        margin: 0 5px;
+      }
+      &:nth-child(2) {
+        width: 110px;
+        margin: 0 5px;
+      }
+    }
+    &[data-type="send"] > div .data-container::before {
+      content: "";
+      display: inline-block;
+      background-image: url(/css/img/arrow-up.svg);
+      height: 10px;
+      width: 10px;
+    }
+    &[data-type="receive"] > div .data-container::before {
+      content: "";
+      display: inline-block;
+      background-image: url(/css/img/arrow-down.svg);
+      height: 10px;
+      width: 10px;
+    }
+  }
+  li li .data-container > span {
+    &:nth-child(1) {
+      margin: 0 5px;
+      width: 120px;
+      &::after {
+        content: ":";
+        margin: 0 2px;
+      }
+    }
+    &:nth-child(2) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre;
+      width: 300px;
+    }
+  }
+}
