@@ -32,7 +32,6 @@ const privacyData = {
                       network:
                         ["networkPredictionEnabled", "webRTCIPHandlingPolicy"]
                     };
-const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
 
 /*******************************************************************************
  * General
@@ -222,7 +221,7 @@ function addSettingItem(parent, dataObj, type, callback)
 
       privacyObject.get({}, function(details)
       {
-        settingState(settingItem, details.value);
+        _updateSettingButton(settingItem, details.value);
       });
       settingButton.addEventListener("click", function()
       {
@@ -249,7 +248,7 @@ function addSettingItem(parent, dataObj, type, callback)
 
       privacyObject.onChange.addListener(function(detail)
       {
-        settingState(accessor, detail.value);
+        _updateSettingButton(accessor, detail.value);
       });
       break;
     case "storage":
@@ -260,7 +259,7 @@ function addSettingItem(parent, dataObj, type, callback)
           return;
 
         var state = settingList[accessor] == true;
-        settingState(settingItem, state);
+        _updateSettingButton(settingItem, state);
         if (callback)
           callback(state);
       });
@@ -288,7 +287,7 @@ function addSettingItem(parent, dataObj, type, callback)
       {
         if (callback)
           callback(result);
-        settingState(accessor, result);
+        _updateSettingButton(accessor, result);
       });
 
       settingButton.addEventListener("click", function()
@@ -304,13 +303,13 @@ function addSettingItem(parent, dataObj, type, callback)
 
       chrome.permissions.onAdded.addListener(function(result)
       {
-        settingState(accessor, true); // Currently called multiple times
+        _updateSettingButton(accessor, true); // Currently called multiple times
         if (callback)
           callback(true);
       });
       chrome.permissions.onRemoved.addListener(function(result)
       {
-        settingState(accessor, false);
+        _updateSettingButton(accessor, false);
         if (callback)
           callback(false);
       });
@@ -329,13 +328,25 @@ function checkSettingState(accessor, callback)
   });
 }
 
-function settingState(setting, state)
+function turnSwitchOff(accessor)
+{
+  getStorage("settingList", function(data)
+  {
+    if (data.settingList[accessor])
+    {
+      data.settingList[accessor] = false;
+      setStorage(data);
+    }
+  });
+}
+
+function _updateSettingButton(setting, state)
 {
   if (typeof setting == "string")
   {
     Elems("[data-access='" + setting + "']").forEach(function(settingItem)
     {
-      settingState(settingItem, state);
+      _updateSettingButton(settingItem, state);
     });
   }
   else
@@ -350,7 +361,7 @@ chrome.storage.onChanged.addListener(function(change)
   {
     var newValue = change.settingList.newValue;
     for (var accessor in newValue)
-      settingState(accessor, newValue[accessor]);
+      _updateSettingButton(accessor, newValue[accessor]);
   }
 });
 

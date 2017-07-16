@@ -79,7 +79,16 @@
 			case "collectHeaders":
 				if (isActive)
 				{
-					addRequestListener(onSendHeaders, onHeadersReceived);
+          chrome.permissions.contains(additionalPermission, function(result)
+          {
+            if (result)
+              addRequestListener(onSendHeaders, onHeadersReceived);
+            else
+            {
+              alert("Please enable additional permission to use the feature");
+              turnSwitchOff(settingName);
+            }
+          });
 				}
 				else
 				{

@@ -34,7 +34,7 @@
   //TODO: Find a solution to avoide duplication
   getStorage("settingList", function(data)
   {
-    if (data.settingList.collectHeaders)
+    if (data.settingList && data.settingList.collectHeaders)
       startCollectingRequests();
   });
 
@@ -120,27 +120,35 @@
   // Fired on a profile start up
   chrome.runtime.onStartup.addListener(profileStart);
 
-
-  chrome.webRequest.onBeforeSendHeaders.addListener(
-    function(details) {
-      var settings = localStorage.getItem("settings");
-      if(settings == null) {
-        var settingsJson = {};
-        localStorage.setItem("settings", JSON.stringify(settingsJson));
-      }
-      else {
-        var settingsJson = JSON.parse(settings);
-        if(settingsJson.blockUserAgent == true) {
-          for (var i = 0; i < details.requestHeaders.length; ++i) {
-              if (details.requestHeaders[i].name === 'User-Agent') {
+  chrome.permissions.contains(additionalPermission, function(result)
+  {
+    chrome.webRequest.onBeforeSendHeaders.addListener(
+      function(details)
+      {
+        var settings = localStorage.getItem("settings");
+        if(settings == null) 
+        {
+          var settingsJson = {};
+          localStorage.setItem("settings", JSON.stringify(settingsJson));
+        }
+        else 
+        {
+          var settingsJson = JSON.parse(settings);
+          if(settingsJson.blockUserAgent == true)
+          {
+            for (var i = 0; i < details.requestHeaders.length; ++i)
+            {
+              if (details.requestHeaders[i].name === 'User-Agent')
+              {
                 details.requestHeaders.splice(i, 1);
                 break;
               }
             }
             return {requestHeaders: details.requestHeaders};
+          }
         }
-      }
-    },
-    {urls: ["http://*/*", "https://*/*"]},
-    ["blocking", "requestHeaders"]);
+      },
+      {urls: ["http://*/*", "https://*/*"]},
+      ["blocking", "requestHeaders"]);
+  });
 })(this);
