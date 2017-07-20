@@ -48,3 +48,31 @@ function updateRequestObj(details, actionType)
   details.dataset = {type: actionType};
   details.texts = {url: details.url, type: details.type};
 }
+
+/*******************************************************************************
+ * Block user agent
+ ******************************************************************************/
+function addBlockAgentListener()
+{
+  chrome.webRequest.onBeforeSendHeaders.addListener(blockUserAgent,
+    {urls: ["<all_urls>"]}, ["blocking", "requestHeaders"]);
+}
+
+function removeBlockAgentListener()
+{
+  chrome.webRequest.onBeforeSendHeaders.removeListener(blockUserAgent);
+}
+
+function blockUserAgent(details)
+{
+  for (var i = 0; i < details.requestHeaders.length; ++i)
+  {
+    if (details.requestHeaders[i].name == "User-Agent")
+    {
+      console.log("here");
+      details.requestHeaders.splice(i, 1);
+      break;
+    }
+  }
+  return {requestHeaders: details.requestHeaders};
+}

@@ -69,11 +69,20 @@
 			case "blockUserAgent":
 				if (isActive)
 				{
-
+          chrome.permissions.contains(additionalPermission, function(result)
+          {
+            if (result)
+              addBlockAgentListener();
+            else
+            {
+              alert("Please enable additional permission to use the feature");
+              turnSwitchOff(settingName);
+            }
+          });
 				}
 				else
 				{
-
+          removeBlockAgentListener();
 				}
 				break;
 			case "collectHeaders":
