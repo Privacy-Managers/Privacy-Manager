@@ -359,6 +359,10 @@
     "description":"Description for requesting additional permission setting",
     "message":"Вам нужно дополнительное разрешение чтобы манипулировать куки и сетевой трафик."
   },
+  "additionalPermissions_notification":{
+    "description":"Description for requesting additional permission setting",
+    "message":"Пожалуйста включите 'Доп. разрешения' чтобы воспользоваться функцией"
+  },
   "activeTabCookies":{
     "description":"Setting label in cookies section",
     "message":"Куки текущей вкладки:"

@@ -359,6 +359,10 @@
       "description": "Description for requesting additional permission setting",
       "message": "You need to allow host permission to be able to manipulate cookies and network."
    },
+   "additionalPermissions_notification": {
+      "description": "Notification message for the features that require additional permission",
+      "message": "Please enable Additional permissions to use the feature"
+   },
    "activeTabCookies": {
       "description": "Setting label in cookies section",
       "message": "Active tab cookies:"

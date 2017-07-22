@@ -22,6 +22,7 @@
 {
 	const blockUserAgentId = "blockUserAgent";
 	const collectHeadersId = "collectHeaders";
+  const permissionNotificationMsgId = "additionalPermissions_notification";
   const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
 
   var downloadText = "";
@@ -77,7 +78,7 @@
             }
             else
             {
-              alert("Please enable additional permission to use the feature");
+              alert(getMsg(permissionNotificationMsgId));
               turnSwitchOff(settingName);
             }
           });
@@ -96,7 +97,7 @@
               addRequestListener(onSendHeaders, onHeadersReceived);
             else
             {
-              alert("Please enable additional permission to use the feature");
+              alert(getMsg(permissionNotificationMsgId));
               turnSwitchOff(settingName);
             }
           });
@@ -107,8 +108,15 @@
 				}
 				break;
 		}
-
 	}
+
+  chrome.permissions.onRemoved.addListener(function(result)
+  {
+    turnSwitchOff(blockUserAgentId, function()
+    {
+      turnSwitchOff(collectHeadersId);
+    });
+  });
 
 	function onSendHeaders(details)
 	{
