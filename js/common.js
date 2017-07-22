@@ -69,7 +69,6 @@ function blockUserAgent(details)
   {
     if (details.requestHeaders[i].name == "User-Agent")
     {
-      console.log("here");
       details.requestHeaders.splice(i, 1);
       break;
     }

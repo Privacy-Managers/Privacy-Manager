@@ -108,25 +108,28 @@
   {
     if (change.settingList)
     {
-      var newValue = change.settingList.newValue.collectHeaders;
-      var oldValue = change.settingList.oldValue.collectHeaders;
-      if (newValue != oldValue)
+      chrome.permissions.contains(additionalPermission, function(result)
       {
-        if(newValue)
-          startCollectingRequests();
-        else
-          stopCollectingRequests();
-      }
+        var newValue = change.settingList.newValue.collectHeaders;
+        var oldValue = change.settingList.oldValue.collectHeaders;
+        if (newValue != oldValue)
+        {
+          if(result && newValue)
+            startCollectingRequests();
+          else
+            stopCollectingRequests();
+        }
 
-      var newValue = change.settingList.newValue.blockUserAgent;
-      var oldValue = change.settingList.oldValue.blockUserAgent;
-      if (newValue != oldValue)
-      {
-        if(newValue)
-          addBlockAgentListener();
-        else
-          removeBlockAgentListener();
-      }
+        var newValue = change.settingList.newValue.blockUserAgent;
+        var oldValue = change.settingList.oldValue.blockUserAgent;
+        if (result && newValue != oldValue)
+        {
+          if(newValue)
+            addBlockAgentListener();
+          else
+            removeBlockAgentListener();
+        }
+      });
     }
   });
 
