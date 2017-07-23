@@ -20,7 +20,7 @@
 
 const setStorage = chrome.storage.local.set;
 const getStorage = chrome.storage.local.get;
-const additionalPermission = {"origins": ["http://*/*", "https://*/*"]};
+const additionalPermission = {"origins": ["<all_urls>"]};
 
 // Besides of "removeAll" item, all other dataTypes needs to be consistent with
 // https://developer.chrome.com/extensions/browsingData#type-DataTypeSet
