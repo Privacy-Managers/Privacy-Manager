@@ -328,15 +328,16 @@ function checkSettingState(accessor, callback)
   });
 }
 
-function turnSwitchOff(accessor, callback)
+function turnSwitchesOff(accessors, callback)
 {
   getStorage("settingList", function(data)
   {
-    if (data.settingList[accessor])
+    accessors.forEach(function(accessor)
     {
-      data.settingList[accessor] = false;
-      setStorage(data, callback);
-    }
+      if (data.settingList[accessor])
+        data.settingList[accessor] = false;
+    });
+    setStorage(data, callback);
   });
 }
 

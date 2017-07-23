@@ -79,7 +79,7 @@
             else
             {
               alert(getMsg(permissionNotificationMsgId));
-              turnSwitchOff(settingName);
+              turnSwitchesOff([settingName]);
             }
           });
 				}
@@ -98,7 +98,7 @@
             else
             {
               alert(getMsg(permissionNotificationMsgId));
-              turnSwitchOff(settingName);
+              turnSwitchesOff([settingName]);
             }
           });
 				}
@@ -112,10 +112,7 @@
 
   chrome.permissions.onRemoved.addListener(function(result)
   {
-    turnSwitchOff(blockUserAgentId, function()
-    {
-      turnSwitchOff(collectHeadersId);
-    });
+    turnSwitchesOff([blockUserAgentId, collectHeadersId]);
   });
 
 	function onSendHeaders(details)
