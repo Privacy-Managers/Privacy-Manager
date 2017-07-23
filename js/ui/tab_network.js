@@ -113,6 +113,8 @@
   chrome.permissions.onRemoved.addListener(function(result)
   {
     turnSwitchesOff([blockUserAgentId, collectHeadersId]);
+    removeBlockAgentListener();
+    removeRequestListener(onSendHeaders, onHeadersReceived);
   });
 
 	function onSendHeaders(details)

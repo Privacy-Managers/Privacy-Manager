@@ -133,6 +133,12 @@
     }
   });
 
+  chrome.permissions.onRemoved.addListener(function(result)
+  {
+    removeBlockAgentListener();
+    removeRequestListener(onSendHeaders, onHeadersReceived);
+  });
+
   // Fired on a profile start up
   chrome.runtime.onStartup.addListener(profileStart);
 })(this);
