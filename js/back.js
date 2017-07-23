@@ -111,8 +111,8 @@
       chrome.permissions.contains(additionalPermission, function(result)
       {
         var newValue = change.settingList.newValue.collectHeaders;
-        var oldValue = change.settingList.oldValue.collectHeaders;
-        if (newValue != oldValue)
+        var oldValue = change.settingList.oldValue;
+        if (oldValue && newValue != oldValue.collectHeaders)
         {
           if(result && newValue)
             startCollectingRequests();
@@ -121,10 +121,10 @@
         }
 
         var newValue = change.settingList.newValue.blockUserAgent;
-        var oldValue = change.settingList.oldValue.blockUserAgent;
-        if (result && newValue != oldValue)
+        var oldValue = change.settingList.oldValue;
+        if (oldValue && newValue != oldValue.blockUserAgent)
         {
-          if(newValue)
+          if(result && newValue)
             addBlockAgentListener();
           else
             removeBlockAgentListener();
