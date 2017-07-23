@@ -90,12 +90,13 @@
 
   function populateDomainList()
   {
-    tableList.empty();
-    var searchExpression = new RegExp(Elem("#search-domain").value);
-    // Use repeative domains to count cookies number
-    var repeativeDomains = [];
     getAllCookies({}, function(cookies)
     {
+      tableList.empty();
+      var searchExpression = new RegExp(Elem("#search-domain").value);
+      // Use repeative domains to count cookies number
+      var repeativeDomains = [];
+
       for (var i = 0; i < cookies.length; i++)
       {
         if (searchExpression.test(cookies[i].domain))
@@ -112,7 +113,7 @@
       for (var i = 1; i < repeativeDomains.length; i++)
       {
         var domain = repeativeDomains[i];
-        if (lastDomain != domain || i == repeativeDomains.length - 1)
+        if (lastDomain != domain)
         {
           tableList.addItem(createDomainObj(lastDomain, cookiesNumber));
 
@@ -304,7 +305,7 @@
       var url = tab[0].url;
       if (url.indexOf("://") > -1)
       {
-         var domain = url.split('/')[2].split(':')[0];
+         var domain = url.split('/')[2].split(':')[0].replace("www.", "");
          Elem("#search-domain").value = domain;
          populateDomainList();
       }
