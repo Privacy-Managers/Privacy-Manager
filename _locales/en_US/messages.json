@@ -5,7 +5,7 @@
    },
    "chrome_extension_description": {
       "description": "Extension description",
-      "message": "Manage chrome privacy settings, data deletion on startup, quickly access page in incognito mode, manage cookies and monitor network traffic."
+      "message": "Manage privacy settings, browsing data deletion, quickly access page in incognito mode, manage cookies and monitor network traffic"
    },
    "main_tab": {
       "description": "Tab label",
