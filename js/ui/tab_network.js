@@ -56,10 +56,11 @@
 		chrome.runtime.getBackgroundPage(function(window)
 		{
 			collectedRequests = window.collectedRequests;
-			for (var i = 0; i < collectedRequests.length; i++)
-  		{
-  			tableList.addItems([cloneObj(collectedRequests[i])]);
-  		}
+      var requestsCopy =  collectedRequests.map(function(request)
+      {
+        return cloneObj(request); //Deep cloning
+      });
+      tableList.addItems(requestsCopy);
 		});
 	},false);
 
