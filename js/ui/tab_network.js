@@ -58,7 +58,7 @@
 			collectedRequests = window.collectedRequests;
 			for (var i = 0; i < collectedRequests.length; i++)
   		{
-  			tableList.addItem(cloneObj(collectedRequests[i]));
+  			tableList.addItems([cloneObj(collectedRequests[i])]);
   		}
 		});
 	},false);
@@ -120,13 +120,13 @@
 	function onSendHeaders(details)
 	{
 		updateRequestObj(details, "send");
-		tableList.addItem(details);
+		tableList.addItems([details]);
 	}
 
 	function onHeadersReceived(details)
 	{
 		updateRequestObj(details, "receive");
-		tableList.addItem(details);
+		tableList.addItems([details]);
 	}
 
   function onRequestsWidgetAction(action, element)

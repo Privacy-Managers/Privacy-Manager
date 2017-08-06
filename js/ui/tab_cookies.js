@@ -109,13 +109,14 @@
       repeativeDomains.sort();
       var lastDomain = repeativeDomains[0];
       var cookiesNumber = 1;
+      var domainObjs = [];
 
       for (var i = 1; i < repeativeDomains.length; i++)
       {
         var domain = repeativeDomains[i];
         if (lastDomain != domain)
         {
-          tableList.addItem(createDomainObj(lastDomain, cookiesNumber));
+          domainObjs.push(createDomainObj(lastDomain, cookiesNumber));
 
           lastDomain = domain;
           cookiesNumber = 1;
@@ -125,8 +126,8 @@
           cookiesNumber++;
         }
       }
-
-      tableList.addItem(createDomainObj(lastDomain, cookiesNumber));
+      domainObjs.push(createDomainObj(lastDomain, cookiesNumber));
+      tableList.addItems(domainObjs);
     });
   }
 
@@ -391,7 +392,7 @@
 
     if (!domainListElem)
     {
-      tableList.addItem(createDomainObj(domain, 1));
+      tableList.addItems([createDomainObj(domain, 1)]);
       return;
     }
 

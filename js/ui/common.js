@@ -493,40 +493,33 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
 };
 
 /**
- * Add item to the Table list
- * @param {JSON} itemObj represents list item data assignment ex.:
- *   {
- *     dataset:  { access: "example.com", datasetname: "/" },
- *     texts: {data-text-value: "example.com", data-text-value: "3 Cookies"}
- *   }
+ * Add items to the Table list
+ * @param {Array} itemObjs array of itemObj:
+ * {
+ *   dataset:  { access: "example.com", datasetname: "/" },
+ *   texts: {data-text-value: "example.com", data-text-value: "3 Cookies"}
+ * }
  */
-TableList.prototype.addItem = function(itemObj)
+TableList.prototype.addItems = function(itemObjs)
 {
-  if (this.sort)
-  {
-    if (this.sort == "reverse")
-    {
-      this.items.unshift(itemObj);
-    }
-    else
-    {
-      this.items.push(itemObj);
-      this.items.sort(this.sort);
-    }
-  }
-  else
-  {
-    this.items.push(itemObj);
-  }
+  this.items = this.items.concat(itemObjs);
 
-  var itemIndex = this.items.indexOf(itemObj);
-  if (itemIndex < this.loaded || itemIndex <= this.loadAmount)
-    this._loadItem(itemObj);
+  if (this.sort)
+    this.items.sort(this.sort);
+
+  for (var i = 0; i < itemObjs.length; i++)
+  {
+    var itemObj = itemObjs[i];
+    var itemIndex = this.items.indexOf(itemObj);
+
+    if (itemIndex < this.loaded || itemIndex <= this.loadAmount)
+      this._loadItem(itemObj);
+  }
 };
 
 /**
  * Load item into the view
- * @param  {JSON} itemObj as specified in addItem
+ * @param  {JSON} itemObj as specified in addItems
  */
 TableList.prototype._loadItem = function(itemObj)
 {
@@ -589,7 +582,7 @@ TableList.prototype.removeItem = function(accessor)
 
 /**
  * Add subitem
- * @param {JSON} itemObj as specified in addItem
+ * @param {JSON} itemObj as specified in addItems
  * @param {String} accessor item ID
  */
 TableList.prototype.addSubItem = function(itemObj, accessor)
