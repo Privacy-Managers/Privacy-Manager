@@ -5,7 +5,7 @@
   },
   "chrome_extension_description":{
     "description":"Extension description",
-    "message":"Управление личными настройками, данными браузера, быстрый доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого трафика."
+    "message":"Управление личными настройками, данными браузера, быстрый доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого трафика"
   },
   "main_tab":{
     "description":"Tab label",
@@ -31,6 +31,10 @@
     "description":"Section name",
     "message":"Личные настройки"
   },
+  "regularSettingChangeIncognito_error":{
+    "description":"Error thrown in the incognito mode when privacy setting is being modified",
+    "message":"Не возможно изменить регулярные параметры из окна инкогнито, чтобы изменить параметр воспользуйтесь пожалуйста прикрепленным профилем (профиль из которого был разрещен доступ расширения в режиме инкогнито)."
+  },
   "thirdPartyCookiesAllowed":{
     "description":"Privacy setting label",
     "message":"Сторонние куки:"
@@ -45,7 +49,7 @@
   },
   "hyperlinkAuditingEnabled_desc":{
     "description":"Privacy setting description",
-    "message":"Если выключено, Хром посылает проверочный запрос для проверки гиперссылок."
+    "message":"Если включено, Хром посылает проверочный запрос для проверки гиперссылок."
   },
   "referrersEnabled":{
     "description":"Privacy setting label",
@@ -360,7 +364,7 @@
     "message":"Вам нужно дополнительное разрешение чтобы манипулировать куки и сетевой трафик."
   },
   "additionalPermissions_notification":{
-    "description":"Description for requesting additional permission setting",
+    "description":"Notification message for the features that require additional permission",
     "message":"Пожалуйста включите 'Доп. разрешения' чтобы воспользоваться функцией"
   },
   "activeTabCookies":{
