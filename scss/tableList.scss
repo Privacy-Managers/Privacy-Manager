@@ -1,0 +1,38 @@
+/*******************************************************************************
+ * Table list
+ ******************************************************************************/
+
+.tableList {
+  list-style: none;
+  font-size: 14px;
+  overflow: auto;
+  padding: 0;
+  ul {
+    list-style: none;
+    font-size: 14px;
+    overflow: auto;
+    padding: 0;
+    padding-bottom: 10px;
+  }
+  height: 270px;
+  li {
+    > div {
+      display: flex;
+      padding: 5px 5px;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        background-color: #cee0c2;
+      }
+    }
+    &[data-expanded="true"] > ul {
+      border-top: 1px solid #324B2C;
+    }
+    .data-container {
+      flex-grow: 1;
+    }
+    span {
+      display: inline-block;
+    }
+  }
+}

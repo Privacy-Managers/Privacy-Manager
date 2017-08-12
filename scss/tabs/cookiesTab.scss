@@ -1,0 +1,102 @@
+/*******************************************************************************
+ * Cookies tab
+ ******************************************************************************/
+
+.settings-list-container {
+  display: flex;
+  .separator {
+    flex-grow: 1;
+  }
+}
+
+section h4 {
+  font-weight: bold;
+  color: #679C16;
+}
+
+#cookiesContainer {
+  position: relative;
+}
+
+.tableList {
+  .domainName {
+    width: 300px;
+  }
+  .cookieName {
+    width: 260px;
+  }
+  .cookieValue {
+    width: 100px;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+button.icon {
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  padding: 0;
+  &:after {
+    display: inline-block;
+    content: "";
+    width: 10px;
+    height: 10px;
+    margin: 0 auto;
+  }
+}
+
+#cookiesList button.icon.edit {
+  margin: 0 10px;
+}
+
+button.icon {
+  &.delete {
+    &:after {
+      background-image: url(/css/img/delete.svg);
+    }
+    &:hover:after {
+      background-image: url(/css/img/delete-hover.svg);
+    }
+  }
+  &.edit {
+    &:after {
+      background-image: url(/css/img/edit.svg);
+    }
+    &:hover:after {
+      background-image: url(/css/img/edit-hover.svg);
+    }
+  }
+}
+
+/* CONTROLS */
+.controls {
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  align-items: center;
+  input {
+    flex-grow: 1;
+    height: 25px;
+    margin: 5px;
+  }
+  button {
+    cursor: pointer;
+    line-height: 12px;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 2px;
+    background-color: transparent;
+    border: none;
+    display: inline-block;
+    width: auto;
+    margin: 5px;
+    padding: 7px;
+    background-image: linear-gradient(#83c51e, #476913);
+    &:after {
+      margin-left: 5px;
+    }
+  }
+}

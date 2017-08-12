@@ -1,0 +1,83 @@
+/*******************************************************************************
+ * DIALOG
+ ******************************************************************************/
+
+#dialog {
+  position: absolute;
+  display: flex;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(219, 226, 221, 0.5);
+  transition: all 0.2s;
+  /* Dialog animation */
+  &[aria-hidden="true"] {
+    opacity: 0;
+    transform: scale(0.5, 0.5);
+    visibility: hidden;
+  }
+  /* Dialog animation */
+  &[aria-hidden="false"] {
+    transform: scale(1, 1);
+    visibility: visible;
+    opacity: 1;
+  }
+  .body > div, .header > span, &[data-dialog="cookie-add"] #cookie-edit-control, &[data-dialog="cookie-edit"] #cookie-add-control {
+    display: none;
+  }
+  &[data-dialog="cookie-add"] #dialog-header-cookie-add, &[data-dialog="cookie-edit"] #dialog-header-cookie-edit, &[data-dialog="cookies-delete-all"] #dialog-header-cookie-delete-all, &[data-dialog="setting-info"] #dialog-header-setting-info, &[data-dialog="cookie-add"] #dialog-content-cookie-form, &[data-dialog="cookie-edit"] #dialog-content-cookie-form, &[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all, &[data-dialog="setting-info"] #dialog-content-setting-info {
+    display: block;
+  }
+  > div:first-child {
+    width: 90%;
+    background-color: #DDD;
+    border-radius: 10px;
+    box-shadow: 0 4px 23px -3px black;
+    margin: auto;
+  }
+  .header {
+    display: flex;
+    background-image: linear-gradient(#83c51e, #476913);
+    height: 25px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    span {
+      padding: 5px;
+      flex-grow: 1;
+    }
+  }
+  .body {
+    padding: 10px;
+    font-weight: bold;
+  }
+  .fieldset-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  form {
+    label {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0 20px;
+      span {
+        padding: 0 10px;
+      }
+    }
+    input {
+      &[type="text"], &[type="date"], &[type="time"] {
+        width: 150px;
+      }
+      &[type="number"] {
+        width: 30px;
+      }
+    }
+  }
+  .controls {
+    padding: 0 20px;
+  }
+}

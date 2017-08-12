@@ -1,0 +1,40 @@
+/*******************************************************************************
+ * Switches
+ ******************************************************************************/
+
+button[role="checkbox"] {
+  font-size: 0;
+  /* Fighting the Space Between Inline Block Elements */
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  > span {
+    font-size: 12px;
+    line-height: 19px;
+    padding: 0 6px;
+    border: 1px solid #d5d5d5;
+    font-weight: bold;
+    /*#7f7f7f #8abc25 #f8f8f8 */
+    &:first-child {
+      border-radius: 5px 0 0 5px;
+      border-right: 0;
+    }
+    &:last-child {
+      border-radius: 0 5px 5px 0;
+      background-image: linear-gradient(#989898, #565656);
+      color: #fff;
+    }
+  }
+  &[aria-checked="true"] > span {
+    &:first-child {
+      background-image: linear-gradient(#83c51e, #476913);
+      color: #fff;
+    }
+    &:last-child {
+      color: #000;
+      background: none;
+    }
+  }
+}
