@@ -234,7 +234,16 @@ function addSettingItem(parent, dataObj, type, callback)
             {
               if (chrome.runtime.lastError != undefined)
               {
-                //TODO: Inform user about error
+                var message = chrome.runtime.lastError.message;
+                if (message == 
+                  "Can't modify regular settings from an incognito context.")
+                {
+                  alert(getMsg("regularSettingChangeIncognito_error"));
+                }
+                else
+                {
+                  alert(message);
+                }
               }
             });
           }

@@ -31,6 +31,10 @@
       "description": "Section name",
       "message": "Privacy management"
    },
+   "regularSettingChangeIncognito_error": {
+      "description": "Error thrown in the incognito mode when privacy setting is being modified",
+      "message": "Can't modify regular settings from an incognito context, to change the setting please use attached profile (the one from which the extension was enabled to be available in the incognito mode) instead."
+   },
    "thirdPartyCookiesAllowed": {
       "description": "Privacy setting label",
       "message": "3-rd party cookies"
