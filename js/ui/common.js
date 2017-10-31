@@ -30,7 +30,7 @@ const privacyData = {
                         "searchSuggestEnabled", "spellingServiceEnabled",
                         "translationServiceEnabled"],
                       network:
-                        ["networkPredictionEnabled", "webRTCIPHandlingPolicy"]
+                        ["networkPredictionEnabled"]
                     };
 
 /*******************************************************************************

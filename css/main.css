@@ -374,6 +374,8 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 #main_tab section
 {
+  display: flex;
+  flex-direction: column;
   vertical-align: top;
   padding-right: 28px;
 }
@@ -423,25 +425,24 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 #incognito
 {
+  flex: 1;
   margin-top: 3px;
   width: 100%;
   display: inline-block;
-	box-shadow: inset 0px 1px 0px 0px #ffffff;
-	background-color: #ededed;
-	border-radius: 6px;
+	background-color: #679c16;
+	border-radius: 5px;
 	border: 1px solid #dcdcdc;
-	color: #679c16;
-	font-size: 12px;
+	color: white;
+	font-size: 13px;
 	font-weight: bold;
 	padding: 1px 39px;
 	text-decoration: none;
-	text-shadow: 1px 1px 0px #ffffff;
 }
 
 #incognito:hover
 {
 	cursor: pointer;
-	background-color: #dfdfdf;
+	background-color: #83c51e;
 }
 
 #incognito:active
