@@ -429,10 +429,10 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   margin-top: 3px;
   width: 100%;
   display: inline-block;
-	background-color: #679c16;
+	background-color: #ededed;
 	border-radius: 5px;
 	border: 1px solid #dcdcdc;
-	color: white;
+	color: #679c16;
 	font-size: 13px;
 	font-weight: bold;
 	padding: 1px 39px;
@@ -442,7 +442,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #incognito:hover
 {
 	cursor: pointer;
-	background-color: #83c51e;
+	background-color: #dfdfdf;
 }
 
 #incognito:active
