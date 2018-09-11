@@ -18,8 +18,6 @@
 
 "use strict";
 
-const setStorage = chrome.storage.local.set;
-const getStorage = chrome.storage.local.get;
 const additionalPermission = {"origins": ["<all_urls>"]};
 
 // Besides of "removeAll" item, all other dataTypes needs to be consistent with
@@ -28,6 +26,17 @@ const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
                       "fileSystems", "formData", "history", "indexedDB", 
                       "localStorage", "serverBoundCertificates", "passwords", 
                       "pluginData", "serviceWorkers", "webSQL"];
+
+function getStorage(keys, callback)
+{
+  // See -> https://github.com/Manvel/Privacy-Manager/issues/24
+  chrome.storage.local.get(keys, callback);
+}
+
+function setStorage(items, callback)
+{
+  chrome.storage.local.set(items, callback);
+}
 
 function addRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
 {
