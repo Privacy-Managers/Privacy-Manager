@@ -1,7 +1,7 @@
 {
   "chrome_extension_name": {
     "description": "Extension name",
-    "message": "Privacy manager"
+    "message": "Privacy Manager"
   },
   "chrome_extension_description": {
     "description": "Extension description",
