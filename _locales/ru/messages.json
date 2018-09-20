@@ -137,7 +137,7 @@
   },
   "translationServiceEnabled_desc": {
     "description": "'Translation service' privacy setting description",
-    "message": "Если включено, Хром предлагает перевод страниц, которые на иностранных языках."
+    "message": "Если включено, Хром предлагает перевести страницу с иностранного языка."
   },
   "networkPredictionEnabled": {
     "description": "Privacy setting label",
