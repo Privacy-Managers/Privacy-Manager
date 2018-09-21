@@ -16,6 +16,12 @@
  * along with Privacy Manager. If not, see <http://www.gnu.org/licenses/>.
  */
 
+ :root
+ {
+  --color-primary: #679c16;
+  --color-secondary: #989898;
+}
+
 body
 {
   margin: 0px;
@@ -42,7 +48,7 @@ body
 {
   margin: 0px;
   padding: 0px;
-  border-bottom: 1px solid #c0c0c0;
+  border-bottom: 1px solid var(--color-secondary);
 }
 
 #navigation_tab::after
@@ -61,7 +67,7 @@ body
   margin: 0 .2em 1px 0;
   border-bottom: 0 !important;
   white-space: nowrap;
-  color: #c0c0c0;
+  color: var(--color-secondary);
   padding: 10px 16px;
   cursor: pointer;
 }
@@ -109,8 +115,7 @@ button[role="checkbox"] > span
   font-size: 12px;
   line-height: 19px;
   padding: 0 6px;
-  border: 1px solid #d5d5d5;
-  font-weight: bold;
+  border: 1px solid var(--color-secondary);
 }
 
 /*#7f7f7f #8abc25 #f8f8f8 */
@@ -123,13 +128,13 @@ button[role="checkbox"] > span:first-child
 button[role="checkbox"] > span:last-child
 {
   border-radius: 0px 5px 5px 0px;
-  background-image: linear-gradient(#989898, #565656);
+  background-color: var(--color-secondary);
   color: #fff;
 }
 
 button[role="checkbox"][aria-checked="true"] > span:first-child
 {
-  background-image: linear-gradient(#83c51e, #476913);
+  background-color: var(--color-primary);
   color: #fff;
 }
 
@@ -166,8 +171,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 {
   display: flex;
   flex-grow: 1;
-  font-weight: bold;
-  font-size: 12px;
+  font-size: 13px;
   padding-bottom: 4px;
   vertical-align: top;
   word-wrap: break-word;
@@ -182,7 +186,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   display: inline-block;
   width: 12px;
   height: 12px;
-  background-image: url(/css/img/info.svg);
+  background: url(/css/img/info.svg) center no-repeat;
   margin: 0px 3px;
 }
 
@@ -193,7 +197,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 .tableList ul
 {
   list-style: none;
-  font-size: 14px;
+  font-size: 13px;
   overflow: auto;
   padding: 0px;
 }
@@ -291,7 +295,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog > div:first-child
 {
   width: 90%;
-  background-color: #DDD;
+  background-color: #f3f3f3;
   border-radius: 10px;
   box-shadow: 0 4px 23px -3px black;
   margin: auto;
@@ -300,11 +304,10 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog .header
 {
   display: flex;
-  background-image: linear-gradient(#83c51e, #476913);
-  height: 25px;
+  background-color: var(--color-primary);
+  padding: 5px;
   color: #fff;
   font-size: 14px;
-  font-weight: bold;
 }
 
 #dialog .header span
@@ -316,7 +319,8 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog .body
 {
   padding: 10px;
-  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 #dialog .fieldset-container
@@ -361,7 +365,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 #dialog .controls
 {
-  padding: 0px 20px;
+  padding: 0px 10px;
 }
 
 /*******************************************************************************
@@ -390,7 +394,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   font-size: 21px;
   font-weight: bold;
   padding-bottom: 8px;
-  color: #679c16;
+  color: var(--color-primary);
   margin: 0px;
 }
 
@@ -425,30 +429,23 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 #incognito
 {
-  flex: 1;
-  margin-top: 3px;
+  margin-top: auto;
   width: 100%;
   display: inline-block;
-	background-color: #ededed;
 	border-radius: 5px;
-	border: 1px solid #dcdcdc;
-	color: #679c16;
+	border: 1px solid var(--color-secondary);
+	color: var(--color-primary);
 	font-size: 13px;
 	font-weight: bold;
-	padding: 1px 39px;
-	text-decoration: none;
+	padding: 8px 0px;
+  text-decoration: none;
+  background-color: transparent;
 }
 
 #incognito:hover
 {
 	cursor: pointer;
-	background-color: #dfdfdf;
-}
-
-#incognito:active
-{
-	position:relative;
-	top:1px;
+	box-shadow: 0px 0px 1px #000;
 }
 
 /*******************************************************************************
@@ -467,7 +464,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 section h4
 {
   font-weight: bold;
-  color:#679C16;
+  color:var(--color-primary);
 }
 
 #cookiesContainer
@@ -482,7 +479,7 @@ section h4
 
 .tableList .cookieName
 {
-  width: 260px;
+  width: 280px;
 }
 
 .tableList .cookieValue
@@ -547,8 +544,10 @@ button.icon.edit:hover:after
 
 .controls input
 {
+  -webkit-appearance: textfield;
   flex-grow: 1;
-  height: 25px;
+  padding: 5px; 
+  height: 30px;
   margin: 5px;
 }
 
@@ -565,7 +564,13 @@ button.icon.edit:hover:after
   width: auto;
   margin: 5px;
   padding: 7px;
-  background-image: linear-gradient(#83c51e, #476913);
+  background-color: var(--color-primary);
+  border: solid 1px transparent;
+}
+
+.controls button:hover
+{
+  box-shadow: 0px 0px 1px #000;
 }
 
 .controls button:after
