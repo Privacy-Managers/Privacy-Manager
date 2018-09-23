@@ -45,7 +45,7 @@
   },
   "hyperlinkAuditingEnabled": {
     "description": "Privacy setting label",
-    "message": "Аудит ссылок:"
+    "message": "Аудит ссылок"
   },
   "hyperlinkAuditingEnabled_desc": {
     "description": "Privacy setting description",
@@ -53,7 +53,7 @@
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Реферер:"
+    "message": "Реферер"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
@@ -61,7 +61,7 @@
   },
   "protectedContentEnabled": {
     "description": "Privacy setting label",
-    "message": "Защищенный контент:"
+    "message": "Защищенный контент"
   },
   "protectedContentEnabled_desc": {
     "description": "'Protect content' privacy setting description (ChromeOS specific)",
@@ -77,7 +77,7 @@
   },
   "autofillEnabled": {
     "description": "Privacy setting label",
-    "message": "Автозаполнение:"
+    "message": "Автозаполнение"
   },
   "autofillEnabled_desc": {
     "description": "'Auto fill' privacy setting description",
@@ -85,7 +85,7 @@
   },
   "hotwordSearchEnabled": {
     "description": "Privacy setting label",
-    "message": "Поиск 'ок гугл':"
+    "message": "Поиск 'ок гугл'"
   },
   "hotwordSearchEnabled_desc": {
     "description": "'Hot word search' privacy setting description",
@@ -101,7 +101,7 @@
   },
   "safeBrowsingEnabled": {
     "description": "Privacy setting label",
-    "message": "Безопасный режим:"
+    "message": "Безопасный режим"
   },
   "safeBrowsingEnabled_desc": {
     "description": "'Safe browsiong mode' privacy setting description",
@@ -109,7 +109,7 @@
   },
   "safeBrowsingExtendedReportingEnabled": {
     "description": "Privacy setting label",
-    "message": "Отчет опасных сайтов:"
+    "message": "Отчет опасных сайтов"
   },
   "safeBrowsingExtendedReportingEnabled_desc": {
     "description": "'Safe browsing reporting' privacy setting description",
@@ -117,7 +117,7 @@
   },
   "searchSuggestEnabled": {
     "description": "Privacy setting label",
-    "message": "Подсказки поиска:"
+    "message": "Подсказки поиска"
   },
   "searchSuggestEnabled_desc": {
     "description": "'Search suggestions' privacy setting description",
@@ -125,7 +125,7 @@
   },
   "spellingServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Пров. правописания:"
+    "message": "Пров. правописания"
   },
   "spellingServiceEnabled_desc": {
     "description": "'Spelling service' privacy setting description",
@@ -133,7 +133,7 @@
   },
   "translationServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Перевод страниц:"
+    "message": "Перевод страниц"
   },
   "translationServiceEnabled_desc": {
     "description": "'Translation service' privacy setting description",
@@ -141,7 +141,7 @@
   },
   "networkPredictionEnabled": {
     "description": "Privacy setting label",
-    "message": "Сетевые подсказки:"
+    "message": "Сетевые подсказки"
   },
   "networkPredictionEnabled_desc": {
     "description": "'Network prediction' privacy setting description",
@@ -149,7 +149,7 @@
   },
   "webRTCIPHandlingPolicy": {
     "description": "Privacy setting label",
-    "message": "Настройка WebRTC IP:"
+    "message": "Настройка WebRTC IP"
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
@@ -165,7 +165,7 @@
   },
   "removeAll": {
     "description": "Clear on startup setting label",
-    "message": "Удалить все:"
+    "message": "Удалить все"
   },
   "removeAll_desc": {
     "description": "Remove All description in 'Clear on startup' section",
@@ -173,7 +173,7 @@
   },
   "appcache": {
     "description": "Clear on startup setting label",
-    "message": "Кэш приложений:"
+    "message": "Кэш приложений"
   },
   "appcache_desc": {
     "description": "App. cache description in 'Clear on startup' section",
@@ -181,7 +181,7 @@
   },
   "cache": {
     "description": "Clear on startup setting label",
-    "message": "Кэш:"
+    "message": "Кэш"
   },
   "cache_desc": {
     "description": "Cache description in 'Clear on startup' section",
@@ -189,7 +189,7 @@
   },
   "cookies": {
     "description": "Clear on startup setting label",
-    "message": "Куки:"
+    "message": "Куки"
   },
   "cookies_desc": {
     "description": "Cookies description in 'Clear on startup' section",
@@ -197,7 +197,7 @@
   },
   "downloads": {
     "description": "Clear on startup setting label",
-    "message": "Загрузки:"
+    "message": "Загрузки"
   },
   "downloads_desc": {
     "description": "Downloads description in 'Clear on startup' section",
@@ -205,7 +205,7 @@
   },
   "fileSystems": {
     "description": "Clear on startup setting label",
-    "message": "Файл. Система:"
+    "message": "Файл. Система"
   },
   "fileSystems_desc": {
     "description": "File system description in 'Clear on startup' section",
@@ -213,7 +213,7 @@
   },
   "formData": {
     "description": "Clear on startup setting label",
-    "message": "Данные форм:"
+    "message": "Данные форм"
   },
   "formData_desc": {
     "description": "Form data description in 'Clear on startup' section",
@@ -221,7 +221,7 @@
   },
   "history": {
     "description": "Clear on startup setting label",
-    "message": "История:"
+    "message": "История"
   },
   "history_desc": {
     "description": "History description in 'Clear on startup' section",
@@ -229,7 +229,7 @@
   },
   "indexedDB": {
     "description": "Clear on startup setting label",
-    "message": "Индексированная БД:"
+    "message": "Индексированная БД"
   },
   "indexedDB_desc": {
     "description": "Indexed DB description in 'Clear on startup' section",
@@ -237,7 +237,7 @@
   },
   "localStorage": {
     "description": "Clear on startup setting label",
-    "message": "Локальное хранилище:"
+    "message": "Локальное хранилище"
   },
   "localStorage_desc": {
     "description": "Local storage description in 'Clear on startup' section",
@@ -245,7 +245,7 @@
   },
   "serverBoundCertificates": {
     "description": "Clear on startup setting label",
-    "message": "Server-bound certificates:"
+    "message": "Server-bound certificates"
   },
   "serverBoundCertificates_desc": {
     "description": "Server-bound certificates description in 'Clear on startup' section",
@@ -253,7 +253,7 @@
   },
   "passwords": {
     "description": "Clear on startup setting label",
-    "message": "Пароли:"
+    "message": "Пароли"
   },
   "passwords_desc": {
     "description": "Passwords description in 'Clear on startup' section",
@@ -261,7 +261,7 @@
   },
   "pluginData": {
     "description": "Clear on startup setting label",
-    "message": "Модули:"
+    "message": "Модули"
   },
   "pluginData_desc": {
     "description": "Plugin data description in 'Clear on startup' section",
@@ -269,7 +269,7 @@
   },
   "serviceWorkers": {
     "description": "Clear on startup setting label",
-    "message": "Service Workers:"
+    "message": "Service Workers"
   },
   "serviceWorkers_desc": {
     "description": "Service workers description in 'Clear on startup' section",
@@ -277,7 +277,7 @@
   },
   "webSQL": {
     "description": "Clear on startup setting label",
-    "message": "WebSQL:"
+    "message": "Web SQL"
   },
   "webSQL_desc": {
     "description": "Web SQL description in 'Clear on startup' section",
@@ -293,47 +293,47 @@
   },
   "cookieDialog_domain": {
     "description": "Text in Cookies edit dialog",
-    "message": "Домен:"
+    "message": "Домен"
   },
   "cookieDialog_name": {
     "description": "Text in Cookies edit dialog",
-    "message": "Имя:"
+    "message": "Имя"
   },
   "cookieDialog_value": {
     "description": "Text in Cookies edit dialog",
-    "message": "Значение:"
+    "message": "Значение"
   },
   "cookieDialog_path": {
     "description": "Text in Cookies edit dialog",
-    "message": "Путь:"
+    "message": "Путь"
   },
   "cookieDialog_expDate": {
     "description": "Text in Cookies edit dialog",
-    "message": "До даты:"
+    "message": "До даты"
   },
   "cookieDialog_expTime": {
     "description": "Text in Cookies edit dialog",
-    "message": "До времени:"
+    "message": "До времени"
   },
   "cookieDialog_hostOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "Только Host:"
+    "message": "Только Host"
   },
   "cookieDialog_httpOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "Только HTTP:"
+    "message": "Только HTTP"
   },
   "cookieDialog_secure": {
     "description": "Text in Cookies edit dialog",
-    "message": "Зашищенный:"
+    "message": "Зашищенный"
   },
   "cookieDialog_session": {
     "description": "Text in Cookies edit dialog",
-    "message": "Сессия:"
+    "message": "Сессия"
   },
   "cookieDialog_storeId": {
     "description": "Text in Cookies edit dialog",
-    "message": "ID базы:"
+    "message": "ID базы"
   },
   "cookieDialog_add": {
     "description": "Button text in Cookies edit dialog",
@@ -357,7 +357,7 @@
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
-    "message": "Доп. разрешения:"
+    "message": "Доп. разрешения"
   },
   "additionalPermissions_desc": {
     "description": "Description for requesting additional permission setting",
@@ -369,7 +369,7 @@
   },
   "activeTabCookies": {
     "description": "Setting label in cookies section",
-    "message": "Куки текущей вкладки:"
+    "message": "Куки текущей вкладки"
   },
   "activeTabCookies_desc": {
     "description": "Active tab setting description",
@@ -377,7 +377,7 @@
   },
   "blockUserAgent": {
     "description": "Label for blocking user agent setting",
-    "message": "Блокировать user-agent:"
+    "message": "Блокировать User Agent"
   },
   "blockUserAgent_desc": {
     "description": "Descrption for blocking user agent setting",
@@ -385,7 +385,7 @@
   },
   "collectHeaders": {
     "description": "Setting label in network section",
-    "message": "Собирать заголовки:"
+    "message": "Собирать заголовки"
   },
   "collectHeaders_desc": {
     "description": "'Collect headers' setting description",
