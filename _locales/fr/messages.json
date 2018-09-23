@@ -45,7 +45,7 @@
   },
   "hyperlinkAuditingEnabled": {
     "description": "Privacy setting label",
-    "message": "Audit de lien hypertexte:"
+    "message": "Hyperlink auditing"
   },
   "hyperlinkAuditingEnabled_desc": {
     "description": "Privacy setting description",
@@ -53,7 +53,7 @@
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Référents:"
+    "message": "Referrers"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
@@ -61,7 +61,7 @@
   },
   "protectedContentEnabled": {
     "description": "Privacy setting label",
-    "message": "Contenu Protégé:"
+    "message": "Protect content"
   },
   "protectedContentEnabled_desc": {
     "description": "'Protect content' privacy setting description (ChromeOS specific)",
@@ -69,7 +69,7 @@
   },
   "alternateErrorPagesEnabled": {
     "description": "Privacy setting label",
-    "message": "Page d’erreur alternative :"
+    "message": "Alternate error pages"
   },
   "alternateErrorPagesEnabled_desc": {
     "description": "'Alternate error pages' privacy setting description",
@@ -77,7 +77,7 @@
   },
   "autofillEnabled": {
     "description": "Privacy setting label",
-    "message": "Auto fill:"
+    "message": "Auto fill"
   },
   "autofillEnabled_desc": {
     "description": "'Auto fill' privacy setting description",
@@ -85,7 +85,7 @@
   },
   "hotwordSearchEnabled": {
     "description": "Privacy setting label",
-    "message": "Hot word search:"
+    "message": "Hot word search"
   },
   "hotwordSearchEnabled_desc": {
     "description": "'Hot word search' privacy setting description",
@@ -93,7 +93,7 @@
   },
   "passwordSavingEnabled": {
     "description": "Privacy setting label",
-    "message": "Password saving:"
+    "message": "Password saving"
   },
   "passwordSavingEnabled_desc": {
     "description": "'Password saving' privacy setting description",
@@ -101,7 +101,7 @@
   },
   "safeBrowsingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsiong mode:"
+    "message": "Safe browsiong mode"
   },
   "safeBrowsingEnabled_desc": {
     "description": "'Safe browsiong mode' privacy setting description",
@@ -109,7 +109,7 @@
   },
   "safeBrowsingExtendedReportingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsing reporting:"
+    "message": "Safe browsing reporting"
   },
   "safeBrowsingExtendedReportingEnabled_desc": {
     "description": "'Safe browsing reporting' privacy setting description",
@@ -117,7 +117,7 @@
   },
   "searchSuggestEnabled": {
     "description": "Privacy setting label",
-    "message": "Search suggestions:"
+    "message": "Search suggestions"
   },
   "searchSuggestEnabled_desc": {
     "description": "'Search suggestions' privacy setting description",
@@ -125,7 +125,7 @@
   },
   "spellingServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Spelling service:"
+    "message": "Spelling service"
   },
   "spellingServiceEnabled_desc": {
     "description": "'Spelling service' privacy setting description",
@@ -133,7 +133,7 @@
   },
   "translationServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Translation service:"
+    "message": "Translation service"
   },
   "translationServiceEnabled_desc": {
     "description": "'Translation service' privacy setting description",
@@ -141,7 +141,7 @@
   },
   "networkPredictionEnabled": {
     "description": "Privacy setting label",
-    "message": "Network prediction:"
+    "message": "Network prediction"
   },
   "networkPredictionEnabled_desc": {
     "description": "'Network prediction' privacy setting description",
@@ -149,7 +149,7 @@
   },
   "webRTCIPHandlingPolicy": {
     "description": "Privacy setting label",
-    "message": "Web RTC IP handling:"
+    "message": "Web RTC IP handling"
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
@@ -165,7 +165,7 @@
   },
   "removeAll": {
     "description": "Clear on startup setting label",
-    "message": "Remove All:"
+    "message": "Remove All"
   },
   "removeAll_desc": {
     "description": "Remove All description in 'Clear on startup' section",
@@ -173,7 +173,7 @@
   },
   "appcache": {
     "description": "Clear on startup setting label",
-    "message": "App. cache:"
+    "message": "App. cache"
   },
   "appcache_desc": {
     "description": "App. cache description in 'Clear on startup' section",
@@ -181,7 +181,7 @@
   },
   "cache": {
     "description": "Clear on startup setting label",
-    "message": "Cache:"
+    "message": "Cache"
   },
   "cache_desc": {
     "description": "Cache description in 'Clear on startup' section",
@@ -189,7 +189,7 @@
   },
   "cookies": {
     "description": "Clear on startup setting label",
-    "message": "Cookies:"
+    "message": "Cookies"
   },
   "cookies_desc": {
     "description": "Cookies description in 'Clear on startup' section",
@@ -197,7 +197,7 @@
   },
   "downloads": {
     "description": "Clear on startup setting label",
-    "message": "Downloads:"
+    "message": "Downloads"
   },
   "downloads_desc": {
     "description": "Downloads description in 'Clear on startup' section",
@@ -205,7 +205,7 @@
   },
   "fileSystems": {
     "description": "Clear on startup setting label",
-    "message": "File systems:"
+    "message": "File systems"
   },
   "fileSystems_desc": {
     "description": "File system description in 'Clear on startup' section",
@@ -213,7 +213,7 @@
   },
   "formData": {
     "description": "Clear on startup setting label",
-    "message": "Form data:"
+    "message": "Form data"
   },
   "formData_desc": {
     "description": "Form data description in 'Clear on startup' section",
@@ -221,7 +221,7 @@
   },
   "history": {
     "description": "Clear on startup setting label",
-    "message": "History:"
+    "message": "History"
   },
   "history_desc": {
     "description": "History description in 'Clear on startup' section",
@@ -229,7 +229,7 @@
   },
   "indexedDB": {
     "description": "Clear on startup setting label",
-    "message": "Indexed DB:"
+    "message": "Indexed DB"
   },
   "indexedDB_desc": {
     "description": "Indexed DB description in 'Clear on startup' section",
@@ -237,7 +237,7 @@
   },
   "localStorage": {
     "description": "Clear on startup setting label",
-    "message": "Local storage:"
+    "message": "Local storage"
   },
   "localStorage_desc": {
     "description": "Local storage description in 'Clear on startup' section",
@@ -245,7 +245,7 @@
   },
   "serverBoundCertificates": {
     "description": "Clear on startup setting label",
-    "message": "Server-bound certificates:"
+    "message": "Server-bound certificates"
   },
   "serverBoundCertificates_desc": {
     "description": "Server-bound certificates description in 'Clear on startup' section",
@@ -253,7 +253,7 @@
   },
   "passwords": {
     "description": "Clear on startup setting label",
-    "message": "Passwords:"
+    "message": "Passwords"
   },
   "passwords_desc": {
     "description": "Passwords description in 'Clear on startup' section",
@@ -261,7 +261,7 @@
   },
   "pluginData": {
     "description": "Clear on startup setting label",
-    "message": "Plugin data:"
+    "message": "Plugin data"
   },
   "pluginData_desc": {
     "description": "Plugin data description in 'Clear on startup' section",
@@ -269,7 +269,7 @@
   },
   "serviceWorkers": {
     "description": "Clear on startup setting label",
-    "message": "Service Workers:"
+    "message": "Service Workers"
   },
   "serviceWorkers_desc": {
     "description": "Service workers description in 'Clear on startup' section",
@@ -277,7 +277,7 @@
   },
   "webSQL": {
     "description": "Clear on startup setting label",
-    "message": "Web SQL:"
+    "message": "Web SQL"
   },
   "webSQL_desc": {
     "description": "Web SQL description in 'Clear on startup' section",
@@ -293,47 +293,47 @@
   },
   "cookieDialog_domain": {
     "description": "Text in Cookies edit dialog",
-    "message": "Domain:"
+    "message": "Domain"
   },
   "cookieDialog_name": {
     "description": "Text in Cookies edit dialog",
-    "message": "Name:"
+    "message": "Name"
   },
   "cookieDialog_value": {
     "description": "Text in Cookies edit dialog",
-    "message": "Value:"
+    "message": "Value"
   },
   "cookieDialog_path": {
     "description": "Text in Cookies edit dialog",
-    "message": "Path:"
+    "message": "Path"
   },
   "cookieDialog_expDate": {
     "description": "Text in Cookies edit dialog",
-    "message": "Exp. date:"
+    "message": "Exp. date"
   },
   "cookieDialog_expTime": {
     "description": "Text in Cookies edit dialog",
-    "message": "Exp. time:"
+    "message": "Exp. time"
   },
   "cookieDialog_hostOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "Host only:"
+    "message": "Host only"
   },
   "cookieDialog_httpOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "HTTP only:"
+    "message": "HTTP only"
   },
   "cookieDialog_secure": {
     "description": "Text in Cookies edit dialog",
-    "message": "Secure:"
+    "message": "Secure"
   },
   "cookieDialog_session": {
     "description": "Text in Cookies edit dialog",
-    "message": "Session:"
+    "message": "Session"
   },
   "cookieDialog_storeId": {
     "description": "Text in Cookies edit dialog",
-    "message": "Store ID:"
+    "message": "Store ID"
   },
   "cookieDialog_add": {
     "description": "Button text in Cookies edit dialog",
@@ -357,7 +357,7 @@
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
-    "message": "Additional permissions:"
+    "message": "Additional permissions"
   },
   "additionalPermissions_desc": {
     "description": "Description for requesting additional permission setting",
@@ -369,7 +369,7 @@
   },
   "activeTabCookies": {
     "description": "Setting label in cookies section",
-    "message": "Active tab cookies:"
+    "message": "Active tab cookies"
   },
   "activeTabCookies_desc": {
     "description": "Active tab setting description",
@@ -377,7 +377,7 @@
   },
   "blockUserAgent": {
     "description": "Label for blocking user agent setting",
-    "message": "Block user agent:"
+    "message": "Block user agent"
   },
   "blockUserAgent_desc": {
     "description": "Descrption for blocking user agent setting",
@@ -385,7 +385,7 @@
   },
   "collectHeaders": {
     "description": "Setting label in network section",
-    "message": "Collect headers:"
+    "message": "Collect headers"
   },
   "collectHeaders_desc": {
     "description": "'Collect headers' setting description",
