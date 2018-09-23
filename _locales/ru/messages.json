@@ -293,47 +293,47 @@
   },
   "cookieDialog_domain": {
     "description": "Text in Cookies edit dialog",
-    "message": "Domain"
+    "message": "Домен"
   },
   "cookieDialog_name": {
     "description": "Text in Cookies edit dialog",
-    "message": "Name"
+    "message": "Имя"
   },
   "cookieDialog_value": {
     "description": "Text in Cookies edit dialog",
-    "message": "Value"
+    "message": "Значение"
   },
   "cookieDialog_path": {
     "description": "Text in Cookies edit dialog",
-    "message": "Path"
+    "message": "Путь"
   },
   "cookieDialog_expDate": {
     "description": "Text in Cookies edit dialog",
-    "message": "Exp. date"
+    "message": "До даты"
   },
   "cookieDialog_expTime": {
     "description": "Text in Cookies edit dialog",
-    "message": "Exp. time"
+    "message": "До времени"
   },
   "cookieDialog_hostOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "Host only"
+    "message": "Только Host"
   },
   "cookieDialog_httpOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "HTTP only"
+    "message": "Только HTTP"
   },
   "cookieDialog_secure": {
     "description": "Text in Cookies edit dialog",
-    "message": "Secure"
+    "message": "Зашищенный"
   },
   "cookieDialog_session": {
     "description": "Text in Cookies edit dialog",
-    "message": "Session"
+    "message": "Сессия"
   },
   "cookieDialog_storeId": {
     "description": "Text in Cookies edit dialog",
-    "message": "Store ID"
+    "message": "ID базы"
   },
   "cookieDialog_add": {
     "description": "Button text in Cookies edit dialog",
@@ -357,7 +357,7 @@
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
-    "message": "Additional permissions"
+    "message": "Доп. разрешения"
   },
   "additionalPermissions_desc": {
     "description": "Description for requesting additional permission setting",
@@ -369,7 +369,7 @@
   },
   "activeTabCookies": {
     "description": "Setting label in cookies section",
-    "message": "Active tab cookies"
+    "message": "Куки текущей вкладки"
   },
   "activeTabCookies_desc": {
     "description": "Active tab setting description",
@@ -377,7 +377,7 @@
   },
   "blockUserAgent": {
     "description": "Label for blocking user agent setting",
-    "message": "Block user agent"
+    "message": "Блокировать User Agent"
   },
   "blockUserAgent_desc": {
     "description": "Descrption for blocking user agent setting",
@@ -385,7 +385,7 @@
   },
   "collectHeaders": {
     "description": "Setting label in network section",
-    "message": "Collect headers"
+    "message": "Собирать заголовки"
   },
   "collectHeaders_desc": {
     "description": "'Collect headers' setting description",
