@@ -45,7 +45,7 @@
   },
   "hyperlinkAuditingEnabled": {
     "description": "Privacy setting label",
-    "message": "Hyperlink auditing"
+    "message": "Audit de lien hypertexte"
   },
   "hyperlinkAuditingEnabled_desc": {
     "description": "Privacy setting description",
@@ -53,7 +53,7 @@
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Referrers"
+    "message": "Référents"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
@@ -61,7 +61,7 @@
   },
   "protectedContentEnabled": {
     "description": "Privacy setting label",
-    "message": "Protect content"
+    "message": "Contenu Protégé"
   },
   "protectedContentEnabled_desc": {
     "description": "'Protect content' privacy setting description (ChromeOS specific)",
@@ -69,7 +69,7 @@
   },
   "alternateErrorPagesEnabled": {
     "description": "Privacy setting label",
-    "message": "Alternate error pages"
+    "message": "Page d’erreur alternative"
   },
   "alternateErrorPagesEnabled_desc": {
     "description": "'Alternate error pages' privacy setting description",
