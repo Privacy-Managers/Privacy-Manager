@@ -45,7 +45,7 @@
   },
   "hyperlinkAuditingEnabled": {
     "description": "Privacy setting label",
-    "message": "Hyperlink auditing"
+    "message": "Аудит ссылок"
   },
   "hyperlinkAuditingEnabled_desc": {
     "description": "Privacy setting description",
@@ -53,7 +53,7 @@
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Referrers"
+    "message": "Реферер"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
@@ -61,7 +61,7 @@
   },
   "protectedContentEnabled": {
     "description": "Privacy setting label",
-    "message": "Protect content"
+    "message": "Защищенный контент"
   },
   "protectedContentEnabled_desc": {
     "description": "'Protect content' privacy setting description (ChromeOS specific)",
@@ -69,7 +69,7 @@
   },
   "alternateErrorPagesEnabled": {
     "description": "Privacy setting label",
-    "message": "Alternate error pages"
+    "message": "Разрешения проблем:"
   },
   "alternateErrorPagesEnabled_desc": {
     "description": "'Alternate error pages' privacy setting description",
@@ -77,7 +77,7 @@
   },
   "autofillEnabled": {
     "description": "Privacy setting label",
-    "message": "Auto fill"
+    "message": "Автозаполнение"
   },
   "autofillEnabled_desc": {
     "description": "'Auto fill' privacy setting description",
@@ -85,7 +85,7 @@
   },
   "hotwordSearchEnabled": {
     "description": "Privacy setting label",
-    "message": "Hot word search"
+    "message": "Поиск 'ок гугл'"
   },
   "hotwordSearchEnabled_desc": {
     "description": "'Hot word search' privacy setting description",
@@ -93,7 +93,7 @@
   },
   "passwordSavingEnabled": {
     "description": "Privacy setting label",
-    "message": "Password saving"
+    "message": "Сохранение пароля:"
   },
   "passwordSavingEnabled_desc": {
     "description": "'Password saving' privacy setting description",
@@ -101,7 +101,7 @@
   },
   "safeBrowsingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsiong mode"
+    "message": "Безопасный режим"
   },
   "safeBrowsingEnabled_desc": {
     "description": "'Safe browsiong mode' privacy setting description",
@@ -109,7 +109,7 @@
   },
   "safeBrowsingExtendedReportingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsing reporting"
+    "message": "Отчет опасных сайтов"
   },
   "safeBrowsingExtendedReportingEnabled_desc": {
     "description": "'Safe browsing reporting' privacy setting description",
@@ -117,7 +117,7 @@
   },
   "searchSuggestEnabled": {
     "description": "Privacy setting label",
-    "message": "Search suggestions"
+    "message": "Подсказки поиска"
   },
   "searchSuggestEnabled_desc": {
     "description": "'Search suggestions' privacy setting description",
@@ -125,7 +125,7 @@
   },
   "spellingServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Spelling service"
+    "message": "Пров. правописания"
   },
   "spellingServiceEnabled_desc": {
     "description": "'Spelling service' privacy setting description",
@@ -133,7 +133,7 @@
   },
   "translationServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Translation service"
+    "message": "Перевод страниц"
   },
   "translationServiceEnabled_desc": {
     "description": "'Translation service' privacy setting description",
@@ -141,7 +141,7 @@
   },
   "networkPredictionEnabled": {
     "description": "Privacy setting label",
-    "message": "Network prediction"
+    "message": "Сетевые подсказки"
   },
   "networkPredictionEnabled_desc": {
     "description": "'Network prediction' privacy setting description",
@@ -149,7 +149,7 @@
   },
   "webRTCIPHandlingPolicy": {
     "description": "Privacy setting label",
-    "message": "Web RTC IP handling"
+    "message": "Настройка WebRTC IP"
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
@@ -165,7 +165,7 @@
   },
   "removeAll": {
     "description": "Clear on startup setting label",
-    "message": "Remove All"
+    "message": "Удалить все"
   },
   "removeAll_desc": {
     "description": "Remove All description in 'Clear on startup' section",
@@ -173,7 +173,7 @@
   },
   "appcache": {
     "description": "Clear on startup setting label",
-    "message": "App. cache"
+    "message": "Кэш приложений"
   },
   "appcache_desc": {
     "description": "App. cache description in 'Clear on startup' section",
@@ -181,7 +181,7 @@
   },
   "cache": {
     "description": "Clear on startup setting label",
-    "message": "Cache"
+    "message": "Кэш"
   },
   "cache_desc": {
     "description": "Cache description in 'Clear on startup' section",
@@ -189,7 +189,7 @@
   },
   "cookies": {
     "description": "Clear on startup setting label",
-    "message": "Cookies"
+    "message": "Куки"
   },
   "cookies_desc": {
     "description": "Cookies description in 'Clear on startup' section",
@@ -197,7 +197,7 @@
   },
   "downloads": {
     "description": "Clear on startup setting label",
-    "message": "Downloads"
+    "message": "Загрузки"
   },
   "downloads_desc": {
     "description": "Downloads description in 'Clear on startup' section",
@@ -205,7 +205,7 @@
   },
   "fileSystems": {
     "description": "Clear on startup setting label",
-    "message": "File systems"
+    "message": "Файл. Система"
   },
   "fileSystems_desc": {
     "description": "File system description in 'Clear on startup' section",
@@ -213,7 +213,7 @@
   },
   "formData": {
     "description": "Clear on startup setting label",
-    "message": "Form data"
+    "message": "Данные форм"
   },
   "formData_desc": {
     "description": "Form data description in 'Clear on startup' section",
@@ -221,7 +221,7 @@
   },
   "history": {
     "description": "Clear on startup setting label",
-    "message": "History"
+    "message": "История"
   },
   "history_desc": {
     "description": "History description in 'Clear on startup' section",
@@ -229,7 +229,7 @@
   },
   "indexedDB": {
     "description": "Clear on startup setting label",
-    "message": "Indexed DB"
+    "message": "Индексированная БД"
   },
   "indexedDB_desc": {
     "description": "Indexed DB description in 'Clear on startup' section",
@@ -237,7 +237,7 @@
   },
   "localStorage": {
     "description": "Clear on startup setting label",
-    "message": "Local storage"
+    "message": "Локальное хранилище"
   },
   "localStorage_desc": {
     "description": "Local storage description in 'Clear on startup' section",
@@ -253,7 +253,7 @@
   },
   "passwords": {
     "description": "Clear on startup setting label",
-    "message": "Passwords"
+    "message": "Пароли"
   },
   "passwords_desc": {
     "description": "Passwords description in 'Clear on startup' section",
@@ -261,7 +261,7 @@
   },
   "pluginData": {
     "description": "Clear on startup setting label",
-    "message": "Plugin data"
+    "message": "Модули"
   },
   "pluginData_desc": {
     "description": "Plugin data description in 'Clear on startup' section",
