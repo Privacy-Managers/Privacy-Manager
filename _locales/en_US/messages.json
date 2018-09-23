@@ -1,10 +1,10 @@
 {
   "chrome_extension_name": {
-    "description": "Extension name",
+    "description": "Extension name, used in the Web Store",
     "message": "Privacy Manager"
   },
   "chrome_extension_description": {
-    "description": "Extension description",
+    "description": "Extension description, used in the Web Store",
     "message": "Manage privacy settings, browsing data deletion, quickly access page in incognito mode, manage cookies and monitor network traffic"
   },
   "main_tab": {
