@@ -25,6 +25,7 @@
 
   function profileStart()
   {
+    setStorage({'cookieWhitelist': [["github.com", 'user_session'], ["slack.com", ''], ["twitter.com", '']]})
     getStorage("settingList", function(data)
     {
       deleteBrowsingData(data.settingList);
@@ -67,30 +68,34 @@
       }, {});
       if (browsingDataObj.cookies) {
         // delete cookies here + ignore whitelisted cookies
-        var domain_list = [["github.com", 'user_session'], ["slack.com", ''], ["twitter.com", '']]
-        getAllCookies({}, function(cookies)
-        {
-          var callbackCount = 0;
-          for (var i = 0; i < cookies.length; i++)
+        getStorage("cookieWhitelist", function(data) {
+          var domain_list = data.cookieWhitelist
+          getAllCookies({}, function(cookies)
           {
-            var cookie = cookies[i];
-            var url = getUrl(cookie.domain, cookie.path, cookie.secure);
+            var callbackCount = 0;
+            for (var i = 0; i < cookies.length; i++)
+            {
+              var cookie = cookies[i];
+              var url = getUrl(cookie.domain, cookie.path, cookie.secure);
 
-            var wl = false;
-            for (var x in domain_list) { 
-              var wl_domain = domain_list[x][0]
-              var wl_name = domain_list[x][1]
-              if (cookie.domain.includes(wl_domain)) { 
-                if (wl_name == "" || wl_name == cookie.name) {
-                  wl = true
+              var wl = false;
+              for (var x in domain_list) { 
+                var wl_domain = domain_list[x][0]
+                var wl_name = domain_list[x][1]
+                if (cookie.domain.includes(wl_domain)) { 
+                  if (wl_name == "" || wl_name == cookie.name) {
+                    wl = true
+                  }
                 }
               }
+              if (!wl) {
+                removeCookie({"url": url, "name": cookie.name});
+              }
             }
-            if (!wl) {
-              removeCookie({"url": url, "name": cookie.name});
-            }
-          }
-        });
+          });
+          });
+        // var domain_list = [["github.com", 'user_session'], ["slack.com", ''], ["twitter.com", '']]
+        
         browsingDataObj.cookies = false;
       }
       chrome.browsingData.remove({}, browsingDataObj);
