@@ -26,6 +26,8 @@ const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
                       "fileSystems", "formData", "history", "indexedDB", 
                       "localStorage", "serverBoundCertificates", "passwords", 
                       "pluginData", "serviceWorkers", "webSQL"];
+const getAllCookies = chrome.cookies.getAll;
+const removeCookie = chrome.cookies.remove;
 
 function getStorage(keys, callback)
 {
@@ -38,6 +40,10 @@ function setStorage(items, callback)
   chrome.storage.local.set(items, callback);
 }
 
+function getUrl(domain, path, isSecure)
+{
+  return "http" + (isSecure ? "s" : "") + "://" + domain + path;
+}
 function addRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
 {
   chrome.webRequest.onSendHeaders.addListener(onSendHeadersCallback, 
