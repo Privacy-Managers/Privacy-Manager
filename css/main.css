@@ -290,6 +290,10 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog[data-dialog="setting-info"] #dialog-content-setting-info
 {
   display: block;
+}#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all,
+#dialog[data-dialog="setting-info"] #dialog-content-setting-info
+{
+  display: block;
 }
 
 #dialog > div:first-child
@@ -526,6 +530,24 @@ button.icon.edit:after
 {
   background-image: url(/css/img/edit.svg);
 }
+
+#cookiesList button.icon.edit
+{
+  margin: 0px 10px;
+}
+
+
+button.icon.whitelist
+{
+  background-image: url(/css/img/check-mark-circle.svg);
+}
+
+button.icon.whitelist:hover:after
+{
+  background-image: url(/css/img/check-mark-filled.svg);
+}
+
+
 
 button.icon.edit:hover:after
 {

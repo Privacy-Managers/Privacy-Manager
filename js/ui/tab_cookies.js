@@ -156,6 +156,16 @@
           }
         });
         break;
+      case "whitelist-sublist-cookie":
+        var accessObj = JSON.parse(getParentData(element, "data-access"));
+        var domain = getParentData(getParentData(element, "data-access", true).
+          parentElement, "data-access");
+        var url = getUrl(domain, accessObj.path, accessObj.secure);
+        getStorage("cookieWhitelist", function(data) {
+          data["cookieWhitelist"].push([url, accessObj.cookie])
+          setStorage(data)
+        });
+        break;
       case "close-expanded-domain":
         var domainElem = getParentData(element, "data-expanded", true);
         tableList.removeAllSubItems(domainElem.dataset.access);

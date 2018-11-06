@@ -25,7 +25,6 @@
 
   function profileStart()
   {
-    setStorage({'cookieWhitelist': [["github.com", 'user_session'], ["slack.com", ''], ["twitter.com", '']]})
     getStorage("settingList", function(data)
     {
       deleteBrowsingData(data.settingList);
@@ -82,7 +81,7 @@
               for (var x in domain_list) { 
                 var wl_domain = domain_list[x][0]
                 var wl_name = domain_list[x][1]
-                if (cookie.domain.includes(wl_domain)) { 
+                if (wl_domain.includes(cookie.domain)) { 
                   if (wl_name == "" || wl_name == cookie.name) {
                     wl = true
                   }
