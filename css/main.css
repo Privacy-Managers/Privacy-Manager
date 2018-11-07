@@ -531,7 +531,7 @@ button.icon.edit:after
   background-image: url(/css/img/edit.svg);
 }
 
-#cookiesList button.icon.edit
+#cookiesList button.icon.whitelist
 {
   margin: 0px 10px;
 }

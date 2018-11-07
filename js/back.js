@@ -25,6 +25,11 @@
 
   function profileStart()
   {
+    getStorage("cookieWhitelist", function(data) {
+      if (data = {}) {
+        setStorage({"cookieWhitelist": {}})
+      }
+    })
     getStorage("settingList", function(data)
     {
       deleteBrowsingData(data.settingList);
@@ -65,44 +70,41 @@
 
         return accumulator;
       }, {});
-      if (browsingDataObj.cookies) {
-        // delete cookies here + ignore whitelisted cookies
-        getStorage("cookieWhitelist", function(data) {
-          var domain_list = data.cookieWhitelist
-          getAllCookies({}, function(cookies)
-          {
-            var callbackCount = 0;
-            for (var i = 0; i < cookies.length; i++)
-            {
-              var cookie = cookies[i];
-              var url = getUrl(cookie.domain, cookie.path, cookie.secure);
-
-              var wl = false;
-              for (var x in domain_list) { 
-                var wl_domain = domain_list[x][0]
-                var wl_name = domain_list[x][1]
-                if (wl_domain.includes(cookie.domain)) { 
-                  if (wl_name == "" || wl_name == cookie.name) {
-                    wl = true
-                  }
-                }
-              }
-              if (!wl) {
-                removeCookie({"url": url, "name": cookie.name});
-              }
-            }
-          });
-          });
-        // var domain_list = [["github.com", 'user_session'], ["slack.com", ''], ["twitter.com", '']]
-        
-        browsingDataObj.cookies = false;
-      }
+      browsingDataObj.cookies = false;
       chrome.browsingData.remove({}, browsingDataObj);
     }
     else
     {
       delete browsingDataObj.removeAll;
       chrome.browsingData.remove({}, browsingDataObj);
+    }
+    if (browsingDataObj.cookies) {
+      // delete cookies here + ignore whitelisted cookies
+      getStorage("cookieWhitelist", function(data) {
+        let domainList = data.cookieWhitelist
+        getAllCookies({}, function(cookies)
+        {
+          let callbackCount = 0;
+          for (let cookie in cookies)
+          {
+            let url = getUrl(cookie.domain, cookie.path, cookie.secure);
+
+            var whitelisted = false;
+            for (let item of domainList) { 
+              let whitelistedDomain = item[0]
+              let whitelistedName = item[1]
+              if (whitelistedDomain.includes(cookie.domain)) { 
+                if (whitelistedName == "" || whitelistedName == cookie.name) {
+                  whitelisted = true
+                }
+              }
+            }
+            if (!whitelisted) {
+              removeCookie({"url": url, "name": cookie.name});
+            }
+          }
+        });
+        });
     }
   }
 

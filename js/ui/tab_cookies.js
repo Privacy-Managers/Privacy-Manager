@@ -162,8 +162,19 @@
           parentElement, "data-access");
         var url = getUrl(domain, accessObj.path, accessObj.secure);
         getStorage("cookieWhitelist", function(data) {
-          data["cookieWhitelist"].push([url, accessObj.cookie])
-          setStorage(data)
+          let whitelist = data["cookieWhitelist"]
+          if (!whitelist.propertyIsEnumerable(domain)) {
+            whitelist[domain] = []
+          }
+          if (!whitelist[domain].includes("user_session") && !whitelist[domain].includes("")) {
+            data["cookieWhitelist"][domain].push(accessObj.cookie)
+            setStorage(data)
+          } else {
+            // let index = whitelist[domain].indexOf("user_session")
+            // delete data["cookieWhitelist"][domain][index]
+            whitelist[domain] = whitelist[domain].filter(el => el !== accessObj.cookie)
+            setStorage(data)
+          }
         });
         break;
       case "close-expanded-domain":
