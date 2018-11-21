@@ -156,6 +156,23 @@
           }
         });
         break;
+      case "whitelist-cookie-domain":
+        var domain = getParentData(element, "data-access");
+        var url = getUrl(domain, "", true);
+        getStorage("cookieWhitelist", function(data) {
+          let whitelist = data["cookieWhitelist"]
+          if (!whitelist.propertyIsEnumerable(domain)) {
+            whitelist[domain] = []
+          }
+          if (!whitelist[domain].includes("")) {
+            data["cookieWhitelist"][domain].push("")
+            setStorage(data)
+          } else {
+            whitelist[domain] = whitelist[domain].filter(el => el !== "")
+            setStorage(data)
+          }
+        });
+        break;
       case "whitelist-sublist-cookie":
         var accessObj = JSON.parse(getParentData(element, "data-access"));
         var domain = getParentData(getParentData(element, "data-access", true).
@@ -166,12 +183,10 @@
           if (!whitelist.propertyIsEnumerable(domain)) {
             whitelist[domain] = []
           }
-          if (!whitelist[domain].includes("user_session") && !whitelist[domain].includes("")) {
+          if (!whitelist[domain].includes(accessObj.cookie)) {
             data["cookieWhitelist"][domain].push(accessObj.cookie)
             setStorage(data)
           } else {
-            // let index = whitelist[domain].indexOf("user_session")
-            // delete data["cookieWhitelist"][domain][index]
             whitelist[domain] = whitelist[domain].filter(el => el !== accessObj.cookie)
             setStorage(data)
           }

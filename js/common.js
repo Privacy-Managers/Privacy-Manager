@@ -91,6 +91,11 @@ function blockUserAgent(details)
   return {requestHeaders: details.requestHeaders};
 }
 
+function removeStartDot(string)
+{
+  return string.replace(/^\./, "");
+}
+
 function deleteCookies() {
   // delete cookies here + ignore whitelisted cookies
   getStorage("cookieWhitelist", function (data) {
@@ -100,8 +105,8 @@ function deleteCookies() {
       for (let cookie of cookies) {
         let url = getUrl(cookie.domain, cookie.path, cookie.secure);
         // replace leading dots sometimes present in cookie domains
-        let domainWhitelist = domainList[cookie.domain.replace(/^\./, "")]
-        if (!domainWhitelist || domainWhitelist.indexOf(cookie.name) < 0) {
+        let domainWhitelist = domainList[removeStartDot(cookie.domain)]
+        if (!domainWhitelist || (!domainWhitelist.includes(cookie.name) && !domainWhitelist.includes(""))) {
           removeCookie({ "url": url, "name": cookie.name });
         }
       }
