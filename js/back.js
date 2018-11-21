@@ -18,27 +18,23 @@
 
 "use strict";
 
-(function(global)
-{
+(function (global) {
   global.collectedRequests = [];
   const requestCollectionLength = 500;
 
-  function profileStart()
-  {
-    getStorage("cookieWhitelist", function(data) {
-      if (data = {}) {
-        setStorage({"cookieWhitelist": {}})
+  function profileStart() {
+    getStorage("cookieWhitelist", function (data) {
+      if (data == {}) {
+        setStorage({ "cookieWhitelist": {} })
       }
     })
-    getStorage("settingList", function(data)
-    {
+    getStorage("settingList", function (data) {
       deleteBrowsingData(data.settingList);
     });
   }
 
   //TODO: Find a solution to avoide duplication
-  getStorage("settingList", function(data)
-  {
+  getStorage("settingList", function (data) {
     if (data.settingList && data.settingList.collectHeaders)
       startCollectingRequests();
 
@@ -46,109 +42,91 @@
       addBlockAgentListener();
   });
 
-  function deleteBrowsingData(data)
-  {
+  function deleteCookies() {
+    // delete cookies here + ignore whitelisted cookies
+    getStorage("cookieWhitelist", function (data) {
+      let domainList = data.cookieWhitelist
+      getAllCookies({}, function (cookies) {
+        let callbackCount = 0;
+        for (let cookie of cookies) {
+          let url = getUrl(cookie.domain, cookie.path, cookie.secure);
+          // replace leading dots sometimes present in cookie domains
+          let domainWhitelist = domainList[cookie.domain.replace(/^\./, "")]
+          if (!domainWhitelist || domainWhitelist.indexOf(cookie.name) < 0) {
+            removeCookie({ "url": url, "name": cookie.name });
+          }
+        }
+      });
+    });
+  }
+
+  function deleteBrowsingData(data) {
     if (!data)
       return;
 
     // Filter "data" object to only match properties from "browsingData".
-    var browsingDataObj = Object.keys(data).filter(function(key)
-    {
+    var browsingDataObj = Object.keys(data).filter(function (key) {
       return browsingData.includes(key);
-    }).reduce(function(accumulator, dataType)
-    {
+    }).reduce(function (accumulator, dataType) {
       accumulator[dataType] = data[dataType];
       return accumulator;
     }, {});
 
-    if (browsingDataObj.removeAll == true)
-    {
-      var browsingDataObj = browsingData.reduce(function(accumulator, dataType)
-      {
+    if (browsingDataObj.removeAll == true) {
+      var browsingDataObj = browsingData.reduce(function (accumulator, dataType) {
         if (dataType != "removeAll")
           accumulator[dataType] = true;
 
         return accumulator;
       }, {});
+      
+      if (browsingDataObj.cookies) {
+        deleteCookies()
+      }
       browsingDataObj.cookies = false;
       chrome.browsingData.remove({}, browsingDataObj);
     }
-    else
-    {
-      delete browsingDataObj.removeAll;
+    else {
+      if (browsingDataObj.cookies) {
+        deleteCookies()
+      }
+      browsingDataObj.cookies = false;
       chrome.browsingData.remove({}, browsingDataObj);
-    }
-    if (browsingDataObj.cookies) {
-      // delete cookies here + ignore whitelisted cookies
-      getStorage("cookieWhitelist", function(data) {
-        let domainList = data.cookieWhitelist
-        getAllCookies({}, function(cookies)
-        {
-          let callbackCount = 0;
-          for (let cookie in cookies)
-          {
-            let url = getUrl(cookie.domain, cookie.path, cookie.secure);
-
-            var whitelisted = false;
-            for (let item of domainList) { 
-              let whitelistedDomain = item[0]
-              let whitelistedName = item[1]
-              if (whitelistedDomain.includes(cookie.domain)) { 
-                if (whitelistedName == "" || whitelistedName == cookie.name) {
-                  whitelisted = true
-                }
-              }
-            }
-            if (!whitelisted) {
-              removeCookie({"url": url, "name": cookie.name});
-            }
-          }
-        });
-        });
     }
   }
 
-  global.startCollectingRequests = function()
-  {
+  global.startCollectingRequests = function () {
     addRequestListener(onSendHeaders, onHeadersReceived);
   };
 
-  global.stopCollectingRequests = function()
-  {
+  global.stopCollectingRequests = function () {
     removeRequestListener(onSendHeaders, onHeadersReceived);
   };
 
-  function onSendHeaders(details)
-  {
+  function onSendHeaders(details) {
     updateRequestObj(details, "send");
     addToRequestArray(details);
   }
 
-  function onHeadersReceived(details)
-  {
+  function onHeadersReceived(details) {
     updateRequestObj(details, "receive");
     addToRequestArray(details);
   }
 
-  function addToRequestArray(details)
-  {
-    if(collectedRequests.length > requestCollectionLength)
+  function addToRequestArray(details) {
+    if (collectedRequests.length > requestCollectionLength)
       collectedRequests.shift();
 
     collectedRequests.push(details);
   }
 
-  chrome.storage.onChanged.addListener(function(change)
-  {
-    if (change.settingList)
-    {
-      chrome.permissions.contains(additionalPermission, function(result)
-      {
+  chrome.storage.onChanged.addListener(function (change) {
+    if (change.settingList) {
+      chrome.permissions.contains(additionalPermission, function (result) {
         var newValue = change.settingList.newValue.collectHeaders;
         var oldValue = change.settingList.oldValue;
-        if (oldValue && newValue != oldValue.collectHeaders)
-        {
-          if(result && newValue)
+        if (oldValue && newValue != oldValue.collectHeaders) {
+          if (result && newValue)
             startCollectingRequests();
           else
             stopCollectingRequests();
@@ -156,9 +134,8 @@
 
         var newValue = change.settingList.newValue.blockUserAgent;
         var oldValue = change.settingList.oldValue;
-        if (oldValue && newValue != oldValue.blockUserAgent)
-        {
-          if(result && newValue)
+        if (oldValue && newValue != oldValue.blockUserAgent) {
+          if (result && newValue)
             addBlockAgentListener();
           else
             removeBlockAgentListener();
@@ -167,8 +144,7 @@
     }
   });
 
-  chrome.permissions.onRemoved.addListener(function(result)
-  {
+  chrome.permissions.onRemoved.addListener(function (result) {
     removeBlockAgentListener();
     removeRequestListener(onSendHeaders, onHeadersReceived);
   });
