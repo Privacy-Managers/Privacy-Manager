@@ -90,3 +90,21 @@ function blockUserAgent(details)
   }
   return {requestHeaders: details.requestHeaders};
 }
+
+function deleteCookies() {
+  // delete cookies here + ignore whitelisted cookies
+  getStorage("cookieWhitelist", function (data) {
+    let domainList = data.cookieWhitelist
+    getAllCookies({}, function (cookies) {
+      let callbackCount = 0;
+      for (let cookie of cookies) {
+        let url = getUrl(cookie.domain, cookie.path, cookie.secure);
+        // replace leading dots sometimes present in cookie domains
+        let domainWhitelist = domainList[cookie.domain.replace(/^\./, "")]
+        if (!domainWhitelist || domainWhitelist.indexOf(cookie.name) < 0) {
+          removeCookie({ "url": url, "name": cookie.name });
+        }
+      }
+    });
+  });
+}

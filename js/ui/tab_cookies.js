@@ -287,10 +287,7 @@
         });
         break;
       case "delete-all-cookies":
-        chrome.browsingData.removeCookies({}, function()
-        {
-          populateDomainList();
-        });
+        deleteCookies()
         closeDialog();
         break;
     }
