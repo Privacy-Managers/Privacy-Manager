@@ -18,23 +18,28 @@
 
 "use strict";
 
-(function (global) {
+(function (global) 
+{
   global.collectedRequests = [];
   const requestCollectionLength = 500;
 
   function profileStart() {
-    getStorage("cookieWhitelist", function (data) {
-      if (data == {}) {
+    getStorage("cookieWhitelist", function (data) 
+    {
+      if (data == {}) 
+      {
         setStorage({ "cookieWhitelist": {} })
       }
     })
-    getStorage("settingList", function (data) {
+    getStorage("settingList", function (data) 
+    {
       deleteBrowsingData(data.settingList);
     });
   }
 
   //TODO: Find a solution to avoide duplication
-  getStorage("settingList", function (data) {
+  getStorage("settingList", function (data) 
+  {
     if (data.settingList && data.settingList.collectHeaders)
       startCollectingRequests();
 
@@ -42,34 +47,41 @@
       addBlockAgentListener();
   });
 
-  function deleteBrowsingData(data) {
+  function deleteBrowsingData(data) 
+  {
     if (!data)
       return;
 
     // Filter "data" object to only match properties from "browsingData".
-    var browsingDataObj = Object.keys(data).filter(function (key) {
+    var browsingDataObj = Object.keys(data).filter(function (key) 
+    {
       return browsingData.includes(key);
-    }).reduce(function (accumulator, dataType) {
+    }).reduce(function (accumulator, dataType) 
+    {
       accumulator[dataType] = data[dataType];
       return accumulator;
     }, {});
 
-    if (browsingDataObj.removeAll == true) {
-      var browsingDataObj = browsingData.reduce(function (accumulator, dataType) {
+    if (browsingDataObj.removeAll == true) 
+    {
+      var browsingDataObj = browsingData.reduce(function (accumulator, dataType) 
+      {
         if (dataType != "removeAll")
           accumulator[dataType] = true;
 
         return accumulator;
       }, {});
       
-      if (browsingDataObj.cookies) {
+      if (browsingDataObj.cookies) 
+      {
         deleteCookies()
       }
       browsingDataObj.cookies = false;
       chrome.browsingData.remove({}, browsingDataObj);
     }
     else {
-      if (browsingDataObj.cookies) {
+      if (browsingDataObj.cookies) 
+      {
         deleteCookies()
       }
       browsingDataObj.cookies = false;
@@ -77,37 +89,45 @@
     }
   }
 
-  global.startCollectingRequests = function () {
+  global.startCollectingRequests = function () 
+  {
     addRequestListener(onSendHeaders, onHeadersReceived);
   };
 
-  global.stopCollectingRequests = function () {
+  global.stopCollectingRequests = function () 
+  {
     removeRequestListener(onSendHeaders, onHeadersReceived);
   };
 
-  function onSendHeaders(details) {
+  function onSendHeaders(details) 
+  {
     updateRequestObj(details, "send");
     addToRequestArray(details);
   }
 
-  function onHeadersReceived(details) {
+  function onHeadersReceived(details) 
+  {
     updateRequestObj(details, "receive");
     addToRequestArray(details);
   }
 
-  function addToRequestArray(details) {
+  function addToRequestArray(details) 
+  {
     if (collectedRequests.length > requestCollectionLength)
       collectedRequests.shift();
 
     collectedRequests.push(details);
   }
 
-  chrome.storage.onChanged.addListener(function (change) {
+  chrome.storage.onChanged.addListener(function (change) 
+  {
     if (change.settingList) {
-      chrome.permissions.contains(additionalPermission, function (result) {
+      chrome.permissions.contains(additionalPermission, function (result) 
+      {
         var newValue = change.settingList.newValue.collectHeaders;
         var oldValue = change.settingList.oldValue;
-        if (oldValue && newValue != oldValue.collectHeaders) {
+        if (oldValue && newValue != oldValue.collectHeaders) 
+        {
           if (result && newValue)
             startCollectingRequests();
           else
@@ -116,7 +136,8 @@
 
         var newValue = change.settingList.newValue.blockUserAgent;
         var oldValue = change.settingList.oldValue;
-        if (oldValue && newValue != oldValue.blockUserAgent) {
+        if (oldValue && newValue != oldValue.blockUserAgent) 
+        {
           if (result && newValue)
             addBlockAgentListener();
           else
@@ -126,7 +147,8 @@
     }
   });
 
-  chrome.permissions.onRemoved.addListener(function (result) {
+  chrome.permissions.onRemoved.addListener(function (result)
+  {
     removeBlockAgentListener();
     removeRequestListener(onSendHeaders, onHeadersReceived);
   });

@@ -96,17 +96,22 @@ function removeStartDot(string)
   return string.replace(/^\./, "");
 }
 
-function deleteCookies() {
+function deleteCookies() 
+{
   // delete cookies here + ignore whitelisted cookies
-  getStorage("cookieWhitelist", function (data) {
+  getStorage("cookieWhitelist", function (data) 
+  {
     let domainList = data.cookieWhitelist
-    getAllCookies({}, function (cookies) {
+    getAllCookies({}, function (cookies) 
+    {
       let callbackCount = 0;
-      for (let cookie of cookies) {
+      for (let cookie of cookies) 
+      {
         let url = getUrl(cookie.domain, cookie.path, cookie.secure);
         // replace leading dots sometimes present in cookie domains
         let domainWhitelist = domainList[removeStartDot(cookie.domain)]
-        if (!domainWhitelist || (!domainWhitelist.includes(cookie.name) && !domainWhitelist.includes(""))) {
+        if (!domainWhitelist || (!domainWhitelist.includes(cookie.name) && !domainWhitelist.includes(""))) 
+        {
           removeCookie({ "url": url, "name": cookie.name });
         }
       }

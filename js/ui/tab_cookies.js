@@ -159,15 +159,20 @@
       case "whitelist-cookie-domain":
         var domain = getParentData(element, "data-access");
         var url = getUrl(domain, "", true);
-        getStorage("cookieWhitelist", function(data) {
+        getStorage("cookieWhitelist", function(data) 
+        {
           let whitelist = data["cookieWhitelist"]
-          if (!whitelist.propertyIsEnumerable(domain)) {
+          if (!whitelist.propertyIsEnumerable(domain)) 
+          {
             whitelist[domain] = []
           }
-          if (!whitelist[domain].includes("")) {
+          if (!whitelist[domain].includes("")) 
+          {
             data["cookieWhitelist"][domain].push("")
             setStorage(data)
-          } else {
+          } 
+          else 
+          {
             whitelist[domain] = whitelist[domain].filter(el => el !== "")
             setStorage(data)
           }
@@ -178,15 +183,20 @@
         var domain = getParentData(getParentData(element, "data-access", true).
           parentElement, "data-access");
         var url = getUrl(domain, accessObj.path, accessObj.secure);
-        getStorage("cookieWhitelist", function(data) {
+        getStorage("cookieWhitelist", function(data) 
+        {
           let whitelist = data["cookieWhitelist"]
-          if (!whitelist.propertyIsEnumerable(domain)) {
+          if (!whitelist.propertyIsEnumerable(domain)) 
+          {
             whitelist[domain] = []
           }
-          if (!whitelist[domain].includes(accessObj.cookie)) {
+          if (!whitelist[domain].includes(accessObj.cookie)) 
+          {
             data["cookieWhitelist"][domain].push(accessObj.cookie)
             setStorage(data)
-          } else {
+          } 
+          else 
+          {
             whitelist[domain] = whitelist[domain].filter(el => el !== accessObj.cookie)
             setStorage(data)
           }
