@@ -200,7 +200,7 @@
         break;
       case "delete-domain-cookies":
         var domain = getParentData(element, "data-access");
-        getAllCookies({}, function(cookies)
+        getAllCookies({"domain": domain}, function(cookies)
         {
           var callbackCount = 0;
           for (var i = 0; i < cookies.length; i++)
@@ -348,7 +348,7 @@
 
   /**
    * Enable/disable control elements
-   * @param {Boolean} disabled
+   * @pa\ram {Boolean} disabled
    */
   function disableControls(disabled)
   {
