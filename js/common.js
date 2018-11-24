@@ -110,7 +110,7 @@ function deleteCookies()
         let url = getUrl(cookie.domain, cookie.path, cookie.secure);
         // replace leading dots sometimes present in cookie domains
         let domainWhitelist = domainList[removeStartDot(cookie.domain)]
-        if (!domainWhitelist || (!domainWhitelist.includes(cookie.name) && !domainWhitelist.includes(""))) 
+        if (!domainWhitelist || (!domainWhitelist.cookies.includes(cookie.name) && !domainWhitelist.domainWhitelist)) 
         {
           removeCookie({ "url": url, "name": cookie.name });
         }

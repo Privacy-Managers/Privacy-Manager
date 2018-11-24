@@ -148,7 +148,7 @@
   });
 
   chrome.permissions.onRemoved.addListener(function (result)
-  {
+   {
     removeBlockAgentListener();
     removeRequestListener(onSendHeaders, onHeadersReceived);
   });

@@ -158,48 +158,43 @@
         break;
       case "whitelist-cookie-domain":
         var domain = getParentData(element, "data-access");
-        var url = getUrl(domain, "", true);
-        getStorage("cookieWhitelist", function(data) 
+
+        getStorage("cookieWhitelist", function(cookieWhitelist)
         {
-          let whitelist = data["cookieWhitelist"]
-          if (!whitelist.propertyIsEnumerable(domain)) 
+          let whitelist = cookieWhitelist["cookieWhitelist"]
+          if (!(domain in whitelist))
           {
-            whitelist[domain] = []
+            whitelist[domain] = {domainWhitelist: true, cookies: []}
           }
-          if (!whitelist[domain].includes("")) 
+          else
           {
-            data["cookieWhitelist"][domain].push("")
-            setStorage(data)
-          } 
-          else 
-          {
-            whitelist[domain] = whitelist[domain].filter(el => el !== "")
-            setStorage(data)
+            whitelist[domain].domainWhitelist = !whitelist[domain].domainWhitelist;
           }
+          setStorage(cookieWhitelist)
         });
         break;
       case "whitelist-sublist-cookie":
         var accessObj = JSON.parse(getParentData(element, "data-access"));
         var domain = getParentData(getParentData(element, "data-access", true).
           parentElement, "data-access");
-        var url = getUrl(domain, accessObj.path, accessObj.secure);
-        getStorage("cookieWhitelist", function(data) 
+        getStorage("cookieWhitelist", function(cookieWhitelist) 
         {
-          let whitelist = data["cookieWhitelist"]
-          if (!whitelist.propertyIsEnumerable(domain)) 
+          let whitelist = cookieWhitelist["cookieWhitelist"]
+          if (!(domain in whitelist)) 
           {
-            whitelist[domain] = []
+            whitelist[domain] = {domainWhitelist: false, cookies: [accessObj.cookie]}
           }
-          if (!whitelist[domain].includes(accessObj.cookie)) 
+          else if (whitelist[domain].cookies.includes(accessObj.cookie)) 
           {
-            data["cookieWhitelist"][domain].push(accessObj.cookie)
-            setStorage(data)
+            // filter out cookie name
+            whitelist[domain].cookies = whitelist[domain].cookies.filter(el => el !== accessObj.cookie)
           } 
           else 
           {
-            whitelist[domain] = whitelist[domain].filter(el => el !== accessObj.cookie)
-            setStorage(data)
+            // add cookie name
+            whitelist[domain].cookies.push(accessObj.cookie)
           }
+          setStorage(cookieWhitelist)
         });
         break;
       case "close-expanded-domain":
