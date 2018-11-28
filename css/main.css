@@ -531,22 +531,50 @@ button.icon.edit:after
   background-image: url(/css/img/edit.svg);
 }
 
-#cookiesList button.icon.whitelist
+/* button[role="checkbox"][aria-checked="true"] > span:first-child
 {
-  margin: 0px 10px;
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+button[role="checkbox"][aria-checked="true"] > span:last-child
+{
+  color: #000;
+  background: none;
+} */
+
+.tableList > li[data-whitelist="true"] > div .icon.whitelist
+{
+  background-color: var(--color-primary);
+  color: #fff;
+}
+.tableList > li[data-whitelist="true"] > div .icon.whitelist > span:last-child
+{
+  color: #000;
+  background: none;
+}
+
+.tableList li > ul li[data-whitelist="true"] > div .icon.whitelist
+{
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.tableList li > ul li[data-whitelist="true"] > div .icon.whitelist > span:last-child
+{
+  color: #000;
+  background: none;
 }
 
 
-button.icon.whitelist
-{
-  background-image: url(/css/img/check-mark-circle.svg);
-}
-
-button.icon.whitelist:hover:after
+/* .tableList li > ul li[data-whitelist="true"] .icon.whitelist
 {
   background-image: url(/css/img/check-mark-filled.svg);
 }
-
+.tableList li > ul li[data-whitelist="false"] .icon.whitelist
+{
+  background-image: url(/css/img/check-mark-circle.svg);
+} */
 
 
 button.icon.edit:hover:after

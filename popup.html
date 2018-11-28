@@ -114,7 +114,10 @@
 							<div>
 								<div class="data-container">
 									<span data-text="domain" class="domainName"></span>
-									<button class="icon whitelist" data-action="whitelist-cookie-domain"></button>
+									<button role="checkbox" data-action="whitelist-cookie-domain" class="icon whitelist">
+										<span id="btn-on-label">wl</span>
+										<span id="btn-off-label">bl</span>
+									</button>
 									<span data-text="cookienum" class="cookiesNumber"></span>
 								</div>
 								<button class="icon delete" data-action="delete-domain-cookies" tabindex="-1"></button>
@@ -136,7 +139,10 @@
 										<span data-text="name" class="cookieName"></span>
 										<span data-text="value" class="cookieValue"></span>
 									</div>
-									<button class="icon whitelist" data-action="whitelist-sublist-cookie"></button>
+									<button role="checkbox" data-action="whitelist-sublist-cookie" class="icon whitelist">
+										<span id="btn-on-label">wl</span>
+										<span id="btn-off-label">bl</span>
+									</button>
 									<button class="icon delete" data-action="delete-sublist-cookie"></button>
 							  </div>
 							</li>

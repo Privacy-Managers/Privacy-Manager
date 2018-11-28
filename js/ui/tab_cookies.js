@@ -25,6 +25,7 @@
   const getCookie = chrome.cookies.get;
   const setCookie = chrome.cookies.set;
   const onCookieChange = chrome.cookies.onChanged;
+  const onStorageChange =   chrome.storage.onChanged;
 
   const activeTabCookieId = "activeTabCookies";
 
@@ -409,11 +410,12 @@
     };
   }
 
-  function createDomainObj(domain, cookienum)
+  function createDomainObj(domain, cookienum, whitelist = false)
   {
     return {
       dataset: {
-        access: domain
+        access: domain,
+        whitelist: whitelist
       },
       texts: {
         domain: domain,
@@ -421,7 +423,36 @@
       }
     };
   }
-
+  onStorageChange.addListener(function(change)
+  {
+    if ("cookieWhitelist" in change) 
+    {
+      let newValue = change.cookieWhitelist.newValue;
+      for (var domain in newValue)
+      {
+        domainElement.dataset.whitelist = newValue[domain].domainWhitelist;
+        tableList.updateItem(domainElement, domain);
+        let domainElement = tableList.getItem(domain);
+        if (domainElement) 
+        {
+          let cookies = newValue[domain].cookies;
+          for (let subElement of domainElement.subItems) 
+          {
+            if (cookies.includes(subElement.texts.name)) 
+            {
+              subElement.dataset.whitelist = true;
+            } 
+            else 
+            {
+              subElement.dataset.whitelist = false;
+            }
+            tableList.removeSubItem(domain, subElement.dataset.access);
+            tableList.addSubItem(subElement, domain);
+          }
+        }
+      }
+    }
+  });
   onCookieChange.addListener(function(changeInfo)
   {
     var cookie = changeInfo.cookie;
