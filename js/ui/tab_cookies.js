@@ -129,6 +129,10 @@
       }
       domainObjs.push(createDomainObj(lastDomain, cookiesNumber));
       tableList.addItems(domainObjs);
+      getStorage("cookieWhitelist", function(cookieWhitelist)
+        {
+          updateWhitelistInList({cookieWhitelist: {newValue: cookieWhitelist["cookieWhitelist"]}})
+        });
     });
   }
 
@@ -155,6 +159,11 @@
 
             tableList.addSubItem(createCookieSubitemObj(cookie), domain);
           }
+          // update whitelist
+          getStorage("cookieWhitelist", function(cookieWhitelist)
+          {
+            updateWhitelistInList({cookieWhitelist: {newValue: cookieWhitelist["cookieWhitelist"]}})
+          });
         });
         break;
       case "whitelist-cookie-domain":
@@ -423,36 +432,41 @@
       }
     };
   }
-  onStorageChange.addListener(function(change)
+  function updateWhitelistInList(change)
   {
     if ("cookieWhitelist" in change) 
     {
       let newValue = change.cookieWhitelist.newValue;
       for (var domain in newValue)
       {
-        domainElement.dataset.whitelist = newValue[domain].domainWhitelist;
-        tableList.updateItem(domainElement, domain);
         let domainElement = tableList.getItem(domain);
         if (domainElement) 
         {
+          domainElement.dataset.whitelist = newValue[domain].domainWhitelist;
+          tableList.updateItem(domainElement, domain);
           let cookies = newValue[domain].cookies;
           for (let subElement of domainElement.subItems) 
           {
             if (cookies.includes(subElement.texts.name)) 
             {
               subElement.dataset.whitelist = true;
+              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
+              document.querySelector(cookieAccessor).dataset.whitelist = true
             } 
             else 
             {
               subElement.dataset.whitelist = false;
+              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
+              document.querySelector(cookieAccessor).dataset.whitelist = false
             }
-            tableList.removeSubItem(domain, subElement.dataset.access);
-            tableList.addSubItem(subElement, domain);
+            // tableList.removeSubItem(domain, subElement.dataset.access);
+            // tableList.addSubItem(subElement, domain);
           }
         }
       }
     }
-  });
+  };
+  onStorageChange.addListener(updateWhitelistInList)
   onCookieChange.addListener(function(changeInfo)
   {
     var cookie = changeInfo.cookie;
