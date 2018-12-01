@@ -129,9 +129,10 @@
       }
       domainObjs.push(createDomainObj(lastDomain, cookiesNumber));
       tableList.addItems(domainObjs);
+      // update
       getStorage("cookieWhitelist", function(cookieWhitelist)
         {
-          updateWhitelistInList(cookieWhitelist["cookieWhitelist"]);
+          updateWhitelistInList({oldValue: false, newValue: cookieWhitelist["cookieWhitelist"]});
         });
     });
   }
@@ -162,7 +163,7 @@
           // update whitelist
           getStorage("cookieWhitelist", function(cookieWhitelist)
           {
-            updateWhitelistInList(cookieWhitelist["cookieWhitelist"]);
+            updateWhitelistInList({oldValue: false, newValue: cookieWhitelist["cookieWhitelist"]});
           });
         });
         break;
@@ -432,9 +433,42 @@
       }
     };
   }
-  function updateWhitelistInList(newValue)
+  function updateWhitelistInList(whitelistChange)
   {
-    for (var domain in newValue)
+    let newValue = whitelistChange.newValue
+    let oldValue = whitelistChange.oldValue
+    let changed = {}
+    if (oldValue) 
+    {
+      for (let key in newValue)
+      {
+        let domainWhitelistChanged = false;
+        if (key in oldValue) {
+          if (oldValue[key].domainWhitelist != newValue[key].domainWhitelist)
+          {
+            domainWhitelistChanged = true;
+          }
+          let newCookie = newValue[key].cookies
+          let oldCookie = oldValue[key].cookies
+          let cookieWhitelistchanges = newCookie.filter(x => !oldCookie.includes(x)).concat(oldCookie.filter(x => !newCookie.includes(x)));
+          let cookieWhitelistchanged = cookieWhitelistchanges.length
+          if (domainWhitelistChanged || cookieWhitelistchanged) 
+          {
+            changed[key] = newValue[key]
+          }
+        }
+        else
+        {
+          changed[key] = newValue[key]
+        }
+      }
+    }
+    else
+    {
+      changed = newValue
+    }
+
+    for (var domain in changed)
     {
       let domainElement = tableList.getItem(domain);
       if (domainElement) 
@@ -466,7 +500,7 @@
   onStorageChange.addListener(function(changeInfo)
   {
     if ("cookieWhitelist" in changeInfo)
-      updateWhitelistInList(changeInfo.cookieWhitelist.newValue);
+      updateWhitelistInList(changeInfo.cookieWhitelist);
   });
   onCookieChange.addListener(function(changeInfo)
   {
