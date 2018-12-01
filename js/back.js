@@ -155,5 +155,4 @@
 
   // Fired on a profile start up
   chrome.runtime.onStartup.addListener(profileStart);
-  chrome.runtime.onInstalled.addListener(profileStart);
 })(this);

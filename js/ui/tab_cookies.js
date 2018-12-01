@@ -445,22 +445,23 @@
           domainElement.dataset.whitelist = newValue[domain].domainWhitelist;
           tableList.updateItem(domainElement, domain);
           let cookies = newValue[domain].cookies;
-          for (let subElement of domainElement.subItems) 
+          if (domainElement.subItems) 
           {
-            if (cookies.includes(subElement.texts.name)) 
+            for (let subElement of domainElement.subItems) 
             {
-              subElement.dataset.whitelist = true;
-              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
-              document.querySelector(cookieAccessor).dataset.whitelist = true
-            } 
-            else 
-            {
-              subElement.dataset.whitelist = false;
-              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
-              document.querySelector(cookieAccessor).dataset.whitelist = false
+              if (cookies.includes(subElement.texts.name)) 
+              {
+                subElement.dataset.whitelist = true;
+                let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
+                document.querySelector(cookieAccessor).dataset.whitelist = true
+              } 
+              else 
+              {
+                subElement.dataset.whitelist = false;
+                let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
+                document.querySelector(cookieAccessor).dataset.whitelist = false
+              }
             }
-            // tableList.removeSubItem(domain, subElement.dataset.access);
-            // tableList.addSubItem(subElement, domain);
           }
         }
       }
