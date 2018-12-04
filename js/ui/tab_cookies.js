@@ -165,7 +165,8 @@
           {
             let domainCookies = {}
             domainCookies[domain] = cookieWhitelist.cookieWhitelist[domain]
-            updateWhitelistInList(domainCookies);
+            if (domainCookies[domain])
+              updateWhitelistInList(domainCookies);
           });
         });
         break;

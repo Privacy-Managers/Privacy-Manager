@@ -26,9 +26,9 @@
   function profileStart() {
     getStorage("cookieWhitelist", function (data) 
     {
-      if (data == {}) 
+      if (!data || !data.cookieWhitelist) 
       {
-        setStorage({ "cookieWhitelist": {} })
+        setStorage({"cookieWhitelist": {} })
       }
     })
     getStorage("settingList", function (data) 
@@ -154,5 +154,6 @@
   });
 
   // Fired on a profile start up
+  chrome.runtime.onInstalled.addListener(profileStart);
   chrome.runtime.onStartup.addListener(profileStart);
 })(this);
