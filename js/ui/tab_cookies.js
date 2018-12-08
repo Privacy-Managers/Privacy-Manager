@@ -476,28 +476,17 @@
       let changed = {}
       if (oldValue) 
       {
-        for (let key in newValue)
+        changed = Object.keys(newValue).reduce((acc, domain) => 
         {
-          let domainWhitelistChanged = false;
-          if (key in oldValue) {
-            if (oldValue[key].domainWhitelist != newValue[key].domainWhitelist)
-            {
-              domainWhitelistChanged = true;
-            }
-            let newCookie = newValue[key].cookies
-            let oldCookie = oldValue[key].cookies
-            let cookieWhitelistchanges = newCookie.filter(x => !oldCookie.includes(x)).concat(oldCookie.filter(x => !newCookie.includes(x)));
-            let cookieWhitelistchanged = cookieWhitelistchanges.length
-            if (domainWhitelistChanged || cookieWhitelistchanged) 
-            {
-              changed[key] = newValue[key]
-            }
-          }
-          else
+          let oldDomainObj = oldValue[domain]
+          let newDomainObj = newValue[domain]
+          if (!oldDomainObj || newDomainObj.domainWhitelist != oldDomainObj.domainWhitelist ||
+            JSON.stringify(newDomainObj.cookies) != JSON.stringify(oldDomainObj.cookies))
           {
-            changed[key] = newValue[key]
+            acc[domain] = newValue[domain];
           }
-        }
+          return acc;
+        }, {});
       }
       else
       {
