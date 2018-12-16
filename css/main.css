@@ -534,28 +534,28 @@ button.icon.edit:after
 .tableList > li > div .icon.whitelist::after
 {
   background-image: url(/css/img/check-mark-circle.svg);
-  background-size: 105%;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
 .tableList li > ul li > div .icon.whitelist::after
 {
   background-image: url(/css/img/check-mark-circle.svg);
-  background-size: 105%;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
 .tableList > li[data-whitelist="true"] > div .icon.whitelist::after
 {
   background-image: url(/css/img/check-mark-filled.svg);
-  background-size: 105%;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
 .tableList li > ul li[data-whitelist="true"] > div .icon.whitelist::after
 {
   background-image: url(/css/img/check-mark-filled.svg);
-  background-size: 105%;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 

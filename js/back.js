@@ -18,7 +18,7 @@
 
 "use strict";
 
-(function (global) 
+(function(global)
 {
   global.collectedRequests = [];
   const requestCollectionLength = 500;
