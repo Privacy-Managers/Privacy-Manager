@@ -129,7 +129,7 @@
       }
       domainObjs.push(createDomainObj(lastDomain, cookiesNumber));
       tableList.addItems(domainObjs);
-      // update
+      // update whitelist
       getStorage("cookieWhitelist", function(cookieWhitelist)
         {
           updateWhitelistInList(cookieWhitelist["cookieWhitelist"]);
@@ -419,6 +419,9 @@
       texts: {
         name: cookie.name,
         value: cookie.value
+      },
+      titles: {
+         whitelist: getMsg("whitelistSublistCookie")
       }
     };
   }
@@ -433,6 +436,9 @@
       texts: {
         domain: domain,
         cookienum: cookienum + " Cookies"
+      },
+      titles: {
+         whitelist: getMsg("whitelistCookieDomain")
       }
     };
   }

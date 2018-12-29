@@ -709,6 +709,13 @@ TableList.prototype._updateListElem = function(itemObj, listElem)
     if (textElement)
       textElement.textContent = textsObj[name];
   }
+  var titleObjs = itemObj.titles;
+  for (var title in titleObjs)
+  {
+    var titleElement = listElem.querySelector("[data-text='"+ title +"']");
+    if (titleElement)
+      titleElement.title = titleObjs[title];
+  }
 
   // Set default tabindex to the first list Element
   if (this.listElem.childElementCount == 0)
