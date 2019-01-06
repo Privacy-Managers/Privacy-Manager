@@ -181,12 +181,11 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 
 .settings-list .infoIcon
 {
-  background-color: transparent;
   border: none;
   display: inline-block;
   width: 12px;
   height: 12px;
-  background: url(/css/img/info.svg) center no-repeat;
+  background: url(/css/img/info.svg) center no-repeat transparent;
   margin: 0px 3px;
 }
 
@@ -290,10 +289,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog[data-dialog="setting-info"] #dialog-content-setting-info
 {
   display: block;
-}#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all,
-#dialog[data-dialog="setting-info"] #dialog-content-setting-info
-{
-  display: block;
 }
 
 #dialog > div:first-child
@@ -338,15 +333,7 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   display: flex;
   justify-content: flex-end;
   align-items: center;
-}
-
-#dialog form label
-{
   flex-wrap: wrap;
-}
-
-#dialog form label
-{
   padding: 0px 20px;
 }
 
@@ -531,37 +518,25 @@ button.icon.edit:after
   background-image: url(/css/img/edit.svg);
 }
 
-.tableList > li > div .icon.whitelist::after
-{
-  background-image: url(/css/img/check-mark-circle.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
-.tableList li > ul li > div .icon.whitelist::after
-{
-  background-image: url(/css/img/check-mark-circle.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
-.tableList > li[data-whitelist="true"] > div .icon.whitelist::after
-{
-  background-image: url(/css/img/check-mark-filled.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
-.tableList li > ul li[data-whitelist="true"] > div .icon.whitelist::after
-{
-  background-image: url(/css/img/check-mark-filled.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
 button.icon.edit:hover:after
 {
   background-image: url(/css/img/edit-hover.svg);
+}
+
+.tableList > li > div button.icon.whitelist::after,
+.tableList li > ul li > div button.icon.whitelist::after
+{
+  background-image: url(/css/img/check-mark-circle.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.tableList > li[data-whitelist="true"] > div button.icon.whitelist::after,
+.tableList li > ul li[data-whitelist="true"] > div button.icon.whitelist::after
+{
+  background-image: url(/css/img/check-mark-filled.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 /* CONTROLS */
@@ -590,8 +565,6 @@ button.icon.edit:hover:after
   color: #fff;
   font-weight: bold;
   border-radius: 2px;
-  background-color: transparent;
-  border: none;
   display: inline-block;
   width: auto;
   margin: 5px;

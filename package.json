@@ -3,9 +3,10 @@
   "version": "3.4.0",
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd src; zip -r ../privacy-manager.zip .",
-    "test:eslint": "eslint src"
+    "test": "npm run test:eslint && npm run test:stylelint",
+    "test:eslint": "eslint src",
+    "test:stylelint": "stylelint src/**/*.css"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "stylelint": "^9.9.0",
+    "stylelint-config-recommended": "^2.1.0"
   }
 }
