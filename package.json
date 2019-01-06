@@ -4,7 +4,8 @@
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd src; zip -r ../privacy-manager.zip ."
+    "build": "cd src; zip -r ../privacy-manager.zip .",
+    "test:eslint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/Manvel/Privacy-Manager/issues"
   },
-  "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd"
+  "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
 }

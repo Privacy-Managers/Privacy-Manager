@@ -21,17 +21,17 @@
 const privacyData = {
                       websites:
                         ["thirdPartyCookiesAllowed", "hyperlinkAuditingEnabled",
-                        "referrersEnabled", "protectedContentEnabled"],
+                         "referrersEnabled", "protectedContentEnabled"],
                       services:
                         ["alternateErrorPagesEnabled", "autofillEnabled",
-                        "hotwordSearchEnabled", "passwordSavingEnabled",
-                        "safeBrowsingEnabled",
-                        "safeBrowsingExtendedReportingEnabled",
-                        "searchSuggestEnabled", "spellingServiceEnabled",
-                        "translationServiceEnabled"],
+                         "hotwordSearchEnabled", "passwordSavingEnabled",
+                         "safeBrowsingEnabled",
+                         "safeBrowsingExtendedReportingEnabled",
+                         "searchSuggestEnabled", "spellingServiceEnabled",
+                         "translationServiceEnabled"],
                       network:
                         ["networkPredictionEnabled"]
-                    };
+};
 
 /*******************************************************************************
  * General
@@ -199,7 +199,7 @@ function addSettingItem(parent, dataObj, type, callback)
   var content = Elem("#settings-list").content;
   var accessor = dataObj.dataset.access;
   content.querySelector("label").textContent = dataObj.text;
-  content.querySelector("[data-dialog='setting-info']").title = 
+  content.querySelector("[data-dialog='setting-info']").title =
     getMsg(dataObj.dataset.access + "_desc");
 
   var listElem = content.querySelector("li");
@@ -235,7 +235,7 @@ function addSettingItem(parent, dataObj, type, callback)
               if (chrome.runtime.lastError != undefined)
               {
                 var message = chrome.runtime.lastError.message;
-                if (message == 
+                if (message ==
                   "Can't modify regular settings from an incognito context.")
                 {
                   alert(getMsg("regularSettingChangeIncognito_error"));
@@ -391,7 +391,7 @@ chrome.storage.onChanged.addListener(function(change)
     {
       onClick(ev, callback);
     }, false);
-  }
+  };
 
   function onKeyUp(ev, callback)
   {
@@ -427,7 +427,7 @@ chrome.storage.onChanged.addListener(function(change)
     }
 
     if (!actions)
-        return;
+      return;
 
     // TODO: Fix duplication
     ev.preventDefault;
@@ -499,7 +499,7 @@ function TableList(listElem, listItemTemplate, listSubItemTemplate, sort)
 
   this.listElem.addEventListener("scroll", this._onScroll.bind(this), false);
   registerActionListener(this.listElem, this.onAction.bind(this));
-};
+}
 
 /**
  * Add items to the Table list
@@ -548,14 +548,14 @@ TableList.prototype._loadItem = function(itemObj)
     this.listElem.appendChild(listItem);
 
   this.loaded++;
-}
+};
 
 /**
  * Scroll bar event handler
  */
 TableList.prototype._onScroll = function()
 {
-  var listClientScrollBottom = this.listElem.scrollTop + 
+  var listClientScrollBottom = this.listElem.scrollTop +
     this.listElem.clientHeight;
   var percentage = listClientScrollBottom / this.listElem.scrollHeight;
   if (percentage > this.scrollLoadPercentage && this.loaded < this.items.length)
@@ -566,7 +566,7 @@ TableList.prototype._onScroll = function()
       this._loadItem(this.items[i]);
     }
   }
-}
+};
 
 /**
  * Remove main item by ID
@@ -603,7 +603,7 @@ TableList.prototype.addSubItem = function(itemObj, accessor)
   var subListItemElem = this._itemFromTmpl(itemObj, this.listSubItemTemplate);
   var item = this.items[itemIndex];
   var listItemElem = this.listElem.children[itemIndex];
-  
+
   if (!item.subItems || item.subItems.length == 0)
   {
     listItemElem.dataset.expanded = true;
@@ -644,7 +644,7 @@ TableList.prototype.removeSubItem = function(parentAccessor, accessor)
         this.onAction("next-sibling", listItemElem);
         listItemElem.removeChild(subListItemElem);
       }
-      else 
+      else
       {
         subListItemElem.children[i].parentElement.removeChild(
           subListItemElem.children[i]);
@@ -699,11 +699,11 @@ TableList.prototype.hasSubItem = function(parentAccessor, accessor)
 TableList.prototype._updateListElem = function(itemObj, listElem)
 {
   var datasetObj = itemObj.dataset;
-  for (var name in datasetObj)
+  for (const name in datasetObj)
     listElem.dataset[name] = datasetObj[name];
 
   var textsObj = itemObj.texts;
-  for (var name in textsObj)
+  for (const name in textsObj)
   {
     var textElement = listElem.querySelector("[data-text='"+ name +"']");
     if (textElement)
@@ -755,7 +755,7 @@ TableList.prototype.empty = function()
  */
 TableList.prototype.indexOfAccessor = function(accessor)
 {
-  for (var i = 0; i < this.items.length; i++) 
+  for (var i = 0; i < this.items.length; i++)
   {
     if (this.items[i].dataset.access == accessor)
       return i;
@@ -786,7 +786,7 @@ TableList.prototype.updateItem = function(newItemObj, accessor)
 {
   var itemIndex = this.indexOfAccessor(accessor);
   this.items[itemIndex] = newItemObj;
-  
+
   if (this.loaded >= itemIndex)
     this._updateListElem(newItemObj, this.listElem.children[itemIndex]);
 };
@@ -818,6 +818,7 @@ TableList.prototype.onAction = function(action, element)
   {
     case "next-sibling":
       var isNext = true;
+      break;
     case "previouse-sibling":
       var sibling = isNext ? element.nextSibling : element.previousSibling;
       while (sibling && sibling.nodeType != 1)

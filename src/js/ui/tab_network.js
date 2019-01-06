@@ -20,57 +20,58 @@
 
 (function()
 {
-	const blockUserAgentId = "blockUserAgent";
-	const collectHeadersId = "collectHeaders";
+  const blockUserAgentId = "blockUserAgent";
+  const collectHeadersId = "collectHeaders";
   const permissionNotificationMsgId = "additionalPermissions_notification";
   const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
 
   var downloadText = "";
-	var collectedRequests = [];
+  var collectedRequests = [];
 
-	var tableList = null;
+  var tableList = null;
 
-	document.addEventListener("DOMContentLoaded" , function()
-	{
-		var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
-		var rightSettingList = Elem("#network_tab ul.settings-list:nth-of-type(2)");
+  document.addEventListener("DOMContentLoaded" , function()
+  {
+    var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
+    var rightSettingList = Elem("#network_tab ul.settings-list:nth-of-type(2)");
 
     var settingObj = createBasicSettingObj("additionalPermissions");
-		addSettingItem(leftSettingList, settingObj, "permission");
+    addSettingItem(leftSettingList, settingObj, "permission");
     settingObj = createBasicSettingObj(blockUserAgentId);
-		addSettingItem(leftSettingList, settingObj, "storage", function(enabled)
-		{
-			onNetworkSettingChange(blockUserAgentId, enabled)
-		});
+    addSettingItem(leftSettingList, settingObj, "storage", function(enabled)
+    {
+      onNetworkSettingChange(blockUserAgentId, enabled);
+    });
 
     settingObj = createBasicSettingObj(collectHeadersId);
-		addSettingItem(rightSettingList, settingObj, "storage", function(enabled)
-		{
-			onNetworkSettingChange(collectHeadersId, enabled)
-		});
+    addSettingItem(rightSettingList, settingObj, "storage", function(enabled)
+    {
+      onNetworkSettingChange(collectHeadersId, enabled);
+    });
 
-		tableList = new TableList(Elem("#requestsWidget .tableList"), 
-			Elem("#requestListTemplate"), Elem("#requestSubListTemplate"), null);
+    tableList = new TableList(Elem("#requestsWidget .tableList"),
+                              Elem("#requestListTemplate"),
+                              Elem("#requestSubListTemplate"), null);
 
-		registerActionListener(Elem("#requestsWidget"), onRequestsWidgetAction);
-		chrome.runtime.getBackgroundPage(function(window)
-		{
-			collectedRequests = window.collectedRequests;
+    registerActionListener(Elem("#requestsWidget"), onRequestsWidgetAction);
+    chrome.runtime.getBackgroundPage(function(window)
+    {
+      collectedRequests = window.collectedRequests;
       var requestsCopy =  collectedRequests.map(function(request)
       {
         return cloneObj(request); //Deep cloning
       });
       tableList.addItems(requestsCopy);
-		});
-	},false);
+    });
+  },false);
 
-	function onNetworkSettingChange(settingName, isActive)
-	{
-		switch(settingName)
-		{
-			case "blockUserAgent":
-				if (isActive)
-				{
+  function onNetworkSettingChange(settingName, isActive)
+  {
+    switch(settingName)
+    {
+      case "blockUserAgent":
+        if (isActive)
+        {
           chrome.permissions.contains(additionalPermission, function(result)
           {
             if (result)
@@ -83,15 +84,15 @@
               turnSwitchesOff([settingName]);
             }
           });
-				}
-				else
-				{
+        }
+        else
+        {
           removeBlockAgentListener();
-				}
-				break;
-			case "collectHeaders":
-				if (isActive)
-				{
+        }
+        break;
+      case "collectHeaders":
+        if (isActive)
+        {
           chrome.permissions.contains(additionalPermission, function(result)
           {
             if (result)
@@ -102,14 +103,14 @@
               turnSwitchesOff([settingName]);
             }
           });
-				}
-				else
-				{
-					removeRequestListener(onSendHeaders, onHeadersReceived);
-				}
-				break;
-		}
-	}
+        }
+        else
+        {
+          removeRequestListener(onSendHeaders, onHeadersReceived);
+        }
+        break;
+    }
+  }
 
   chrome.permissions.onRemoved.addListener(function(result)
   {
@@ -118,74 +119,74 @@
     removeRequestListener(onSendHeaders, onHeadersReceived);
   });
 
-	function onSendHeaders(details)
-	{
-		updateRequestObj(details, "send");
-		tableList.addItems([details]);
-	}
+  function onSendHeaders(details)
+  {
+    updateRequestObj(details, "send");
+    tableList.addItems([details]);
+  }
 
-	function onHeadersReceived(details)
-	{
-		updateRequestObj(details, "receive");
-		tableList.addItems([details]);
-	}
+  function onHeadersReceived(details)
+  {
+    updateRequestObj(details, "receive");
+    tableList.addItems([details]);
+  }
 
   function onRequestsWidgetAction(action, element)
   {
     switch (action)
     {
       case "get-request":
-      	if (element.dataset.expanded == "true")
-	      {
-	        onRequestsWidgetAction("close-expanded-request", element);
-	        return;
-	      }
+        if (element.dataset.expanded == "true")
+        {
+          onRequestsWidgetAction("close-expanded-request", element);
+          return;
+        }
 
-      	var accessor = element.dataset.access;
-      	var itemObj = tableList.getItem(accessor);
-      	for (var param in itemObj)
-				{
-					if (param == "requestHeaders" || param == "responseHeaders")
-					{
-						var headers = itemObj[param];
-						for (var i = 0; i < headers.length; i++)
-							addSubItem(headers[i].name, headers[i].value, accessor);
-					}
-					else if (filterParams.indexOf(param) >= 0)
-					{
-						addSubItem(param, itemObj[param], accessor);
-					}
-				}
+        var accessor = element.dataset.access;
+        var itemObj = tableList.getItem(accessor);
+        for (const param in itemObj)
+        {
+          if (param == "requestHeaders" || param == "responseHeaders")
+          {
+            var headers = itemObj[param];
+            for (var i = 0; i < headers.length; i++)
+              addSubItem(headers[i].name, headers[i].value, accessor);
+          }
+          else if (filterParams.indexOf(param) >= 0)
+          {
+            addSubItem(param, itemObj[param], accessor);
+          }
+        }
         break;
       case "close-expanded-request":
-      	//TODO: Remove duplications
-      	var requestElem = getParentData(element, "data-expanded", true);
+        //TODO: Remove duplications
+        var requestElem = getParentData(element, "data-expanded", true);
         tableList.removeAllSubItems(requestElem.dataset.access);
-        requestElem.focus(); 
+        requestElem.focus();
         requestElem.dataset.expanded = false;
-      	break;
+        break;
       case "delete-all":
-      	chrome.runtime.getBackgroundPage(function(window)
-				{
-					window.collectedRequests = [];
-					tableList.empty();
-				});
-      	break;
-      case "download-all":
-      	for (var i = 0; i < collectedRequests.length; i++)
-      	{
-      		var requestObj = collectedRequests[i];
-      		for (var param in requestObj)
-      		{
-      			if (param == "requestHeaders" || param == "responseHeaders")
-      			{
+        chrome.runtime.getBackgroundPage(function(window)
+        {
+          window.collectedRequests = [];
+          tableList.empty();
+        });
+        break;
+      case "download-all": {
+        for (let i = 0; i < collectedRequests.length; i++)
+        {
+          var requestObj = collectedRequests[i];
+          for (const param in requestObj)
+          {
+            if (param == "requestHeaders" || param == "responseHeaders")
+            {
               for (var j = 0; j < requestObj[param].length; j++)
               {
                 var header = requestObj[param][j];
                 downloadText += "  ";
                 updateDownloadText(header.name, header.value);
               }
-      			}
+            }
             else if (param == "dataset")
             {
               updateDownloadText("Action type", requestObj[param].type);
@@ -194,35 +195,36 @@
             {
               updateDownloadText(param, requestObj[param]);
             }
-      		}
+          }
           downloadText += "\n\n";
-      	}
+        }
 
         //Download requests
-        var element = document.createElement("a");
-        element.setAttribute("href", "data:text/plain;charset=utf-8," + 
+        const anchorElem = document.createElement("a");
+        anchorElem.setAttribute("href", "data:text/plain;charset=utf-8," +
           encodeURIComponent(downloadText));
 
-        element.setAttribute("download", "requests.txt");
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
+        anchorElem.setAttribute("download", "requests.txt");
+        anchorElem.style.display = 'none';
+        document.body.appendChild(anchorElem);
+        anchorElem.click();
+        document.body.removeChild(anchorElem);
         downloadText = "";
-      	break;
+        break;
+      }
     }
   }
 
   function updateDownloadText(name, value)
   {
-	  downloadText += name + " : " + value + "\n";
-	}
+    downloadText += name + " : " + value + "\n";
+  }
 
   function addSubItem(name, value, accessor)
   {
-  	tableList.addSubItem({
-			"dataset": {"access": name},
-			"texts": {"name": name, "value": value}
-		}, accessor);
+    tableList.addSubItem({
+      "dataset": {"access": name},
+      "texts": {"name": name, "value": value}
+    }, accessor);
   }
 })();

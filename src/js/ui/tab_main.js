@@ -50,7 +50,7 @@
         {
           if (tab[0].url.toString().indexOf("chrome://") == -1)
             chrome.windows.create({url: tab[0].url, incognito: true});
-          else 
+          else
             alert("Sorry you can't run current active page in incognito mode.");
         });
         break;
@@ -63,7 +63,7 @@
     registerActionListener(Elem("#main_tab"), onAction);
     Elem("#navigation_tab").addEventListener("switch", function(ev)
     {
-      
+
     }, false);
   }, false);
 })();

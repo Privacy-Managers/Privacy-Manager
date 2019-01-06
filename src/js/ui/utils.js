@@ -68,13 +68,13 @@ function cloneObj(obj)
 
 function nextSiblingElem(elem)
 {
-  return elem.nextElementSibling ? 
+  return elem.nextElementSibling ?
     elem.nextElementSibling : elem.parentElement.firstElementChild;
 }
 
 function prevSiblingElem(elem)
 {
-  return elem.previousElementSibling ? 
+  return elem.previousElementSibling ?
     elem.previousElementSibling : elem.parentElement.lastElementChild;
 }
 

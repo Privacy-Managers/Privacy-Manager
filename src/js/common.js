@@ -23,8 +23,8 @@ const additionalPermission = {"origins": ["<all_urls>"]};
 // Besides of "removeAll" item, all other dataTypes needs to be consistent with
 // https://developer.chrome.com/extensions/browsingData#type-DataTypeSet
 const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
-                      "fileSystems", "formData", "history", "indexedDB", 
-                      "localStorage", "serverBoundCertificates", "passwords", 
+                      "fileSystems", "formData", "history", "indexedDB",
+                      "localStorage", "serverBoundCertificates", "passwords",
                       "pluginData", "serviceWorkers", "webSQL"];
 const getAllCookies = chrome.cookies.getAll;
 const removeCookie = chrome.cookies.remove;
@@ -46,10 +46,12 @@ function getUrl(domain, path, isSecure)
 }
 function addRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
 {
-  chrome.webRequest.onSendHeaders.addListener(onSendHeadersCallback, 
-    {urls: ["<all_urls>"]}, ["requestHeaders"]);
-  chrome.webRequest.onHeadersReceived.addListener(onHeadersReceivedCallback, 
-    {urls: ["<all_urls>"]}, ["responseHeaders"]);
+  chrome.webRequest.onSendHeaders.addListener(onSendHeadersCallback,
+                                              {urls: ["<all_urls>"]},
+                                              ["requestHeaders"]);
+  chrome.webRequest.onHeadersReceived.addListener(onHeadersReceivedCallback,
+                                                  {urls: ["<all_urls>"]},
+                                                  ["responseHeaders"]);
 }
 
 function removeRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
@@ -70,7 +72,8 @@ function updateRequestObj(details, actionType)
 function addBlockAgentListener()
 {
   chrome.webRequest.onBeforeSendHeaders.addListener(blockUserAgent,
-    {urls: ["<all_urls>"]}, ["blocking", "requestHeaders"]);
+                                                    {urls: ["<all_urls>"]},
+                                                    ["blocking", "requestHeaders"]);
 }
 
 function removeBlockAgentListener()
@@ -96,21 +99,21 @@ function removeStartDot(string)
   return string.replace(/^\./, "");
 }
 
-function deleteCookies() 
+function deleteCookies()
 {
   // delete cookies here + ignore whitelisted cookies
-  getStorage("cookieWhitelist", function (data) 
+  getStorage("cookieWhitelist", function(data)
   {
-    let domainList = data.cookieWhitelist
-    getAllCookies({}, function (cookies) 
+    let domainList = data.cookieWhitelist;
+    getAllCookies({}, function(cookies)
     {
       let callbackCount = 0;
-      for (let cookie of cookies) 
+      for (let cookie of cookies)
       {
         let url = getUrl(cookie.domain, cookie.path, cookie.secure);
         // replace leading dots sometimes present in cookie domains
-        let domainWhitelist = domainList[removeStartDot(cookie.domain)]
-        if (!domainWhitelist || (!domainWhitelist.cookies.includes(cookie.name) && !domainWhitelist.domainWhitelist)) 
+        let domainWhitelist = domainList[removeStartDot(cookie.domain)];
+        if (!domainWhitelist || (!domainWhitelist.cookies.includes(cookie.name) && !domainWhitelist.domainWhitelist))
         {
           removeCookie({ "url": url, "name": cookie.name });
         }

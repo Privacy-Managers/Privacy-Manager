@@ -1,0 +1,65 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "globals": {
+    "chrome": true,
+    "getStorage": true,
+    "setStorage": true,
+    "startCollectingRequests": true,
+    "addBlockAgentListener": true,
+    "browsingData": true,
+    "deleteCookies": true,
+    "addRequestListener": true,
+    "removeRequestListener": true,
+    "updateRequestObj": true,
+    "collectedRequests": true,
+    "stopCollectingRequests": true,
+    "removeBlockAgentListener": true,
+    "additionalPermission": true,
+    "document": true,
+    "registerActionListener": true,
+    "getParentData": true,
+    "Elem": true,
+    "createBasicSettingObj": true,
+    "addSettingItem": true,
+    "TableList": true,
+    "cloneObj": true,
+    "alert": true,
+    "getMsg": true,
+    "turnSwitchesOff": true,
+    "result": true,
+    "Event": true,
+    "nextSiblingElem": true,
+    "prevSiblingElem": true,
+    "switchEvent": true,
+    "Elems": true,
+    "closeDialog": true,
+    "checkSettingState": true,
+    "privacyData": true,
+    "ext": true
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "no-constant-condition": "off",
+    "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "indent": ["error", 2, {
+      "FunctionDeclaration": {
+        "parameters": "first"
+      },
+      "SwitchCase": 1,
+      "CallExpression": {
+        "arguments": "first"
+      },
+      "ArrayExpression": "first",
+      "ObjectExpression": "off"
+    }],
+    "space-before-function-paren": ["error", "never"],
+    "brace-style": ["error", "allman"],
+    "semi": "error"
+  }
+}

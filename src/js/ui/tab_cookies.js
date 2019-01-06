@@ -26,8 +26,8 @@
   const setCookie = chrome.cookies.set;
   const onCookieChange = chrome.cookies.onChanged;
   const onStorageChange =   chrome.storage.onChanged;
-  const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie")
-  const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain")
+  const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie");
+  const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain");
 
   const activeTabCookieId = "activeTabCookies";
 
@@ -44,8 +44,8 @@
     var leftSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(1)");
     var rightSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(2)");
 
-    var settingObj = createBasicSettingObj("additionalPermissions");
-    addSettingItem(leftSettingList, settingObj, "permission", function(enabled)
+    const settingObjPermissions = createBasicSettingObj("additionalPermissions");
+    addSettingItem(leftSettingList, settingObjPermissions, "permission", function(enabled)
     {
       disableControls(!enabled);
       if (enabled)
@@ -74,7 +74,7 @@
     };
 
     tableList = new TableList(
-      Elem("#cookieList"), 
+      Elem("#cookieList"),
       Elem("#cookiesListTemplate"),
       Elem("#cookiesSubListTemplate"),
       sortTable);
@@ -100,7 +100,7 @@
       // Use repeative domains to count cookies number
       var repeativeDomains = [];
 
-      for (var i = 0; i < cookies.length; i++)
+      for (let i = 0; i < cookies.length; i++)
       {
         if (searchExpression.test(cookies[i].domain))
           repeativeDomains.push(removeStartDot(cookies[i].domain));
@@ -114,7 +114,7 @@
       var cookiesNumber = 1;
       var domainObjs = [];
 
-      for (var i = 1; i < repeativeDomains.length; i++)
+      for (let i = 1; i < repeativeDomains.length; i++)
       {
         var domain = repeativeDomains[i];
         if (lastDomain != domain)
@@ -133,9 +133,9 @@
       tableList.addItems(domainObjs);
       // update whitelist
       getStorage("cookieWhitelist", function(cookieWhitelist)
-        {
-          updateWhitelistInList(cookieWhitelist["cookieWhitelist"]);
-        });
+      {
+        updateWhitelistInList(cookieWhitelist["cookieWhitelist"]);
+      });
     });
   }
 
@@ -143,14 +143,14 @@
   {
     switch (action)
     {
-      case "get-cookies":
+      case "get-cookies": {
         if (element.dataset.expanded == "true")
         {
           onCookiesAction("close-expanded-domain", element);
           return;
         }
 
-        var domain = element.getAttribute("data-access");
+        const domain = element.getAttribute("data-access");
         getAllCookies({"domain": domain}, function(cookies)
         {
           for (var i = 0; i < cookies.length; i++)
@@ -165,84 +165,90 @@
           // update whitelist
           getStorage("cookieWhitelist", function(cookieWhitelist)
           {
-            let domainCookies = {}
-            domainCookies[domain] = cookieWhitelist.cookieWhitelist[domain]
+            let domainCookies = {};
+            domainCookies[domain] = cookieWhitelist.cookieWhitelist[domain];
             if (domainCookies[domain])
               updateWhitelistInList(domainCookies);
           });
         });
         break;
-      case "whitelist-cookie-domain":
-        var domain = getParentData(element, "data-access");
+      }
+      case "whitelist-cookie-domain": {
+        const domain = getParentData(element, "data-access");
 
         getStorage("cookieWhitelist", function(cookieWhitelist)
         {
-          let whitelist = cookieWhitelist["cookieWhitelist"]
+          let whitelist = cookieWhitelist["cookieWhitelist"];
           if (!(domain in whitelist))
           {
-            whitelist[domain] = {domainWhitelist: true, cookies: []}
+            whitelist[domain] = {domainWhitelist: true, cookies: []};
           }
           else
           {
             whitelist[domain].domainWhitelist = !whitelist[domain].domainWhitelist;
           }
-          setStorage(cookieWhitelist)
+          setStorage(cookieWhitelist);
         });
         break;
-      case "whitelist-sublist-cookie":
-        var accessObj = JSON.parse(getParentData(element, "data-access"));
-        var domain = getParentData(getParentData(element, "data-access", true).
+      }
+      case "whitelist-sublist-cookie": {
+        const accessObj = JSON.parse(getParentData(element, "data-access"));
+        const domain = getParentData(getParentData(element, "data-access", true).
           parentElement, "data-access");
-        getStorage("cookieWhitelist", function(cookieWhitelist) 
+        getStorage("cookieWhitelist", function(cookieWhitelist)
         {
-          let whitelist = cookieWhitelist["cookieWhitelist"]
-          if (!(domain in whitelist)) 
+          let whitelist = cookieWhitelist["cookieWhitelist"];
+          if (!(domain in whitelist))
           {
-            whitelist[domain] = {domainWhitelist: false, cookies: [accessObj.cookie]}
+            whitelist[domain] = {domainWhitelist: false, cookies: [accessObj.cookie]};
           }
-          else if (whitelist[domain].cookies.includes(accessObj.cookie)) 
+          else if (whitelist[domain].cookies.includes(accessObj.cookie))
           {
             // filter out cookie name
-            whitelist[domain].cookies = whitelist[domain].cookies.filter(el => el !== accessObj.cookie)
-          } 
-          else 
+            whitelist[domain].cookies = whitelist[domain].cookies.filter(el => el !== accessObj.cookie);
+          }
+          else
           {
             // add cookie name
-            whitelist[domain].cookies.push(accessObj.cookie)
+            whitelist[domain].cookies.push(accessObj.cookie);
           }
-          setStorage(cookieWhitelist)
+          setStorage(cookieWhitelist);
         });
         break;
-      case "close-expanded-domain":
+      }
+      case "close-expanded-domain": {
         var domainElem = getParentData(element, "data-expanded", true);
         tableList.removeAllSubItems(domainElem.dataset.access);
-        domainElem.focus(); 
+        domainElem.focus();
         domainElem.dataset.expanded = false;
         break;
-      case "delete-domain-cookies":
-        var domain = getParentData(element, "data-access");
+      }
+      case "delete-domain-cookies": {
+        const domain = getParentData(element, "data-access");
         getAllCookies({"domain": domain}, function(cookies)
         {
           var callbackCount = 0;
           for (var i = 0; i < cookies.length; i++)
           {
             var cookie = cookies[i];
-            var url = getUrl(cookie.domain, cookie.path, cookie.secure);
+            const url = getUrl(cookie.domain, cookie.path, cookie.secure);
             removeCookie({"url": url, "name": cookie.name});
           }
         });
         break;
-      case "delete-sublist-cookie":
-        var accessObj = JSON.parse(getParentData(element, "data-access"));
-        var domain = getParentData(getParentData(element, "data-access", true).
+      }
+      case "delete-sublist-cookie": {
+        const accessObj = JSON.parse(getParentData(element, "data-access"));
+        const domain = getParentData(getParentData(element, "data-access", true).
           parentElement, "data-access");
-        var url = getUrl(domain, accessObj.path, accessObj.secure);
+        const url = getUrl(domain, accessObj.path, accessObj.secure);
         removeCookie({"url": url, "name": accessObj.cookie});
         break;
-      case "delete-cookie": // From Dialog
-        var fieldsObj = getCookieDialogData().fields;
-        var url = getUrl(fieldsObj.domain.value, fieldsObj.path.value, 
-                        fieldsObj.secure.checked);
+      }
+      case "delete-cookie": { // From Dialog
+        const fieldsObj = getCookieDialogData().fields;
+        const url = getUrl(fieldsObj.domain.value, fieldsObj.path.value,
+                           fieldsObj.secure.checked);
 
         var name = fieldsObj.name.value;
         removeCookie({"url": url, "name": name}, function(cookie)
@@ -251,24 +257,26 @@
             closeDialog();
         });
         break;
-      case "add-cookie":
-        var dialogObj = getCookieDialogData();
+      }
+      case "add-cookie": {
+        const dialogObj = getCookieDialogData();
         dialogObj.form.reset();
-        var fieldsObj = dialogObj.fields;
+        const fieldsObj = dialogObj.fields;
         fieldsObj.domain.removeAttribute("disabled");
         fieldsObj.domain.focus();
         fieldsObj.name.removeAttribute("disabled");
         break;
-      case "edit-cookie":
-        var dialogObj = getCookieDialogData();
+      }
+      case "edit-cookie": {
+        const dialogObj = getCookieDialogData();
         dialogObj.form.reset();
         var subItemElem = getParentData(element, "data-access", true);
-        var accessObj = JSON.parse(subItemElem.dataset.access);
-        var domain = getParentData(subItemElem.parentElement, "data-access");
-        var url = getUrl(domain, accessObj.path, accessObj.secure);
+        const accessObj = JSON.parse(subItemElem.dataset.access);
+        const domain = getParentData(subItemElem.parentElement, "data-access");
+        const url = getUrl(domain, accessObj.path, accessObj.secure);
         getCookie({"url": url, "name": accessObj.cookie}, function(cookie)
         {
-          var fieldsObj = dialogObj.fields;
+          const fieldsObj = dialogObj.fields;
           fieldsObj.domain.setAttribute("disabled", "disabled");
           fieldsObj.name.setAttribute("disabled", "disabled");
           fieldsObj.name.value = cookie.name;
@@ -283,17 +291,18 @@
           fieldsObj.storeId.value = cookie.storeId;
 
           var times = new Date(cookie.expirationDate * 1000).toISOString().
-                      split("T");
+            split("T");
           fieldsObj.expDate.value = times[0];
           fieldsObj.expTime.value = times[1].split(".")[0];
         });
         break;
-      case "update-cookie":
-        var dialogObj = getCookieDialogData();
+      }
+      case "update-cookie": {
+        const dialogObj = getCookieDialogData();
         if (!dialogObj.form.checkValidity())
           return;
 
-        var fieldsObj = dialogObj.fields;
+        const fieldsObj = dialogObj.fields;
         var datetime = fieldsObj.expDate.value;
         var time = fieldsObj.expTime.value;
         datetime += time ? "T" + time : "";
@@ -310,11 +319,11 @@
                             "httpOnly": fieldsObj.httpOnly.checked,
                             "storeId": fieldsObj.storeId.value,
                             "expirationDate": expirationDate
-                          };
+        };
 
         // Omitted domain makes host-only cookie
         if (!fieldsObj.hostOnly.checked)
-          cookieSetObj.domain = domain;
+          cookieSetObj.domain = fieldsObj.domain.value;
 
         setCookie(cookieSetObj, function(cookie)
         {
@@ -322,10 +331,12 @@
             closeDialog();
         });
         break;
-      case "delete-all-cookies":
-        deleteCookies()
+      }
+      case "delete-all-cookies": {
+        deleteCookies();
         closeDialog();
         break;
+      }
     }
   }
 
@@ -357,19 +368,19 @@
   {
     chrome.tabs.query({active: true}, function(tab)
     {
-      var url = tab[0].url;
+      const url = tab[0].url;
       if (url.indexOf("://") > -1)
       {
-         var domain = url.split('/')[2].split(':')[0].replace("www.", "");
-         Elem("#search-domain").value = domain;
-         populateDomainList();
+        var domain = url.split('/')[2].split(':')[0].replace("www.", "");
+        Elem("#search-domain").value = domain;
+        populateDomainList();
       }
     });
   }
 
   /**
    * Enable/disable control elements
-   * @pa\ram {Boolean} disabled
+   * @param {Boolean} disabled
    */
   function disableControls(disabled)
   {
@@ -415,7 +426,7 @@
   function createCookieSubitemObj(cookie)
   {
     return {
-      dataset: { 
+      dataset: {
         access: createSubitemAccessor(cookie)
       },
       texts: {
@@ -455,45 +466,46 @@
     for (var domain in whitelistChange)
     {
       let domainElement = tableList.getItem(domain);
-      if (domainElement) 
+      if (domainElement)
       {
         domainElement.dataset.whitelist = whitelistChange[domain].domainWhitelist;
         tableList.updateItem(domainElement, domain);
         let cookies = whitelistChange[domain].cookies;
-        if (domainElement.subItems) 
+        if (domainElement.subItems)
         {
-          for (let subElement of domainElement.subItems) 
+          for (let subElement of domainElement.subItems)
           {
-            if (cookies.includes(subElement.texts.name)) 
+            if (cookies.includes(subElement.texts.name))
             {
               subElement.dataset.whitelist = true;
-              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
-              document.querySelector(cookieAccessor).dataset.whitelist = true
-            } 
-            else 
+              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']";
+              document.querySelector(cookieAccessor).dataset.whitelist = true;
+            }
+            else
             {
               subElement.dataset.whitelist = false;
-              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']"
-              document.querySelector(cookieAccessor).dataset.whitelist = false
+              let cookieAccessor = "li[data-access='" + subElement.dataset.access + "']";
+              document.querySelector(cookieAccessor).dataset.whitelist = false;
             }
           }
         }
       }
     }
-  };
+  }
+
   onStorageChange.addListener(function(changeInfo)
   {
     if ("cookieWhitelist" in changeInfo)
     {
-      let newValue = changeInfo.cookieWhitelist.newValue
-      let oldValue = changeInfo.cookieWhitelist.oldValue
-      let changed = {}
-      if (oldValue) 
+      let newValue = changeInfo.cookieWhitelist.newValue;
+      let oldValue = changeInfo.cookieWhitelist.oldValue;
+      let changed = {};
+      if (oldValue)
       {
-        changed = Object.keys(newValue).reduce((acc, domain) => 
+        changed = Object.keys(newValue).reduce((acc, domain) =>
         {
-          let oldDomainObj = oldValue[domain]
-          let newDomainObj = newValue[domain]
+          let oldDomainObj = oldValue[domain];
+          let newDomainObj = newValue[domain];
           if (!oldDomainObj || newDomainObj.domainWhitelist != oldDomainObj.domainWhitelist ||
             JSON.stringify(newDomainObj.cookies) != JSON.stringify(oldDomainObj.cookies))
           {
@@ -504,7 +516,7 @@
       }
       else
       {
-        changed = newValue
+        changed = newValue;
       }
       updateWhitelistInList(changed);
     }
