@@ -290,6 +290,10 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 #dialog[data-dialog="setting-info"] #dialog-content-setting-info
 {
   display: block;
+}#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all,
+#dialog[data-dialog="setting-info"] #dialog-content-setting-info
+{
+  display: block;
 }
 
 #dialog > div:first-child
@@ -525,6 +529,34 @@ button.icon.delete:hover:after
 button.icon.edit:after
 {
   background-image: url(/css/img/edit.svg);
+}
+
+.tableList > li > div .icon.whitelist::after
+{
+  background-image: url(/css/img/check-mark-circle.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.tableList li > ul li > div .icon.whitelist::after
+{
+  background-image: url(/css/img/check-mark-circle.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.tableList > li[data-whitelist="true"] > div .icon.whitelist::after
+{
+  background-image: url(/css/img/check-mark-filled.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.tableList li > ul li[data-whitelist="true"] > div .icon.whitelist::after
+{
+  background-image: url(/css/img/check-mark-filled.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 button.icon.edit:hover:after

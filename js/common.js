@@ -26,6 +26,8 @@ const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
                       "fileSystems", "formData", "history", "indexedDB", 
                       "localStorage", "serverBoundCertificates", "passwords", 
                       "pluginData", "serviceWorkers", "webSQL"];
+const getAllCookies = chrome.cookies.getAll;
+const removeCookie = chrome.cookies.remove;
 
 function getStorage(keys, callback)
 {
@@ -38,6 +40,10 @@ function setStorage(items, callback)
   chrome.storage.local.set(items, callback);
 }
 
+function getUrl(domain, path, isSecure)
+{
+  return "http" + (isSecure ? "s" : "") + "://" + domain + path;
+}
 function addRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
 {
   chrome.webRequest.onSendHeaders.addListener(onSendHeadersCallback, 
@@ -83,4 +89,32 @@ function blockUserAgent(details)
     }
   }
   return {requestHeaders: details.requestHeaders};
+}
+
+function removeStartDot(string)
+{
+  return string.replace(/^\./, "");
+}
+
+function deleteCookies() 
+{
+  // delete cookies here + ignore whitelisted cookies
+  getStorage("cookieWhitelist", function (data) 
+  {
+    let domainList = data.cookieWhitelist
+    getAllCookies({}, function (cookies) 
+    {
+      let callbackCount = 0;
+      for (let cookie of cookies) 
+      {
+        let url = getUrl(cookie.domain, cookie.path, cookie.secure);
+        // replace leading dots sometimes present in cookie domains
+        let domainWhitelist = domainList[removeStartDot(cookie.domain)]
+        if (!domainWhitelist || (!domainWhitelist.cookies.includes(cookie.name) && !domainWhitelist.domainWhitelist)) 
+        {
+          removeCookie({ "url": url, "name": cookie.name });
+        }
+      }
+    });
+  });
 }
