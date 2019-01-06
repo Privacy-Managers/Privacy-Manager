@@ -487,6 +487,7 @@ button.icon
   border: none;
   width: 20px;
   padding: 0px;
+  cursor: default;
 }
 
 button.icon:after
@@ -523,20 +524,24 @@ button.icon.edit:hover:after
   background-image: url(/css/img/edit-hover.svg);
 }
 
-.tableList > li > div button.icon.whitelist::after,
-.tableList li > ul li > div button.icon.whitelist::after
+button.icon.whitelist:after
 {
-  background-image: url(/css/img/check-mark-circle.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
+  background-image: url(/css/img/check-mark.svg);
 }
 
-.tableList > li[data-whitelist="true"] > div button.icon.whitelist::after,
-.tableList li > ul li[data-whitelist="true"] > div button.icon.whitelist::after
+button.icon.whitelist:hover:after
 {
-  background-image: url(/css/img/check-mark-filled.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
+  opacity: .8;
+}
+
+[data-whitelist="true"] button.icon.whitelist:after
+{
+  background-image: url(/css/img/check-mark-active.svg);
+}
+
+[data-whitelist="true"] [data-whitelist="true"] button.icon.whitelist:after
+{
+  background-image: url(/css/img/check-mark-double-active.svg);
 }
 
 /* CONTROLS */
