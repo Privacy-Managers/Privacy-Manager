@@ -1,5 +1,7 @@
 # Privacy Manager
 
+[![Build Status](https://travis-ci.org/Manvel/Privacy-Manager.svg?branch=master)](https://travis-ci.org/Manvel/Privacy-Manager)
+
 ## About
 
 Privacy Manager is a chrome extension for data transparency and control.
