@@ -39,3 +39,9 @@ Please use [Crowdin project](https://crowdin.com/project/privacy-manager) for su
 #### Requesting new translation
 
 In case you can't see the language you want to translate in [Crowdin project](https://crowdin.com/project/privacy-manager), please use [Github issue tracker](https://github.com/Manvel/Privacy-Manager/issues) for requesting new translation language in crowdin.
+
+### Thanks to the awesome contributors
+- [@jeroen7s](https://github.com/jeroen7s)
+  - For [making whitelisting of cookies possible](https://github.com/Manvel/Privacy-Manager/pull/31)
+- [@leonid-panich](https://github.com/leonid-panich)
+  - For helping with Russian Translations
