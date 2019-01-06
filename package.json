@@ -1,0 +1,19 @@
+{
+  "name": "privacy-manager",
+  "version": "3.4.0",
+  "description": "Privacy Manager is a chrome extension for data transparency and control",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd src; zip -r ../privacy-manager.zip ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manvel/Privacy-Manager.git"
+  },
+  "author": "Manvel Saroyan",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Manvel/Privacy-Manager/issues"
+  },
+  "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd"
+}

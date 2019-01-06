@@ -22,7 +22,15 @@ Install the extension from Chrome Web Store using [current link](https://chrome.
 * Visit *chrome://extensions* in your browser
 * Ensure that the **Developer mode** checkbox in the top right-hand corner is checked
 * Click **Load unpacked extension…** to pop up a file-selection dialog
-* Navigate to *cloned directory* and select it.
+* Navigate to *cloned directory's* `src` folder and select it.
+
+## Publishing
+
+Run command below for zipped bundle creation:
+
+```
+npm run build
+```
 
 ## Contribution
 
