@@ -1,0 +1,15 @@
+language: node_js
+sudo: false
+os:
+  - linux
+  - osx
+node_js:
+  - "node"
+  - "lts/*"
+cache:
+  directories:
+    - node_modules
+  before_script:
+  - npm install
+  script:
+  - npm test
