@@ -26,6 +26,8 @@
   const setCookie = chrome.cookies.set;
   const onCookieChange = chrome.cookies.onChanged;
   const onStorageChange =   chrome.storage.onChanged;
+  const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie")
+  const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain")
 
   const activeTabCookieId = "activeTabCookies";
 
@@ -421,11 +423,17 @@
         value: cookie.value
       },
       titles: {
-         whitelist: getMsg("whitelistSublistCookie")
+         whitelist: cookieWhitelistButtonTitle
       }
     };
   }
 
+  /**
+   * Create a Table List Item Structure Object
+   * @param {String} domain Domain name
+   * @param {Number} cookienum Number of domain cookies
+   * @param {Boolean} whitelist specifies whether domain is whitelisted
+   */
   function createDomainObj(domain, cookienum, whitelist = false)
   {
     return {
@@ -438,7 +446,7 @@
         cookienum: cookienum + " Cookies"
       },
       titles: {
-         whitelist: getMsg("whitelistCookieDomain")
+         whitelist: domainWhitelistButtonTitle
       }
     };
   }
