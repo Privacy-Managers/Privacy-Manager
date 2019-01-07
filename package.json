@@ -1,6 +1,6 @@
 {
   "name": "privacy-manager",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
     "build": "cd src; zip -r ../privacy-manager.zip .",
