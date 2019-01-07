@@ -20,5 +20,5 @@
    "permissions": ["privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking", "storage"],
    "incognito": "split",
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "3.4.0"
+   "version": "3.4.1"
 }
