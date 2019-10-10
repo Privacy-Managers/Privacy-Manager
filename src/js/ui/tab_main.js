@@ -18,6 +18,12 @@
 
 "use strict";
 
+const {Elem, createBasicSettingObj} = require("./utils");
+const {registerActionListener} = require("./actionListener");
+const {addSettingItem} = require("./components/settingList");
+const {privacyData} = require("./data");
+const {browsingData} = require("../common");
+
 (function()
 {
   function generateMainContent()

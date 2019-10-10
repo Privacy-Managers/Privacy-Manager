@@ -6,7 +6,10 @@
     "build": "cd src; zip -r ../privacy-manager.zip .",
     "test": "npm run test:eslint && npm run test:stylelint",
     "test:eslint": "eslint src",
-    "test:stylelint": "stylelint src/**/*.css"
+    "test:stylelint": "stylelint src/**/*.css",
+    "import:components": "pm-components --single-bundle --output src",
+    "build:webpack": "webpack --config webpack.config.js",
+    "build:webpack:watch": "webpack --config webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
@@ -19,12 +22,18 @@
   },
   "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd",
   "devDependencies": {
+    "copy-webpack-plugin": "^5.0.4",
     "eslint": "^5.12.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "stylelint": "^9.9.0",
-    "stylelint-config-recommended": "^2.1.0"
+    "stylelint-config-recommended": "^2.1.0",
+    "webextension-polyfill": "^0.5.0",
+    "webpack": "^4.41.0"
+  },
+  "dependencies": {
+    "privacy-manager-components": "github:Manvel/webcomponents"
   }
 }

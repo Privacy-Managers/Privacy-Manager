@@ -121,3 +121,9 @@ function deleteCookies()
     });
   });
 }
+
+module.exports = {additionalPermission, browsingData, getAllCookies,
+                  removeCookie, getStorage, setStorage, getUrl,
+                  addRequestListener, removeRequestListener,
+                  updateRequestObj, addBlockAgentListener,
+                  removeBlockAgentListener, deleteCookies};
