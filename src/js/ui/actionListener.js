@@ -80,7 +80,7 @@ function onClick(ev, callback)
 
   while (true)
   {
-    if (element == this)
+    if (!element)
       break;
 
     if (element.hasAttribute("data-action"))
