@@ -93,12 +93,12 @@ function deleteBrowsingData(data)
   }
 }
 
-global.startCollectingRequests = function()
+window.startCollectingRequests = function()
 {
   addRequestListener(onSendHeaders, onHeadersReceived);
 };
 
-global.stopCollectingRequests = function()
+window.stopCollectingRequests = function()
 {
   removeRequestListener(onSendHeaders, onHeadersReceived);
 };
