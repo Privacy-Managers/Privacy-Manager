@@ -17,23 +17,19 @@ const {additionalPermission, getStorage, setStorage} = require("../../common");
  */ 
 function addSettingItem(parent, dataObj, type, callback)
 {
-  var content = Elem("#settings-list").content;
-  var accessor = dataObj.dataset.access;
-  content.querySelector("label").textContent = dataObj.text;
-  content.querySelector("[data-dialog='setting-info']").title =
-    getMsg(dataObj.dataset.access + "_desc");
+  const content = Elem("#settings-list").content;
+  const listElem = document.importNode(content, true);
+  const accessor = dataObj.dataset.access;
+  const pmToggle = listElem.querySelector("pm-toggle");
+  pmToggle.setAttribute("text", dataObj.text);
+  pmToggle.setAttribute("description", getMsg(dataObj.dataset.access + "_desc"));
 
-  var listElem = content.querySelector("li");
-  var datasetObj = dataObj.dataset;
+  const datasetObj = dataObj.dataset;
 
-  for (var name in datasetObj)
-    listElem.dataset[name] = datasetObj[name];
+  for (const name in datasetObj)
+    pmToggle.dataset[name] = datasetObj[name];
 
-  var node = document.importNode(content, true);
-  parent.appendChild(node);
-
-  var settingItem = Elem("[data-access='" + accessor + "']", parent);
-  var settingButton = Elem("button[role='checkbox']", settingItem);
+  parent.appendChild(listElem);
 
   switch (type)
   {
@@ -42,9 +38,9 @@ function addSettingItem(parent, dataObj, type, callback)
 
       privacyObject.get({}, function(details)
       {
-        _updateSettingButton(settingItem, details.value);
+        _updateSettingButton(pmToggle, details.value);
       });
-      settingButton.addEventListener("click", function()
+      pmToggle.addEventListener("change", function()
       {
         privacyObject.get({}, function(details)
         {
@@ -55,7 +51,7 @@ function addSettingItem(parent, dataObj, type, callback)
             {
               if (chrome.runtime.lastError != undefined)
               {
-                var message = chrome.runtime.lastError.message;
+                const message = chrome.runtime.lastError.message;
                 if (message ==
                   "Can't modify regular settings from an incognito context.")
                 {
@@ -89,11 +85,11 @@ function addSettingItem(parent, dataObj, type, callback)
           return;
 
         var state = settingList[accessor] == true;
-        _updateSettingButton(settingItem, state);
+        _updateSettingButton(pmToggle, state);
         if (callback)
           callback(state);
       });
-      settingButton.addEventListener("click", function()
+      pmToggle.addEventListener("change", function()
       {
         getStorage("settingList", function(data)
         {
@@ -120,7 +116,7 @@ function addSettingItem(parent, dataObj, type, callback)
         _updateSettingButton(accessor, result);
       });
 
-      settingButton.addEventListener("click", function()
+      pmToggle.addEventListener("click", function()
       {
         chrome.permissions.contains(additionalPermission, function(result)
         {
@@ -182,7 +178,7 @@ function _updateSettingButton(setting, state)
   }
   else
   {
-    Elem("button[role='checkbox']", setting).setAttribute("aria-checked", state);
+    setting.setEnabled(state);
   }
 }
 
