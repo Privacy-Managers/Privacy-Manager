@@ -2,6 +2,8 @@
   "extends": "stylelint-config-recommended",
   "rules": {
     "no-descending-specificity": null,
-    "block-closing-brace-newline-after": "always"
+    "block-closing-brace-newline-after": "always",
+    "selector-type-no-unknown": [true, { ignoreTypes: ["pm-tab-panel", "pm-tabs",
+                                                       "pm-tab", "pm-panels"] }]
   }
 }
