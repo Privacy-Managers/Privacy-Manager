@@ -4,9 +4,13 @@
     "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 2018
   },
   "globals": {
+    "it": true,
+    "describe": true,
+    "after": true,
+    "before": true,
     "window": true,
     "require": true,
     "module": true,
