@@ -21,7 +21,9 @@ module.exports =
     new CopyPlugin([
       { from: './src/_locales', to: "_locales" },
       { from: './src/css', to: "css" },
-      { flatten: true, from: './src/*'}
+      { flatten: true, from: './src/*'},
+      {from: "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+       to: "js"}
     ])
   ]
 };
