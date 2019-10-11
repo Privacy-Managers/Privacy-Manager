@@ -91,3 +91,14 @@ function getParentData(node, data, getElement)
 
   return getParentData(node.parentElement, data, getElement);
 }
+
+function createBasicSettingObj(text)
+{
+  return {
+    dataset: {access: text},
+    text: getMsg(text)
+  };
+}
+
+module.exports = {Elem, Elems, getMsg, getMessages, getSwitcher, getSwitches,
+                  cloneObj, nextSiblingElem, prevSiblingElem, getParentData, createBasicSettingObj};

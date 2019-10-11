@@ -18,6 +18,12 @@
 
 "use strict";
 
+const {getParentData, Elem, getMsg, createBasicSettingObj} = require("./utils");
+const {registerActionListener} = require("./actionListener");
+const {getStorage, setStorage, deleteCookies} = require("../common");
+const {addSettingItem, checkSettingState} = require("./components/settingList");
+const {TableList} = require("./components/tableList");
+
 (function()
 {
   const getAllCookies = chrome.cookies.getAll;

@@ -18,6 +18,13 @@
 
 "use strict";
 
+const {getParentData, Elem, getMsg, cloneObj, createBasicSettingObj} = require("./utils");
+const {registerActionListener} = require("./actionListener");
+const {additionalPermission, addRequestListener, removeRequestListener,
+       updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../common");
+const {addSettingItem, turnSwitchesOff} = require("./components/settingList");
+const {TableList} = require("./components/tableList");
+
 (function()
 {
   const blockUserAgentId = "blockUserAgent";
