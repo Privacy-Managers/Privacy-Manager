@@ -8,9 +8,9 @@
     "test:puppeteer": "mocha test/*.js",
     "test:eslint": "eslint src",
     "test:stylelint": "stylelint src/**/*.css",
-    "import:components": "pm-components --single-bundle --output src",
-    "build:webpack": "webpack --config webpack.config.js",
-    "build:webpack:watch": "webpack --config webpack.config.js --watch"
+    "import:components": "pm-components --single-bundle --output dist",
+    "build:webpack": "npm run import:components && webpack --config webpack.config.js",
+    "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
