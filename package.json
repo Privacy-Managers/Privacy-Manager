@@ -8,7 +8,7 @@
     "test:puppeteer": "mocha test/*.js",
     "test:eslint": "eslint src",
     "test:stylelint": "stylelint src/**/*.css",
-    "import:components": "pm-components --single-bundle --output dist",
+    "import:components": "pm-components --single-bundle --output dist/js",
     "build:webpack": "npm run import:components && webpack --config webpack.config.js",
     "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch"
   },
