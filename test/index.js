@@ -1,9 +1,11 @@
 const puppeteer = require("puppeteer");
 const assert = require("assert");
+const {privacyData} = require("../src/js/ui/data");
 
 const extensionPath = "dist";
 let browser;
 let page;
+let thirdPartyToggleHandle;
 
 before(async() =>
 {
@@ -26,22 +28,76 @@ before(async() =>
 
   page = await browser.newPage();
   await page.goto(`chrome-extension://${extensionID}/${extensionPopupHtml}`);
+
+  thirdPartyToggleHandle = await page.$("[data-access='thirdPartyCookiesAllowed']");
 });
 
-function getTextContent(query)
+function getLabel(pmToggleHandle)
 {
-  return page.evaluate((query) =>
+  return page.evaluate((pmToggleHandle) =>
   {
-    return document.querySelector(query).textContent;
-  }, query);
+    return pmToggleHandle.shadowRoot.querySelector("#label").textContent;
+  }, pmToggleHandle);
+}
+
+function isEnabled(pmToggleHandle)
+{
+  return page.evaluate((pmToggleHandle) =>
+  {
+    return pmToggleHandle.isEnabled();
+  }, pmToggleHandle);
+}
+
+function clickToggle(pmToggleHandle)
+{
+  return page.evaluate((pmToggleHandle) =>
+  {
+    pmToggleHandle.shadowRoot.querySelector("#toggle").click();
+  }, pmToggleHandle);
+}
+
+function setWebsitePrivacy(settingName, value)
+{
+  return page.evaluate((settingName, value) =>
+  {
+    chrome.privacy.websites[settingName].set({ value });
+  }, settingName, value);
+}
+
+function getWebsitePrivacy(settingName)
+{
+  return page.evaluate((settingName) =>
+  {
+    return new Promise((resolve) =>
+    {
+      chrome.privacy.websites[settingName].get({}, ({value}) =>
+      {
+        resolve(value);
+      });
+    });
+  }, settingName);
 }
 
 describe("Testing Privacy Manager extension", () =>
 {
-  it("First toggle element is loaded", async() =>
+  it("The first PM item is '3-rd party cookies' and is enabled", async() =>
   {
-    const query = "[data-access='thirdPartyCookiesAllowed'] label";
-    assert.equal(await getTextContent(query), "3-rd party cookies");
+    assert.equal(await getLabel(thirdPartyToggleHandle), "3-rd party cookies");
+    assert.equal(await isEnabled(thirdPartyToggleHandle), true);
+  });
+  it("Setting chrome.privacy.websites.thirdPartyCookiesAllowed should switch the toggle", async() =>
+  {
+    await setWebsitePrivacy("thirdPartyCookiesAllowed", false);
+    assert.equal(await isEnabled(thirdPartyToggleHandle), false);
+    await setWebsitePrivacy("thirdPartyCookiesAllowed", true);
+    assert.equal(await isEnabled(thirdPartyToggleHandle), true);
+  });
+  it("Clicking the '3-rd party cookies' toggle should change the chrome.privacy.websites.thirdPartyCookiesAllowed", async() =>
+  {
+    await clickToggle(thirdPartyToggleHandle);
+    assert.equal(await getWebsitePrivacy("thirdPartyCookiesAllowed"), false);
+    await clickToggle(thirdPartyToggleHandle);
+    assert.equal(await getWebsitePrivacy("thirdPartyCookiesAllowed"), true);
   });
 });
 
