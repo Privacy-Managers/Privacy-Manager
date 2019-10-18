@@ -1,11 +1,13 @@
 const puppeteer = require("puppeteer");
 const assert = require("assert");
-const {privacyData} = require("../src/js/ui/data");
+const additionalPermission = {"origins": ["<all_urls>"]};
 
 const extensionPath = "dist";
 let browser;
 let page;
 let thirdPartyToggleHandle;
+let clearCookiesHandle;
+let additionalPermissionHandles;
 
 before(async() =>
 {
@@ -30,6 +32,8 @@ before(async() =>
   await page.goto(`chrome-extension://${extensionID}/${extensionPopupHtml}`);
 
   thirdPartyToggleHandle = await page.$("[data-access='thirdPartyCookiesAllowed']");
+  clearCookiesHandle = await page.$("[data-access='cookies']");
+  additionalPermissionHandles = await page.$$("[data-access='additionalPermissions']");
 });
 
 function getLabel(pmToggleHandle)
@@ -60,22 +64,47 @@ function setWebsitePrivacy(settingName, value)
 {
   return page.evaluate((settingName, value) =>
   {
-    chrome.privacy.websites[settingName].set({ value });
+    browser.privacy.websites[settingName].set({ value });
   }, settingName, value);
 }
 
 function getWebsitePrivacy(settingName)
 {
-  return page.evaluate((settingName) =>
+  return page.evaluate(async(settingName) =>
   {
-    return new Promise((resolve) =>
-    {
-      chrome.privacy.websites[settingName].get({}, ({value}) =>
-      {
-        resolve(value);
-      });
-    });
+    return (await browser.privacy.websites[settingName].get({})).value;
   }, settingName);
+}
+
+function getSettingListData(name)
+{
+  return page.evaluate(async(name) =>
+  {
+    return (await browser.storage.local.get("settingList")).settingList[name];
+  }, name);
+}
+
+function setSettingListData(name, value)
+{
+  return page.evaluate(async(name, value) =>
+  {
+    const data = await browser.storage.local.get("settingList");
+    if (!data.settingList)
+      data.settingList = {};
+    data.settingList[name] = value;
+    await browser.storage.local.set(data);
+  }, name, value);
+}
+
+function setPermission(state)
+{
+  return page.evaluate(async(state, additionalPermission) =>
+  {
+    if (state)
+      return await browser.permissions.request(additionalPermission);
+    else
+      return await browser.permissions.remove(additionalPermission);
+  }, state, additionalPermission);
 }
 
 describe("Testing Privacy Manager extension", () =>
@@ -99,6 +128,21 @@ describe("Testing Privacy Manager extension", () =>
     await clickToggle(thirdPartyToggleHandle);
     assert.equal(await getWebsitePrivacy("thirdPartyCookiesAllowed"), true);
   });
+  it("Setting settingList.cookies in local storage should switch 'Cookies' toggle", async() =>
+  {
+    await setSettingListData("cookies", true);
+    assert.equal(await isEnabled(clearCookiesHandle), true);
+    await setSettingListData("cookies", false);
+    assert.equal(await isEnabled(clearCookiesHandle), false);
+  });
+  it("Clicking the 'Cookies' toggle should set settingList.cookies in local storage", async() =>
+  {
+    await clickToggle(clearCookiesHandle);
+    assert.equal(await getSettingListData("cookies"), true);
+    await clickToggle(clearCookiesHandle);
+    assert.equal(await getSettingListData("cookies"), false);
+  });
+  it("When additional permissions are changed, 'Additional Permissions' toggle is updated accordingly");
 });
 
 after(async() =>

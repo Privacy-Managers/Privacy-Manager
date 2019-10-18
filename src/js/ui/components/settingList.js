@@ -15,7 +15,7 @@ const {additionalPermission, getStorage, setStorage} = require("../../common");
  * The callback parameter should be a function that looks like this:
  * function(state) {...}; where "state" is boolean
  */ 
-function addSettingItem(parent, dataObj, type, callback)
+async function addSettingItem(parent, dataObj, type, callback)
 {
   const content = Elem("#settings-list").content;
   const listElem = document.importNode(content, true);
@@ -34,91 +34,72 @@ function addSettingItem(parent, dataObj, type, callback)
   switch (type)
   {
     case "privacy":
-      var privacyObject = dataObj.privacyObj;
-
-      privacyObject.get({}, function(details)
+    {
+      const privacyObject = dataObj.privacyObj;
+      _updateSettingButton(pmToggle, (await privacyObject.get({})).value);
+      pmToggle.addEventListener("change", async() =>
       {
-        _updateSettingButton(pmToggle, details.value);
-      });
-      pmToggle.addEventListener("change", function()
-      {
-        privacyObject.get({}, function(details)
+        const details = await privacyObject.get({});
+        if (details.levelOfControl == "controllable_by_this_extension" ||
+        details.levelOfControl == "controlled_by_this_extension")
         {
-          if (details.levelOfControl == "controllable_by_this_extension" ||
-          details.levelOfControl == "controlled_by_this_extension")
+          await privacyObject.set({ value: !details.value });
+          // TODO: test
+          if (browser.runtime.lastError != undefined)
           {
-            privacyObject.set({ value: !details.value }, function()
+            const message = browser.runtime.lastError.message;
+            if (message ==
+              "Can't modify regular settings from an incognito context.")
             {
-              if (chrome.runtime.lastError != undefined)
-              {
-                const message = chrome.runtime.lastError.message;
-                if (message ==
-                  "Can't modify regular settings from an incognito context.")
-                {
-                  alert(getMsg("regularSettingChangeIncognito_error"));
-                }
-                else
-                {
-                  alert(message);
-                }
-              }
-            });
+              alert(getMsg("regularSettingChangeIncognito_error"));
+            }
+            else
+            {
+              alert(message);
+            }
           }
-          else
-          {
-            //TODO: Inform user if control level is not controlable by
-            //extension details.levelOfControl
-          }
-        });
+        }
+        else
+        {
+          //TODO: Inform user if control level is not controlable by
+          //extension details.levelOfControl
+        }
       }, false);
 
-      privacyObject.onChange.addListener(function(detail)
+      privacyObject.onChange.addListener((detail) =>
       {
         _updateSettingButton(accessor, detail.value);
       });
       break;
-    case "storage":
-      getStorage("settingList", function(data)
-      {
-        var settingList = data["settingList"];
-        if (!settingList)
-          return;
 
-        var state = settingList[accessor] == true;
-        _updateSettingButton(pmToggle, state);
-        if (callback)
-          callback(state);
-      });
-      pmToggle.addEventListener("change", function()
+    }
+    case "storage":
+    {
+      const state = await _getStorage(accessor);
+      _updateSettingButton(pmToggle, state === true);
+      if (callback)
+        callback(state);
+      pmToggle.addEventListener("change", async() =>
       {
-        getStorage("settingList", function(data)
-        {
-          if (data.settingList)
-            data.settingList[accessor] = !data.settingList[accessor];
-          else
-          {
-            data.settingList = {};
-            data.settingList[accessor] = true;
-          }
-          setStorage(data, function(result)
-          {
-            if (callback)
-              callback(data.settingList[accessor]);
-          });
-        });
+        const currentState = await _getStorage(accessor);
+        const data = await _setStorage(accessor, !currentState);
+        if (callback)
+          callback(data);
       }, false);
       break;
+    }
     case "permission":
-      chrome.permissions.contains(additionalPermission, function(result)
+    {
+      chrome.permissions.contains(additionalPermission, (result) =>
       {
         if (callback)
           callback(result);
         _updateSettingButton(accessor, result);
       });
 
-      pmToggle.addEventListener("click", function()
+      pmToggle.addEventListener("click", () =>
       {
-        chrome.permissions.contains(additionalPermission, function(result)
+        chrome.permissions.contains(additionalPermission, (result) =>
         {
           if (result)
             chrome.permissions.remove(additionalPermission);
@@ -127,25 +108,44 @@ function addSettingItem(parent, dataObj, type, callback)
         });
       }, false);
 
-      chrome.permissions.onAdded.addListener(function(result)
+      chrome.permissions.onAdded.addListener((result) =>
       {
         _updateSettingButton(accessor, true); // Currently called multiple times
         if (callback)
           callback(true);
       });
-      chrome.permissions.onRemoved.addListener(function(result)
+      chrome.permissions.onRemoved.addListener((result) =>
       {
         _updateSettingButton(accessor, false);
         if (callback)
           callback(false);
       });
       break;
+    }
   }
+}
+
+async function _setStorage(name, value)
+{
+  const data = await browser.storage.local.get("settingList");
+  if (!data.settingList)
+    data.settingList = {};
+  data.settingList[name] = value;
+  return (await browser.storage.local.set(data)).settingList[name];
+}
+
+async function _getStorage(name)
+{
+  const data = await browser.storage.local.get("settingList");
+  const settingList = data["settingList"];
+  if (!settingList)
+    return;
+  return settingList[name];
 }
 
 function checkSettingState(accessor, callback)
 {
-  getStorage("settingList", function(data)
+  getStorage("settingList", (data) =>
   {
     if (data.settingList)
       callback(data.settingList[accessor]);
@@ -156,9 +156,9 @@ function checkSettingState(accessor, callback)
 
 function turnSwitchesOff(accessors, callback)
 {
-  getStorage("settingList", function(data)
+  getStorage("settingList", (data) =>
   {
-    accessors.forEach(function(accessor)
+    accessors.forEach((accessor) =>
     {
       if (data.settingList[accessor])
         data.settingList[accessor] = false;
@@ -171,7 +171,7 @@ function _updateSettingButton(setting, state)
 {
   if (typeof setting == "string")
   {
-    Elems("[data-access='" + setting + "']").forEach(function(settingItem)
+    Elems("[data-access='" + setting + "']").forEach((settingItem) =>
     {
       _updateSettingButton(settingItem, state);
     });
@@ -182,7 +182,7 @@ function _updateSettingButton(setting, state)
   }
 }
 
-chrome.storage.onChanged.addListener(function(change)
+chrome.storage.onChanged.addListener((change) =>
 {
   if ("settingList" in change)
   {
