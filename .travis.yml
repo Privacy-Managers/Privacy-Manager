@@ -1,8 +1,8 @@
 language: node_js
+dist: trusty
 sudo: false
 os:
   - linux
-  - osx
 node_js:
   - "node"
   - "lts/*"
@@ -13,3 +13,8 @@ cache:
   - npm install
   script:
   - npm test
+before_install:
+  # see -> https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-on-travis-ci
+  - "sysctl kernel.unprivileged_userns_clone=1"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
