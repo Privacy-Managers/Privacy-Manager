@@ -138,8 +138,10 @@ describe("Testing Privacy Manager extension", () =>
   it("Clicking the 'Cookies' toggle should set settingList.cookies in local storage", async() =>
   {
     await clickToggle(clearCookiesHandle);
+    await page.waitFor(10);
     assert.equal(await getSettingListData("cookies"), true);
     await clickToggle(clearCookiesHandle);
+    await page.waitFor(10);
     assert.equal(await getSettingListData("cookies"), false);
   });
   it("When additional permissions are changed, 'Additional Permissions' toggle is updated accordingly");

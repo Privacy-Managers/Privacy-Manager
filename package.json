@@ -4,8 +4,8 @@
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
     "build": "cd src; zip -r ../privacy-manager.zip .",
-    "test": "npm run test:eslint && npm run test:stylelint",
-    "test:puppeteer": "mocha test/*.js",
+    "test": "npm run test:eslint && npm run test:stylelint && npm run test:puppeteer",
+    "test:puppeteer": "npm run build:webpack && mocha test/*.js",
     "test:eslint": "eslint src",
     "test:stylelint": "stylelint src/**/*.css",
     "import:components": "pm-components --single-bundle --output dist/js",
