@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const assert = require("assert");
+const {allUrlsToPermissions, restorePermissions} = require("./manifest");
 const additionalPermission = {"origins": ["<all_urls>"]};
 
 const extensionPath = "dist";
@@ -11,6 +12,7 @@ let additionalPermissionHandles;
 
 before(async() =>
 {
+  await allUrlsToPermissions();
   // https://gokatz.me/blog/automate-chrome-extension-testing/
   browser = await puppeteer.launch({
     headless: false, // extension are allowed only in the head-full mode
@@ -149,5 +151,6 @@ describe("Testing Privacy Manager extension", () =>
 
 after(async() =>
 {
+  await restorePermissions();
   await browser.close();
 });

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "cd src; zip -r ../privacy-manager.zip .",
     "test": "npm run test:eslint && npm run test:stylelint && npm run test:puppeteer",
-    "test:puppeteer": "npm run build:webpack && mocha test/*.js",
+    "test:puppeteer": "npm run build:webpack && mocha test/puppeteer.js",
     "test:eslint": "eslint src",
     "test:stylelint": "stylelint src/**/*.css",
     "import:components": "pm-components --single-bundle --output dist/js",
