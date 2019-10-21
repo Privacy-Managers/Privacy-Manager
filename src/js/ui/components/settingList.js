@@ -11,11 +11,8 @@ const {additionalPermission, getStorage, setStorage} = require("../../common");
  *   privacyObj: [Chrome privacy object]
  * }
  * @param {String} type "privacy", "storage" or "permission"
- * @param {Function} callback triggered after creation and on change.
- * The callback parameter should be a function that looks like this:
- * function(state) {...}; where "state" is boolean
  */ 
-async function addSettingItem(parent, dataObj, type, callback)
+async function addSettingItem(parent, dataObj, type)
 {
   const content = Elem("#settings-list").content;
   const listElem = document.importNode(content, true);
@@ -77,48 +74,33 @@ async function addSettingItem(parent, dataObj, type, callback)
     {
       const state = await _getStorage(accessor);
       _updateSettingButton(pmToggle, state === true);
-      if (callback)
-        callback(state);
       pmToggle.addEventListener("change", async() =>
       {
         const currentState = await _getStorage(accessor);
-        const data = await _setStorage(accessor, !currentState);
-        if (callback)
-          callback(data);
+        await _setStorage(accessor, !currentState);
       }, false);
       break;
     }
     case "permission":
     {
-      chrome.permissions.contains(additionalPermission, (result) =>
-      {
-        if (callback)
-          callback(result);
-        _updateSettingButton(accessor, result);
-      });
+      const isGranted = await browser.permissions.contains(additionalPermission);
+      _updateSettingButton(accessor, isGranted);
 
-      pmToggle.addEventListener("click", () =>
+      pmToggle.addEventListener("click", async() =>
       {
-        chrome.permissions.contains(additionalPermission, (result) =>
-        {
-          if (result)
-            chrome.permissions.remove(additionalPermission);
-          else
-            chrome.permissions.request(additionalPermission);
-        });
+        if (await browser.permissions.contains(additionalPermission))
+          chrome.permissions.remove(additionalPermission);
+        else
+          chrome.permissions.request(additionalPermission);
       }, false);
 
-      chrome.permissions.onAdded.addListener((result) =>
+      browser.permissions.onAdded.addListener(() =>
       {
         _updateSettingButton(accessor, true); // Currently called multiple times
-        if (callback)
-          callback(true);
       });
-      chrome.permissions.onRemoved.addListener((result) =>
+      browser.permissions.onRemoved.addListener(() =>
       {
         _updateSettingButton(accessor, false);
-        if (callback)
-          callback(false);
       });
       break;
     }
@@ -131,7 +113,7 @@ async function _setStorage(name, value)
   if (!data.settingList)
     data.settingList = {};
   data.settingList[name] = value;
-  return (await browser.storage.local.set(data)).settingList[name];
+  await browser.storage.local.set(data);
 }
 
 async function _getStorage(name)
@@ -192,4 +174,45 @@ chrome.storage.onChanged.addListener((change) =>
   }
 });
 
-module.exports = {addSettingItem, checkSettingState, turnSwitchesOff};
+/**
+ * Change listener for settingList in the local storage
+ */
+class Listener
+{
+  constructor()
+  {
+    this.settingList = {};
+    browser.storage.onChanged.addListener(this._onChage.bind(this));
+  }
+
+  /**
+   * Set a listener
+   * @param {String} settingName setting name (ex.: cookies)
+   * @param {Function} callback function to call on a setting value change
+   */
+  async on(settingName, callback)
+  {
+    if (!this.settingList[settingName])
+      this.settingList[settingName] = {};
+    this.settingList[settingName].value = await _getStorage(settingName);
+    this.settingList[settingName].callback = callback;
+  }
+
+  _onChage({settingList})
+  {
+    if (!settingList)
+      return;
+
+    const {newValue} = settingList;
+    for (const settingName in this.settingList)
+    {
+      if (newValue[settingName] !== this.settingList[settingName].value)
+      {
+        this.settingList[settingName].value = newValue[settingName];
+        this.settingList[settingName].callback(newValue[settingName]);
+      }
+    }
+  }
+}
+
+module.exports = {addSettingItem, checkSettingState, turnSwitchesOff, Listener};

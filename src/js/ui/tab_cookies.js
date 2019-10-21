@@ -20,8 +20,9 @@
 
 const {getParentData, Elem, getMsg, createBasicSettingObj} = require("./utils");
 const {registerActionListener} = require("./actionListener");
-const {getStorage, setStorage, deleteCookies} = require("../common");
-const {addSettingItem, checkSettingState} = require("./components/settingList");
+const {getStorage, setStorage, deleteCookies, additionalPermission} = require("../common");
+const permittedUrls = additionalPermission.origins[0];
+const {addSettingItem, checkSettingState, Listener} = require("./components/settingList");
 const {TableList} = require("./components/tableList");
 
 (function()
@@ -38,7 +39,7 @@ const {TableList} = require("./components/tableList");
   const activeTabCookieId = "activeTabCookies";
 
   var tableList = null;
-  document.addEventListener("DOMContentLoaded" , function()
+  document.addEventListener("DOMContentLoaded" , async() =>
   {
     Elem("#search-domain").addEventListener("search", populateDomainList, false);
     Elem("#search-domain").addEventListener("keyup", function(ev)
@@ -51,24 +52,25 @@ const {TableList} = require("./components/tableList");
     var rightSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(2)");
 
     const settingObjPermissions = createBasicSettingObj("additionalPermissions");
-    addSettingItem(leftSettingList, settingObjPermissions, "permission", function(enabled)
+    addSettingItem(leftSettingList, settingObjPermissions, "permission");
+    permissionChange(await browser.permissions.contains(additionalPermission));
+
+    browser.permissions.onAdded.addListener(({origins}) =>
     {
-      disableControls(!enabled);
-      if (enabled)
-      {
-        checkSettingState(activeTabCookieId, function(active)
-        {
-          // Avoide runing populateDomainList() twice
-          if (active)
-            updateFilterToActiveDomain();
-          else
-            populateDomainList();
-        });
-      }
+      if (origins.includes(permittedUrls))
+        permissionChange(true);
+    });
+
+    browser.permissions.onRemoved.addListener(({origins}) =>
+    {
+      if (origins.includes(permittedUrls))
+        permissionChange(false);
     });
 
     var settingObj = createBasicSettingObj(activeTabCookieId);
-    addSettingItem(rightSettingList, settingObj, "storage", function(active)
+    addSettingItem(rightSettingList, settingObj, "storage");
+
+    new Listener().on(activeTabCookieId, (active)=>
     {
       if (active)
         updateFilterToActiveDomain();
@@ -88,6 +90,22 @@ const {TableList} = require("./components/tableList");
     registerActionListener(Elem("#dialog-content-cookie-form"), onCookiesAction);
     registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
   }, false);
+
+  function permissionChange(granted)
+  {
+    disableControls(!granted);
+    if (granted)
+    {
+      checkSettingState(activeTabCookieId, function(active)
+      {
+        // Avoide runing populateDomainList() twice
+        if (active)
+          updateFilterToActiveDomain();
+        else
+          populateDomainList();
+      });
+    }
+  }
 
   function updateSwitches(list, value)
   {

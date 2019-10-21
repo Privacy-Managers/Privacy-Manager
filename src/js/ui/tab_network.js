@@ -22,7 +22,7 @@ const {getParentData, Elem, getMsg, cloneObj, createBasicSettingObj} = require("
 const {registerActionListener} = require("./actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../common");
-const {addSettingItem, turnSwitchesOff} = require("./components/settingList");
+const {addSettingItem, turnSwitchesOff, Listener} = require("./components/settingList");
 const {TableList} = require("./components/tableList");
 
 (function()
@@ -45,13 +45,16 @@ const {TableList} = require("./components/tableList");
     var settingObj = createBasicSettingObj("additionalPermissions");
     addSettingItem(leftSettingList, settingObj, "permission");
     settingObj = createBasicSettingObj(blockUserAgentId);
-    addSettingItem(leftSettingList, settingObj, "storage", function(enabled)
+    const settingListListener = new Listener();
+    addSettingItem(leftSettingList, settingObj, "storage");
+    settingListListener.on(blockUserAgentId, (enabled) =>
     {
       onNetworkSettingChange(blockUserAgentId, enabled);
     });
 
     settingObj = createBasicSettingObj(collectHeadersId);
-    addSettingItem(rightSettingList, settingObj, "storage", function(enabled)
+    addSettingItem(rightSettingList, settingObj, "storage");
+    settingListListener.on(collectHeadersId, (enabled) =>
     {
       onNetworkSettingChange(collectHeadersId, enabled);
     });
