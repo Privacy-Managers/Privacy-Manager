@@ -1,14 +1,10 @@
 const puppeteer = require("puppeteer");
 const assert = require("assert");
 const {allUrlsToPermissions, restorePermissions} = require("./manifest");
-const additionalPermission = {"origins": ["<all_urls>"]};
 
 const extensionPath = "dist";
 let browser;
 let page;
-let thirdPartyToggleHandle;
-let clearCookiesHandle;
-let additionalPermissionHandles;
 
 before(async() =>
 {
@@ -32,11 +28,12 @@ before(async() =>
 
   page = await browser.newPage();
   await page.goto(`chrome-extension://${extensionID}/${extensionPopupHtml}`);
-
-  thirdPartyToggleHandle = await page.$("[data-access='thirdPartyCookiesAllowed']");
-  clearCookiesHandle = await page.$("[data-access='cookies']");
-  additionalPermissionHandles = await page.$$("[data-access='additionalPermissions']");
 });
+
+async function getHandle(access)
+{
+  return await page.$(`[data-access='${access}']`);
+}
 
 function getLabel(pmToggleHandle)
 {
@@ -98,53 +95,73 @@ function setSettingListData(name, value)
   }, name, value);
 }
 
-function setPermission(state)
+function getSearchDomainValue()
 {
-  return page.evaluate(async(state, additionalPermission) =>
+  return page.evaluate(() =>
   {
-    if (state)
-      return await browser.permissions.request(additionalPermission);
-    else
-      return await browser.permissions.remove(additionalPermission);
-  }, state, additionalPermission);
+    return document.querySelector("#search-domain").value;
+  });
 }
 
 describe("Testing Privacy Manager extension", () =>
 {
   it("The first PM item is '3-rd party cookies' and is enabled", async() =>
   {
-    assert.equal(await getLabel(thirdPartyToggleHandle), "3-rd party cookies");
-    assert.equal(await isEnabled(thirdPartyToggleHandle), true);
+    const handle = await getHandle("thirdPartyCookiesAllowed");
+    assert.equal(await getLabel(handle), "3-rd party cookies");
+    assert.equal(await isEnabled(handle), true);
   });
   it("Setting chrome.privacy.websites.thirdPartyCookiesAllowed should switch the toggle", async() =>
   {
+    const handle = await getHandle("thirdPartyCookiesAllowed");
     await setWebsitePrivacy("thirdPartyCookiesAllowed", false);
-    assert.equal(await isEnabled(thirdPartyToggleHandle), false);
+    assert.equal(await isEnabled(handle), false);
     await setWebsitePrivacy("thirdPartyCookiesAllowed", true);
-    assert.equal(await isEnabled(thirdPartyToggleHandle), true);
+    assert.equal(await isEnabled(handle), true);
   });
   it("Clicking the '3-rd party cookies' toggle should change the chrome.privacy.websites.thirdPartyCookiesAllowed", async() =>
   {
-    await clickToggle(thirdPartyToggleHandle);
+    const handle =  await getHandle("thirdPartyCookiesAllowed");
+    await clickToggle(handle);
     assert.equal(await getWebsitePrivacy("thirdPartyCookiesAllowed"), false);
-    await clickToggle(thirdPartyToggleHandle);
+    await clickToggle(handle);
     assert.equal(await getWebsitePrivacy("thirdPartyCookiesAllowed"), true);
   });
   it("Setting settingList.cookies in local storage should switch 'Cookies' toggle", async() =>
   {
+    const handle = await getHandle("cookies");
     await setSettingListData("cookies", true);
-    assert.equal(await isEnabled(clearCookiesHandle), true);
+    assert.equal(await isEnabled(handle), true);
     await setSettingListData("cookies", false);
-    assert.equal(await isEnabled(clearCookiesHandle), false);
+    assert.equal(await isEnabled(handle), false);
   });
   it("Clicking the 'Cookies' toggle should set settingList.cookies in local storage", async() =>
   {
-    await clickToggle(clearCookiesHandle);
+    const handle = await getHandle("cookies");
+    await clickToggle(handle);
     await page.waitFor(10);
     assert.equal(await getSettingListData("cookies"), true);
-    await clickToggle(clearCookiesHandle);
+    await clickToggle(handle);
     await page.waitFor(10);
     assert.equal(await getSettingListData("cookies"), false);
+  });
+  it("Setting settingList.cookies in local storage should switch 'Cookies' toggle", async() =>
+  {
+    const handle = await getHandle("cookies");
+    await setSettingListData("cookies", true);
+    assert.equal(await isEnabled(handle), true);
+    await setSettingListData("cookies", false);
+    assert.equal(await isEnabled(handle), false);
+  });
+  it("Clicking activeTabCookies should set activeTabCookies settingList and set current URL as search domain", async() =>
+  {
+    const handle = await getHandle("activeTabCookies");
+    await clickToggle(handle);
+    await page.waitFor(10);
+    assert.equal(await getSettingListData("activeTabCookies"), true);
+    const url = await page.url();
+    const domain = url.split('/')[2].split(':')[0].replace("www.", "");
+    assert.equal(await getSearchDomainValue(), domain);
   });
   it("When additional permissions are changed, 'Additional Permissions' toggle is updated accordingly");
 });
