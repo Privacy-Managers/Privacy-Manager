@@ -1,5 +1,5 @@
 const {Elem, getMsg, Elems} = require("../utils");
-const {additionalPermission, getStorage, setStorage} = require("../../common");
+const {additionalPermission} = require("../../common");
 
 /**
  * Add setting list item
@@ -72,12 +72,12 @@ async function addSettingItem(parent, dataObj, type)
     }
     case "storage":
     {
-      const state = await _getStorage(accessor);
+      const state = await getSettingListData(accessor);
       _updateSettingButton(pmToggle, state === true);
       pmToggle.addEventListener("change", async() =>
       {
-        const currentState = await _getStorage(accessor);
-        await _setStorage(accessor, !currentState);
+        const currentState = await getSettingListData(accessor);
+        await setSettingListData(accessor, !currentState);
       }, false);
       break;
     }
@@ -89,9 +89,9 @@ async function addSettingItem(parent, dataObj, type)
       pmToggle.addEventListener("click", async() =>
       {
         if (await browser.permissions.contains(additionalPermission))
-          chrome.permissions.remove(additionalPermission);
+          browser.permissions.remove(additionalPermission);
         else
-          chrome.permissions.request(additionalPermission);
+          browser.permissions.request(additionalPermission);
       }, false);
 
       browser.permissions.onAdded.addListener(() =>
@@ -107,7 +107,7 @@ async function addSettingItem(parent, dataObj, type)
   }
 }
 
-async function _setStorage(name, value)
+async function setSettingListData(name, value)
 {
   const data = await browser.storage.local.get("settingList");
   if (!data.settingList)
@@ -116,7 +116,7 @@ async function _setStorage(name, value)
   await browser.storage.local.set(data);
 }
 
-async function _getStorage(name)
+async function getSettingListData(name)
 {
   const data = await browser.storage.local.get("settingList");
   const settingList = data["settingList"];
@@ -125,27 +125,16 @@ async function _getStorage(name)
   return settingList[name];
 }
 
-function checkSettingState(accessor, callback)
+async function resetSettingListData(settingNames)
 {
-  getStorage("settingList", (data) =>
+  if (!Array.isArray(settingNames))
   {
-    if (data.settingList)
-      callback(data.settingList[accessor]);
-    else
-      callback(false);
-  });
-}
-
-function turnSwitchesOff(accessors, callback)
-{
-  getStorage("settingList", (data) =>
+    await setSettingListData(settingNames, false);
+    return;
+  }
+  settingNames.forEach(async(settingName) =>
   {
-    accessors.forEach((accessor) =>
-    {
-      if (data.settingList[accessor])
-        data.settingList[accessor] = false;
-    });
-    setStorage(data, callback);
+    await setSettingListData(settingName, false);
   });
 }
 
@@ -164,12 +153,12 @@ function _updateSettingButton(setting, state)
   }
 }
 
-chrome.storage.onChanged.addListener((change) =>
+browser.storage.onChanged.addListener((data) =>
 {
-  if ("settingList" in change)
+  if ("settingList" in data)
   {
-    var newValue = change.settingList.newValue;
-    for (var accessor in newValue)
+    const {newValue} = data.settingList;
+    for (const accessor in newValue)
       _updateSettingButton(accessor, newValue[accessor]);
   }
 });
@@ -194,7 +183,7 @@ class Listener
   {
     if (!this.settingList[settingName])
       this.settingList[settingName] = {};
-    this.settingList[settingName].value = await _getStorage(settingName);
+    this.settingList[settingName].value = await getSettingListData(settingName);
     this.settingList[settingName].callback = callback;
   }
 
@@ -215,4 +204,5 @@ class Listener
   }
 }
 
-module.exports = {addSettingItem, checkSettingState, turnSwitchesOff, Listener};
+module.exports = {addSettingItem, getSettingListData, resetSettingListData,
+  Listener};

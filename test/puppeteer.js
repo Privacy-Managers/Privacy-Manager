@@ -156,6 +156,7 @@ describe("Testing Privacy Manager extension", () =>
   it("Clicking activeTabCookies should set activeTabCookies settingList and set current URL as search domain", async() =>
   {
     const handle = await getHandle("activeTabCookies");
+    assert.equal(await getSearchDomainValue(), "");
     await clickToggle(handle);
     await page.waitFor(10);
     assert.equal(await getSettingListData("activeTabCookies"), true);

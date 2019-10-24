@@ -22,7 +22,7 @@ const {getParentData, Elem, getMsg, createBasicSettingObj} = require("./utils");
 const {registerActionListener} = require("./actionListener");
 const {getStorage, setStorage, deleteCookies, additionalPermission} = require("../common");
 const permittedUrls = additionalPermission.origins[0];
-const {addSettingItem, checkSettingState, Listener} = require("./components/settingList");
+const {addSettingItem, getSettingListData, Listener} = require("./components/settingList");
 const {TableList} = require("./components/tableList");
 
 (function()
@@ -91,19 +91,16 @@ const {TableList} = require("./components/tableList");
     registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
   }, false);
 
-  function permissionChange(granted)
+  async function permissionChange(granted)
   {
     disableControls(!granted);
     if (granted)
     {
-      checkSettingState(activeTabCookieId, function(active)
-      {
-        // Avoide runing populateDomainList() twice
-        if (active)
-          updateFilterToActiveDomain();
-        else
-          populateDomainList();
-      });
+      const state = await getSettingListData(activeTabCookieId);
+      if (state)
+        updateFilterToActiveDomain();
+      else
+        populateDomainList();
     }
   }
 
