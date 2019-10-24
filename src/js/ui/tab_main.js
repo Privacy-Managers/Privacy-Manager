@@ -32,10 +32,10 @@ const {browsingData} = require("../common");
     {
       privacyData[category].forEach(function(settingName)
       {
-        if (!chrome.privacy[category][settingName])
+        if (!browser.privacy[category][settingName])
           return;
         var settingObj = createBasicSettingObj(settingName);
-        settingObj.privacyObj = chrome.privacy[category][settingName];
+        settingObj.privacyObj = browser.privacy[category][settingName];
         addSettingItem(Elem("#privacyManagement ul"), settingObj, "privacy");
       });
     }

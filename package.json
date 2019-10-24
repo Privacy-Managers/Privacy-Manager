@@ -4,13 +4,13 @@
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
     "build": "cd src; zip -r ../privacy-manager.zip .",
-    "test": "npm run test:eslint && npm run test:stylelint",
-    "test:puppeteer": "mocha test/*.js",
+    "test": "npm run test:eslint && npm run test:stylelint && npm run test:puppeteer",
+    "test:puppeteer": "npm run build:webpack && mocha test/puppeteer.js",
     "test:eslint": "eslint src",
     "test:stylelint": "stylelint src/**/*.css",
-    "import:components": "pm-components --single-bundle --output src",
-    "build:webpack": "webpack --config webpack.config.js",
-    "build:webpack:watch": "webpack --config webpack.config.js --watch"
+    "import:components": "pm-components --single-bundle --output dist/js",
+    "build:webpack": "npm run import:components && webpack --config webpack.config.js",
+    "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "puppeteer": "^1.20.0",
     "stylelint": "^9.9.0",
     "stylelint-config-recommended": "^2.1.0",
-    "webextension-polyfill": "^0.5.0",
+    "webextension-polyfill": "github:Manvel/webextension-polyfill#privacy-manager",
     "webpack": "^4.41.0"
   },
   "dependencies": {

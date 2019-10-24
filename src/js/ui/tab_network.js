@@ -22,7 +22,7 @@ const {getParentData, Elem, getMsg, cloneObj, createBasicSettingObj} = require("
 const {registerActionListener} = require("./actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../common");
-const {addSettingItem, turnSwitchesOff} = require("./components/settingList");
+const {addSettingItem, resetSettingListData, Listener} = require("./components/settingList");
 const {TableList} = require("./components/tableList");
 
 (function()
@@ -45,13 +45,16 @@ const {TableList} = require("./components/tableList");
     var settingObj = createBasicSettingObj("additionalPermissions");
     addSettingItem(leftSettingList, settingObj, "permission");
     settingObj = createBasicSettingObj(blockUserAgentId);
-    addSettingItem(leftSettingList, settingObj, "storage", function(enabled)
+    const settingListListener = new Listener();
+    addSettingItem(leftSettingList, settingObj, "storage");
+    settingListListener.on(blockUserAgentId, (enabled) =>
     {
       onNetworkSettingChange(blockUserAgentId, enabled);
     });
 
     settingObj = createBasicSettingObj(collectHeadersId);
-    addSettingItem(rightSettingList, settingObj, "storage", function(enabled)
+    addSettingItem(rightSettingList, settingObj, "storage");
+    settingListListener.on(collectHeadersId, (enabled) =>
     {
       onNetworkSettingChange(collectHeadersId, enabled);
     });
@@ -79,7 +82,7 @@ const {TableList} = require("./components/tableList");
       case "blockUserAgent":
         if (isActive)
         {
-          chrome.permissions.contains(additionalPermission, function(result)
+          chrome.permissions.contains(additionalPermission, async(result) =>
           {
             if (result)
             {
@@ -88,7 +91,7 @@ const {TableList} = require("./components/tableList");
             else
             {
               alert(getMsg(permissionNotificationMsgId));
-              turnSwitchesOff([settingName]);
+              await resetSettingListData(settingName);
             }
           });
         }
@@ -100,14 +103,14 @@ const {TableList} = require("./components/tableList");
       case "collectHeaders":
         if (isActive)
         {
-          chrome.permissions.contains(additionalPermission, function(result)
+          chrome.permissions.contains(additionalPermission, async(result) =>
           {
             if (result)
               addRequestListener(onSendHeaders, onHeadersReceived);
             else
             {
               alert(getMsg(permissionNotificationMsgId));
-              turnSwitchesOff([settingName]);
+              await resetSettingListData(settingName);
             }
           });
         }
@@ -119,9 +122,9 @@ const {TableList} = require("./components/tableList");
     }
   }
 
-  chrome.permissions.onRemoved.addListener(function(result)
+  chrome.permissions.onRemoved.addListener(async(result) =>
   {
-    turnSwitchesOff([blockUserAgentId, collectHeadersId]);
+    await resetSettingListData([blockUserAgentId, collectHeadersId]);
     removeBlockAgentListener();
     removeRequestListener(onSendHeaders, onHeadersReceived);
   });

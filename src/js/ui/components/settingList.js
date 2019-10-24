@@ -1,5 +1,5 @@
 const {Elem, getMsg, Elems} = require("../utils");
-const {additionalPermission, getStorage, setStorage} = require("../../common");
+const {additionalPermission} = require("../../common");
 
 /**
  * Add setting list item
@@ -11,163 +11,130 @@ const {additionalPermission, getStorage, setStorage} = require("../../common");
  *   privacyObj: [Chrome privacy object]
  * }
  * @param {String} type "privacy", "storage" or "permission"
- * @param {Function} callback triggered after creation and on change.
- * The callback parameter should be a function that looks like this:
- * function(state) {...}; where "state" is boolean
  */ 
-function addSettingItem(parent, dataObj, type, callback)
+async function addSettingItem(parent, dataObj, type)
 {
-  var content = Elem("#settings-list").content;
-  var accessor = dataObj.dataset.access;
-  content.querySelector("label").textContent = dataObj.text;
-  content.querySelector("[data-dialog='setting-info']").title =
-    getMsg(dataObj.dataset.access + "_desc");
+  const content = Elem("#settings-list").content;
+  const listElem = document.importNode(content, true);
+  const accessor = dataObj.dataset.access;
+  const pmToggle = listElem.querySelector("pm-toggle");
+  pmToggle.setAttribute("text", dataObj.text);
+  pmToggle.setAttribute("description", getMsg(dataObj.dataset.access + "_desc"));
 
-  var listElem = content.querySelector("li");
-  var datasetObj = dataObj.dataset;
+  const datasetObj = dataObj.dataset;
 
-  for (var name in datasetObj)
-    listElem.dataset[name] = datasetObj[name];
+  for (const name in datasetObj)
+    pmToggle.dataset[name] = datasetObj[name];
 
-  var node = document.importNode(content, true);
-  parent.appendChild(node);
-
-  var settingItem = Elem("[data-access='" + accessor + "']", parent);
-  var settingButton = Elem("button[role='checkbox']", settingItem);
+  parent.appendChild(listElem);
 
   switch (type)
   {
     case "privacy":
-      var privacyObject = dataObj.privacyObj;
-
-      privacyObject.get({}, function(details)
+    {
+      const privacyObject = dataObj.privacyObj;
+      _updateSettingButton(pmToggle, (await privacyObject.get({})).value);
+      pmToggle.addEventListener("change", async() =>
       {
-        _updateSettingButton(settingItem, details.value);
-      });
-      settingButton.addEventListener("click", function()
-      {
-        privacyObject.get({}, function(details)
+        const details = await privacyObject.get({});
+        if (details.levelOfControl == "controllable_by_this_extension" ||
+        details.levelOfControl == "controlled_by_this_extension")
         {
-          if (details.levelOfControl == "controllable_by_this_extension" ||
-          details.levelOfControl == "controlled_by_this_extension")
+          await privacyObject.set({ value: !details.value });
+          // TODO: test
+          if (browser.runtime.lastError != undefined)
           {
-            privacyObject.set({ value: !details.value }, function()
+            const message = browser.runtime.lastError.message;
+            if (message ==
+              "Can't modify regular settings from an incognito context.")
             {
-              if (chrome.runtime.lastError != undefined)
-              {
-                var message = chrome.runtime.lastError.message;
-                if (message ==
-                  "Can't modify regular settings from an incognito context.")
-                {
-                  alert(getMsg("regularSettingChangeIncognito_error"));
-                }
-                else
-                {
-                  alert(message);
-                }
-              }
-            });
+              alert(getMsg("regularSettingChangeIncognito_error"));
+            }
+            else
+            {
+              alert(message);
+            }
           }
-          else
-          {
-            //TODO: Inform user if control level is not controlable by
-            //extension details.levelOfControl
-          }
-        });
+        }
+        else
+        {
+          //TODO: Inform user if control level is not controlable by
+          //extension details.levelOfControl
+        }
       }, false);
 
-      privacyObject.onChange.addListener(function(detail)
+      privacyObject.onChange.addListener((detail) =>
       {
         _updateSettingButton(accessor, detail.value);
       });
       break;
-    case "storage":
-      getStorage("settingList", function(data)
-      {
-        var settingList = data["settingList"];
-        if (!settingList)
-          return;
 
-        var state = settingList[accessor] == true;
-        _updateSettingButton(settingItem, state);
-        if (callback)
-          callback(state);
-      });
-      settingButton.addEventListener("click", function()
+    }
+    case "storage":
+    {
+      const state = await getSettingListData(accessor);
+      _updateSettingButton(pmToggle, state === true);
+      pmToggle.addEventListener("change", async() =>
       {
-        getStorage("settingList", function(data)
-        {
-          if (data.settingList)
-            data.settingList[accessor] = !data.settingList[accessor];
-          else
-          {
-            data.settingList = {};
-            data.settingList[accessor] = true;
-          }
-          setStorage(data, function(result)
-          {
-            if (callback)
-              callback(data.settingList[accessor]);
-          });
-        });
+        const currentState = await getSettingListData(accessor);
+        await setSettingListData(accessor, !currentState);
       }, false);
       break;
+    }
     case "permission":
-      chrome.permissions.contains(additionalPermission, function(result)
-      {
-        if (callback)
-          callback(result);
-        _updateSettingButton(accessor, result);
-      });
+    {
+      const isGranted = await browser.permissions.contains(additionalPermission);
+      _updateSettingButton(accessor, isGranted);
 
-      settingButton.addEventListener("click", function()
+      pmToggle.addEventListener("click", async() =>
       {
-        chrome.permissions.contains(additionalPermission, function(result)
-        {
-          if (result)
-            chrome.permissions.remove(additionalPermission);
-          else
-            chrome.permissions.request(additionalPermission);
-        });
+        if (await browser.permissions.contains(additionalPermission))
+          browser.permissions.remove(additionalPermission);
+        else
+          browser.permissions.request(additionalPermission);
       }, false);
 
-      chrome.permissions.onAdded.addListener(function(result)
+      browser.permissions.onAdded.addListener(() =>
       {
         _updateSettingButton(accessor, true); // Currently called multiple times
-        if (callback)
-          callback(true);
       });
-      chrome.permissions.onRemoved.addListener(function(result)
+      browser.permissions.onRemoved.addListener(() =>
       {
         _updateSettingButton(accessor, false);
-        if (callback)
-          callback(false);
       });
       break;
+    }
   }
 }
 
-function checkSettingState(accessor, callback)
+async function setSettingListData(name, value)
 {
-  getStorage("settingList", function(data)
-  {
-    if (data.settingList)
-      callback(data.settingList[accessor]);
-    else
-      callback(false);
-  });
+  const data = await browser.storage.local.get("settingList");
+  if (!data.settingList)
+    data.settingList = {};
+  data.settingList[name] = value;
+  await browser.storage.local.set(data);
 }
 
-function turnSwitchesOff(accessors, callback)
+async function getSettingListData(name)
 {
-  getStorage("settingList", function(data)
+  const data = await browser.storage.local.get("settingList");
+  const settingList = data["settingList"];
+  if (!settingList)
+    return;
+  return settingList[name];
+}
+
+async function resetSettingListData(settingNames)
+{
+  if (!Array.isArray(settingNames))
   {
-    accessors.forEach(function(accessor)
-    {
-      if (data.settingList[accessor])
-        data.settingList[accessor] = false;
-    });
-    setStorage(data, callback);
+    await setSettingListData(settingNames, false);
+    return;
+  }
+  settingNames.forEach(async(settingName) =>
+  {
+    await setSettingListData(settingName, false);
   });
 }
 
@@ -175,25 +142,67 @@ function _updateSettingButton(setting, state)
 {
   if (typeof setting == "string")
   {
-    Elems("[data-access='" + setting + "']").forEach(function(settingItem)
+    Elems("[data-access='" + setting + "']").forEach((settingItem) =>
     {
       _updateSettingButton(settingItem, state);
     });
   }
   else
   {
-    Elem("button[role='checkbox']", setting).setAttribute("aria-checked", state);
+    setting.setEnabled(state);
   }
 }
 
-chrome.storage.onChanged.addListener(function(change)
+browser.storage.onChanged.addListener((data) =>
 {
-  if ("settingList" in change)
+  if ("settingList" in data)
   {
-    var newValue = change.settingList.newValue;
-    for (var accessor in newValue)
+    const {newValue} = data.settingList;
+    for (const accessor in newValue)
       _updateSettingButton(accessor, newValue[accessor]);
   }
 });
 
-module.exports = {addSettingItem, checkSettingState, turnSwitchesOff};
+/**
+ * Change listener for settingList in the local storage
+ */
+class Listener
+{
+  constructor()
+  {
+    this.settingList = {};
+    browser.storage.onChanged.addListener(this._onChage.bind(this));
+  }
+
+  /**
+   * Set a listener
+   * @param {String} settingName setting name (ex.: cookies)
+   * @param {Function} callback function to call on a setting value change
+   */
+  async on(settingName, callback)
+  {
+    if (!this.settingList[settingName])
+      this.settingList[settingName] = {};
+    this.settingList[settingName].value = await getSettingListData(settingName);
+    this.settingList[settingName].callback = callback;
+  }
+
+  _onChage({settingList})
+  {
+    if (!settingList)
+      return;
+
+    const {newValue} = settingList;
+    for (const settingName in this.settingList)
+    {
+      if (newValue[settingName] !== this.settingList[settingName].value)
+      {
+        this.settingList[settingName].value = newValue[settingName];
+        this.settingList[settingName].callback(newValue[settingName]);
+      }
+    }
+  }
+}
+
+module.exports = {addSettingItem, getSettingListData, resetSettingListData,
+  Listener};
