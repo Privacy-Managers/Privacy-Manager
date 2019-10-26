@@ -95,6 +95,22 @@ function setSettingListData(name, value)
   }, name, value);
 }
 
+function getLastSelectedTab()
+{
+  return page.evaluate(async() =>
+  {
+    return (await browser.storage.local.get("lastSelectedTab")).lastSelectedTab;
+  });
+}
+
+function isPanelHidden(tabId)
+{
+  return page.evaluate(async(tabId) =>
+  {
+    return document.querySelector(`[aria-labelledby="${tabId}"]`).getAttribute("hidden") == "true";
+  }, tabId);
+}
+
 function getSearchDomainValue()
 {
   return page.evaluate(() =>
@@ -163,6 +179,21 @@ describe("Testing Privacy Manager extension", () =>
     const url = await page.url();
     const domain = url.split('/')[2].split(':')[0].replace("www.", "");
     assert.equal(await getSearchDomainValue(), domain);
+  });
+  it("Clicking tabs should set lastSelectedTab", async() =>
+  {
+    assert.equal(await getLastSelectedTab(), undefined);
+    assert.equal(await isPanelHidden("tab-main"), false);
+    assert.equal(await isPanelHidden("tab-cookies"), true);
+    await page.click("#tab-cookies");
+    assert.equal(await isPanelHidden("tab-cookies"), false);
+    assert.equal(await getLastSelectedTab(), "tab-cookies");
+  });
+  it("Reloading the page should set switch to lastSelectedTab", async() =>
+  {
+    await page.reload({waitUntil: "domcontentloaded"});
+    assert.equal(await isPanelHidden("tab-main"), true);
+    assert.equal(await isPanelHidden("tab-cookies"), false);
   });
   it("When additional permissions are changed, 'Additional Permissions' toggle is updated accordingly");
 });

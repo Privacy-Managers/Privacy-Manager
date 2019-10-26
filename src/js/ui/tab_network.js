@@ -39,8 +39,9 @@ const {TableList} = require("./components/tableList");
 
   document.addEventListener("DOMContentLoaded" , function()
   {
-    var leftSettingList = Elem("#network_tab ul.settings-list:nth-of-type(1)");
-    var rightSettingList = Elem("#network_tab ul.settings-list:nth-of-type(2)");
+    const networkTab = Elem("#panel-network");
+    const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", networkTab);
+    const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", networkTab);
 
     var settingObj = createBasicSettingObj("additionalPermissions");
     addSettingItem(leftSettingList, settingObj, "permission");

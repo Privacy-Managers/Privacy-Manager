@@ -19,7 +19,6 @@
 "use strict";
 
 const {Elem, createBasicSettingObj} = require("./utils");
-const {registerActionListener} = require("./actionListener");
 const {addSettingItem} = require("./components/settingList");
 const {privacyData} = require("./data");
 const {browsingData} = require("../common");
@@ -66,10 +65,5 @@ const {browsingData} = require("../common");
   document.addEventListener("DOMContentLoaded" , function()
   {
     generateMainContent();
-    registerActionListener(Elem("#main_tab"), onAction);
-    Elem("#navigation_tab").addEventListener("switch", function(ev)
-    {
-
-    }, false);
   }, false);
 })();

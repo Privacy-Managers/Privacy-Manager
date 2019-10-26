@@ -48,8 +48,9 @@ const {TableList} = require("./components/tableList");
         populateDomainList();
     }, false);
 
-    var leftSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(1)");
-    var rightSettingList = Elem("#cookies_tab ul.settings-list:nth-of-type(2)");
+    const cookiesTab = Elem("#panel-cookies");
+    const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", cookiesTab);
+    const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", cookiesTab);
 
     const settingObjPermissions = createBasicSettingObj("additionalPermissions");
     addSettingItem(leftSettingList, settingObjPermissions, "permission");

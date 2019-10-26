@@ -49,56 +49,10 @@ pm-toggle
 /*******************************************************************************
  * Tabs
  ******************************************************************************/
-#navigation_tab
-{
-  margin: 0px;
-  padding: 0px;
-  border-bottom: 1px solid var(--color-secondary);
-}
 
-#navigation_tab::after
+pm-panel:not([hidden])
 {
-  content: "";
-  display: block;
-  clear: both;
-}
-
-#navigation_tab li
-{
-  list-style: none;
-  float: left;
-  position: relative;
-  top: 2px;
-  margin: 0 .2em 1px 0;
-  border-bottom: 0 !important;
-  white-space: nowrap;
-  color: var(--color-secondary);
-  padding: 10px 16px;
-  cursor: pointer;
-}
-
-#navigation_tab li[aria-selected] 
-{
-  color: #459e00;
-  background: transparent url(img/tabs-arrow.svg) no-repeat bottom center;
-}
-
-#navigation_tab span
-{
-  text-decoration: none;
-  font-weight: bold;
-}
-
-[role="tabpanel"]
-{
-  display: none;
   padding: 10px;
-}
-
-[data-tab="main"] #main_tab,
-[data-tab="cookies"] #cookies_tab,
-[data-tab="network"] #network_tab
-{
   display: block;
 }
 
@@ -367,12 +321,12 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 /*******************************************************************************
  * Main
  ******************************************************************************/
-#main_tab .settings-list-container
+#panel-main .settings-list-container
 {
   justify-content: center;
 }
 
-#main_tab section
+#panel-main section
 {
   display: flex;
   flex-direction: column;
@@ -380,12 +334,12 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   padding-right: 28px;
 }
 
-#main_tab section:last-child
+#panel-main section:last-child
 {
   padding-right: 0px;
 }
 
-#main_tab section h2
+#panel-main section h2
 {
   font-size: 21px;
   font-weight: bold;

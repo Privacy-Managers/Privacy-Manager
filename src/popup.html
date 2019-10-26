@@ -21,8 +21,9 @@
 	<head>
 		<title>Privacy Manager</title>
 		<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/pm-tab-panel.css" />
 
-		<script type="text/javascript" src="js/pm-components.js"></script>
+		<script type="text/javascript" src="js/pm-components.js" defer></script>
 		<script type="text/javascript" src="js/browser-polyfill.min.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
@@ -33,151 +34,134 @@
 				<pm-toggle text="My text" description="Description of the element goes here">
 					</pm-toggle>
 			</li>
-    </template>
+		</template>
 		<div id="main">
-			<ul id="navigation_tab">
-				<li role="tab"
-						tabindex="-1"
-						data-action="switch-tab"
-						data-key-down="next-tab"
-						data-key-up="previouse-tab"
-						data-key-left="previouse-tab"
-						data-key-right="next-tab" 
-						data-tab="main" 
-						aria-selected="true">
-					<span data-i18n="main_tab"></span>
-				</li>
-				<li role="tab" 
-						tabindex="-1"
-						data-action="switch-tab"
-						data-key-down="next-tab"
-						data-key-up="previouse-tab"
-						data-key-left="previouse-tab"
-						data-key-right="next-tab"
-						data-tab="cookies">
-					<span data-i18n="cookies_general"></span>
-				</li>
-				<li role="tab"
-						tabindex="-1"
-						data-action="switch-tab"
-						data-key-down="next-tab"
-						data-key-up="previouse-tab"
-						data-key-left="previouse-tab"
-						data-key-right="next-tab"
-						data-tab="network">
-					<span data-i18n="network_tab"></span>
-				</li>
-			</ul>
-			<div id="main_tab" role="tabpanel">
-				<div class="settings-list-container">
-					<section id="privacyManagement">
-						<h2 data-i18n="privacyManagement"></h2>
-						<ul class="settings-list"></ul>
-						<button data-i18n="openIncognito" data-action="open-in-incognito" id="incognito"></button>
-					</section>
-					<section id="startupClear">
-						<h2 data-i18n="startupClear"></h2>
-						<ul class="settings-list"></ul>
-					</section>
-				</div>
-			</div>
+			<pm-tab-panel>
+	
+				<pm-tabs>
+					<pm-tab id="tab-main" data-i18n="main_tab"></pm-tab>
+					<pm-tab id="tab-cookies" data-i18n="cookies_general"></pm-tab>
+					<pm-tab id="tab-network" data-i18n="network_tab"></pm-tab>
+				</pm-tabs>
+			
+				<pm-panels>
+					<pm-panel aria-labelledby="tab-main" id="panel-main">
 
-			<div id="cookies_tab" role="tabpanel">
-				<div class="settings-list-container">
-					<ul class="settings-list"></ul>
-					<div class="separator"></div>
-					<ul class="settings-list"></ul>
-				</div>
-
-				<section>
-					<h4 data-i18n="cookies_general"></h4>
-					<div id="cookiesContainer">
-						<ul id="cookieList" class="tableList"></ul>
-						<template id="cookiesListTemplate">
-							<li data-action="get-cookies" 
-									data-key-action="get-cookies" 
-									data-key-down="next-sibling"
-									data-key-up="previouse-sibling" 
-									data-key-delete="delete-domain-cookies">
-							<div>
-								<div class="data-container">
-									<span data-text="domain" class="domainName"></span>
-									<span data-text="cookienum" class="cookiesNumber"></span>
-								</div>
-								<button role="checkbox" data-action="whitelist-cookie-domain" data-text="whitelist" class="icon whitelist"></button>
-								<button class="icon delete" data-action="delete-domain-cookies" tabindex="-1"></button>
-							</div>
-							</li>
-						</template>
-						<template id="cookiesSubListTemplate">
-							<li tabindex="-1"
-									data-key-down="next-sibling"
-									data-key-up="previouse-sibling"
-									data-key-action="open-dialog,edit-cookie"
-									data-key-delete="delete-sublist-cookie"
-									data-key-quite="close-expanded-domain"
-									data-action=""
-									data-dialog="cookie-edit">
-							  <div>
-							  	<button class="icon edit" data-action="open-dialog,edit-cookie" data-dialog="cookie-edit"></button>
-									<div class="data-container">
-										<span data-text="name" class="cookieName"></span>
-										<span data-text="value" class="cookieValue"></span>
-									</div>
-									<button role="checkbox" data-action="whitelist-sublist-cookie"  data-text="whitelist" class="icon whitelist"></button>
-									<button class="icon delete" data-action="delete-sublist-cookie"></button>
-							  </div>
-							</li>
-						</template>
-						<div id="cookie-controls" class="controls">
-							<input type="search" id="search-domain" placeholder="Search domain">
-							<button data-i18n="addCookie" data-action="open-dialog,add-cookie" data-dialog="cookie-add"></button>
-							<button data-i18n="deleteAll" data-action="open-dialog" data-dialog="cookies-delete-all"></button>
+						<div class="settings-list-container">
+							<section id="privacyManagement">
+								<h2 data-i18n="privacyManagement"></h2>
+								<ul class="settings-list"></ul>
+								<button data-i18n="openIncognito" data-action="open-in-incognito" id="incognito"></button>
+							</section>
+							<section id="startupClear">
+								<h2 data-i18n="startupClear"></h2>
+								<ul class="settings-list"></ul>
+							</section>
 						</div>
-					</div>
-				</section>
-			</div>
 
-			<div id="network_tab" role="tabpanel">
-				<div class="settings-list-container">
-					<ul class="settings-list"></ul>
-					<div class="separator"></div>
-					<ul class="settings-list"></ul>
-				</div>
-				<div id="requestsWidget">
-					<ul class="tableList"></ul>
-					<template id="requestListTemplate">
-						<li data-action="get-request" 
-								data-key-action="get-request"
-								data-key-down="next-sibling" 
-								data-key-up="previouse-sibling">
-							<div>
-								<div class="data-container">
-									<span data-text="url"></span>
-									<span data-text="type"></span>
+					</pm-panel>
+					<pm-panel aria-labelledby="tab-cookies" id="panel-cookies">
+						
+						<div class="settings-list-container">
+							<ul class="settings-list"></ul>
+							<div class="separator"></div>
+							<ul class="settings-list"></ul>
+						</div>
+			
+						<section>
+							<h4 data-i18n="cookies_general"></h4>
+							<div id="cookiesContainer">
+								<ul id="cookieList" class="tableList"></ul>
+								<template id="cookiesListTemplate">
+									<li data-action="get-cookies" 
+											data-key-action="get-cookies" 
+											data-key-down="next-sibling"
+											data-key-up="previouse-sibling" 
+											data-key-delete="delete-domain-cookies">
+									<div>
+										<div class="data-container">
+											<span data-text="domain" class="domainName"></span>
+											<span data-text="cookienum" class="cookiesNumber"></span>
+										</div>
+										<button role="checkbox" data-action="whitelist-cookie-domain" data-text="whitelist" class="icon whitelist"></button>
+										<button class="icon delete" data-action="delete-domain-cookies" tabindex="-1"></button>
+									</div>
+									</li>
+								</template>
+								<template id="cookiesSubListTemplate">
+									<li tabindex="-1"
+											data-key-down="next-sibling"
+											data-key-up="previouse-sibling"
+											data-key-action="open-dialog,edit-cookie"
+											data-key-delete="delete-sublist-cookie"
+											data-key-quite="close-expanded-domain"
+											data-action=""
+											data-dialog="cookie-edit">
+										<div>
+											<button class="icon edit" data-action="open-dialog,edit-cookie" data-dialog="cookie-edit"></button>
+											<div class="data-container">
+												<span data-text="name" class="cookieName"></span>
+												<span data-text="value" class="cookieValue"></span>
+											</div>
+											<button role="checkbox" data-action="whitelist-sublist-cookie"  data-text="whitelist" class="icon whitelist"></button>
+											<button class="icon delete" data-action="delete-sublist-cookie"></button>
+										</div>
+									</li>
+								</template>
+								<div id="cookie-controls" class="controls">
+									<input type="search" id="search-domain" placeholder="Search domain">
+									<button data-i18n="addCookie" data-action="open-dialog,add-cookie" data-dialog="cookie-add"></button>
+									<button data-i18n="deleteAll" data-action="open-dialog" data-dialog="cookies-delete-all"></button>
 								</div>
 							</div>
-						</li>
-					</template>
-					<template id="requestSubListTemplate">
-						<li data-key-down="next-sibling" 
-								data-key-up="previouse-sibling"
-								data-key-quite="close-expanded-request"
-								data-action="tba">
-							<div>
-								<div class="data-container">
-									<span data-text="name"></span>
-									<span data-text="value"></span>
-								</div>
+						</section>
+
+					</pm-panel>
+					<pm-panel aria-labelledby="tab-network" id="panel-network">
+
+						<div class="settings-list-container">
+							<ul class="settings-list"></ul>
+							<div class="separator"></div>
+							<ul class="settings-list"></ul>
+						</div>
+						<div id="requestsWidget">
+							<ul class="tableList"></ul>
+							<template id="requestListTemplate">
+								<li data-action="get-request" 
+										data-key-action="get-request"
+										data-key-down="next-sibling" 
+										data-key-up="previouse-sibling">
+									<div>
+										<div class="data-container">
+											<span data-text="url"></span>
+											<span data-text="type"></span>
+										</div>
+									</div>
+								</li>
+							</template>
+							<template id="requestSubListTemplate">
+								<li data-key-down="next-sibling" 
+										data-key-up="previouse-sibling"
+										data-key-quite="close-expanded-request"
+										data-action="tba">
+									<div>
+										<div class="data-container">
+											<span data-text="name"></span>
+											<span data-text="value"></span>
+										</div>
+									</div>
+								</li>
+							</template>
+							<div class="controls">
+								<button data-i18n="downloadAll" data-action="download-all" download="requests.txt"></button>
+								<button data-i18n="deleteAll" data-action="delete-all"></button>
 							</div>
-						</li>
-					</template>
-					<div class="controls">
-						<button data-i18n="downloadAll" data-action="download-all" download="requests.txt"></button>
-						<button data-i18n="deleteAll" data-action="delete-all"></button>
-					</div>
-				</div>
-			</div>
+						</div>
+
+					</pm-panel>
+				</pm-panels>
+			
+			</pm-tab-panel>
 			
 			<!-- Dialog -->
 			<div id="dialog" data-keyQuite="close-dialog" role="dialog" aria-hidden="true">
