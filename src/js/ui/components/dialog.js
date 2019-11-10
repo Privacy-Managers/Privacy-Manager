@@ -1,5 +1,5 @@
-const {Elem} = require("./utils");
-const {registerActionListener} = require("./actionListener");
+const {Elem} = require("../utils");
+const {registerActionListener} = require("../actionListener");
 
 var dialog = null;
 document.addEventListener("DOMContentLoaded", function()
@@ -32,4 +32,10 @@ const closeDialog = function()
   dialog.setAttribute("aria-hidden", true);
 };
 
-module.exports = {closeDialog};
+const openDialog = function(dialogName)
+{
+  dialog.setAttribute("aria-hidden", false);
+  dialog.dataset.dialog = dialogName;
+};
+
+module.exports = {closeDialog, openDialog};

@@ -70,44 +70,53 @@
 			
 						<section>
 							<h4 data-i18n="cookies_general"></h4>
-							<div id="cookiesContainer">
-								<ul id="cookieList" class="tableList"></ul>
-								<template id="cookiesListTemplate">
-									<li data-action="get-cookies" 
-											data-key-action="get-cookies" 
-											data-key-down="next-sibling"
-											data-key-up="previouse-sibling" 
-											data-key-delete="delete-domain-cookies">
-									<div>
-										<div class="data-container">
-											<span data-text="domain" class="domainName"></span>
-											<span data-text="cookienum" class="cookiesNumber"></span>
-										</div>
-										<button role="checkbox" data-action="whitelist-cookie-domain" data-text="whitelist" class="icon whitelist"></button>
-										<button class="icon delete" data-action="delete-domain-cookies" tabindex="-1"></button>
-									</div>
-									</li>
-								</template>
-								<template id="cookiesSubListTemplate">
-									<li tabindex="-1"
-											data-key-down="next-sibling"
-											data-key-up="previouse-sibling"
-											data-key-action="open-dialog,edit-cookie"
-											data-key-delete="delete-sublist-cookie"
-											data-key-quite="close-expanded-domain"
-											data-action=""
-											data-dialog="cookie-edit">
-										<div>
-											<button class="icon edit" data-action="open-dialog,edit-cookie" data-dialog="cookie-edit"></button>
-											<div class="data-container">
-												<span data-text="name" class="cookieName"></span>
-												<span data-text="value" class="cookieValue"></span>
+
+							<pm-table>
+								<template sort="domain"
+													data-action="get-cookies"
+													data-key-action="get-cookies"
+													data-key-delete="delete-domain"
+													data-whitelist="false">
+											<div>
+												<div class="data-container">
+													<span data-text="domain" class="domainName"></span>
+													<span data-text="cookienum" class="cookiesNumber"></span>
+												</div>
+												<button role="checkbox" 
+																data-action="whitelist-domain"
+																title="whitelist"
+																class="icon whitelist"></button>
+												<button class="icon delete" 
+																data-action="delete-domain"
+																tabindex="-1"></button>
 											</div>
-											<button role="checkbox" data-action="whitelist-sublist-cookie"  data-text="whitelist" class="icon whitelist"></button>
-											<button class="icon delete" data-action="delete-sublist-cookie"></button>
-										</div>
-									</li>
-								</template>
+									</template>
+									<template sort="name"
+														data-key-action="open-dialog,edit-cookie"
+														data-key-delete="delete-cookie"
+														data-key-quite="close-expanded-domain"
+														data-action=""
+														data-dialog="cookie-edit"
+														data-whitelist="false">
+											<div>
+												<button class="icon edit"
+																data-action="open-dialog,edit-cookie"
+																data-dialog="cookie-edit"></button>
+												<div class="data-container">
+													<span data-text="name" class="cookieName"></span>
+													<span data-text="value" class="cookieValue"></span>
+												</div>
+												<button role="checkbox"
+																data-action="whitelist-cookie"
+																data-text="whitelist"
+																class="icon whitelist"></button>
+												<button class="icon delete"
+																data-action="delete-cookie"></button>
+											</div>
+									</template>
+							</pm-table>
+
+							<div id="cookiesContainer">
 								<div id="cookie-controls" class="controls">
 									<input type="search" id="search-domain" placeholder="Search domain">
 									<button data-i18n="addCookie" data-action="open-dialog,add-cookie" data-dialog="cookie-add"></button>
