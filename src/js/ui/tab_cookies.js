@@ -289,7 +289,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     }
   }
 
-  function onCookiesAction(action, element)
+  function onCookiesAction(action)
   {
     switch (action)
     {
@@ -409,15 +409,6 @@ const {closeDialog, openDialog} = require("./components/dialog");
     return "http" + (isSecure ? "s" : "") + "://" + domain + path;
   }
 
-  function createSubitemAccessor(cookie)
-  {
-    return JSON.stringify({
-      cookie: cookie.name,
-      secure: cookie.secure,
-      path: cookie.path
-    });
-  }
-
   function createCookieSubitemObjComp(cookie, whitelist)
   {
     return {
@@ -486,14 +477,11 @@ const {closeDialog, openDialog} = require("./components/dialog");
   browser.cookies.onChanged.addListener(async({cookie, removed}) =>
   {
     const domain = removeStartDot(cookie.domain);
-    const hasDomainItem = pmTable.getItem(domain);
-    const isDomainExpanded = hasDomainItem && hasDomainItem.subItems;
-    const hasCookieItem = pmTable.getItem(cookie.name, domain);
     const domainCounts =  await getCookiesCountForDomain();
 
     if (removed)
     {
-      if (!hasDomainItem || !hasCookieItem)
+      if (!pmTable.getItem(domain) || !pmTable.getItem(cookie.name, domain))
         return;
 
       if (!domainCounts[domain])
@@ -513,6 +501,10 @@ const {closeDialog, openDialog} = require("./components/dialog");
       const whitelistedCookies = await getWhitelistedCookies(domain);
       const isWhitelisted = whitelistedCookies.includes(cookie.name);
       const newItem = createCookieSubitemObjComp(cookie, isWhitelisted);
+      const hasDomainItem = pmTable.getItem(domain);
+      const isDomainExpanded = hasDomainItem && hasDomainItem.subItems;
+      const hasCookieItem = pmTable.getItem(cookie.name, domain);
+
       if (hasCookieItem && hasDomainItem)
       {
         pmTable.updateItem(newItem, cookie.name, domain);

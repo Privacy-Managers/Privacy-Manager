@@ -1,34 +1,9 @@
-const puppeteer = require("puppeteer");
 const assert = require("assert");
-const {allUrlsToPermissions, restorePermissions} = require("./manifest");
+const {allUrlsToPermissions, restorePermissions} = require("../manifest");
+const {openPopupPage, closeBrowser} = require("../common");
 
-const extensionPath = "dist";
 let browser;
 let page;
-
-before(async() =>
-{
-  await allUrlsToPermissions();
-  // https://gokatz.me/blog/automate-chrome-extension-testing/
-  browser = await puppeteer.launch({
-    headless: false, // extension are allowed only in the head-full mode
-    args: [
-      `--disable-extensions-except=${extensionPath}`,
-      `--load-extension=${extensionPath}`
-    ]
-  });
-  const targets = await browser.targets();
-  const extensionTarget = targets.find(({ _targetInfo }) =>
-  {
-    return _targetInfo.title === "Privacy Manager";
-  });
-  const extensionUrl = extensionTarget._targetInfo.url || '';
-  const [,, extensionID] = extensionUrl.split('/');
-  const extensionPopupHtml = "popup.html";
-
-  page = await browser.newPage();
-  await page.goto(`chrome-extension://${extensionID}/${extensionPopupHtml}`);
-});
 
 async function getHandle(access)
 {
@@ -119,8 +94,14 @@ function getSearchDomainValue()
   });
 }
 
-describe("Testing Privacy Manager extension", () =>
+describe("Testing main tab and tabs component", () =>
 {
+  before(async() =>
+  {
+    await allUrlsToPermissions();
+    page = await openPopupPage();
+  });
+
   it("The first PM item is '3-rd party cookies' and is enabled", async() =>
   {
     const handle = await getHandle("thirdPartyCookiesAllowed");
@@ -196,10 +177,11 @@ describe("Testing Privacy Manager extension", () =>
     assert.equal(await isPanelHidden("tab-cookies"), false);
   });
   it("When additional permissions are changed, 'Additional Permissions' toggle is updated accordingly");
+
+  after(async() =>
+  {
+    await restorePermissions();
+    await closeBrowser();
+  });
 });
 
-after(async() =>
-{
-  await restorePermissions();
-  await browser.close();
-});
