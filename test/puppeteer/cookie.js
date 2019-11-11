@@ -80,7 +80,7 @@ describe("Testing Cookies tab", () =>
     };
     await page.evaluate(async() =>
     {
-      for (let i = 1; i < 4; i++)
+      for (let i = 1; i < 5; i++)
       {
         for (let j = 1; j <= i; j++)
         {
@@ -133,7 +133,17 @@ describe("Testing Cookies tab", () =>
 
   it("Clicking delete button should delete domain and/or cookie accordingly", async() =>
   {
-    
+    await (await getItemElemHandle("domain4.com")).click();
+    equal(await ensureItem("domain4.com"), true);
+    equal(await ensureItem("name2", "domain4.com"), true);
+    await (await deleteButtonHandle("name2", "domain4.com")).click();
+    await page.waitFor(10);
+    equal(await ensureItem("name2", "domain4.com"), false);
+    equal(await ensureItem("name3", "domain4.com"), true);
+    await (await deleteButtonHandle("domain4.com")).click();
+    await page.waitFor(10);
+    equal(await ensureItem("name3", "domain4.com"), false);
+    equal(await ensureItem("domain4.com"), false);
   });
 
   after(async() =>
