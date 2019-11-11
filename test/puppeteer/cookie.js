@@ -105,16 +105,19 @@ describe("Testing Cookies tab", () =>
   {
     equal(await ensureItem("name1", "domain1.com"), false);
     await (await getItemElemHandle("domain1.com")).click();
+    await page.waitFor(300);
     equal(await ensureItem("name1", "domain1.com"), true);
 
     equal(await ensureItem("name1", "domain2.com"), false);
     equal(await ensureItem("name2", "domain2.com"), false);
     await (await getItemElemHandle("domain2.com")).click();
+    await page.waitFor(300);
     equal(await ensureItem("name1", "domain2.com"), true);
     equal(await ensureItem("name2", "domain2.com"), true);
 
     equal(await ensureItem("name3", "domain3.com"), false);
     await (await getItemElemHandle("domain3.com")).click();
+    await page.waitFor(300);
     equal(await ensureItem("name3", "domain3.com"), true);
   });
 
@@ -122,26 +125,27 @@ describe("Testing Cookies tab", () =>
   {
     equal(await isWhitelisted("domain3.com"), "false");
     await (await whitelistButtonHandle("domain3.com")).click();
-    await page.waitFor(10);
+    await page.waitFor(300);
     equal(await isWhitelisted("domain3.com"), "true");
 
     equal(await isWhitelisted("name2", "domain3.com"), "false");
     await (await whitelistButtonHandle("name2", "domain3.com")).click();
-    await page.waitFor(10);
+    await page.waitFor(300);
     equal(await isWhitelisted("name2", "domain3.com"), "true");
   });
 
   it("Clicking delete button should delete domain and/or cookie accordingly", async() =>
   {
     await (await getItemElemHandle("domain4.com")).click();
+    await page.waitFor(300);
     equal(await ensureItem("domain4.com"), true);
     equal(await ensureItem("name2", "domain4.com"), true);
     await (await deleteButtonHandle("name2", "domain4.com")).click();
-    await page.waitFor(10);
+    await page.waitFor(300);
     equal(await ensureItem("name2", "domain4.com"), false);
     equal(await ensureItem("name3", "domain4.com"), true);
     await (await deleteButtonHandle("domain4.com")).click();
-    await page.waitFor(10);
+    await page.waitFor(300);
     equal(await ensureItem("name3", "domain4.com"), false);
     equal(await ensureItem("domain4.com"), false);
   });
