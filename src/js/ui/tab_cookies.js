@@ -162,6 +162,41 @@ const {closeDialog, openDialog} = require("./components/dialog");
     return cookieWhitelist[domain] && cookieWhitelist[domain].cookies || [];
   }
 
+  async function isCookieWhitelisted(domain, cookie)
+  {
+    const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+    return cookieWhitelist[domain] && cookieWhitelist[domain].cookies &&
+           cookieWhitelist[domain].cookies.includes(cookie);
+  }
+
+  async function isDomainWhitelisted(domain)
+  {
+    const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+    return cookieWhitelist && cookieWhitelist[domain] && cookieWhitelist[domain].domainWhitelist;
+  }
+
+  async function setWhitelistDomain(domain, value)
+  {
+    const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+    if (!(domain in cookieWhitelist))
+      cookieWhitelist[domain] = {domainWhitelist: value, cookies: []};
+    else
+      cookieWhitelist[domain].domainWhitelist = value;
+    await browser.storage.local.set({cookieWhitelist});
+  }
+
+  async function setWhitelistCookie(domain, cookie, value)
+  {
+    const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+    if (!(domain in cookieWhitelist))
+      cookieWhitelist[domain] = {domainWhitelist: false, cookies: [cookie]};
+    else if (cookieWhitelist[domain].cookies.includes(cookie))
+      cookieWhitelist[domain].cookies = cookieWhitelist[domain].cookies.filter(el => el !== cookie);
+    else
+      cookieWhitelist[domain].cookies.push(cookie);
+    await browser.storage.local.set({cookieWhitelist});
+  }
+
   async function onCookiesActionComp(action, item, parentItem)
   {
     pmTable = document.querySelector("pm-table");
@@ -178,14 +213,13 @@ const {closeDialog, openDialog} = require("./components/dialog");
         const domain = item.id;
         const cookies = await browser.cookies.getAll({domain});
 
-        const whitelistedCookies = await getWhitelistedCookies(domain);
         for (const cookie of cookies)
         {
           // Filter subdomains matched cookies
           if (cookie.domain.indexOf(domain) > 1)
             continue;
 
-          const isWhitelisted = whitelistedCookies.includes(cookie.name);
+          const isWhitelisted = await isCookieWhitelisted(domain, cookie.name);
           pmTable.addItems([createCookieSubitemObjComp(cookie, isWhitelisted)], domain);
         }
         const subitemId = pmTable.getItem(domain).subItems[0].id;
@@ -200,26 +234,15 @@ const {closeDialog, openDialog} = require("./components/dialog");
       case "whitelist-domain":
       {
         const domain = item.texts.domain;
-        const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
-        if (!(domain in cookieWhitelist))
-          cookieWhitelist[domain] = {domainWhitelist: true, cookies: []};
-        else
-          cookieWhitelist[domain].domainWhitelist = !cookieWhitelist[domain].domainWhitelist;
-        await browser.storage.local.set({cookieWhitelist});
+        const currentValue = await isDomainWhitelisted(domain);
+        await setWhitelistDomain(domain, !currentValue);
         break;
       }
       case "whitelist-cookie":
       {
         const cookie = item.texts.name;
         const domain = parentItem.texts.domain;
-        const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
-        if (!(domain in cookieWhitelist))
-          cookieWhitelist[domain] = {domainWhitelist: false, cookies: [cookie]};
-        else if (cookieWhitelist[domain].cookies.includes(cookie))
-          cookieWhitelist[domain].cookies = cookieWhitelist[domain].cookies.filter(el => el !== cookie);
-        else
-          cookieWhitelist[domain].cookies.push(cookie);
-        await browser.storage.local.set({cookieWhitelist});
+        await setWhitelistCookie(domain, cookie);
         break;
       }
       case "delete-domain":
@@ -231,7 +254,6 @@ const {closeDialog, openDialog} = require("./components/dialog");
           const url = getUrl(cookie.domain, cookie.path, cookie.secure);
           browser.cookies.remove({"url": url, "name": cookie.name});
         }
-        // TODO: Remove whitelist
         break;
       }
       case "open-dialog": {
@@ -254,7 +276,6 @@ const {closeDialog, openDialog} = require("./components/dialog");
             browser.cookies.remove({url, "name": cookie.name});
           }
         }
-        // TODO: Remove whitelist
         break;
       }
       case "edit-cookie": {
@@ -487,10 +508,14 @@ const {closeDialog, openDialog} = require("./components/dialog");
       if (!domainCounts[domain])
       {
         pmTable.removeItem(domain);
+        const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+        delete cookieWhitelist[domain];
+        await browser.storage.local.set({cookieWhitelist});
       }
       else
       {
         pmTable.removeItem(cookie.name, domain);
+        setWhitelistCookie(domain, cookie.name, false);
         const domainItem = pmTable.getItem(domain);
         domainItem.texts.cookienum = setCookiesNum(domainCounts[domain]);
         pmTable.updateItem(domainItem, domain);
@@ -498,8 +523,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     }
     else
     {
-      const whitelistedCookies = await getWhitelistedCookies(domain);
-      const isWhitelisted = whitelistedCookies.includes(cookie.name);
+      const isWhitelisted = await isCookieWhitelisted(domain, cookie.name);
       const newItem = createCookieSubitemObjComp(cookie, isWhitelisted);
       const hasDomainItem = pmTable.getItem(domain);
       const isDomainExpanded = hasDomainItem && hasDomainItem.subItems;
@@ -511,7 +535,9 @@ const {closeDialog, openDialog} = require("./components/dialog");
       }
       else if (!hasDomainItem)
       {
-        const domainItem = createDomainObjPm(domain, domainCounts[domain]);
+        const whitelisted = await isDomainWhitelisted(domain);
+        const domainItem = createDomainObjPm(domain, domainCounts[domain],
+                                             whitelisted);
         pmTable.addItems([domainItem]);
       }
       else if (isDomainExpanded)

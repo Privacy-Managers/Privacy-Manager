@@ -62,6 +62,14 @@ async function deleteButtonHandle(id, parentId)
   return await page.evaluateHandle((handle, id, parentId) => handle.getItemElem(id, parentId).querySelector(".delete"), tableListHandle, id, parentId);
 }
 
+async function addCookie(url, name, value)
+{
+  return page.evaluate(async(url, name, value) =>
+  {
+    await browser.cookies.set({url, name, value});
+  }, url, name, value);
+}
+
 describe("Testing Cookies tab", () =>
 {
   before(async() =>
@@ -78,20 +86,13 @@ describe("Testing Cookies tab", () =>
     {
       return (await tableList.getItem(id)).texts.cookienum;
     };
-    await page.evaluate(async() =>
+    for (let i = 1; i < 5; i++)
     {
-      for (let i = 1; i < 5; i++)
+      for (let j = 1; j <= i; j++)
       {
-        for (let j = 1; j <= i; j++)
-        {
-          await browser.cookies.set({
-            url: `https://domain${i}.com`,
-            name: `name${j}`,
-            value: `value${j}`
-          });
-        }
+        await addCookie(`https://domain${i}.com`, `name${j}`, `value${j}`);
       }
-    });
+    }
 
     equal(await getCookieNum("domain1.com"), "1 Cookies");
     equal(await getCookieNum("domain2.com"), "2 Cookies");
@@ -105,16 +106,19 @@ describe("Testing Cookies tab", () =>
   {
     equal(await ensureItem("name1", "domain1.com"), false);
     await (await getItemElemHandle("domain1.com")).click();
+    await page.waitFor(10);
     equal(await ensureItem("name1", "domain1.com"), true);
 
     equal(await ensureItem("name1", "domain2.com"), false);
     equal(await ensureItem("name2", "domain2.com"), false);
     await (await getItemElemHandle("domain2.com")).click();
+    await page.waitFor(10);
     equal(await ensureItem("name1", "domain2.com"), true);
     equal(await ensureItem("name2", "domain2.com"), true);
 
     equal(await ensureItem("name3", "domain3.com"), false);
     await (await getItemElemHandle("domain3.com")).click();
+    await page.waitFor(10);
     equal(await ensureItem("name3", "domain3.com"), true);
   });
 
@@ -144,6 +148,35 @@ describe("Testing Cookies tab", () =>
     await page.waitFor(10);
     equal(await ensureItem("name3", "domain4.com"), false);
     equal(await ensureItem("domain4.com"), false);
+  });
+
+  it("Deleting cookies should also unset whitelisting", async() =>
+  {
+    await addCookie("https://domain5.com", "name1", "value1");
+    await addCookie("https://domain5.com", "name2", "value2");
+    await page.waitFor(10);
+
+    await (await getItemElemHandle("domain5.com")).click();
+    equal(await ensureItem("name1", "domain5.com"), true);
+    equal(await isWhitelisted("name1", "domain5.com"), "false");
+
+    await (await whitelistButtonHandle("domain5.com")).click();
+    await page.waitFor(10);
+    await (await whitelistButtonHandle("name2", "domain5.com")).click();
+    await page.waitFor(10);
+    equal(await isWhitelisted("name2", "domain5.com"), "true");
+    equal(await isWhitelisted("domain5.com"), "true");
+
+    await (await deleteButtonHandle("domain5.com")).click();
+    await page.waitFor(10);
+    await addCookie("https://domain5.com", "name1", "value1");
+    await addCookie("https://domain5.com", "name2", "value2");
+    await page.waitFor(10);
+
+    await (await getItemElemHandle("domain5.com")).click();
+    await page.waitFor(10);
+    equal(await isWhitelisted("name2", "domain5.com"), "false");
+    equal(await isWhitelisted("domain5.com"), "false");
   });
 
   after(async() =>
