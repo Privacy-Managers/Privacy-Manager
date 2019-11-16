@@ -28,7 +28,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
 (function()
 {
   const setCookie = chrome.cookies.set;
-  const onStorageChange =   chrome.storage.onChanged;
+  const onStorageChange = chrome.storage.onChanged;
   const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie");
   const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain");
 
@@ -37,11 +37,11 @@ const {closeDialog, openDialog} = require("./components/dialog");
   let pmTable = null;
   document.addEventListener("DOMContentLoaded" , async() =>
   {
-    Elem("#search-domain").addEventListener("search", populateDomainListComp, false);
+    Elem("#search-domain").addEventListener("search", populateDomainList, false);
     Elem("#search-domain").addEventListener("keyup", function(ev)
     {
       if (ev.key != "Enter" && ev.key != "Escape")
-        populateDomainListComp();
+        populateDomainList();
     }, false);
 
     const cookiesTab = Elem("#panel-cookies");
@@ -78,7 +78,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
 
     pmTable = document.querySelector("pm-table");
-    pmTable.setListener(onCookiesActionComp);
+    pmTable.setListener(onCookiesAction);
   }, false);
 
   async function permissionChange(granted)
@@ -90,7 +90,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
       if (state)
         updateFilterToActiveDomain();
       else
-        populateDomainListComp();
+        populateDomainList();
     }
   }
 
@@ -108,7 +108,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     }, {});
   }
 
-  async function populateDomainListComp()
+  async function populateDomainList()
   {
     pmTable.empty();
     const searchExpression = new RegExp(Elem("#search-domain").value);
@@ -125,7 +125,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
         continue;
 
       const count = domainCounts[domain];
-      domainObjs.push(createDomainObjPm(domain, count, isWhitelisted(domain)));
+      domainObjs.push(createDomainObj(domain, count, isWhitelisted(domain)));
     }
     document.querySelector("pm-table").addItems(domainObjs);
   }
@@ -141,7 +141,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
    * @param {Number} cookienum Number of domain cookies
    * @param {Boolean} whitelist specifies whether domain is whitelisted
    */
-  function createDomainObjPm(domain, cookienum, whitelist)
+  function createDomainObj(domain, cookienum, whitelist)
   {
     return {
       id: domain,
@@ -154,12 +154,6 @@ const {closeDialog, openDialog} = require("./components/dialog");
       },
       dataset: {whitelist}
     };
-  }
-
-  async function getWhitelistedCookies(domain)
-  {
-    const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
-    return cookieWhitelist[domain] && cookieWhitelist[domain].cookies || [];
   }
 
   async function isCookieWhitelisted(domain, cookie)
@@ -197,7 +191,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     await browser.storage.local.set({cookieWhitelist});
   }
 
-  async function onCookiesActionComp(action, item, parentItem)
+  async function onCookiesAction(action, item, parentItem)
   {
     pmTable = document.querySelector("pm-table");
     switch (action)
@@ -207,7 +201,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
         const subitems = item.subItems;
         if (subitems)
         {
-          onCookiesActionComp("close-expanded-domain", null, item);
+          onCookiesAction("close-expanded-domain", null, item);
           return;
         }
         const domain = item.id;
@@ -220,7 +214,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
             continue;
 
           const isWhitelisted = await isCookieWhitelisted(domain, cookie.name);
-          pmTable.addItems([createCookieSubitemObjComp(cookie, isWhitelisted)], domain);
+          pmTable.addItems([createCookieSubitemObj(cookie, isWhitelisted)], domain);
         }
         const subitemId = pmTable.getItem(domain).subItems[0].id;
         pmTable.selectItem(subitemId, domain);
@@ -307,13 +301,6 @@ const {closeDialog, openDialog} = require("./components/dialog");
         fieldsObj.expTime.value = times[1].split(".")[0];
         break;
       }
-    }
-  }
-
-  function onCookiesAction(action)
-  {
-    switch (action)
-    {
       case "add-cookie": {
         const dialogObj = getCookieDialogData();
         dialogObj.form.reset();
@@ -399,7 +386,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
       {
         var domain = url.split('/')[2].split(':')[0].replace("www.", "");
         Elem("#search-domain").value = domain;
-        populateDomainListComp();
+        populateDomainList();
       }
     });
   }
@@ -430,7 +417,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     return "http" + (isSecure ? "s" : "") + "://" + domain + path;
   }
 
-  function createCookieSubitemObjComp(cookie, whitelist)
+  function createCookieSubitemObj(cookie, whitelist)
   {
     return {
       id: cookie.name,
@@ -524,7 +511,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
     else
     {
       const isWhitelisted = await isCookieWhitelisted(domain, cookie.name);
-      const newItem = createCookieSubitemObjComp(cookie, isWhitelisted);
+      const newItem = createCookieSubitemObj(cookie, isWhitelisted);
       const hasDomainItem = pmTable.getItem(domain);
       const isDomainExpanded = hasDomainItem && hasDomainItem.subItems;
       const hasCookieItem = pmTable.getItem(cookie.name, domain);
@@ -536,8 +523,8 @@ const {closeDialog, openDialog} = require("./components/dialog");
       else if (!hasDomainItem)
       {
         const whitelisted = await isDomainWhitelisted(domain);
-        const domainItem = createDomainObjPm(domain, domainCounts[domain],
-                                             whitelisted);
+        const domainItem = createDomainObj(domain, domainCounts[domain],
+                                           whitelisted);
         pmTable.addItems([domainItem]);
       }
       else if (isDomainExpanded)
