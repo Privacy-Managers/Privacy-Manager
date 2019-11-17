@@ -18,7 +18,7 @@
 
 "use strict";
 
-const {Elem, getMsg, createBasicSettingObj} = require("./utils");
+const {Elem, getMsg, createBasicSettingObj, getMessage} = require("./utils");
 const {registerActionListener} = require("./actionListener");
 const {deleteCookies, additionalPermission} = require("../common");
 const permittedUrls = additionalPermission.origins[0];
@@ -35,6 +35,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
   const activeTabCookieId = "activeTabCookies";
 
   let pmTable = null;
+  let cookieDialog = null;
   document.addEventListener("DOMContentLoaded" , async() =>
   {
     Elem("#search-domain").addEventListener("search", populateDomainList, false);
@@ -73,11 +74,12 @@ const {closeDialog, openDialog} = require("./components/dialog");
         updateFilterToActiveDomain();
     });
 
-    registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
-    registerActionListener(Elem("#dialog-content-cookie-form"), onCookiesAction);
-    registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
-
+    cookieDialog = document.querySelector("pm-dialog.cookies");
     pmTable = document.querySelector("pm-table");
+
+    registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
+    registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
+    registerActionListener(cookieDialog, onCookiesAction);
     pmTable.setListener(onCookiesAction);
   }, false);
 
@@ -272,77 +274,75 @@ const {closeDialog, openDialog} = require("./components/dialog");
         }
         break;
       }
-      case "edit-cookie": {
-        const dialogObj = getCookieDialogData();
-        dialogObj.form.reset();
-        const {path, secure} = item.dataset;
+      case "edit-cookie-comp": {
         const cookieName = item.texts.name;
-        const domain = parentItem.texts.domain;
-        const url = getUrl(domain, path, secure);
+        const url = getUrl(parentItem.texts.domain,
+                           item.dataset.path,
+                           item.dataset.secure);
+        const {name, value, domain, path, hostOnly, httpOnly, secureElem,
+               session, storeId,
+               expirationDate} = await browser.cookies.get({url, name: cookieName});
+        const times = new Date(expirationDate * 1000).toISOString().split("T");
 
-        const cookie = await browser.cookies.get({url, name: cookieName});
-        const fieldsObj = dialogObj.fields;
-        fieldsObj.domain.setAttribute("disabled", "disabled");
-        fieldsObj.name.setAttribute("disabled", "disabled");
-        fieldsObj.name.value = cookie.name;
-        fieldsObj.value.value = cookie.value;
-        fieldsObj.value.focus();
-        fieldsObj.domain.value = removeStartDot(cookie.domain);
-        fieldsObj.path.value = cookie.path;
-        fieldsObj.hostOnly.checked = cookie.hostOnly;
-        fieldsObj.httpOnly.checked = cookie.httpOnly;
-        fieldsObj.secure.checked = cookie.secureElem;
-        fieldsObj.session.checked = cookie.session;
-        fieldsObj.storeId.value = cookie.storeId;
-
-        var times = new Date(cookie.expirationDate * 1000).toISOString().
-          split("T");
-        fieldsObj.expDate.value = times[0];
-        fieldsObj.expTime.value = times[1].split(".")[0];
-        break;
-      }
-      case "add-cookie": {
-        const dialogObj = getCookieDialogData();
-        dialogObj.form.reset();
-        const fieldsObj = dialogObj.fields;
-        fieldsObj.domain.removeAttribute("disabled");
-        fieldsObj.domain.focus();
-        fieldsObj.name.removeAttribute("disabled");
-        break;
-      }
-      case "update-cookie": {
-        const dialogObj = getCookieDialogData();
-        if (!dialogObj.form.checkValidity())
-          return;
-
-        const fieldsObj = dialogObj.fields;
-        var datetime = fieldsObj.expDate.value;
-        var time = fieldsObj.expTime.value;
-        datetime += time ? "T" + time : "";
-        //TODO: Past expirationDate is invalid
-        var expirationDate = new Date(datetime).getTime() / 1000;
-
-        var cookieSetObj = {
-                            "url": getUrl(fieldsObj.domain.value,
-                                          fieldsObj.path.value,
-                                          fieldsObj.secure.value),
-                            "name": fieldsObj.name.value,
-                            "value": fieldsObj.value.value,
-                            "secure": fieldsObj.secure.checked,
-                            "httpOnly": fieldsObj.httpOnly.checked,
-                            "storeId": fieldsObj.storeId.value,
-                            "expirationDate": expirationDate
+        const title = await getMessage("editCookie");
+        const data = {
+          name, value, path, hostOnly, httpOnly, session, storeId,
+          domain: removeStartDot(domain),
+          expirationDate: times[0],
+          expirationTime: times[1].split(".")[0],
+          secure: secureElem
         };
 
-        // Omitted domain makes host-only cookie
-        if (!fieldsObj.hostOnly.checked)
-          cookieSetObj.domain = fieldsObj.domain.value;
+        resetDialog();
+        getDialogField("name").setAttribute("disabled", "disabled");
+        getDialogField("domain").setAttribute("disabled", "disabled");
+        cookieDialog.showDialog(title, data);
+        break;
+      }
+      case "add-cookie-comp": {
+        resetDialog();
+        const title = await getMessage("addCookie");
+        getDialogField("name").removeAttribute("disabled");
+        getDialogField("domain").removeAttribute("disabled");
+        cookieDialog.showDialog(title, {});
+        break;
+      }
+      case "update-cookie-comp": {
+        if (!cookieDialog.querySelector("form").checkValidity())
+          return;
 
-        setCookie(cookieSetObj, function(cookie)
+        const time = getDialogField("expirationTime").value;
+        const date = getDialogField("expirationDate").value;
+        const dateTime = time ? `${date}T${time}` : date;
+
+        const cookie = {
+          "url": getUrl(getDialogField("domain").value,
+                        getDialogField("path").value,
+                        getDialogField("secure").checked),
+          "domain": getDialogField("domain").value,
+          "name": getDialogField("name").value,
+          "value": getDialogField("value").value,
+          "secure": getDialogField("secure").checked,
+          "httpOnly": getDialogField("httpOnly").checked,
+          "storeId": getDialogField("storeId").value,
+          "expirationDate": new Date(dateTime).getTime() / 1000
+        };
+
+        if (getDialogField("hostOnly").checked)
         {
-          if (cookie)
-            closeDialog();
-        });
+          // Omitted domain makes host-only cookie
+          delete cookie.domain;
+        }
+        if (getDialogField("session").checked)
+        {
+          // Omitted expirationDate makes session cookie
+          delete cookie.expirationDate;
+        }
+
+        if (await browser.cookies.set(cookie))
+        {
+          cookieDialog.closeDialog();
+        }
         break;
       }
       case "delete-all-cookies": {
@@ -353,25 +353,14 @@ const {closeDialog, openDialog} = require("./components/dialog");
     }
   }
 
-  /**
-   * Get Dialog and Elements in JSON format
-   */
-  function getCookieDialogData()
+  function getDialogField(id)
   {
-    return {
-      "form": Elem("#cookie-form"),
-      "fields":
-      {
-        "domain": Elem("#cookie-domain"), "name": Elem("#cookie-name"),
-        "path": Elem("#cookie-path"), "value": Elem("#cookie-value"),
-        "hostOnly": Elem("#cookie-host-only"),
-        "httpOnly": Elem("#cookie-http-only"), "secure": Elem("#cookie-secure"),
-        "session": Elem("#cookie-session"),
-        "expDate": Elem("#cookie-expiration-date"),
-        "expTime": Elem("#cookie-expiration-time"),
-        "storeId": Elem("#cookie-store-id"), "submitBtn": Elem("#update-cookie")
-      }
-    };
+    return cookieDialog.querySelector(`[data-id='${id}']`);
+  }
+
+  function resetDialog()
+  {
+    cookieDialog.querySelector("form").reset();
   }
 
   /**

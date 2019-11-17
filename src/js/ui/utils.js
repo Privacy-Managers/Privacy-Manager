@@ -33,18 +33,9 @@ function getMsg(text)
   return chrome.i18n.getMessage(text) || text;
 }
 
-function getMessages(id)
+async function getMessage(text)
 {
-  let messages = [];
-  for (let i = 1; true; i++)
-  {
-    let message = ext.i18n.getMessage(id + "_" + i);
-    if (!message)
-      break;
-
-    messages.push(message);
-  }
-  return messages;
+  return (await browser.i18n.getMessage(text)) || text;
 }
 
 function getSwitcher(Id)
@@ -100,5 +91,5 @@ function createBasicSettingObj(text)
   };
 }
 
-module.exports = {Elem, Elems, getMsg, getMessages, getSwitcher, getSwitches,
+module.exports = {Elem, Elems, getMsg, getMessage, getSwitcher, getSwitches,
                   cloneObj, nextSiblingElem, prevSiblingElem, getParentData, createBasicSettingObj};

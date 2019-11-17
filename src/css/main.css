@@ -318,6 +318,42 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   padding: 0px 10px;
 }
 
+pm-dialog .fieldset-container
+{
+  display: flex;
+  justify-content: space-between;
+}
+pm-dialog form label
+{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0px 20px;
+}
+pm-dialog form label span
+{
+  padding: 0px 10px;
+}
+pm-dialog form input[type="text"],
+pm-dialog form input[type="date"],
+pm-dialog form input[type="time"]
+{
+  width: 150px;
+}
+pm-dialog form input[type="number"]
+{
+  width: 30px;
+}
+pm-dialog .controls
+{
+  padding: 0px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 /*******************************************************************************
  * Main
  ******************************************************************************/

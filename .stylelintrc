@@ -4,6 +4,7 @@
     "no-descending-specificity": null,
     "block-closing-brace-newline-after": "always",
     "selector-type-no-unknown": [true, { ignoreTypes: ["pm-tab-panel", "pm-tabs",
-                                "pm-tab", "pm-panels", "pm-panel", "pm-toggle"] }]
+                                "pm-tab", "pm-panels", "pm-panel", "pm-toggle",
+                                "pm-dialog"] }]
   }
 }

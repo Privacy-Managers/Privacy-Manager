@@ -100,8 +100,7 @@
 														data-whitelist="false">
 											<div>
 												<button class="icon edit"
-																data-action="open-dialog,edit-cookie"
-																data-dialog="cookie-edit"></button>
+																data-action="edit-cookie-comp"></button>
 												<div class="data-container">
 													<span data-text="name" class="cookieName"></span>
 													<span data-text="value" class="cookieValue"></span>
@@ -119,7 +118,7 @@
 							<div id="cookiesContainer">
 								<div id="cookie-controls" class="controls">
 									<input type="search" id="search-domain" placeholder="Search domain">
-									<button data-i18n="addCookie" data-action="open-dialog,add-cookie" data-dialog="cookie-add"></button>
+									<button data-i18n="addCookie" data-action="add-cookie-comp"></button>
 									<button data-i18n="deleteAll" data-action="open-dialog" data-dialog="cookies-delete-all"></button>
 								</div>
 							</div>
@@ -173,102 +172,98 @@
 			</pm-tab-panel>
 			
 			<!-- Dialog -->
+			<pm-dialog class="cookies">
+				<div slot="body">
+					<form action="#">
+						<div class="fieldset-container">
+							<div>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_domain"></span>
+										<!-- TODO: Revisit the Domain pattern -->
+										<input required="true" data-id="domain" type="text" disabled="disabled" title="Not a valid Domain name" pattern="^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_.]*">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_name"></span>
+										<input data-id="name" type="text" required="true">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_value"></span>
+										<input data-id="value" type="text" required="true">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_path"></span>
+										<input data-id="path" type="text" title="Should start with '/'" pattern="^\/.*" value="/" required="true">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_expDate"></span>
+											<input data-id="expirationDate" type="date" required="true">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_expTime"></span>
+											<input data-id="expirationTime" type="time" step="1">
+									</label>
+								</p>
+							</div>
+							<div>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_hostOnyl"></span>
+										<input data-id="hostOnly" type="checkbox">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_httpOnyl"></span>
+										<input data-id="httpOnly" type="checkbox">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_secure"></span>
+										<input data-id="secure" type="checkbox">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_session"></span>
+										<input data-id="session" type="checkbox">
+									</label>
+								</p>
+								<p>
+									<label>
+										<span data-i18n="cookieDialog_storeId"></span>
+										<input data-id="storeId" type="number" required="true" value="0">
+									</label>
+								</p>
+							</div>
+						</div>
+						<div id="cookie-edit-control" class="controls">
+							<pm-button data-i18n="cookieDialog_update" data-action="update-cookie-comp"></pm-button>
+							<pm-button data-i18n="cookieDialog_delete" data-action="delete-cookie"></pm-button>
+						</div>
+					</form>
+				</div>
+			</pm-dialog>
+
 			<div id="dialog" data-keyQuite="close-dialog" role="dialog" aria-hidden="true">
 				<div>
 					<header class="header">
-						<span data-i18n="addCookie" id="dialog-header-cookie-add"></span>
-						<span data-i18n="editCookie" id="dialog-header-cookie-edit"></span>
 						<span id="dialog-header-cookie-delete-all" data-i18n="deleteAll"></span>
 						<span id="dialog-header-setting-info"></span>
 						<button data-action="close-dialog" class="icon delete"></button>
 					</header>
 					<div class="body">
-
-						<!-- Dialog Cookie Form -->
-						<div id="dialog-content-cookie-form">
-							<form id="cookie-form" action="#">
-								<div class="fieldset-container">
-									<div>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_domain"></span>
-												<!-- TODO: Revisit the Domain pattern -->
-												<input required="true" id="cookie-domain" type="text" disabled="disabled" title="Not a valid Domain name" pattern="^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_.]*">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_name"></span>
-												<input id="cookie-name" type="text" required="true">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_value"></span>
-												<input id="cookie-value" type="text" required="true">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_path"></span>
-												<input id="cookie-path" type="text" title="Should start with '/'" pattern="^\/.*" value="/" required="true">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_expDate"></span>
-													<input id="cookie-expiration-date" type="date" required="true">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_expTime"></span>
-													<input id="cookie-expiration-time" type="time" step="1">
-											</label>
-										</p>
-									</div>
-									<div>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_hostOnyl"></span>
-												<input id="cookie-host-only" type="checkbox">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_httpOnyl"></span>
-												<input id="cookie-http-only" type="checkbox">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_secure"></span>
-												<input id="cookie-secure" type="checkbox">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_session"></span>
-												<input id="cookie-session" type="checkbox">
-											</label>
-										</p>
-										<p>
-											<label>
-												<span data-i18n="cookieDialog_storeId"></span>
-												<input id="cookie-store-id" type="number" required="true" value="0">
-											</label>
-										</p>
-									</div>
-								</div>
-								<div id="cookie-add-control" class="controls">
-									<button data-i18n="cookieDialog_add" data-action="update-cookie"></button>
-								</div>
-								<div id="cookie-edit-control" class="controls">
-									<button data-i18n="cookieDialog_update" data-action="update-cookie"></button>
-									<button data-i18n="cookieDialog_delete" data-action="delete-cookie"></button>
-								</div>
-							</form>
-						</div>
 
 						<!-- Dialog Cookie Delete All -->
 						<div id="dialog-content-cookie-delete-all">
