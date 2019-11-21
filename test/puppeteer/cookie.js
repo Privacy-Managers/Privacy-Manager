@@ -250,28 +250,36 @@ describe("Testing Cookies tab", () =>
 
     await setCookieDialog("domain", "domain6.com");
     await setCookieDialog("value", "value2");
-    await setCookieDialog("path", "/about2");
+    await setCookieDialog("path", "/about1");
     await setCookieDialog("expirationDate", "2052-02-02");
     await setCookieDialog("expirationTime", "02:02:02");
-    await setCookieDialog("hostOnly", false);
-    await setCookieDialog("httpOnly", false);
-    await setCookieDialog("secure", false);
 
     const handle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie-comp']"));
-    await page.waitFor(30);
+    await page.waitFor(10);
     await handle.click();
     await page.waitFor(10);
+    await (await getItemElemHandle("domain6.com")).click();
+    await page.waitFor(10);
     await (await editButtonHandle("name1", "domain6.com")).click();
+    await page.waitFor(10);
 
     equal(await getCookieDialogField("domain"), "domain6.com");
     equal(await getCookieDialogField("name"), "name1");
     equal(await getCookieDialogField("value"), "value2");
-    equal(await getCookieDialogField("path"), "/about2");
+    equal(await getCookieDialogField("path"), "/about1");
     equal(await getCookieDialogField("expirationDate"), "2052-02-02");
     equal(await getCookieDialogField("expirationTime"), "02:02:02");
-    equal(await getCookieDialogField("hostOnly"), false);
-    equal(await getCookieDialogField("httpOnly"), false);
-    equal(await getCookieDialogField("secure"), false);
+    await setCookieDialog("session", true);
+    await handle.click();
+
+    await page.waitFor(10);
+    await (await getItemElemHandle("domain6.com")).click();
+    await page.waitFor(10);
+    await (await editButtonHandle("name1", "domain6.com")).click();
+    await page.waitFor(10);
+    equal(await getCookieDialogField("session"), true);
+    equal(await getCookieDialogField("expirationDate"), "");
+    equal(await getCookieDialogField("expirationTime"), "");
   });
 
   after(async() =>

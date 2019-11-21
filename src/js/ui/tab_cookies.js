@@ -282,15 +282,19 @@ const {closeDialog, openDialog} = require("./components/dialog");
         const {name, value, domain, path, hostOnly, httpOnly, secure,
                session, storeId,
                expirationDate} = await browser.cookies.get({url, name: cookieName});
-        const dateTime = new Date(expirationDate);
-        // <input type="date"> supports -> yyyy-mm-dd
-        const date = dateTime.toISOString().split("T")[0];
-        // <input type="time"> supports -> hh:mm:ss
-        const twoDigits = (value) => value < 10 ? `0${value}` : value;
-        const hour = twoDigits(dateTime.getHours());
-        const minute = twoDigits(dateTime.getMinutes());
-        const second = twoDigits(dateTime.getSeconds());
-        const time = `${hour}:${minute}:${second}`;
+        let date, time = "";
+        if (expirationDate)
+        {
+          const dateTime = new Date(expirationDate);
+          // <input type="date"> supports -> yyyy-mm-dd
+          date = dateTime.toISOString().split("T")[0];
+          // <input type="time"> supports -> hh:mm:ss
+          const twoDigits = (value) => value < 10 ? `0${value}` : value;
+          const hour = twoDigits(dateTime.getHours());
+          const minute = twoDigits(dateTime.getMinutes());
+          const second = twoDigits(dateTime.getSeconds());
+          time = `${hour}:${minute}:${second}`;
+        }
 
         const title = await getMessage("editCookie");
         const actionBtn = await getMessage("cookieDialog_update");
@@ -350,7 +354,6 @@ const {closeDialog, openDialog} = require("./components/dialog");
           // Omitted expirationDate makes session cookie
           delete cookie.expirationDate;
         }
-
         if (await browser.cookies.set(cookie))
         {
           cookieDialog.closeDialog();
@@ -475,8 +478,11 @@ const {closeDialog, openDialog} = require("./components/dialog");
           for (const cookie of oldCookies)
           {
             const item = pmTable.getItem(cookie, domain);
-            item.dataset.whitelist = false;
-            pmTable.updateItem(item, cookie, domain);
+            if (item)
+            {
+              item.dataset.whitelist = false;
+              pmTable.updateItem(item, cookie, domain);
+            }
           }
         }
       }
