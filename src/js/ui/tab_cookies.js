@@ -293,8 +293,10 @@ const {closeDialog, openDialog} = require("./components/dialog");
         const time = `${hour}:${minute}:${second}`;
 
         const title = await getMessage("editCookie");
+        const actionBtn = await getMessage("cookieDialog_update");
         const data = {
           name, value, path, hostOnly, httpOnly, session, storeId, secure,
+          actionBtn,
           domain: removeStartDot(domain),
           expirationDate: date,
           expirationTime: time
@@ -302,6 +304,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
         resetDialog();
         getDialogField("name").setAttribute("disabled", "disabled");
         getDialogField("domain").setAttribute("disabled", "disabled");
+        cookieDialog.classList.remove("add");
         cookieDialog.showDialog(title, data);
         break;
       }
@@ -310,7 +313,9 @@ const {closeDialog, openDialog} = require("./components/dialog");
         const title = await getMessage("addCookie");
         getDialogField("name").removeAttribute("disabled");
         getDialogField("domain").removeAttribute("disabled");
-        cookieDialog.showDialog(title, {});
+        const actionBtn = await getMessage("cookieDialog_add");
+        cookieDialog.classList.add("add");
+        cookieDialog.showDialog(title, {actionBtn});
         break;
       }
       case "update-cookie-comp": {
