@@ -279,20 +279,26 @@ const {closeDialog, openDialog} = require("./components/dialog");
         const url = getUrl(parentItem.texts.domain,
                            item.dataset.path,
                            item.dataset.secure);
-        const {name, value, domain, path, hostOnly, httpOnly, secureElem,
+        const {name, value, domain, path, hostOnly, httpOnly, secure,
                session, storeId,
                expirationDate} = await browser.cookies.get({url, name: cookieName});
-        const times = new Date(expirationDate * 1000).toISOString().split("T");
+        const dateTime = new Date(expirationDate);
+        // <input type="date"> supports -> yyyy-mm-dd
+        const date = dateTime.toISOString().split("T")[0];
+        // <input type="time"> supports -> hh:mm:ss
+        const twoDigits = (value) => value < 10 ? `0${value}` : value;
+        const hour = twoDigits(dateTime.getHours());
+        const minute = twoDigits(dateTime.getMinutes());
+        const second = twoDigits(dateTime.getSeconds());
+        const time = `${hour}:${minute}:${second}`;
 
         const title = await getMessage("editCookie");
         const data = {
-          name, value, path, hostOnly, httpOnly, session, storeId,
+          name, value, path, hostOnly, httpOnly, session, storeId, secure,
           domain: removeStartDot(domain),
-          expirationDate: times[0],
-          expirationTime: times[1].split(".")[0],
-          secure: secureElem
+          expirationDate: date,
+          expirationTime: time
         };
-
         resetDialog();
         getDialogField("name").setAttribute("disabled", "disabled");
         getDialogField("domain").setAttribute("disabled", "disabled");
@@ -308,7 +314,7 @@ const {closeDialog, openDialog} = require("./components/dialog");
         break;
       }
       case "update-cookie-comp": {
-        if (!cookieDialog.querySelector("form").checkValidity())
+        if (!cookieDialog.querySelector("form").reportValidity())
           return;
 
         const time = getDialogField("expirationTime").value;
@@ -319,13 +325,14 @@ const {closeDialog, openDialog} = require("./components/dialog");
           "url": getUrl(getDialogField("domain").value,
                         getDialogField("path").value,
                         getDialogField("secure").checked),
+          "path": getDialogField("path").value,
           "domain": getDialogField("domain").value,
           "name": getDialogField("name").value,
           "value": getDialogField("value").value,
           "secure": getDialogField("secure").checked,
           "httpOnly": getDialogField("httpOnly").checked,
           "storeId": getDialogField("storeId").value,
-          "expirationDate": new Date(dateTime).getTime() / 1000
+          "expirationDate": new Date(dateTime).getTime()
         };
 
         if (getDialogField("hostOnly").checked)
