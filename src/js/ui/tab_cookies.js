@@ -23,7 +23,6 @@ const {registerActionListener} = require("./actionListener");
 const {deleteCookies, additionalPermission} = require("../common");
 const permittedUrls = additionalPermission.origins[0];
 const {addSettingItem, getSettingListData, Listener} = require("./components/settingList");
-const {closeDialog, openDialog} = require("./components/dialog");
 
 const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie");
 const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain");
@@ -32,6 +31,7 @@ const activeTabCookieId = "activeTabCookies";
 
 let pmTable = null;
 let cookieDialog = null;
+let removeCookieDialog = null;
 document.addEventListener("DOMContentLoaded" , async() =>
 {
   Elem("#search-domain").addEventListener("search", populateDomainList, false);
@@ -71,11 +71,12 @@ document.addEventListener("DOMContentLoaded" , async() =>
   });
 
   cookieDialog = document.querySelector("pm-dialog.cookies");
+  removeCookieDialog = document.querySelector("pm-dialog.delete-cookies");
   pmTable = document.querySelector("pm-table");
 
   registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
-  registerActionListener(Elem("#dialog-content-cookie-delete-all"), onCookiesAction);
   registerActionListener(cookieDialog, onCookiesAction);
+  registerActionListener(removeCookieDialog, onCookiesAction);
   pmTable.setListener(onCookiesAction);
 }, false);
 
@@ -177,7 +178,7 @@ async function setWhitelistDomain(domain, value)
   await browser.storage.local.set({cookieWhitelist});
 }
 
-async function setWhitelistCookie(domain, cookie, value)
+async function setWhitelistCookie(domain, cookie)
 {
   const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
   if (!(domain in cookieWhitelist))
@@ -246,10 +247,6 @@ async function onCookiesAction(action, item, parentItem)
         const url = getUrl(cookie.domain, cookie.path, cookie.secure);
         browser.cookies.remove({"url": url, "name": cookie.name});
       }
-      break;
-    }
-    case "open-dialog": {
-      openDialog("cookie-edit");
       break;
     }
     case "delete-cookie":
@@ -356,9 +353,14 @@ async function onCookiesAction(action, item, parentItem)
       }
       break;
     }
+    case "open-cookie-removal-dialog": {
+      const title = await getMessage("deleteAll");
+      removeCookieDialog.showDialog(title);
+      break;
+    }
     case "delete-all-cookies": {
       deleteCookies();
-      closeDialog();
+      removeCookieDialog.closeDialog();
       break;
     }
   }
@@ -445,6 +447,12 @@ browser.storage.onChanged.addListener(async({cookieWhitelist}) =>
           const item = pmTable.getItem(domain);
           item.dataset.whitelist = true;
           pmTable.updateItem(item, domain);
+        }
+        for (const cookie of newValue[domain].cookies)
+        {
+          const item = pmTable.getItem(cookie, domain);
+          item.dataset.whitelist = true;
+          pmTable.updateItem(item, cookie, domain);
         }
       }
       else

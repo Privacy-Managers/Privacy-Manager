@@ -33,6 +33,16 @@ function getItemElemDatasetId(id, parentId)
   }, tableListHandle, id, parentId);
 }
 
+function closeEditCookieDialog()
+{
+  return page.evaluate(async() =>
+  {
+    const dialog = document.querySelector("pm-dialog.cookies"); 
+    dialog.closeDialog();
+    return dialog;
+  });
+}
+
 async function ensureItem(id, parentId)
 {
   return !!(await getItemElemDatasetId(id, parentId) ||
@@ -254,9 +264,9 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("expirationDate", "2052-02-02");
     await setCookieDialog("expirationTime", "02:02:02");
 
-    const handle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie-comp']"));
+    const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie-comp']"));
     await page.waitFor(10);
-    await handle.click();
+    await updateButtonHandle.click();
     await page.waitFor(10);
     await (await getItemElemHandle("domain6.com")).click();
     await page.waitFor(10);
@@ -270,7 +280,7 @@ describe("Testing Cookies tab", () =>
     equal(await getCookieDialogField("expirationDate"), "2052-02-02");
     equal(await getCookieDialogField("expirationTime"), "02:02:02");
     await setCookieDialog("session", true);
-    await handle.click();
+    await updateButtonHandle.click();
 
     await page.waitFor(10);
     await (await getItemElemHandle("domain6.com")).click();
@@ -280,6 +290,33 @@ describe("Testing Cookies tab", () =>
     equal(await getCookieDialogField("session"), true);
     equal(await getCookieDialogField("expirationDate"), "");
     equal(await getCookieDialogField("expirationTime"), "");
+    await closeEditCookieDialog();
+  });
+
+  it("'Delete all' button in the delete all cookies dialog should remove all cookies instead of those which were whitelisted", async() =>
+  {
+    await (await whitelistButtonHandle("name1", "domain5.com")).click();
+    await page.waitFor(10);
+    equal(await ensureItem("domain1.com"), true);
+    equal(await ensureItem("domain2.com"), true);
+
+    const dialogOpener = await page.evaluateHandle(() => document.querySelector("pm-button[data-action='open-cookie-removal-dialog']"));
+    await dialogOpener.click();
+    await page.waitFor(10);
+    const deleteAllCookieButton = await page.evaluateHandle(() => document.querySelector("pm-button[data-action='delete-all-cookies']"));
+    await deleteAllCookieButton.click();
+
+    equal(await ensureItem("domain3.com"), true);
+    equal(await isWhitelisted("domain3.com"), "true");
+
+    equal(await isWhitelisted("name1", "domain3.com"), "false");
+    equal(await isWhitelisted("name2", "domain3.com"), "true");
+
+    equal(await isWhitelisted("domain5.com"), "false");
+    equal(await isWhitelisted("name1", "domain5.com"), "true");
+
+    equal(await ensureItem("domain1.com"), false);
+    equal(await ensureItem("domain2.com"), false);
   });
 
   after(async() =>

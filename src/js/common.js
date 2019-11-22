@@ -99,27 +99,20 @@ function removeStartDot(string)
   return string.replace(/^\./, "");
 }
 
-function deleteCookies()
+async function deleteCookies()
 {
-  // delete cookies here + ignore whitelisted cookies
-  getStorage("cookieWhitelist", function(data)
+  const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+  const cookies = await browser.cookies.getAll({});
+  for (const cookie of cookies)
   {
-    let domainList = data.cookieWhitelist;
-    getAllCookies({}, function(cookies)
+    const url = getUrl(cookie.domain, cookie.path, cookie.secure);
+    const domainWhitelist = cookieWhitelist[removeStartDot(cookie.domain)];
+    if (!domainWhitelist || (!domainWhitelist.cookies.includes(cookie.name) &&
+        !domainWhitelist.domainWhitelist))
     {
-      let callbackCount = 0;
-      for (let cookie of cookies)
-      {
-        let url = getUrl(cookie.domain, cookie.path, cookie.secure);
-        // replace leading dots sometimes present in cookie domains
-        let domainWhitelist = domainList[removeStartDot(cookie.domain)];
-        if (!domainWhitelist || (!domainWhitelist.cookies.includes(cookie.name) && !domainWhitelist.domainWhitelist))
-        {
-          removeCookie({ "url": url, "name": cookie.name });
-        }
-      }
-    });
-  });
+      removeCookie({ "url": url, "name": cookie.name });
+    }
+  }
 }
 
 module.exports = {additionalPermission, browsingData, getAllCookies,

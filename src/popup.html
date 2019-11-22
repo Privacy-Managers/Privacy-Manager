@@ -92,7 +92,7 @@
 											</div>
 									</template>
 									<template sort="name"
-														data-key-action="open-dialog,edit-cookie"
+														data-key-action="edit-cookie-comp"
 														data-key-delete="delete-cookie"
 														data-key-quite="close-expanded-domain"
 														data-action=""
@@ -119,7 +119,7 @@
 								<div id="cookie-controls" class="controls">
 									<input type="search" id="search-domain" placeholder="Search domain">
 									<pm-button data-i18n="addCookie" data-action="add-cookie-comp"></pm-button>
-									<pm-button data-i18n="deleteAll" data-action="open-dialog" data-dialog="cookies-delete-all"></pm-button>
+									<pm-button data-i18n="deleteAll" data-action="open-cookie-removal-dialog"></pm-button>
 								</div>
 							</div>
 						</section>
@@ -256,23 +256,24 @@
 				</div>
 			</pm-dialog>
 
+			<pm-dialog class="delete-cookies">
+				<div slot="body">
+					<div data-i18n="cookieDialog_deleteAll_msg" class="message"></div>
+					<div class="controls">
+						<pm-button data-i18n="cookieDialog_cancel" data-action="close-dialog"></pm-button>
+						<pm-button data-i18n="deleteAll" data-action="delete-all-cookies"></pm-button>
+					</div>
+				</div>
+			</pm-dialog>
+
 			<div id="dialog" data-keyQuite="close-dialog" role="dialog" aria-hidden="true">
 				<div>
 					<header class="header">
-						<span id="dialog-header-cookie-delete-all" data-i18n="deleteAll"></span>
 						<span id="dialog-header-setting-info"></span>
 						<button data-action="close-dialog" class="icon delete"></button>
 					</header>
 					<div class="body">
 
-						<!-- Dialog Cookie Delete All -->
-						<div id="dialog-content-cookie-delete-all">
-							<div data-i18n="cookieDialog_deleteAll_msg" class="message"></div>
-							<div class="controls">
-								<button data-i18n="cookieDialog_cancel" data-action="close-dialog"></button>
-								<button data-action="delete-all-cookies" data-i18n="deleteAll"></button>
-							</div>
-						</div>
 						<!-- Setting list info -->
 						<div id="dialog-content-setting-info">
 							<div id="dialog-content-setting-info-text"></div>
