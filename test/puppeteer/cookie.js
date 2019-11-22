@@ -220,7 +220,7 @@ describe("Testing Cookies tab", () =>
   });
   it("Cookie is added using 'add cookies' dialog", async() =>
   {
-    await (await page.evaluateHandle(() => document.querySelector("#panel-cookies [data-action='add-cookie-comp']"))).click();
+    await (await page.evaluateHandle(() => document.querySelector("#panel-cookies [data-action='add-cookie']"))).click();
     await setCookieDialog("domain", "domain6.com");
     await setCookieDialog("name", "name1");
     await setCookieDialog("value", "value1");
@@ -231,7 +231,7 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("httpOnly", true);
     await setCookieDialog("secure", true);
     await setCookieDialog("storeId", "0");
-    const handle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie-comp']"));
+    const handle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
     await page.waitFor(30);
     await handle.click();
     await page.waitFor(10);
@@ -264,7 +264,7 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("expirationDate", "2052-02-02");
     await setCookieDialog("expirationTime", "02:02:02");
 
-    const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie-comp']"));
+    const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
     await page.waitFor(10);
     await updateButtonHandle.click();
     await page.waitFor(10);

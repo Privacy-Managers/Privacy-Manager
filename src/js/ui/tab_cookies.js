@@ -267,7 +267,7 @@ async function onCookiesAction(action, item, parentItem)
       }
       break;
     }
-    case "edit-cookie-comp": {
+    case "edit-cookie": {
       const cookieName = item.texts.name;
       const url = getUrl(parentItem.texts.domain,
                          item.dataset.path,
@@ -305,7 +305,7 @@ async function onCookiesAction(action, item, parentItem)
       cookieDialog.showDialog(title, data);
       break;
     }
-    case "add-cookie-comp": {
+    case "add-cookie": {
       resetDialog();
       const title = await getMessage("addCookie");
       getDialogField("name").removeAttribute("disabled");
@@ -315,7 +315,7 @@ async function onCookiesAction(action, item, parentItem)
       cookieDialog.showDialog(title, {actionBtn});
       break;
     }
-    case "update-cookie-comp": {
+    case "update-cookie": {
       if (!cookieDialog.querySelector("form").reportValidity())
         return;
 
