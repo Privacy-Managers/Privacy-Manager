@@ -37,7 +37,7 @@ function closeEditCookieDialog()
 {
   return page.evaluate(async() =>
   {
-    const dialog = document.querySelector("pm-dialog.cookies"); 
+    const dialog = document.querySelector("pm-dialog.cookies");
     dialog.closeDialog();
     return dialog;
   });
