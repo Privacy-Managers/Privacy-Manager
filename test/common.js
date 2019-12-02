@@ -31,4 +31,9 @@ async function closeBrowser()
   await browser.close();
 }
 
-module.exports = {openPopupPage, closeBrowser};
+function getBrowser()
+{
+  return browser;
+}
+
+module.exports = {openPopupPage, closeBrowser, getBrowser};

@@ -246,6 +246,7 @@ describe("Testing Cookies tab", () =>
   it("Cookie is updated using 'edit cookies' dialog", async() =>
   {
     await (await editButtonHandle("name1", "domain6.com")).click();
+    await page.waitFor(10);
     equal(await getCookieDialogField("domain"), "domain6.com");
     equal(await getCookieDialogField("name"), "name1");
     equal(await getCookieDialogField("value"), "value1");

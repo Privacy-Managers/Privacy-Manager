@@ -105,14 +105,14 @@ window.stopCollectingRequests = function()
 
 function onSendHeaders(details)
 {
-  updateRequestObj(details, "send");
-  addToRequestArray(details);
+  const itemObj = updateRequestObj(details, "send");
+  addToRequestArray(itemObj);
 }
 
 function onHeadersReceived(details)
 {
-  updateRequestObj(details, "receive");
-  addToRequestArray(details);
+  const itemObj = updateRequestObj(details, "receive");
+  addToRequestArray(itemObj);
 }
 
 function addToRequestArray(details)
@@ -131,7 +131,7 @@ chrome.storage.onChanged.addListener(function(change)
     {
       var newValue = change.settingList.newValue.collectHeaders;
       var oldValue = change.settingList.oldValue;
-      if (oldValue && newValue != oldValue.collectHeaders)
+      if (!oldValue || newValue != oldValue.collectHeaders)
       {
         if (result && newValue)
           startCollectingRequests();

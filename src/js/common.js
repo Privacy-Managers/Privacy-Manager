@@ -46,12 +46,12 @@ function getUrl(domain, path, isSecure)
 }
 function addRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
 {
-  chrome.webRequest.onSendHeaders.addListener(onSendHeadersCallback,
-                                              {urls: ["<all_urls>"]},
-                                              ["requestHeaders"]);
-  chrome.webRequest.onHeadersReceived.addListener(onHeadersReceivedCallback,
-                                                  {urls: ["<all_urls>"]},
-                                                  ["responseHeaders"]);
+  browser.webRequest.onSendHeaders.addListener(onSendHeadersCallback,
+                                               {urls: ["<all_urls>"]},
+                                               ["requestHeaders"]);
+  browser.webRequest.onHeadersReceived.addListener(onHeadersReceivedCallback,
+                                                   {urls: ["<all_urls>"]},
+                                                   ["responseHeaders"]);
 }
 
 function removeRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
@@ -62,8 +62,8 @@ function removeRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
 
 function updateRequestObj(details, actionType)
 {
-  details.dataset = {type: actionType};
-  details.texts = {url: details.url, type: details.type};
+  const {url, type} = details;
+  return {texts: {url, type}, data: {type: actionType}, request: details};
 }
 
 /*******************************************************************************

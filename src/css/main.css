@@ -149,56 +149,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
 }
 
 /*******************************************************************************
- * Table list
- ******************************************************************************/
-.tableList,
-.tableList ul
-{
-  list-style: none;
-  font-size: 13px;
-  overflow: auto;
-  padding: 0px;
-}
-
-.tableList
-{
-  height: 270px;
-}
-
-.tableList ul
-{
-  padding-bottom: 10px;
-}
-
-.tableList li > div
-{
-  display: flex;
-  padding: 5px 5px;
-  align-items: center;
-  cursor: pointer;
-}
-
-.tableList li > div:hover
-{
-  background-color: #cee0c2;
-}
-
-.tableList li[data-expanded="true"] > ul
-{
-  border-top: 1px solid #324B2C;
-}
-
-.tableList li .data-container
-{
-  flex-grow: 1;
-}
-
-.tableList li span
-{
-  display: inline-block;
-}
-
-/*******************************************************************************
  * DIALOG
  ******************************************************************************/
 #dialog
@@ -463,24 +413,6 @@ section h4
   position: relative;
 }
 
-.tableList .domainName
-{
-  width: 300px
-}
-
-.tableList .cookieName
-{
-  width: 280px;
-}
-
-.tableList .cookieValue
-{
-  width: 100px;
-  white-space: pre;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 button.icon
 {
   background-color: transparent;
@@ -586,60 +518,4 @@ button.icon.whitelist:hover:after
 .controls button:after
 {
   margin-left: 5px;
-}
-
-/*******************************************************************************
- * Network tab
- ******************************************************************************/
-#requestsWidget .tableList > li > div .data-container > span:nth-child(1)
-{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre;
-  width: 300px;
-  margin: 0px 5px;
-}
-
-#requestsWidget .tableList > li > div .data-container > span:nth-child(2)
-{
-  width: 110px;
-  margin: 0px 5px;
-}
-
-#requestsWidget .tableList > li[data-type="send"] > div .data-container::before
-{
-  content: "";
-  display: inline-block;
-  background-image: url(/css/img/arrow-up.svg);
-  height: 10px;
-  width: 10px;
-}
-
-#requestsWidget .tableList > li[data-type="receive"] > div .data-container::before
-{
-  content: "";
-  display: inline-block;
-  background-image: url(/css/img/arrow-down.svg);
-  height: 10px;
-  width: 10px;
-}
-
-#requestsWidget .tableList li li .data-container > span:nth-child(1)
-{
-  margin: 0px 5px;
-  width: 120px;
-}
-
-#requestsWidget .tableList li li .data-container > span:nth-child(1)::after
-{
-  content: ":";
-  margin: 0px 2px; 
-}
-
-#requestsWidget .tableList li li .data-container > span:nth-child(2)
-{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre;
-  width: 300px;
 }

@@ -133,36 +133,35 @@
 							<ul class="settings-list"></ul>
 						</div>
 						<div id="requestsWidget">
-							<ul class="tableList"></ul>
-							<template id="requestListTemplate">
-								<li data-action="get-request" 
-										data-key-action="get-request"
-										data-key-down="next-sibling" 
-										data-key-up="previouse-sibling">
+							<pm-table>
+								<template
+													data-action="get-request" 
+													data-key-action="get-request"
+													data-key-down="next-sibling" 
+													data-key-up="previouse-sibling"
+													data-type="send/receive">
 									<div>
 										<div class="data-container">
-											<span data-text="url"></span>
-											<span data-text="type"></span>
+											<span data-text="url" class="networkUrl"></span>
+											<span data-text="type" class="networkType"></span>
 										</div>
 									</div>
-								</li>
-							</template>
-							<template id="requestSubListTemplate">
-								<li data-key-down="next-sibling" 
-										data-key-up="previouse-sibling"
-										data-key-quite="close-expanded-request"
-										data-action="tba">
+								</template>
+								<template data-key-down="next-sibling" 
+													data-key-up="previouse-sibling"
+													data-key-quite="close-expanded-request"
+													data-action="tba">
 									<div>
 										<div class="data-container">
-											<span data-text="name"></span>
-											<span data-text="value"></span>
+											<span data-text="name" class="networkName"></span>
+											<span data-text="value" class="networkValue"></span>
 										</div>
 									</div>
-								</li>
-							</template>
+								</template>
+							</pm-table>
 							<div class="controls">
 								<button data-i18n="downloadAll" data-action="download-all" download="requests.txt"></button>
-								<button data-i18n="deleteAll" data-action="delete-all"></button>
+								<pm-button data-i18n="deleteAll" data-action="delete-all"></pm-button>
 							</div>
 						</div>
 

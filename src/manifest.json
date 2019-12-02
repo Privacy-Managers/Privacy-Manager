@@ -4,7 +4,7 @@
    "name": "__MSG_chrome_extension_name__",
    "description": "__MSG_chrome_extension_description__",
    "background": {
-      "scripts": ["js/common.js", "js/back.js"],
+      "scripts": ["js/browser-polyfill.min.js", "js/common.js", "js/back.js"],
       "persistence": false 
    },
    "browser_action": {
