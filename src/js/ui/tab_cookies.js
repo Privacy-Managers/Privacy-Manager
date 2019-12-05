@@ -280,7 +280,12 @@ async function onCookiesAction(action, item, parentItem)
       {
         const dateTime = new Date(expirationDate);
         // <input type="date"> supports -> yyyy-mm-dd
-        date = dateTime.toISOString().split("T")[0];
+        const convertMonth = (month) => month < 9 ? `0${month + 1}` : month + 1;
+        const convertDate = (date) => date < 10 ? `0${date}` : date;
+        const year = dateTime.getFullYear();
+        const month = convertMonth(dateTime.getMonth());
+        const day = convertDate(dateTime.getDate());
+        date = `${year}-${month}-${day}`;
         // <input type="time"> supports -> hh:mm:ss
         const twoDigits = (value) => value < 10 ? `0${value}` : value;
         const hour = twoDigits(dateTime.getHours());
@@ -288,7 +293,6 @@ async function onCookiesAction(action, item, parentItem)
         const second = twoDigits(dateTime.getSeconds());
         time = `${hour}:${minute}:${second}`;
       }
-
       const title = await getMessage("editCookie");
       const actionBtn = await getMessage("cookieDialog_update");
       const data = {
@@ -445,14 +449,20 @@ browser.storage.onChanged.addListener(async({cookieWhitelist}) =>
         if (newValue[domain].domainWhitelist)
         {
           const item = pmTable.getItem(domain);
-          item.dataset.whitelist = true;
-          pmTable.updateItem(item, domain);
+          if (item)
+          {
+            item.dataset.whitelist = true;
+            pmTable.updateItem(item, domain);
+          }
         }
         for (const cookie of newValue[domain].cookies)
         {
           const item = pmTable.getItem(cookie, domain);
-          item.dataset.whitelist = true;
-          pmTable.updateItem(item, cookie, domain);
+          if (item)
+          {
+            item.dataset.whitelist = true;
+            pmTable.updateItem(item, cookie, domain);
+          }
         }
       }
       else
@@ -462,8 +472,11 @@ browser.storage.onChanged.addListener(async({cookieWhitelist}) =>
         if (newDomainObj.domainWhitelist !== oldDomainObj.domainWhitelist)
         {
           const item = pmTable.getItem(domain);
-          item.dataset.whitelist = newDomainObj.domainWhitelist;
-          pmTable.updateItem(item, domain);
+          if (item)
+          {
+            item.dataset.whitelist = newDomainObj.domainWhitelist;
+            pmTable.updateItem(item, domain);
+          }
         }
         const oldCookies = oldDomainObj.cookies;
         const newCookies = newDomainObj.cookies;
@@ -472,8 +485,11 @@ browser.storage.onChanged.addListener(async({cookieWhitelist}) =>
           if (!oldCookies.includes(cookie))
           {
             const item = pmTable.getItem(cookie, domain);
-            item.dataset.whitelist = true;
-            pmTable.updateItem(item, cookie, domain);
+            if (item)
+            {
+              item.dataset.whitelist = true;
+              pmTable.updateItem(item, cookie, domain);
+            }
           }
           oldCookies.splice(oldCookies.indexOf(cookie), 1);
         }
