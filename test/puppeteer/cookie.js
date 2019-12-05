@@ -343,7 +343,7 @@ describe("Testing Cookies tab", () =>
     equal(await ensureItem("domain3.com"), true);
     equal(await ensureItem("domain5.com"), true);
     await page.focus("#search-domain");
-    await page.keyboard.type("domain3");
+    await page.keyboard.type("3");
     await page.waitFor(50);
     equal(await ensureItem("domain5.com"), false);
     equal(await ensureItem("domain3.com"), true);
