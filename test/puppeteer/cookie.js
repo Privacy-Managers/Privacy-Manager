@@ -182,6 +182,7 @@ describe("Testing Cookies tab", () =>
   it("Clicking delete button should delete domain and/or cookie accordingly", async() =>
   {
     await (await getItemElemHandle("domain4.com")).click();
+    await page.waitFor(30);
     equal(await ensureItem("domain4.com"), true);
     equal(await ensureItem("name2", "domain4.com"), true);
     await (await deleteButtonHandle("name2", "domain4.com")).click();
@@ -274,7 +275,7 @@ describe("Testing Cookies tab", () =>
     await updateButtonHandle.click();
     await page.waitFor(50);
     await (await getItemElemHandle("domain6.com")).click();
-    await page.waitFor(50);
+    await page.waitFor(100);
     await (await editButtonHandle("name1", "domain6.com")).click();
     await page.waitFor(30);
 

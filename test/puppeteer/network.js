@@ -116,7 +116,7 @@ describe("Testing Network tab", () =>
     await clickToggle(handle);
     await page.waitFor(10);
     await page2.goto("http://127.0.0.1:4000/");
-    await page.waitFor(30);
+    await page.waitFor(50);
     equal((await getItemText("pm-table-item1", null, "type")), "main_frame");
     equal((await getItemText("pm-table-item1", null, "url")), "http://127.0.0.1:4000/");
     equal((await getItemData("pm-table-item1", null, "type")), "send");
@@ -127,7 +127,7 @@ describe("Testing Network tab", () =>
     equal((await getItemText("pm-table-item3", null, "url")), "http://127.0.0.1:4000/favicon.ico");
     equal((await getItemData("pm-table-item3", null, "type")), "send");
     (await getItemElemHandle("pm-table-item1")).click();
-    await page.waitFor(30);
+    await page.waitFor(50);
     equal((await getItemText("method", "pm-table-item1", "name")), "method");
     equal((await getItemText("method", "pm-table-item1", "value")), "GET");
     equal((await getItemText("type", "pm-table-item1", "name")), "type");
@@ -135,7 +135,7 @@ describe("Testing Network tab", () =>
     equal((await getItemText("url", "pm-table-item1", "name")), "url");
     equal((await getItemText("url", "pm-table-item1", "value")), "http://127.0.0.1:4000/");
     (await getItemElemHandle("pm-table-item2")).click();
-    await page.waitFor(30);
+    await page.waitFor(50);
     equal((await getItemText("statusCode", "pm-table-item2", "name")), "statusCode");
     equal((await getItemText("statusCode", "pm-table-item2", "value")), "200");
     equal((await getItemText("statusCode", "pm-table-item2", "name")), "statusCode");
@@ -147,7 +147,7 @@ describe("Testing Network tab", () =>
   it("Reloading the page should keep the replace already recorded", async() =>
   {
     await page.reload();
-    await page.waitFor(30);
+    await page.waitFor(100);
     tableListHandle = await page.$("#panel-network pm-table");
     equal(await ensureItem("pm-table-item1"), true);
     equal(await ensureItem("pm-table-item2"), true);
