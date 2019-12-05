@@ -14,6 +14,19 @@ methods.forEach((methodName) =>
   tableList[methodName] = (...args) => runComponentMethod(methodName, ...args);
 });
 
+async function getHandle(access)
+{
+  return await page.$(`[data-access='${access}']`);
+}
+
+function clickToggle(pmToggleHandle)
+{
+  return page.evaluate((pmToggleHandle) =>
+  {
+    pmToggleHandle.shadowRoot.querySelector("#toggle").click();
+  }, pmToggleHandle);
+}
+
 function runComponentMethod()
 {
   const functionName = arguments[0];
@@ -323,6 +336,27 @@ describe("Testing Cookies tab", () =>
 
     equal(await ensureItem("domain1.com"), false);
     equal(await ensureItem("domain2.com"), false);
+  });
+
+  it("Updating Search domain field should filter domains", async() =>
+  {
+    equal(await ensureItem("domain3.com"), true);
+    equal(await ensureItem("domain5.com"), true);
+    await page.focus("#search-domain");
+    await page.keyboard.type("domain3");
+    await page.waitFor(50);
+    equal(await ensureItem("domain5.com"), false);
+    equal(await ensureItem("domain3.com"), true);
+  });
+
+  it("Switching 'Active tab cookies' on should set Search field to the current page domain", async() =>
+  {
+    equal(await ensureItem("domain3.com"), true);
+    await clickToggle(await getHandle("activeTabCookies"));
+    await page.waitFor(30);
+    const searchDomainValue = await page.evaluate(element => element.value, await page.$("#search-domain"));
+    equal(searchDomainValue, page.url().split('/')[2].split(':')[0]);
+    equal(await ensureItem("domain3.com"), false);
   });
 
   after(async() =>

@@ -37,6 +37,15 @@ function getLoadedAmount(id)
   }, tableListHandle, id);
 }
 
+function getItemElemId(num)
+{
+  return page.evaluate((tableListHandle, num) =>
+  {
+    let elements = tableListHandle.shadowRoot.querySelector("ul").children;
+    return elements[num].dataset.id;
+  }, tableListHandle, num);
+}
+
 function clickToggle(pmToggleHandle)
 {
   return page.evaluate((pmToggleHandle) =>
@@ -163,13 +172,33 @@ describe("Testing Network tab", () =>
     equal(await ensureItem("pm-table-item2"), false);
   });
 
-  it("Switching collectHeaders off should stop addeding into network tab", async() =>
+  it("Switching blockUserAgent on should block User agent from the request", async() =>
   {
+    await page2.reload();
+    await page.waitFor(100);
+    (await getItemElemHandle(await getItemElemId(0))).click();
+    await page.waitFor(50);
+    equal(await getItemText("User-Agent", await getItemElemId(0), "name"), "User-Agent");
+    await clickToggle(await getHandle("blockUserAgent"));
+    await page.waitFor(30);
+    await page.click("pm-button[data-action='delete-all']");
+    await page.reload();
+    await page2.reload();
+    await page.waitFor(100);
+    tableListHandle = await page.$("#panel-network pm-table");
+    (await getItemElemHandle(await getItemElemId(0))).click();
+    await page.waitFor(50);
+    equal(await getItemText("User-Agent", await getItemElemId(0), "name"), null);
+  });
+
+  it("Switching collectHeaders off should stop adding into network tab", async() =>
+  {
+    await page.click("pm-button[data-action='delete-all']");
+    await page.waitFor(30);
     await page2.goto("http://127.0.0.1:4000/");
     await page.waitFor(30);
     equal(await getLoadedAmount(), 4);
-    const handle =  await getHandle("collectHeaders");
-    await clickToggle(handle);
+    await clickToggle(await getHandle("collectHeaders"));
     await page.click("pm-button[data-action='delete-all']");
     await page.waitFor(30);
     await page2.goto("http://127.0.0.1:4000/");
