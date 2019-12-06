@@ -17,9 +17,15 @@ async function addSettingItem(parent, dataObj, type)
   const content = Elem("#settings-list").content;
   const listElem = document.importNode(content, true);
   const accessor = dataObj.dataset.access;
+  const dialog = document.querySelector("pm-dialog.info");
   const pmToggle = listElem.querySelector("pm-toggle");
   pmToggle.setAttribute("text", dataObj.text);
   pmToggle.setAttribute("description", getMsg(dataObj.dataset.access + "_desc"));
+  pmToggle.addEventListener("info", (e) =>
+  {
+    const {text, description} = e.target;
+    dialog.showDialog(text, {description});
+  });
 
   const datasetObj = dataObj.dataset;
 
