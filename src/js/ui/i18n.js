@@ -18,38 +18,7 @@
 
 "use strict";
 
-const {getParentData, Elem, getMsg} = require("./utils");
-const {registerActionListener} = require("./actionListener");
-
-/*******************************************************************************
- * General
- ******************************************************************************/
-(function()
-{
-  document.addEventListener("DOMContentLoaded", function()
-  {
-    registerActionListener(document.body, function(action, element)
-    {
-      switch (action)
-      {
-        case "open-dialog":
-          var infoMsgId = element.dataset.info;
-          if (infoMsgId)
-          {
-            var msgId = getParentData(element, "data-access");
-            var dialogHeader = Elem("#dialog-header-setting-info");
-            dialogHeader.textContent = getMsg(msgId);
-            var infoTextElem = Elem("#dialog-content-setting-info-text");
-            var msgInfoId = msgId + "_desc";
-            infoTextElem.textContent = getMsg(msgInfoId);
-          }
-          break;
-      }
-    });
-
-    // Settings list localization
-  }, false);
-})();
+const {getMsg} = require("./utils");
 
 /*******************************************************************************
  * i18n

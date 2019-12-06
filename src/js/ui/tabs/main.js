@@ -18,10 +18,10 @@
 
 "use strict";
 
-const {Elem, createBasicSettingObj} = require("./utils");
-const {addSettingItem} = require("./components/settingList");
-const {privacyData} = require("./data");
-const {browsingData} = require("../common");
+const {Elem, createBasicSettingObj} = require("../utils");
+const {addSettingItem} = require("../components/settingList");
+const {privacyData} = require("../data");
+const {browsingData} = require("../../common");
 
 (function()
 {

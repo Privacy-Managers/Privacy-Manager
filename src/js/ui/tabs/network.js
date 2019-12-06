@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {Elem, getMsg, cloneObj, createBasicSettingObj} = require("./utils");
-const {registerActionListener} = require("./actionListener");
+const {Elem, getMsg, cloneObj, createBasicSettingObj} = require("../utils");
+const {registerActionListener} = require("../actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
-       updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../common");
-const {addSettingItem, getSettingListData, resetSettingListData, Listener} = require("./components/settingList");
+       updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../../common");
+const {addSettingItem, getSettingListData, resetSettingListData, Listener} = require("../components/settingList");
 
 (function()
 {

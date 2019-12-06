@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {Elem, getMsg, createBasicSettingObj, getMessage} = require("./utils");
-const {registerActionListener} = require("./actionListener");
-const {deleteCookies, additionalPermission} = require("../common");
+const {Elem, getMsg, createBasicSettingObj, getMessage} = require("../utils");
+const {registerActionListener} = require("../actionListener");
+const {deleteCookies, additionalPermission} = require("../../common");
 const permittedUrls = additionalPermission.origins[0];
-const {addSettingItem, getSettingListData, Listener} = require("./components/settingList");
+const {addSettingItem, getSettingListData, Listener} = require("../components/settingList");
 
 const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie");
 const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain");

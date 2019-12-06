@@ -1,5 +1,5 @@
-require("./common");
-require("./tab_cookies");
-require("./tab_main");
-require("./tab_network");
+require("./i18n");
+require("./tabs/cookies");
+require("./tabs/main");
+require("./tabs/network");
 require("./components/tabs");

@@ -52,7 +52,8 @@ function closeDialog(selector)
 
 function isDialogHidden(selector)
 {
-  return page.evaluate((selector) => {
+  return page.evaluate((selector) =>
+  {
     return document.querySelector(selector).shadowRoot.querySelector("#dialog").getAttribute("aria-hidden") == "true";
   }, selector);
 }
@@ -217,4 +218,3 @@ describe("Testing main tab and tabs component", () =>
     await closeBrowser();
   });
 });
-
