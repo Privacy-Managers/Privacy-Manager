@@ -34,6 +34,29 @@ function clickToggle(pmToggleHandle)
   }, pmToggleHandle);
 }
 
+function clickToggleLabel(pmToggleHandle)
+{
+  return page.evaluate((pmToggleHandle) =>
+  {
+    pmToggleHandle.shadowRoot.querySelector("#label").click();
+  }, pmToggleHandle);
+}
+
+function closeDialog(selector)
+{
+  return page.evaluate((selector) =>
+  {
+    return document.querySelector(selector).closeDialog();
+  }, selector);
+}
+
+function isDialogHidden(selector)
+{
+  return page.evaluate((selector) => {
+    return document.querySelector(selector).shadowRoot.querySelector("#dialog").getAttribute("aria-hidden") == "true";
+  }, selector);
+}
+
 function setWebsitePrivacy(settingName, value)
 {
   return page.evaluate((settingName, value) =>
@@ -161,6 +184,16 @@ describe("Testing main tab and tabs component", () =>
     const domain = url.split('/')[2].split(':')[0].replace("www.", "");
     assert.equal(await getSearchDomainValue(), domain);
   });
+
+  it("Clicking on pm-toggle name opens pm-dialog", async() =>
+  {
+    assert.equal(await isDialogHidden("pm-dialog.info"), true);
+    await clickToggleLabel(await getHandle("thirdPartyCookiesAllowed"));
+    await page.waitFor(10);
+    assert.equal(await isDialogHidden("pm-dialog.info"), false);
+    await closeDialog("pm-dialog.info");
+  });
+
   it("Clicking tabs should set lastSelectedTab", async() =>
   {
     assert.equal(await getLastSelectedTab(), undefined);
