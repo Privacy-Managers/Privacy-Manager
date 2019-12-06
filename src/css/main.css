@@ -57,53 +57,6 @@ pm-panel:not([hidden])
 }
 
 /*******************************************************************************
- * Switches
- ******************************************************************************/
-button[role="checkbox"]
-{
-  font-size: 0px; /* Fighting the Space Between Inline Block Elements */
-  background: none;
-  border: 0px;
-  cursor: pointer;
-  padding: 0px;
-  display: flex;
-}
-
-button[role="checkbox"] > span
-{
-  font-size: 12px;
-  line-height: 19px;
-  padding: 0 6px;
-  border: 1px solid var(--color-secondary);
-}
-
-/*#7f7f7f #8abc25 #f8f8f8 */
-button[role="checkbox"] > span:first-child
-{
-  border-radius: 5px 0px 0px 5px;
-  border-right: 0px;
-}
-
-button[role="checkbox"] > span:last-child
-{
-  border-radius: 0px 5px 5px 0px;
-  background-color: var(--color-secondary);
-  color: #fff;
-}
-
-button[role="checkbox"][aria-checked="true"] > span:first-child
-{
-  background-color: var(--color-primary);
-  color: #fff;
-}
-
-button[role="checkbox"][aria-checked="true"] > span:last-child
-{
-  color: #000;
-  background: none;
-}
-
-/*******************************************************************************
  * Settings list
  ******************************************************************************/
 .settings-list
@@ -118,34 +71,6 @@ button[role="checkbox"][aria-checked="true"] > span:last-child
   margin-top: 3px; 
   display: flex;
   align-items: center;
-}
-
-.settings-list li img
-{
-  width: 12px;
-  height: 12px;
-}
-
-.settings-list li div
-{
-  display: flex;
-  flex-grow: 1;
-  font-size: 13px;
-  padding-bottom: 4px;
-  vertical-align: top;
-  word-wrap: break-word;
-  margin-right: 10px;
-  align-items: center;
-}
-
-.settings-list .infoIcon
-{
-  border: none;
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  background: url(/css/img/info.svg) center no-repeat transparent;
-  margin: 0px 3px;
 }
 
 /*******************************************************************************
@@ -339,35 +264,6 @@ pm-dialog.cookies.add #delete-cookie
   margin: 0px;
 }
 
-.serviceContainer
-{
-  display:inline-block;
-  vertical-align: top;
-  padding-right: 28px;
-}
-
-.rowContainer
-{
-  display: flex;
-}
-
-.rowContainer > div:first-child
-{
-  display: inline-block;
-  font-weight: bold;
-  font-size: 12px;
-  padding-bottom: 4px;
-  vertical-align: top;
-  flex-grow: 1;
-}
-
-.rowContainer > div:last-child
-{
-  height: 10px;
-  margin: 0px;
-  vertical-align: top;
-}
-
 #incognito
 {
   margin-top: auto;
@@ -411,69 +307,6 @@ section h4
 #cookiesContainer
 {
   position: relative;
-}
-
-button.icon
-{
-  background-color: transparent;
-  border: none;
-  width: 20px;
-  padding: 0px;
-  cursor: default;
-}
-
-button.icon:after
-{
-  display: inline-block;
-  content: "";
-  width: 10px;
-  height: 10px;
-  margin: 0px auto;
-}
-
-#cookiesList button.icon.edit
-{
-  margin: 0px 10px;
-}
-
-button.icon.delete:after
-{
-  background-image: url(/css/img/delete.svg);
-}
-
-button.icon.delete:hover:after
-{
-  background-image: url(/css/img/delete-hover.svg);
-}
-
-button.icon.edit:after
-{
-  background-image: url(/css/img/edit.svg);
-}
-
-button.icon.edit:hover:after
-{
-  background-image: url(/css/img/edit-hover.svg);
-}
-
-button.icon.whitelist:after
-{
-  background-image: url(/css/img/check-mark.svg);
-}
-
-button.icon.whitelist:hover:after
-{
-  opacity: .8;
-}
-
-[data-whitelist="true"] button.icon.whitelist:after
-{
-  background-image: url(/css/img/check-mark-active.svg);
-}
-
-[data-whitelist="true"] [data-whitelist="true"] button.icon.whitelist:after
-{
-  background-image: url(/css/img/check-mark-double-active.svg);
 }
 
 /* CONTROLS */
