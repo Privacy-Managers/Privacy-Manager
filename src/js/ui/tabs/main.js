@@ -22,6 +22,7 @@ const {Elem, createBasicSettingObj} = require("../utils");
 const {addSettingItem} = require("../components/settingList");
 const {privacyData} = require("../data");
 const {browsingData} = require("../../common");
+const {registerActionListener} = require("../actionListener");
 
 (function()
 {
@@ -46,7 +47,7 @@ const {browsingData} = require("../../common");
     }
   }
 
-  function onAction(action, element)
+  function onAction(action)
   {
     switch (action)
     {
@@ -64,6 +65,7 @@ const {browsingData} = require("../../common");
 
   document.addEventListener("DOMContentLoaded" , function()
   {
+    registerActionListener(Elem("#panel-main"), onAction);
     generateMainContent();
   }, false);
 })();

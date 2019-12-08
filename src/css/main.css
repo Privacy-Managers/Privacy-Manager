@@ -46,6 +46,28 @@ pm-toggle
   width: 100%;
 }
 
+.controls
+{
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px;
+  align-items: center;
+}
+
+/*******************************************************************************
+ * Buttons
+ ******************************************************************************/
+pm-button
+{
+  border-radius: 3px;
+}
+pm-button[theme="secondary"]
+{
+  width: 100%;
+  border-radius: 5px;
+}
+
 /*******************************************************************************
  * Tabs
  ******************************************************************************/
@@ -76,123 +98,6 @@ pm-panel:not([hidden])
 /*******************************************************************************
  * DIALOG
  ******************************************************************************/
-#dialog
-{
-  position: absolute;
-  display: flex;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgba(219, 226, 221, 0.5);
-  transition: all 0.2s;
-}
-
-/* Dialog animation */
-#dialog[aria-hidden="true"]
-{
-  opacity: 0;
-  transform: scale(0.5, 0.5);
-  visibility: hidden;
-}
-
-/* Dialog animation */
-#dialog[aria-hidden="false"]
-{
-  transform: scale(1, 1);
-  visibility: visible;
-  opacity: 1;
-}
-
-#dialog .body > div,
-#dialog .header > span,
-#dialog[data-dialog="cookie-add"] #cookie-edit-control,
-#dialog[data-dialog="cookie-edit"] #cookie-add-control
-{
-  display: none;
-}
-
-#dialog[data-dialog="cookie-add"] #dialog-header-cookie-add,
-#dialog[data-dialog="cookie-edit"] #dialog-header-cookie-edit,
-#dialog[data-dialog="cookies-delete-all"] #dialog-header-cookie-delete-all,
-#dialog[data-dialog="setting-info"] #dialog-header-setting-info,
-#dialog[data-dialog="cookie-add"] #dialog-content-cookie-form,
-#dialog[data-dialog="cookie-edit"] #dialog-content-cookie-form,
-#dialog[data-dialog="cookies-delete-all"] #dialog-content-cookie-delete-all,
-#dialog[data-dialog="setting-info"] #dialog-content-setting-info
-{
-  display: block;
-}
-
-#dialog > div:first-child
-{
-  width: 90%;
-  background-color: #f3f3f3;
-  border-radius: 10px;
-  box-shadow: 0 4px 23px -3px black;
-  margin: auto;
-}
-
-#dialog .header
-{
-  display: flex;
-  background-color: var(--color-primary);
-  padding: 5px;
-  color: #fff;
-  font-size: 14px;
-}
-
-#dialog .header span
-{
-  padding: 5px;
-  flex-grow: 1;
-}
-
-#dialog .body
-{
-  padding: 10px;
-  font-size: 12px;
-  line-height: 16px;
-}
-
-#dialog .fieldset-container
-{
-  display: flex;
-  justify-content: space-between;
-}
-
-#dialog form label
-{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 0px 20px;
-}
-
-#dialog form label span
-{
-  padding: 0px 10px;
-}
-
-#dialog form input[type="text"],
-#dialog form input[type="date"],
-#dialog form input[type="time"]
-{
-  width: 150px;
-}
-
-#dialog form input[type="number"]
-{
-  width: 30px;
-}
-
-#dialog .controls
-{
-  padding: 0px 10px;
-}
-
 pm-dialog .fieldset-container
 {
   display: flex;
@@ -309,46 +214,11 @@ section h4
   position: relative;
 }
 
-/* CONTROLS */
-.controls
-{
-  height: 30px;
-  display: flex;
-  justify-content: flex-end;
-  padding: 0px;
-  align-items: center;
-}
-
-.controls input
+#search-domain
 {
   -webkit-appearance: textfield;
   flex-grow: 1;
   padding: 5px; 
   height: 30px;
   margin: 5px;
-}
-
-.controls button
-{
-  cursor: pointer;
-  line-height: 12px;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 2px;
-  display: inline-block;
-  width: auto;
-  margin: 5px;
-  padding: 7px;
-  background-color: var(--color-primary);
-  border: solid 1px transparent;
-}
-
-.controls button:hover
-{
-  box-shadow: 0px 0px 1px #000;
-}
-
-.controls button:after
-{
-  margin-left: 5px;
 }
