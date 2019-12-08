@@ -264,7 +264,7 @@ describe("Testing Cookies tab", () =>
   it("Cookie is updated using 'edit cookies' dialog", async() =>
   {
     await (await editButtonHandle("name1", "domain6.com")).click();
-    await page.waitFor(30);
+    await page.waitFor(100);
     equal(await getCookieDialogField("domain"), "domain6.com");
     equal(await getCookieDialogField("name"), "name1");
     equal(await getCookieDialogField("value"), "value1");
@@ -284,9 +284,9 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("expirationTime", "02:02:02");
 
     const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
-    await page.waitFor(30);
+    await page.waitFor(100);
     await updateButtonHandle.click();
-    await page.waitFor(50);
+    await page.waitFor(100);
     await (await getItemElemHandle("domain6.com")).click();
     await page.waitFor(100);
     await (await editButtonHandle("name1", "domain6.com")).click();
