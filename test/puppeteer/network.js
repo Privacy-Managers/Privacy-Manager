@@ -1,7 +1,8 @@
 const {allUrlsToPermissions, restorePermissions} = require("../manifest");
 const {openPopupPage, closeBrowser, getBrowser} = require("../common");
-const {equal} = require("assert");
+const {equal, ok} = require("assert");
 const path = require("path");
+const {readFileSync, unlinkSync} = require("fs");
 
 let page;
 let page2;
@@ -191,6 +192,34 @@ describe("Testing Network tab", () =>
     equal(await getItemText("User-Agent", await getItemElemId(0), "name"), null);
   });
 
+  it("Clicking on 'Download All' button should download all collected requests", async() =>
+  {
+    await page._client.send('Page.setDownloadBehavior', {
+      behavior: "allow",
+      downloadPath: __dirname
+    });
+    await page.click("pm-button[data-action='download-all']");
+    await page.waitFor(200);
+    const file = readFileSync(path.join(__dirname, "requests.json"));
+    const requests = JSON.parse(file);
+
+    equal(requests[0].action, "send");
+    equal(requests[0].method, "GET");
+    ok(requests[0].headers);
+    equal(requests[0].type, "main_frame");
+    equal(requests[0].url, "http://127.0.0.1:4000/");
+
+    equal(requests[1].action, "receive");
+    equal(requests[1].headers["Content-Type"], "text/plain");
+    equal(requests[1].headers["test-header"], "test-value");
+    equal(requests[1].statusCode, 200);
+
+    equal(requests[2].url, "http://127.0.0.1:4000/favicon.ico");
+
+    equal(requests[3].url, "http://127.0.0.1:4000/favicon.ico");
+    equal(requests[3].type, "image");
+  });
+
   it("Switching collectHeaders off should stop adding into network tab", async() =>
   {
     await page.click("pm-button[data-action='delete-all']");
@@ -208,6 +237,7 @@ describe("Testing Network tab", () =>
 
   after(async() =>
   {
+    unlinkSync(path.join(__dirname, "requests.json"));
     await restorePermissions();
     await closeBrowser();
     server.close();

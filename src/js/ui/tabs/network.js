@@ -31,7 +31,6 @@ const {addSettingItem, getSettingListData, resetSettingListData, Listener} = req
   const permissionNotificationMsgId = "additionalPermissions_notification";
   const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
 
-  var downloadText = "";
   let collectedRequests = [];
   let tableList = null;
 
@@ -198,50 +197,41 @@ const {addSettingItem, getSettingListData, resetSettingListData, Listener} = req
         });
         break;
       case "download-all": {
-        for (let i = 0; i < collectedRequests.length; i++)
+        const downloadJson = [];
+        for (const {request, data} of collectedRequests)
         {
-          var requestObj = collectedRequests[i];
-          for (const param in requestObj)
+          const requestObj = {};
+          requestObj["action"] = data.type;
+          for (const param in request)
           {
             if (param == "requestHeaders" || param == "responseHeaders")
             {
-              for (var j = 0; j < requestObj[param].length; j++)
+              requestObj["headers"] = {};
+              for (const {name, value} of request[param])
               {
-                var header = requestObj[param][j];
-                downloadText += "  ";
-                updateDownloadText(header.name, header.value);
+                requestObj["headers"][name] = value;
               }
-            }
-            else if (param == "dataset")
-            {
-              updateDownloadText("Action type", requestObj[param].type);
             }
             else if (filterParams.indexOf(param) >= 0)
             {
-              updateDownloadText(param, requestObj[param]);
+              requestObj[param] = request[param];
             }
           }
-          downloadText += "\n\n";
+          downloadJson.push(requestObj);
         }
 
         //Download requests
         const anchorElem = document.createElement("a");
         anchorElem.setAttribute("href", "data:text/plain;charset=utf-8," +
-          encodeURIComponent(downloadText));
+          encodeURIComponent(JSON.stringify(downloadJson, null, 2)));
 
-        anchorElem.setAttribute("download", "requests.txt");
+        anchorElem.setAttribute("download", "requests.json");
         anchorElem.style.display = 'none';
         document.body.appendChild(anchorElem);
         anchorElem.click();
         document.body.removeChild(anchorElem);
-        downloadText = "";
         break;
       }
     }
-  }
-
-  function updateDownloadText(name, value)
-  {
-    downloadText += name + " : " + value + "\n";
   }
 })();
