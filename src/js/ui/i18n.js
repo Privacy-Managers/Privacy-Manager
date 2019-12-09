@@ -18,20 +18,17 @@
 
 "use strict";
 
-const {getMsg} = require("./utils");
+const {getMessage} = require("./utils");
 
 /*******************************************************************************
  * i18n
  ******************************************************************************/
-(function()
+document.addEventListener("DOMContentLoaded", async function()
 {
-  document.addEventListener("DOMContentLoaded", function()
+  document.querySelectorAll("[data-i18n]").forEach(async function(node)
   {
-    document.querySelectorAll("[data-i18n]").forEach(function(node)
-    {
-      node.textContent = getMsg(node.dataset.i18n);
-    });
+    node.textContent = await getMessage(node.dataset.i18n);
+  });
 
-    document.documentElement.lang = getMsg("@@ui_locale");
-  }, false);
-})();
+  document.documentElement.lang = await getMessage("@@ui_locale");
+}, false);

@@ -18,14 +18,16 @@
 
 "use strict";
 
-const {Elem, getMsg, getMessage} = require("../utils");
+const {Elem, getMessage} = require("../utils");
 const {registerActionListener} = require("../actionListener");
 const {deleteCookies, additionalPermission} = require("../../common");
 const permittedUrls = additionalPermission.origins[0];
 const {addStorageToggle, addPermissionToggle, getSettingListData, Listener} = require("../components/settingList");
 
-const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie");
-const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain");
+let cookieWhitelistButtonTitle = "";
+let domainWhitelistButtonTitle = "";
+getMessage("whitelistSublistCookie").then(cookieWhitelistButtonTitle);
+getMessage("whitelistCookieDomain").then(domainWhitelistButtonTitle);
 
 const activeTabCookieId = "activeTabCookies";
 

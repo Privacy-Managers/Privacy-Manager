@@ -28,11 +28,6 @@ function Elems(selector, parent)
   return (parent || document).querySelectorAll(selector);
 }
 
-function getMsg(text)
-{
-  return chrome.i18n.getMessage(text) || text;
-}
-
 async function getMessage(text)
 {
   return (await browser.i18n.getMessage(text)) || text;
@@ -47,4 +42,4 @@ function cloneObj(obj)
   return newObj;
 }
 
-module.exports = {Elem, Elems, getMsg, getMessage, cloneObj};
+module.exports = {Elem, Elems, getMessage, cloneObj};

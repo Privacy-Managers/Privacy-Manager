@@ -1,14 +1,14 @@
-const {Elem, getMsg, Elems} = require("../utils");
+const {Elem, getMessage, Elems} = require("../utils");
 const {additionalPermission} = require("../../common");
 
-function _createPmToggle(accessor)
+async function _createPmToggle(accessor)
 {
   const content = Elem("#settings-list").content;
   const listElem = document.importNode(content, true);
   const dialog = document.querySelector("pm-dialog.info");
   const pmToggle = listElem.querySelector("pm-toggle");
-  pmToggle.setAttribute("text", getMsg(accessor));
-  pmToggle.setAttribute("description", getMsg(accessor + "_desc"));
+  pmToggle.setAttribute("text", await getMessage(accessor));
+  pmToggle.setAttribute("description", await getMessage(accessor + "_desc"));
   pmToggle.addEventListener("info", (e) =>
   {
     const {text, description} = e.target;
@@ -21,7 +21,7 @@ function _createPmToggle(accessor)
 
 async function addPrivacyToggle(accessor, privacyObject, parentItem)
 {
-  const [pmToggle, listElem] = _createPmToggle(accessor);
+  const [pmToggle, listElem] = await _createPmToggle(accessor);
   parentItem.appendChild(listElem);
 
   _updateSettingButton(pmToggle, (await privacyObject.get({})).value);
@@ -38,7 +38,7 @@ async function addPrivacyToggle(accessor, privacyObject, parentItem)
         if (message ==
           "Can't modify regular settings from an incognito context.")
         {
-          alert(getMsg("regularSettingChangeIncognito_error"));
+          alert(await getMessage("regularSettingChangeIncognito_error"));
         }
         else
         {
@@ -63,7 +63,7 @@ async function addPrivacyToggle(accessor, privacyObject, parentItem)
 
 async function addStorageToggle(accessor, parentItem)
 {
-  const [pmToggle, listElem] = _createPmToggle(accessor);
+  const [pmToggle, listElem] = await _createPmToggle(accessor);
   parentItem.appendChild(listElem);
 
   const state = await getSettingListData(accessor);
@@ -77,7 +77,7 @@ async function addStorageToggle(accessor, parentItem)
 
 async function addPermissionToggle(accessor, parentItem)
 {
-  const [pmToggle, listElem] = _createPmToggle(accessor);
+  const [pmToggle, listElem] = await _createPmToggle(accessor);
   parentItem.appendChild(listElem);
 
   const isGranted = await browser.permissions.contains(additionalPermission);

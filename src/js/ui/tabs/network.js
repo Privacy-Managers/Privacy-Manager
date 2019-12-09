@@ -18,217 +18,214 @@
 
 "use strict";
 
-const {Elem, getMsg, cloneObj} = require("../utils");
+const {Elem, getMessage, cloneObj} = require("../utils");
 const {registerActionListener} = require("../actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../../common");
 const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData, Listener} = require("../components/settingList");
 
-(function()
+const blockUserAgentId = "blockUserAgent";
+const collectHeadersId = "collectHeaders";
+const permissionNotificationMsgId = "additionalPermissions_notification";
+const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
+
+let collectedRequests = [];
+let tableList = null;
+
+document.addEventListener("DOMContentLoaded" , async function()
 {
-  const blockUserAgentId = "blockUserAgent";
-  const collectHeadersId = "collectHeaders";
-  const permissionNotificationMsgId = "additionalPermissions_notification";
-  const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
+  const networkTab = Elem("#panel-network");
+  const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", networkTab);
+  const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", networkTab);
 
-  let collectedRequests = [];
-  let tableList = null;
+  addPermissionToggle("additionalPermissions", leftSettingList);
 
-  document.addEventListener("DOMContentLoaded" , async function()
+  const settingListListener = new Listener();
+  addStorageToggle(blockUserAgentId, leftSettingList);
+  settingListListener.on(blockUserAgentId, (enabled) =>
   {
-    const networkTab = Elem("#panel-network");
-    const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", networkTab);
-    const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", networkTab);
-
-    addPermissionToggle("additionalPermissions", leftSettingList);
-
-    const settingListListener = new Listener();
-    addStorageToggle(blockUserAgentId, leftSettingList);
-    settingListListener.on(blockUserAgentId, (enabled) =>
-    {
-      onNetworkSettingChange(blockUserAgentId, enabled);
-    });
-    onNetworkSettingChange(blockUserAgentId,
-                           await getSettingListData(blockUserAgentId));
-
-    addStorageToggle(collectHeadersId,rightSettingList);
-    settingListListener.on(collectHeadersId, (enabled) =>
-    {
-      onNetworkSettingChange(collectHeadersId, enabled);
-    });
-    onNetworkSettingChange(collectHeadersId,
-                           await getSettingListData(collectHeadersId));
-
-    tableList = document.querySelector("#panel-network pm-table");
-
-    registerActionListener(Elem("#requestsWidget"), onRequestsWidgetAction);
-    tableList.setListener(onRequestsWidgetActionComp);
-    const window = await browser.runtime.getBackgroundPage();
-
-    collectedRequests = window.collectedRequests;
-    const requestsCopy =  collectedRequests.map(function(request)
-    {
-      return cloneObj(request); //Deep cloning
-    });
-    tableList.addItems(requestsCopy);
-  },false);
-
-  function onNetworkSettingChange(settingName, isActive)
-  {
-    switch(settingName)
-    {
-      case "blockUserAgent":
-        if (isActive)
-        {
-          chrome.permissions.contains(additionalPermission, async(result) =>
-          {
-            if (result)
-            {
-              addBlockAgentListener();
-            }
-            else
-            {
-              alert(getMsg(permissionNotificationMsgId));
-              await resetSettingListData(settingName);
-            }
-          });
-        }
-        else
-        {
-          removeBlockAgentListener();
-        }
-        break;
-      case "collectHeaders":
-        if (isActive)
-        {
-          chrome.permissions.contains(additionalPermission, async(result) =>
-          {
-            if (result)
-            {
-              addRequestListener(onSendHeaders, onHeadersReceived);
-            }
-            else
-            {
-              alert(getMsg(permissionNotificationMsgId));
-              await resetSettingListData(settingName);
-            }
-          });
-        }
-        else
-        {
-          removeRequestListener(onSendHeaders, onHeadersReceived);
-        }
-        break;
-    }
-  }
-
-  chrome.permissions.onRemoved.addListener(async(result) =>
-  {
-    await resetSettingListData([blockUserAgentId, collectHeadersId]);
-    removeBlockAgentListener();
-    removeRequestListener(onSendHeaders, onHeadersReceived);
+    onNetworkSettingChange(blockUserAgentId, enabled);
   });
+  onNetworkSettingChange(blockUserAgentId,
+                         await getSettingListData(blockUserAgentId));
 
-
-  function onSendHeaders(details)
+  addStorageToggle(collectHeadersId,rightSettingList);
+  settingListListener.on(collectHeadersId, (enabled) =>
   {
-    const itemObj = updateRequestObj(details, "send");
-    tableList.addItems([itemObj]);
-  }
+    onNetworkSettingChange(collectHeadersId, enabled);
+  });
+  onNetworkSettingChange(collectHeadersId,
+                         await getSettingListData(collectHeadersId));
 
+  tableList = document.querySelector("#panel-network pm-table");
 
-  function onHeadersReceived(details)
+  registerActionListener(Elem("#requestsWidget"), onRequestsWidgetAction);
+  tableList.setListener(onRequestsWidgetActionComp);
+  const window = await browser.runtime.getBackgroundPage();
+
+  collectedRequests = window.collectedRequests;
+  const requestsCopy =  collectedRequests.map(function(request)
   {
-    const itemObj = updateRequestObj(details, "receive");
-    tableList.addItems([itemObj]);
-  }
+    return cloneObj(request); //Deep cloning
+  });
+  tableList.addItems(requestsCopy);
+},false);
 
-  function onRequestsWidgetActionComp(action, item, parentItem)
+function onNetworkSettingChange(settingName, isActive)
+{
+  switch(settingName)
   {
-    switch (action)
-    {
-      case "get-request":
+    case "blockUserAgent":
+      if (isActive)
       {
-        if (item.subItems)
+        chrome.permissions.contains(additionalPermission, async(result) =>
         {
-          onRequestsWidgetActionComp("close-expanded-request", null, item);
-          return;
-        }
+          if (result)
+          {
+            addBlockAgentListener();
+          }
+          else
+          {
+            alert(await getMessage(permissionNotificationMsgId));
+            await resetSettingListData(settingName);
+          }
+        });
+      }
+      else
+      {
+        removeBlockAgentListener();
+      }
+      break;
+    case "collectHeaders":
+      if (isActive)
+      {
+        chrome.permissions.contains(additionalPermission, async(result) =>
+        {
+          if (result)
+          {
+            addRequestListener(onSendHeaders, onHeadersReceived);
+          }
+          else
+          {
+            alert(await getMessage(permissionNotificationMsgId));
+            await resetSettingListData(settingName);
+          }
+        });
+      }
+      else
+      {
+        removeRequestListener(onSendHeaders, onHeadersReceived);
+      }
+      break;
+  }
+}
 
-        const {request} = item;
+chrome.permissions.onRemoved.addListener(async(result) =>
+{
+  await resetSettingListData([blockUserAgentId, collectHeadersId]);
+  removeBlockAgentListener();
+  removeRequestListener(onSendHeaders, onHeadersReceived);
+});
+
+
+function onSendHeaders(details)
+{
+  const itemObj = updateRequestObj(details, "send");
+  tableList.addItems([itemObj]);
+}
+
+
+function onHeadersReceived(details)
+{
+  const itemObj = updateRequestObj(details, "receive");
+  tableList.addItems([itemObj]);
+}
+
+function onRequestsWidgetActionComp(action, item, parentItem)
+{
+  switch (action)
+  {
+    case "get-request":
+    {
+      if (item.subItems)
+      {
+        onRequestsWidgetActionComp("close-expanded-request", null, item);
+        return;
+      }
+
+      const {request} = item;
+      for (const param in request)
+      {
+        const headers = request[param];
+        if (param == "requestHeaders" || param == "responseHeaders")
+        {
+          for (const {name, value} of headers)
+          {
+            const id = name;
+            tableList.addItems([{id, texts: {name, value}}], item.id);
+          }
+        }
+        else if (filterParams.indexOf(param) >= 0)
+        {
+          const name = param;
+          const value = headers;
+          tableList.addItems([{id: name, texts: {name, value}}], item.id);
+        }
+      }
+      break;
+    }
+    case "close-expanded-request":
+      tableList.empty(parentItem.id);
+      break;
+  }
+}
+
+function onRequestsWidgetAction(action, element)
+{
+  switch (action)
+  {
+    case "delete-all":
+      chrome.runtime.getBackgroundPage(function(window)
+      {
+        window.collectedRequests = [];
+        tableList.empty();
+      });
+      break;
+    case "download-all": {
+      const downloadJson = [];
+      for (const {request, data} of collectedRequests)
+      {
+        const requestObj = {};
+        requestObj["action"] = data.type;
         for (const param in request)
         {
-          const headers = request[param];
           if (param == "requestHeaders" || param == "responseHeaders")
           {
-            for (const {name, value} of headers)
+            requestObj["headers"] = {};
+            for (const {name, value} of request[param])
             {
-              const id = name;
-              tableList.addItems([{id, texts: {name, value}}], item.id);
+              requestObj["headers"][name] = value;
             }
           }
           else if (filterParams.indexOf(param) >= 0)
           {
-            const name = param;
-            const value = headers;
-            tableList.addItems([{id: name, texts: {name, value}}], item.id);
+            requestObj[param] = request[param];
           }
         }
-        break;
+        downloadJson.push(requestObj);
       }
-      case "close-expanded-request":
-        tableList.empty(parentItem.id);
-        break;
+
+      //Download requests
+      const anchorElem = document.createElement("a");
+      anchorElem.setAttribute("href", "data:text/plain;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(downloadJson, null, 2)));
+
+      anchorElem.setAttribute("download", "requests.json");
+      anchorElem.style.display = 'none';
+      document.body.appendChild(anchorElem);
+      anchorElem.click();
+      document.body.removeChild(anchorElem);
+      break;
     }
   }
-
-  function onRequestsWidgetAction(action, element)
-  {
-    switch (action)
-    {
-      case "delete-all":
-        chrome.runtime.getBackgroundPage(function(window)
-        {
-          window.collectedRequests = [];
-          tableList.empty();
-        });
-        break;
-      case "download-all": {
-        const downloadJson = [];
-        for (const {request, data} of collectedRequests)
-        {
-          const requestObj = {};
-          requestObj["action"] = data.type;
-          for (const param in request)
-          {
-            if (param == "requestHeaders" || param == "responseHeaders")
-            {
-              requestObj["headers"] = {};
-              for (const {name, value} of request[param])
-              {
-                requestObj["headers"][name] = value;
-              }
-            }
-            else if (filterParams.indexOf(param) >= 0)
-            {
-              requestObj[param] = request[param];
-            }
-          }
-          downloadJson.push(requestObj);
-        }
-
-        //Download requests
-        const anchorElem = document.createElement("a");
-        anchorElem.setAttribute("href", "data:text/plain;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(downloadJson, null, 2)));
-
-        anchorElem.setAttribute("download", "requests.json");
-        anchorElem.style.display = 'none';
-        document.body.appendChild(anchorElem);
-        anchorElem.click();
-        document.body.removeChild(anchorElem);
-        break;
-      }
-    }
-  }
-})();
+}
