@@ -199,7 +199,7 @@ describe("Testing Network tab", () =>
       downloadPath: __dirname
     });
     await page.click("pm-button[data-action='download-all']");
-    await page.waitFor(200);
+    await page.waitFor(300);
     const file = readFileSync(path.join(__dirname, "requests.json"));
     const requests = JSON.parse(file);
 
