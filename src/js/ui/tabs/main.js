@@ -18,54 +18,48 @@
 
 "use strict";
 
-const {Elem, createBasicSettingObj} = require("../utils");
-const {addSettingItem} = require("../components/settingList");
+const {Elem} = require("../utils");
+const {addStorageToggle, addPrivacyToggle} = require("../components/settingList");
 const {privacyData} = require("../data");
 const {browsingData} = require("../../common");
 const {registerActionListener} = require("../actionListener");
 
-(function()
+async function generateMainContent()
 {
-  function generateMainContent()
+  for (const category in privacyData)
   {
-    for (var category in privacyData)
+    privacyData[category].forEach(async function(settingName)
     {
-      privacyData[category].forEach(function(settingName)
+      if (!browser.privacy[category][settingName])
+        return;
+
+      addPrivacyToggle(settingName, browser.privacy[category][settingName],
+                       Elem("#privacyManagement ul"));
+    });
+  }
+
+  for (var i = 0; i < browsingData.length; i++)
+    addStorageToggle(browsingData[i], Elem("#startupClear ul"));
+}
+
+function onAction(action)
+{
+  switch (action)
+  {
+    case "open-in-incognito":
+      chrome.tabs.query({active:true}, function(tab)
       {
-        if (!browser.privacy[category][settingName])
-          return;
-        var settingObj = createBasicSettingObj(settingName);
-        settingObj.privacyObj = browser.privacy[category][settingName];
-        addSettingItem(Elem("#privacyManagement ul"), settingObj, "privacy");
+        if (tab[0].url.toString().indexOf("chrome://") == -1)
+          chrome.windows.create({url: tab[0].url, incognito: true});
+        else
+          alert("Sorry you can't run current active page in incognito mode.");
       });
-    }
-
-    for (var i = 0; i < browsingData.length; i++)
-    {
-      var settingObj = createBasicSettingObj(browsingData[i]);
-      addSettingItem(Elem("#startupClear ul"), settingObj, "storage");
-    }
+      break;
   }
+}
 
-  function onAction(action)
-  {
-    switch (action)
-    {
-      case "open-in-incognito":
-        chrome.tabs.query({active:true}, function(tab)
-        {
-          if (tab[0].url.toString().indexOf("chrome://") == -1)
-            chrome.windows.create({url: tab[0].url, incognito: true});
-          else
-            alert("Sorry you can't run current active page in incognito mode.");
-        });
-        break;
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded" , function()
-  {
-    registerActionListener(Elem("#panel-main"), onAction);
-    generateMainContent();
-  }, false);
-})();
+document.addEventListener("DOMContentLoaded" , function()
+{
+  registerActionListener(Elem("#panel-main"), onAction);
+  generateMainContent();
+}, false);

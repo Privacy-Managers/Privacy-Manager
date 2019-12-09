@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {Elem, getMsg, cloneObj, createBasicSettingObj} = require("../utils");
+const {Elem, getMsg, cloneObj} = require("../utils");
 const {registerActionListener} = require("../actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../../common");
-const {addSettingItem, getSettingListData, resetSettingListData, Listener} = require("../components/settingList");
+const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData, Listener} = require("../components/settingList");
 
 (function()
 {
@@ -40,12 +40,10 @@ const {addSettingItem, getSettingListData, resetSettingListData, Listener} = req
     const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", networkTab);
     const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", networkTab);
 
-    addSettingItem(leftSettingList,
-                   createBasicSettingObj("additionalPermissions"),
-                   "permission");
+    addPermissionToggle("additionalPermissions", leftSettingList);
+
     const settingListListener = new Listener();
-    addSettingItem(leftSettingList, createBasicSettingObj(blockUserAgentId),
-                   "storage");
+    addStorageToggle(blockUserAgentId, leftSettingList);
     settingListListener.on(blockUserAgentId, (enabled) =>
     {
       onNetworkSettingChange(blockUserAgentId, enabled);
@@ -53,8 +51,7 @@ const {addSettingItem, getSettingListData, resetSettingListData, Listener} = req
     onNetworkSettingChange(blockUserAgentId,
                            await getSettingListData(blockUserAgentId));
 
-    addSettingItem(rightSettingList, createBasicSettingObj(collectHeadersId),
-                   "storage");
+    addStorageToggle(collectHeadersId,rightSettingList);
     settingListListener.on(collectHeadersId, (enabled) =>
     {
       onNetworkSettingChange(collectHeadersId, enabled);

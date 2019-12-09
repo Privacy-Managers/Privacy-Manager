@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {Elem, getMsg, createBasicSettingObj, getMessage} = require("../utils");
+const {Elem, getMsg, getMessage} = require("../utils");
 const {registerActionListener} = require("../actionListener");
 const {deleteCookies, additionalPermission} = require("../../common");
 const permittedUrls = additionalPermission.origins[0];
-const {addSettingItem, getSettingListData, Listener} = require("../components/settingList");
+const {addStorageToggle, addPermissionToggle, getSettingListData, Listener} = require("../components/settingList");
 
 const cookieWhitelistButtonTitle = getMsg("whitelistSublistCookie");
 const domainWhitelistButtonTitle = getMsg("whitelistCookieDomain");
@@ -40,13 +40,14 @@ document.addEventListener("DOMContentLoaded" , async() =>
     if (ev.key != "Enter" && ev.key != "Escape")
       populateDomainList();
   }, false);
+  pmTable = document.querySelector("pm-table");
+  pmTable.setListener(onCookiesAction);
 
   const cookiesTab = Elem("#panel-cookies");
   const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", cookiesTab);
   const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", cookiesTab);
 
-  const settingObjPermissions = createBasicSettingObj("additionalPermissions");
-  addSettingItem(leftSettingList, settingObjPermissions, "permission");
+  addPermissionToggle("additionalPermissions", leftSettingList);
   permissionChange(await browser.permissions.contains(additionalPermission));
 
   browser.permissions.onAdded.addListener(({origins}) =>
@@ -61,9 +62,7 @@ document.addEventListener("DOMContentLoaded" , async() =>
       permissionChange(false);
   });
 
-  const settingObj = createBasicSettingObj(activeTabCookieId);
-  addSettingItem(rightSettingList, settingObj, "storage");
-
+  addStorageToggle(activeTabCookieId, rightSettingList);
   new Listener().on(activeTabCookieId, (active)=>
   {
     if (active)
@@ -72,12 +71,10 @@ document.addEventListener("DOMContentLoaded" , async() =>
 
   cookieDialog = document.querySelector("pm-dialog.cookies");
   removeCookieDialog = document.querySelector("pm-dialog.delete-cookies");
-  pmTable = document.querySelector("pm-table");
 
   registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
   registerActionListener(cookieDialog, onCookiesAction);
   registerActionListener(removeCookieDialog, onCookiesAction);
-  pmTable.setListener(onCookiesAction);
 }, false);
 
 async function permissionChange(granted)

@@ -1,116 +1,104 @@
 const {Elem, getMsg, Elems} = require("../utils");
 const {additionalPermission} = require("../../common");
 
-/**
- * Add setting list item
- * @param {Node} parent <ul> element
- * @param {JSON} dataObj data describing the structure ex.:
- * {
- *   dataset:  { access: "access", info: "access_desc" },
- *   text: "",
- *   privacyObj: [Chrome privacy object]
- * }
- * @param {String} type "privacy", "storage" or "permission"
- */ 
-async function addSettingItem(parent, dataObj, type)
+function _createPmToggle(accessor)
 {
   const content = Elem("#settings-list").content;
   const listElem = document.importNode(content, true);
-  const accessor = dataObj.dataset.access;
   const dialog = document.querySelector("pm-dialog.info");
   const pmToggle = listElem.querySelector("pm-toggle");
-  pmToggle.setAttribute("text", dataObj.text);
-  pmToggle.setAttribute("description", getMsg(dataObj.dataset.access + "_desc"));
+  pmToggle.setAttribute("text", getMsg(accessor));
+  pmToggle.setAttribute("description", getMsg(accessor + "_desc"));
   pmToggle.addEventListener("info", (e) =>
   {
     const {text, description} = e.target;
     dialog.showDialog(text, {description});
   });
 
-  const datasetObj = dataObj.dataset;
+  pmToggle.dataset.access = accessor;
+  return [pmToggle, listElem];
+}
 
-  for (const name in datasetObj)
-    pmToggle.dataset[name] = datasetObj[name];
+async function addPrivacyToggle(accessor, privacyObject, parentItem)
+{
+  const [pmToggle, listElem] = _createPmToggle(accessor);
+  parentItem.appendChild(listElem);
 
-  parent.appendChild(listElem);
-
-  switch (type)
+  _updateSettingButton(pmToggle, (await privacyObject.get({})).value);
+  pmToggle.addEventListener("change", async() =>
   {
-    case "privacy":
+    const details = await privacyObject.get({});
+    if (details.levelOfControl == "controllable_by_this_extension" ||
+    details.levelOfControl == "controlled_by_this_extension")
     {
-      const privacyObject = dataObj.privacyObj;
-      _updateSettingButton(pmToggle, (await privacyObject.get({})).value);
-      pmToggle.addEventListener("change", async() =>
+      await privacyObject.set({ value: !details.value });
+      if (browser.runtime.lastError != undefined)
       {
-        const details = await privacyObject.get({});
-        if (details.levelOfControl == "controllable_by_this_extension" ||
-        details.levelOfControl == "controlled_by_this_extension")
+        const message = browser.runtime.lastError.message;
+        if (message ==
+          "Can't modify regular settings from an incognito context.")
         {
-          await privacyObject.set({ value: !details.value });
-          // TODO: test
-          if (browser.runtime.lastError != undefined)
-          {
-            const message = browser.runtime.lastError.message;
-            if (message ==
-              "Can't modify regular settings from an incognito context.")
-            {
-              alert(getMsg("regularSettingChangeIncognito_error"));
-            }
-            else
-            {
-              alert(message);
-            }
-          }
+          alert(getMsg("regularSettingChangeIncognito_error"));
         }
         else
         {
-          //TODO: Inform user if control level is not controlable by
-          //extension details.levelOfControl
+          alert(message);
         }
-      }, false);
-
-      privacyObject.onChange.addListener((detail) =>
-      {
-        _updateSettingButton(accessor, detail.value);
-      });
-      break;
-
+      }
     }
-    case "storage":
+    else
     {
-      const state = await getSettingListData(accessor);
-      _updateSettingButton(pmToggle, state === true);
-      pmToggle.addEventListener("change", async() =>
-      {
-        const currentState = await getSettingListData(accessor);
-        await setSettingListData(accessor, !currentState);
-      }, false);
-      break;
+      //TODO: Inform user if control level is not controlable by
+      //extension details.levelOfControl
     }
-    case "permission":
-    {
-      const isGranted = await browser.permissions.contains(additionalPermission);
-      _updateSettingButton(accessor, isGranted);
+  }, false);
 
-      pmToggle.addEventListener("click", async() =>
-      {
-        if (await browser.permissions.contains(additionalPermission))
-          browser.permissions.remove(additionalPermission);
-        else
-          browser.permissions.request(additionalPermission);
-      }, false);
+  privacyObject.onChange.addListener((detail) =>
+  {
+    _updateSettingButton(accessor, detail.value);
+  });
 
-      browser.permissions.onAdded.addListener(() =>
-      {
-        _updateSettingButton(accessor, true); // Currently called multiple times
-      });
-      browser.permissions.onRemoved.addListener(() =>
-      {
-        _updateSettingButton(accessor, false);
-      });
-      break;
-    }
-  }
+  return listElem;
+}
+
+async function addStorageToggle(accessor, parentItem)
+{
+  const [pmToggle, listElem] = _createPmToggle(accessor);
+  parentItem.appendChild(listElem);
+
+  const state = await getSettingListData(accessor);
+  _updateSettingButton(pmToggle, state === true);
+  pmToggle.addEventListener("change", async() =>
+  {
+    const currentState = await getSettingListData(accessor);
+    await setSettingListData(accessor, !currentState);
+  }, false);
+}
+
+async function addPermissionToggle(accessor, parentItem)
+{
+  const [pmToggle, listElem] = _createPmToggle(accessor);
+  parentItem.appendChild(listElem);
+
+  const isGranted = await browser.permissions.contains(additionalPermission);
+  _updateSettingButton(accessor, isGranted);
+
+  pmToggle.addEventListener("click", async() =>
+  {
+    if (await browser.permissions.contains(additionalPermission))
+      browser.permissions.remove(additionalPermission);
+    else
+      browser.permissions.request(additionalPermission);
+  }, false);
+
+  browser.permissions.onAdded.addListener(() =>
+  {
+    _updateSettingButton(accessor, true); // Currently called multiple times
+  });
+  browser.permissions.onRemoved.addListener(() =>
+  {
+    _updateSettingButton(accessor, false);
+  });
 }
 
 async function setSettingListData(name, value)
@@ -210,5 +198,6 @@ class Listener
   }
 }
 
-module.exports = {addSettingItem, getSettingListData, resetSettingListData,
+module.exports = {addPrivacyToggle, addStorageToggle,
+  addPermissionToggle, getSettingListData, resetSettingListData,
   Listener};

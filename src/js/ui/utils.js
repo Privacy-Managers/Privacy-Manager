@@ -38,16 +38,6 @@ async function getMessage(text)
   return (await browser.i18n.getMessage(text)) || text;
 }
 
-function getSwitcher(Id)
-{
-  return Elem("#" + Id + " button");
-}
-
-function getSwitches(className)
-{
-  return document.querySelectorAll("." + className + " button");
-}
-
 function cloneObj(obj)
 {
   var newObj = {};
@@ -57,39 +47,4 @@ function cloneObj(obj)
   return newObj;
 }
 
-function nextSiblingElem(elem)
-{
-  return elem.nextElementSibling ?
-    elem.nextElementSibling : elem.parentElement.firstElementChild;
-}
-
-function prevSiblingElem(elem)
-{
-  return elem.previousElementSibling ?
-    elem.previousElementSibling : elem.parentElement.lastElementChild;
-}
-
-/**
- * Get parent element using data-* attribute
- * @param {Node} Node Dom node
- * @param {String} date data-* attribute value
- * @return {String} value of data attribute
- */
-function getParentData(node, data, getElement)
-{
-  if (node.hasAttribute(data))
-    return getElement ? node : node.getAttribute(data);
-
-  return getParentData(node.parentElement, data, getElement);
-}
-
-function createBasicSettingObj(text)
-{
-  return {
-    dataset: {access: text},
-    text: getMsg(text)
-  };
-}
-
-module.exports = {Elem, Elems, getMsg, getMessage, getSwitcher, getSwitches,
-                  cloneObj, nextSiblingElem, prevSiblingElem, getParentData, createBasicSettingObj};
+module.exports = {Elem, Elems, getMsg, getMessage, cloneObj};
