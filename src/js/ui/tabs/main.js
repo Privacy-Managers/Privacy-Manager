@@ -42,19 +42,18 @@ async function generateMainContent()
     addStorageToggle(browsingData[i], Elem("#startupClear ul"));
 }
 
-function onAction(action)
+async function onAction(action)
 {
   switch (action)
   {
-    case "open-in-incognito":
-      chrome.tabs.query({active:true}, function(tab)
-      {
-        if (tab[0].url.toString().indexOf("chrome://") == -1)
-          chrome.windows.create({url: tab[0].url, incognito: true});
-        else
-          alert("Sorry you can't run current active page in incognito mode.");
-      });
+    case "open-in-incognito": {
+      const tab = await browser.tabs.query({active:true});
+      if (tab[0].url.toString().indexOf("chrome://") == -1)
+        browser.windows.create({url: tab[0].url, incognito: true});
+      else
+        alert("Sorry you can't run current active page in incognito mode.");
       break;
+    }
   }
 }
 

@@ -26,8 +26,8 @@ const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
                       "fileSystems", "formData", "history", "indexedDB",
                       "localStorage", "serverBoundCertificates", "passwords",
                       "pluginData", "serviceWorkers", "webSQL"];
-const getAllCookies = chrome.cookies.getAll;
-const removeCookie = chrome.cookies.remove;
+const getAllCookies = browser.cookies.getAll;
+const removeCookie = browser.cookies.remove;
 
 function getStorage(keys, callback)
 {

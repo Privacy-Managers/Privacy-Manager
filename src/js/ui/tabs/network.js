@@ -71,25 +71,23 @@ document.addEventListener("DOMContentLoaded" , async function()
   tableList.addItems(requestsCopy);
 },false);
 
-function onNetworkSettingChange(settingName, isActive)
+async function onNetworkSettingChange(settingName, isActive)
 {
   switch(settingName)
   {
     case "blockUserAgent":
       if (isActive)
       {
-        chrome.permissions.contains(additionalPermission, async(result) =>
+        const result = await browser.permissions.contains(additionalPermission);
+        if (result)
         {
-          if (result)
-          {
-            addBlockAgentListener();
-          }
-          else
-          {
-            alert(await getMessage(permissionNotificationMsgId));
-            await resetSettingListData(settingName);
-          }
-        });
+          addBlockAgentListener();
+        }
+        else
+        {
+          alert(await getMessage(permissionNotificationMsgId));
+          await resetSettingListData(settingName);
+        }
       }
       else
       {
@@ -99,18 +97,16 @@ function onNetworkSettingChange(settingName, isActive)
     case "collectHeaders":
       if (isActive)
       {
-        chrome.permissions.contains(additionalPermission, async(result) =>
+        const result = await browser.permissions.contains(additionalPermission);
+        if (result)
         {
-          if (result)
-          {
-            addRequestListener(onSendHeaders, onHeadersReceived);
-          }
-          else
-          {
-            alert(await getMessage(permissionNotificationMsgId));
-            await resetSettingListData(settingName);
-          }
-        });
+          addRequestListener(onSendHeaders, onHeadersReceived);
+        }
+        else
+        {
+          alert(await getMessage(permissionNotificationMsgId));
+          await resetSettingListData(settingName);
+        }
       }
       else
       {
@@ -120,7 +116,7 @@ function onNetworkSettingChange(settingName, isActive)
   }
 }
 
-chrome.permissions.onRemoved.addListener(async(result) =>
+browser.permissions.onRemoved.addListener(async(result) =>
 {
   await resetSettingListData([blockUserAgentId, collectHeadersId]);
   removeBlockAgentListener();
@@ -180,17 +176,16 @@ function onRequestsWidgetActionComp(action, item, parentItem)
   }
 }
 
-function onRequestsWidgetAction(action, element)
+async function onRequestsWidgetAction(action, element)
 {
   switch (action)
   {
-    case "delete-all":
-      chrome.runtime.getBackgroundPage(function(window)
-      {
-        window.collectedRequests = [];
-        tableList.empty();
-      });
+    case "delete-all": {
+      const window = await browser.runtime.getBackgroundPage();
+      window.collectedRequests = [];
+      tableList.empty();
       break;
+    }
     case "download-all": {
       const downloadJson = [];
       for (const {request, data} of collectedRequests)
