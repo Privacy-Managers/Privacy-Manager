@@ -6,7 +6,7 @@ module.exports =
 {
   context: path.resolve(__dirname),
   entry: {
-    "ui": "./src/js/ui/main.js",
+    "ui": "./src/js/ui/index.js",
     "back": "./src/js/back.js",
     "common": "./src/js/common.js"
   },

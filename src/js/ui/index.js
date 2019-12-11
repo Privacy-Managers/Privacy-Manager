@@ -18,6 +18,10 @@
 
 "use strict";
 
+require("./tabs/cookies");
+require("./tabs/main");
+require("./tabs/network");
+
 const {getMessage} = require("./utils");
 
 /*******************************************************************************
@@ -31,4 +35,21 @@ document.addEventListener("DOMContentLoaded", async function()
   });
 
   document.documentElement.lang = await getMessage("@@ui_locale");
+}, false);
+
+/*******************************************************************************
+ * Init Tabs
+ ******************************************************************************/
+document.addEventListener("DOMContentLoaded", async() =>
+{
+  const pmTabPanel = document.querySelector("pm-tab-panel");
+  const {lastSelectedTab} = await browser.storage.local.get("lastSelectedTab");
+  if (!lastSelectedTab)
+    pmTabPanel.select("tab-main");
+  else
+    pmTabPanel.select(lastSelectedTab);
+  pmTabPanel.addEventListener("tabChange", ({detail}) =>
+  {
+    browser.storage.local.set({"lastSelectedTab": detail});
+  });
 }, false);

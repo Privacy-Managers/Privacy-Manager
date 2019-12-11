@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {Elem, getMessage} = require("../utils");
+const {$, getMessage} = require("../utils");
 const {registerActionListener} = require("../actionListener");
 const {deleteCookies, additionalPermission} = require("../../common");
 const permittedUrls = additionalPermission.origins[0];
-const {addStorageToggle, addPermissionToggle, getSettingListData, Listener} = require("../components/settingList");
+const {addStorageToggle, addPermissionToggle, getSettingListData, Listener} = require("../settingList");
 
 let cookieWhitelistButtonTitle = "";
 let domainWhitelistButtonTitle = "";
@@ -36,8 +36,8 @@ let cookieDialog = null;
 let removeCookieDialog = null;
 document.addEventListener("DOMContentLoaded" , async() =>
 {
-  Elem("#search-domain").addEventListener("search", populateDomainList, false);
-  Elem("#search-domain").addEventListener("keyup", function(ev)
+  $("#search-domain").addEventListener("search", populateDomainList, false);
+  $("#search-domain").addEventListener("keyup", function(ev)
   {
     if (ev.key != "Enter" && ev.key != "Escape")
       populateDomainList();
@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded" , async() =>
   pmTable = document.querySelector("pm-table");
   pmTable.setListener(onCookiesAction);
 
-  const cookiesTab = Elem("#panel-cookies");
-  const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", cookiesTab);
-  const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", cookiesTab);
+  const cookiesTab = $("#panel-cookies");
+  const leftSettingList = $("ul.settings-list:nth-of-type(1)", cookiesTab);
+  const rightSettingList = $("ul.settings-list:nth-of-type(2)", cookiesTab);
 
   addPermissionToggle("additionalPermissions", leftSettingList);
   permissionChange(await browser.permissions.contains(additionalPermission));
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded" , async() =>
   cookieDialog = document.querySelector("pm-dialog.cookies");
   removeCookieDialog = document.querySelector("pm-dialog.delete-cookies");
 
-  registerActionListener(Elem("#cookiesContainer"), onCookiesAction);
+  registerActionListener($("#cookiesContainer"), onCookiesAction);
   registerActionListener(cookieDialog, onCookiesAction);
   registerActionListener(removeCookieDialog, onCookiesAction);
 }, false);
@@ -109,7 +109,7 @@ async function getCookiesCountForDomain()
 async function populateDomainList()
 {
   pmTable.empty();
-  const searchExpression = new RegExp(Elem("#search-domain").value);
+  const searchExpression = new RegExp($("#search-domain").value);
   const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
   const isWhitelisted = (domain) =>
   {
@@ -389,7 +389,7 @@ async function updateFilterToActiveDomain()
   if (url.indexOf("://") > -1)
   {
     const domain = url.split('/')[2].split(':')[0].replace("www.", "");
-    Elem("#search-domain").value = domain;
+    $("#search-domain").value = domain;
     populateDomainList();
   }
 }
@@ -400,7 +400,7 @@ async function updateFilterToActiveDomain()
  */
 function disableControls(disabled)
 {
-  Elem("#cookie-controls").childNodes.forEach(function(Node)
+  $("#cookie-controls").childNodes.forEach(function(Node)
   {
     if (Node.nodeType == 1)
       if (disabled)

@@ -18,9 +18,9 @@
 
 "use strict";
 
-const {Elem} = require("../utils");
-const {addStorageToggle, addPrivacyToggle} = require("../components/settingList");
-const {privacyData} = require("../data");
+const {$} = require("../utils");
+const {addStorageToggle, addPrivacyToggle} = require("../settingList");
+const {privacyData} = require("../../data");
 const {browsingData} = require("../../common");
 const {registerActionListener} = require("../actionListener");
 
@@ -34,12 +34,12 @@ async function generateMainContent()
         return;
 
       addPrivacyToggle(settingName, browser.privacy[category][settingName],
-                       Elem("#privacyManagement ul"));
+                       $("#privacyManagement ul"));
     });
   }
 
   for (var i = 0; i < browsingData.length; i++)
-    addStorageToggle(browsingData[i], Elem("#startupClear ul"));
+    addStorageToggle(browsingData[i], $("#startupClear ul"));
 }
 
 async function onAction(action)
@@ -59,6 +59,6 @@ async function onAction(action)
 
 document.addEventListener("DOMContentLoaded" , function()
 {
-  registerActionListener(Elem("#panel-main"), onAction);
+  registerActionListener($("#panel-main"), onAction);
   generateMainContent();
 }, false);

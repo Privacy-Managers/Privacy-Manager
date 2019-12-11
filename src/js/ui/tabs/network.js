@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {Elem, getMessage, cloneObj} = require("../utils");
+const {$, getMessage, cloneObj} = require("../utils");
 const {registerActionListener} = require("../actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../../common");
-const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData, Listener} = require("../components/settingList");
+const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData, Listener} = require("../settingList");
 
 const blockUserAgentId = "blockUserAgent";
 const collectHeadersId = "collectHeaders";
@@ -34,9 +34,9 @@ let tableList = null;
 
 document.addEventListener("DOMContentLoaded" , async function()
 {
-  const networkTab = Elem("#panel-network");
-  const leftSettingList = Elem("ul.settings-list:nth-of-type(1)", networkTab);
-  const rightSettingList = Elem("ul.settings-list:nth-of-type(2)", networkTab);
+  const networkTab = $("#panel-network");
+  const leftSettingList = $("ul.settings-list:nth-of-type(1)", networkTab);
+  const rightSettingList = $("ul.settings-list:nth-of-type(2)", networkTab);
 
   addPermissionToggle("additionalPermissions", leftSettingList);
 
@@ -59,16 +59,12 @@ document.addEventListener("DOMContentLoaded" , async function()
 
   tableList = document.querySelector("#panel-network pm-table");
 
-  registerActionListener(Elem("#requestsWidget"), onRequestsWidgetAction);
+  registerActionListener($("#requestsWidget"), onRequestsWidgetAction);
   tableList.setListener(onRequestsWidgetActionComp);
   const window = await browser.runtime.getBackgroundPage();
 
   collectedRequests = window.collectedRequests;
-  const requestsCopy =  collectedRequests.map(function(request)
-  {
-    return cloneObj(request); //Deep cloning
-  });
-  tableList.addItems(requestsCopy);
+  tableList.addItems(collectedRequests);
 },false);
 
 async function onNetworkSettingChange(settingName, isActive)

@@ -18,12 +18,12 @@
 
 function registerActionListener(target, callback)
 {
-  target.addEventListener("keyup", function(ev)
+  target.addEventListener("keyup", (ev) =>
   {
     onKeyUp(ev, callback);
   }, false);
 
-  target.addEventListener("click", function(ev)
+  target.addEventListener("click", (ev) =>
   {
     onClick(ev, callback);
   }, false);
@@ -31,9 +31,9 @@ function registerActionListener(target, callback)
 
 function onKeyUp(ev, callback)
 {
-  var key = ev.key;
-  var activeElem = document.activeElement;
-  var actions = null;
+  const {key} = ev;
+  const {activeElem} = document;
+  let actions = null;
 
   switch (key)
   {
@@ -75,8 +75,8 @@ function onKeyUp(ev, callback)
 
 function onClick(ev, callback)
 {
-  var element = ev.target;
-  var actions = null;
+  let element = ev.target;
+  let actions = null;
 
   while (true)
   {

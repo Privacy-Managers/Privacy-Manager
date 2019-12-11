@@ -18,12 +18,12 @@
 
 "use strict";
 
-function Elem(selector, parent)
+function $(selector, parent)
 {
   return (parent || document).querySelector(selector);
 }
 
-function Elems(selector, parent)
+function $$(selector, parent)
 {
   return (parent || document).querySelectorAll(selector);
 }
@@ -33,13 +33,4 @@ async function getMessage(text)
   return (await browser.i18n.getMessage(text)) || text;
 }
 
-function cloneObj(obj)
-{
-  var newObj = {};
-  for (var attr in obj)
-    newObj[attr] = obj[attr];
-
-  return newObj;
-}
-
-module.exports = {Elem, Elems, getMessage, cloneObj};
+module.exports = {$, $$, getMessage};

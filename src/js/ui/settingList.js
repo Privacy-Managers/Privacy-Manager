@@ -1,9 +1,9 @@
-const {Elem, getMessage, Elems} = require("../utils");
-const {additionalPermission} = require("../../common");
+const {$, getMessage, $$} = require("./utils");
+const {additionalPermission} = require("../common");
 
 async function _createPmToggle(accessor)
 {
-  const content = Elem("#settings-list").content;
+  const content = $("#settings-list").content;
   const listElem = document.importNode(content, true);
   const dialog = document.querySelector("pm-dialog.info");
   const pmToggle = listElem.querySelector("pm-toggle");
@@ -136,7 +136,7 @@ function _updateSettingButton(setting, state)
 {
   if (typeof setting == "string")
   {
-    Elems("[data-access='" + setting + "']").forEach((settingItem) =>
+    $$("[data-access='" + setting + "']").forEach((settingItem) =>
     {
       _updateSettingButton(settingItem, state);
     });
