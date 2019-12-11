@@ -40,17 +40,14 @@ document.addEventListener("DOMContentLoaded" , async function()
 
   addPermissionToggle("additionalPermissions", leftSettingList);
 
-  const settingListListener = new Listener();
-  addStorageToggle(blockUserAgentId, leftSettingList);
-  settingListListener.on(blockUserAgentId, (enabled) =>
+  addStorageToggle(blockUserAgentId, leftSettingList, (enabled) =>
   {
     onNetworkSettingChange(blockUserAgentId, enabled);
   });
   onNetworkSettingChange(blockUserAgentId,
                          await getSettingListData(blockUserAgentId));
 
-  addStorageToggle(collectHeadersId,rightSettingList);
-  settingListListener.on(collectHeadersId, (enabled) =>
+  addStorageToggle(collectHeadersId,rightSettingList, (enabled) =>
   {
     onNetworkSettingChange(collectHeadersId, enabled);
   });

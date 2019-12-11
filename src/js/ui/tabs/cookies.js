@@ -64,8 +64,7 @@ document.addEventListener("DOMContentLoaded" , async() =>
       permissionChange(false);
   });
 
-  addStorageToggle(activeTabCookieId, rightSettingList);
-  new Listener().on(activeTabCookieId, (active)=>
+  addStorageToggle(activeTabCookieId, rightSettingList, (active) =>
   {
     if (active)
       updateFilterToActiveDomain();

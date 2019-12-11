@@ -61,7 +61,7 @@ async function addPrivacyToggle(accessor, privacyObject, parentItem)
   return listElem;
 }
 
-async function addStorageToggle(accessor, parentItem)
+async function addStorageToggle(accessor, parentItem, callback)
 {
   const [pmToggle, listElem] = await _createPmToggle(accessor);
   parentItem.appendChild(listElem);
@@ -73,6 +73,14 @@ async function addStorageToggle(accessor, parentItem)
     const currentState = await getSettingListData(accessor);
     await setSettingListData(accessor, !currentState);
   }, false);
+
+  if (callback)
+  {
+    new Listener().on(accessor, (active)=>
+    {
+      callback(active);
+    });
+  }
 }
 
 async function addPermissionToggle(accessor, parentItem)
