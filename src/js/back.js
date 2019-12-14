@@ -18,9 +18,10 @@
 
 "use strict";
 
-const {additionalPermission, getStorage, setStorage, addRequestListener,
-      removeRequestListener, updateRequestObj, addBlockAgentListener,
-      removeBlockAgentListener, deleteCookies} = require("./common");
+const {additionalPermission, browsingData, getStorage, setStorage,
+      addRequestListener, removeRequestListener, updateRequestObj,
+      addBlockAgentListener, removeBlockAgentListener,
+      deleteCookies} = require("./common");
 
 window.collectedRequests = [];
 const requestCollectionLength = 500;
@@ -92,6 +93,14 @@ function deleteBrowsingData(data)
     chrome.browsingData.remove({}, browsingDataObj);
   }
 }
+
+window.deleteBrowsingData = function()
+{
+  getStorage("settingList", function(data)
+  {
+    deleteBrowsingData(data.settingList);
+  });
+};
 
 window.startCollectingRequests = function()
 {
