@@ -142,6 +142,7 @@ describe("Testing Data deletion", () =>
     ok(!await isCookieSet());
     await clickToggle(await getHandle("cookies"));
     await clickToggle(await getHandle("localStorage"));
+    await page2.waitFor(100);
     equal(await isEnabled(cookieHandle), false);
     equal(await isEnabled(localStorage), false);
   });
