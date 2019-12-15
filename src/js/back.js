@@ -18,31 +18,23 @@
 
 "use strict";
 
-const {additionalPermission, browsingData, getStorage, setStorage,
-      addRequestListener, removeRequestListener, updateRequestObj,
-      addBlockAgentListener, removeBlockAgentListener,
-      deleteCookies} = require("./common");
+const {additionalPermission, browsingData, addRequestListener,
+      removeRequestListener, updateRequestObj, addBlockAgentListener,
+      removeBlockAgentListener, deleteCookies} = require("./common");
 
 window.collectedRequests = [];
 const requestCollectionLength = 500;
 
-function profileStart()
+async function profileStart()
 {
-  getStorage("cookieWhitelist", function(data)
-  {
-    if (!data || !data.cookieWhitelist)
-    {
-      setStorage({"cookieWhitelist": {} });
-    }
-  });
-  getStorage("settingList", function(data)
-  {
-    deleteBrowsingData(data.settingList);
-  });
+  const data = await browser.storage.local.get("cookieWhitelist");
+  if (!data || !data.cookieWhitelist)
+    browser.storage.local.set({"cookieWhitelist": {} });
+  const {settingList} = await browser.storage.local.get("settingList");
+  deleteBrowsingData(settingList);
 }
 
-//TODO: Find a solution to avoide duplication
-getStorage("settingList", function(data)
+browser.storage.local.get("settingList").then((data) =>
 {
   if (data.settingList && data.settingList.collectHeaders)
     startCollectingRequests();
@@ -57,10 +49,10 @@ function deleteBrowsingData(data)
     return;
 
   // Filter "data" object to only match properties from "browsingData".
-  var browsingDataObj = Object.keys(data).filter(function(key)
+  let browsingDataObj = Object.keys(data).filter((key) =>
   {
     return browsingData.includes(key);
-  }).reduce(function(accumulator, dataType)
+  }).reduce((accumulator, dataType) =>
   {
     accumulator[dataType] = data[dataType];
     return accumulator;
@@ -68,7 +60,7 @@ function deleteBrowsingData(data)
 
   if (browsingDataObj.removeAll == true)
   {
-    browsingDataObj = browsingData.reduce(function(accumulator, dataType)
+    browsingDataObj = browsingData.reduce((accumulator, dataType) =>
     {
       if (dataType != "removeAll")
         accumulator[dataType] = true;
@@ -81,7 +73,7 @@ function deleteBrowsingData(data)
       deleteCookies();
     }
     browsingDataObj.cookies = false;
-    chrome.browsingData.remove({}, browsingDataObj);
+    browser.browsingData.remove({}, browsingDataObj);
   }
   else
   {
@@ -90,24 +82,22 @@ function deleteBrowsingData(data)
       deleteCookies();
     }
     browsingDataObj.cookies = false;
-    chrome.browsingData.remove({}, browsingDataObj);
+    browser.browsingData.remove({}, browsingDataObj);
   }
 }
 
-window.deleteBrowsingData = function()
+window.deleteBrowsingData = async() =>
 {
-  getStorage("settingList", function(data)
-  {
-    deleteBrowsingData(data.settingList);
-  });
+  const {settingList} = await browser.storage.local.get("settingList");
+  deleteBrowsingData(settingList);
 };
 
-window.startCollectingRequests = function()
+window.startCollectingRequests = () =>
 {
   addRequestListener(onSendHeaders, onHeadersReceived);
 };
 
-window.stopCollectingRequests = function()
+window.stopCollectingRequests = () =>
 {
   removeRequestListener(onSendHeaders, onHeadersReceived);
 };
@@ -132,41 +122,39 @@ function addToRequestArray(details)
   collectedRequests.push(details);
 }
 
-chrome.storage.onChanged.addListener(function(change)
+browser.storage.onChanged.addListener(async(change) =>
 {
   if (change.settingList)
   {
-    chrome.permissions.contains(additionalPermission, function(result)
+    const result = await browser.permissions.contains(additionalPermission);
+    let newValue = change.settingList.newValue.collectHeaders;
+    let oldValue = change.settingList.oldValue;
+    if (!oldValue || newValue != oldValue.collectHeaders)
     {
-      var newValue = change.settingList.newValue.collectHeaders;
-      var oldValue = change.settingList.oldValue;
-      if (!oldValue || newValue != oldValue.collectHeaders)
-      {
-        if (result && newValue)
-          startCollectingRequests();
-        else
-          stopCollectingRequests();
-      }
+      if (result && newValue)
+        startCollectingRequests();
+      else
+        stopCollectingRequests();
+    }
 
-      newValue = change.settingList.newValue.blockUserAgent;
-      oldValue = change.settingList.oldValue;
-      if (oldValue && newValue != oldValue.blockUserAgent)
-      {
-        if (result && newValue)
-          addBlockAgentListener();
-        else
-          removeBlockAgentListener();
-      }
-    });
+    newValue = change.settingList.newValue.blockUserAgent;
+    oldValue = change.settingList.oldValue;
+    if (oldValue && newValue != oldValue.blockUserAgent)
+    {
+      if (result && newValue)
+        addBlockAgentListener();
+      else
+        removeBlockAgentListener();
+    }
   }
 });
 
-chrome.permissions.onRemoved.addListener(function()
+browser.permissions.onRemoved.addListener(() =>
 {
   removeBlockAgentListener();
   removeRequestListener(onSendHeaders, onHeadersReceived);
 });
 
 // Fired on a profile start up
-chrome.runtime.onInstalled.addListener(profileStart);
-chrome.runtime.onStartup.addListener(profileStart);
+browser.runtime.onInstalled.addListener(profileStart);
+browser.runtime.onStartup.addListener(profileStart);

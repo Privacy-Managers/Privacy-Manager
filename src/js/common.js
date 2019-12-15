@@ -28,36 +28,25 @@ const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
                       "pluginData", "serviceWorkers", "webSQL"];
 const getAllCookies = browser.cookies.getAll;
 const removeCookie = browser.cookies.remove;
-
-function getStorage(keys, callback)
-{
-  // See -> https://github.com/Manvel/Privacy-Manager/issues/24
-  chrome.storage.local.get(keys, callback);
-}
-
-function setStorage(items, callback)
-{
-  chrome.storage.local.set(items, callback);
-}
+const onBeforeSendHeaders = browser.webRequest.onBeforeSendHeaders;
+const onSendHeaders = browser.webRequest.onSendHeaders;
+const onHeadersReceived = browser.webRequest.onHeadersReceived;
 
 function getUrl(domain, path, isSecure)
 {
   return "http" + (isSecure ? "s" : "") + "://" + domain + path;
 }
-function addRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
+function addRequestListener(sendHeaders, headersReceived)
 {
-  browser.webRequest.onSendHeaders.addListener(onSendHeadersCallback,
-                                               {urls: ["<all_urls>"]},
-                                               ["requestHeaders"]);
-  browser.webRequest.onHeadersReceived.addListener(onHeadersReceivedCallback,
-                                                   {urls: ["<all_urls>"]},
-                                                   ["responseHeaders"]);
+  const urls = {urls: ["<all_urls>"]};
+  onSendHeaders.addListener(sendHeaders, urls, ["requestHeaders"]);
+  onHeadersReceived.addListener(headersReceived, urls, ["responseHeaders"]);
 }
 
-function removeRequestListener(onSendHeadersCallback, onHeadersReceivedCallback)
+function removeRequestListener(sendHeaders, headersReceived)
 {
-  chrome.webRequest.onSendHeaders.removeListener(onSendHeadersCallback);
-  chrome.webRequest.onHeadersReceived.removeListener(onHeadersReceivedCallback);
+  onSendHeaders.removeListener(sendHeaders);
+  onHeadersReceived.removeListener(headersReceived);
 }
 
 function updateRequestObj(details, actionType)
@@ -71,27 +60,21 @@ function updateRequestObj(details, actionType)
  ******************************************************************************/
 function addBlockAgentListener()
 {
-  chrome.webRequest.onBeforeSendHeaders.addListener(blockUserAgent,
-                                                    {urls: ["<all_urls>"]},
-                                                    ["blocking", "requestHeaders"]);
+  onBeforeSendHeaders.addListener(blockUserAgent,
+                                  {urls: ["<all_urls>"]},
+                                  ["blocking", "requestHeaders"]);
 }
 
 function removeBlockAgentListener()
 {
-  chrome.webRequest.onBeforeSendHeaders.removeListener(blockUserAgent);
+  onBeforeSendHeaders.removeListener(blockUserAgent);
 }
 
 function blockUserAgent(details)
 {
-  for (var i = 0; i < details.requestHeaders.length; ++i)
-  {
-    if (details.requestHeaders[i].name == "User-Agent")
-    {
-      details.requestHeaders.splice(i, 1);
-      break;
-    }
-  }
-  return {requestHeaders: details.requestHeaders};
+  const filterUserAgent = (request) => request.name != "User-Agent";
+  const requestHeaders = details.requestHeaders.filter(filterUserAgent);
+  return {requestHeaders};
 }
 
 function removeStartDot(string)
@@ -116,7 +99,7 @@ async function deleteCookies()
 }
 
 module.exports = {additionalPermission, browsingData, getAllCookies,
-                  removeCookie, getStorage, setStorage, getUrl,
-                  addRequestListener, removeRequestListener,
-                  updateRequestObj, addBlockAgentListener,
-                  removeBlockAgentListener, deleteCookies};
+                  removeCookie, getUrl, addRequestListener,
+                  removeRequestListener, updateRequestObj,
+                  addBlockAgentListener, removeBlockAgentListener,
+                  deleteCookies};

@@ -38,8 +38,8 @@ async function generateMainContent()
     });
   }
 
-  for (var i = 0; i < browsingData.length; i++)
-    addStorageToggle(browsingData[i], $("#startupClear ul"));
+  for (const dataName of browsingData)
+    addStorageToggle(dataName, $("#startupClear ul"));
 }
 
 async function onAction(action)
