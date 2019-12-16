@@ -1,6 +1,6 @@
 # Privacy Manager
 
-[![Build Status](https://travis-ci.org/Manvel/Privacy-Manager.svg?branch=master)](https://travis-ci.org/Manvel/Privacy-Manager)
+[![Build Status](https://travis-ci.com/Privacy-Managers/Privacy-Manager.svg?branch=release)](https://travis-ci.com/Privacy-Managers/Privacy-Manager)
 
 ## About
 

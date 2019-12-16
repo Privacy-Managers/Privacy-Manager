@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Manvel/Privacy-Manager.git"
+    "url": "git+https://github.com/Privacy-Managers/Privacy-Manager.git"
   },
   "author": "Manvel Saroyan",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/Manvel/Privacy-Manager/issues"
+    "url": "https://github.com/Privacy-Managers/Privacy-Manager/issues"
   },
   "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd",
   "devDependencies": {
@@ -37,6 +37,6 @@
     "webpack": "^4.41.0"
   },
   "dependencies": {
-    "privacy-manager-components": "github:Manvel/webcomponents"
+    "privacy-manager-components": "github:Privacy-Managers/pm-components"
   }
 }
