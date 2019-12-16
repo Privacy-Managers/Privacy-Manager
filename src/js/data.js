@@ -19,5 +19,4 @@ const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
                       "localStorage", "serverBoundCertificates", "passwords",
                       "pluginData", "serviceWorkers", "webSQL"];
 
-
 module.exports = {privacyData, browsingData};

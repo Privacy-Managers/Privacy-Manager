@@ -67,7 +67,7 @@ function triggerDataDeletion(pmToggleHandle)
 {
   return page.evaluate(async() =>
   {
-    await (await browser.runtime.getBackgroundPage()).deleteBrowsingData();
+    await browser.runtime.sendMessage({message: "deleteBrowsingData"});
   }, pmToggleHandle);
 }
 

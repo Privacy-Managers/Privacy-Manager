@@ -93,15 +93,15 @@ window.deleteBrowsingData = async() =>
   deleteBrowsingData(settingList);
 };
 
-window.startCollectingRequests = () =>
+function startCollectingRequests()
 {
   addRequestListener(onSendHeaders, onHeadersReceived);
-};
+}
 
-window.stopCollectingRequests = () =>
+function stopCollectingRequests()
 {
   removeRequestListener(onSendHeaders, onHeadersReceived);
-};
+}
 
 function onSendHeaders(details)
 {
@@ -121,6 +121,20 @@ function addToRequestArray(details)
     collectedRequests.shift();
 
   collectedRequests.push(details);
+}
+
+async function handleMessage(request)
+{
+  /* eslint-disable */
+  switch (request.message)
+  {
+    case "deleteBrowsingData":
+      const {settingList} = await browser.storage.local.get("settingList");
+      deleteBrowsingData(settingList);
+      break;
+    default:
+      break;
+  }
 }
 
 browser.storage.onChanged.addListener(async(change) =>
@@ -155,6 +169,8 @@ browser.permissions.onRemoved.addListener(() =>
   removeBlockAgentListener();
   removeRequestListener(onSendHeaders, onHeadersReceived);
 });
+
+browser.runtime.onMessage.addListener(handleMessage);
 
 // Fired on a profile start up
 browser.runtime.onInstalled.addListener(profileStart);
