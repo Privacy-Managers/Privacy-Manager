@@ -1,5 +1,5 @@
 const {$, getMessage, $$} = require("./utils");
-const {additionalPermission} = require("../common");
+const {additionalPermission} = require("../../common");
 
 async function _createPmToggle(accessor)
 {

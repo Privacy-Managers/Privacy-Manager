@@ -22,7 +22,7 @@ require("./tabs/cookies");
 require("./tabs/main");
 require("./tabs/network");
 
-const {getMessage} = require("./utils");
+const {getMessage} = require("./helpers/utils");
 
 /*******************************************************************************
  * i18n

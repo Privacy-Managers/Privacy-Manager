@@ -18,11 +18,11 @@
 
 "use strict";
 
-const {$, getMessage, cloneObj} = require("../utils");
-const {registerActionListener} = require("../actionListener");
+const {$, getMessage} = require("../helpers/utils");
+const {registerActionListener} = require("../helpers/actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../../common");
-const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData, Listener} = require("../settingList");
+const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData} = require("../helpers/settingList");
 
 const blockUserAgentId = "blockUserAgent";
 const collectHeadersId = "collectHeaders";

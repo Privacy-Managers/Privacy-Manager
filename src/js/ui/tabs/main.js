@@ -18,11 +18,10 @@
 
 "use strict";
 
-const {$} = require("../utils");
-const {addStorageToggle, addPrivacyToggle} = require("../settingList");
-const {privacyData} = require("../../data");
-const {browsingData} = require("../../common");
-const {registerActionListener} = require("../actionListener");
+const {$} = require("../helpers/utils");
+const {addStorageToggle, addPrivacyToggle} = require("../helpers/settingList");
+const {privacyData, browsingData} = require("../../data");
+const {registerActionListener} = require("../helpers/actionListener");
 
 async function generateMainContent()
 {

@@ -18,11 +18,12 @@
 
 "use strict";
 
-const {$, getMessage} = require("../utils");
-const {registerActionListener} = require("../actionListener");
+const {$, getMessage} = require("../helpers/utils");
+const {registerActionListener} = require("../helpers/actionListener");
 const {deleteCookies, additionalPermission} = require("../../common");
 const permittedUrls = additionalPermission.origins[0];
-const {addStorageToggle, addPermissionToggle, getSettingListData, Listener} = require("../settingList");
+const {addStorageToggle, addPermissionToggle,
+      getSettingListData} = require("../helpers/settingList");
 
 let cookieWhitelistButtonTitle = "";
 let domainWhitelistButtonTitle = "";

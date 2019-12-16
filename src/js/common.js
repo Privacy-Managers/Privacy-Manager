@@ -19,13 +19,6 @@
 "use strict";
 
 const additionalPermission = {"origins": ["<all_urls>"]};
-
-// Besides of "removeAll" item, all other dataTypes needs to be consistent with
-// https://developer.chrome.com/extensions/browsingData#type-DataTypeSet
-const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
-                      "fileSystems", "formData", "history", "indexedDB",
-                      "localStorage", "serverBoundCertificates", "passwords",
-                      "pluginData", "serviceWorkers", "webSQL"];
 const getAllCookies = browser.cookies.getAll;
 const removeCookie = browser.cookies.remove;
 const onBeforeSendHeaders = browser.webRequest.onBeforeSendHeaders;
@@ -98,7 +91,7 @@ async function deleteCookies()
   }
 }
 
-module.exports = {additionalPermission, browsingData, getAllCookies,
+module.exports = {additionalPermission, getAllCookies,
                   removeCookie, getUrl, addRequestListener,
                   removeRequestListener, updateRequestObj,
                   addBlockAgentListener, removeBlockAgentListener,

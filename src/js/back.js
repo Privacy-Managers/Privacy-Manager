@@ -18,9 +18,10 @@
 
 "use strict";
 
-const {additionalPermission, browsingData, addRequestListener,
-      removeRequestListener, updateRequestObj, addBlockAgentListener,
-      removeBlockAgentListener, deleteCookies} = require("./common");
+const {additionalPermission, addRequestListener, removeRequestListener,
+      updateRequestObj, addBlockAgentListener, removeBlockAgentListener,
+      deleteCookies} = require("./common");
+const {browsingData} = require("./data");
 
 window.collectedRequests = [];
 const requestCollectionLength = 500;

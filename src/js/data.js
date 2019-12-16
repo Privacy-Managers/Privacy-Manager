@@ -13,4 +13,11 @@ const privacyData = {
     ["networkPredictionEnabled"]
 };
 
-module.exports = {privacyData};
+// https://developer.chrome.com/extensions/browsingData#type-DataTypeSet
+const browsingData = ["removeAll", "appcache", "cache", "cookies", "downloads",
+                      "fileSystems", "formData", "history", "indexedDB",
+                      "localStorage", "serverBoundCertificates", "passwords",
+                      "pluginData", "serviceWorkers", "webSQL"];
+
+
+module.exports = {privacyData, browsingData};
