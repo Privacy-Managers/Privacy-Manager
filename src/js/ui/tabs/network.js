@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded" , async function()
 
   addStorageToggle(blockUserAgentId, leftSettingList, (enabled) =>
   {
-    onNetworkSettingChange(blockUserAgentId, enabled);
+    onNetworkSettingChange(blockUserAgentId, enabled, true);
   });
   onNetworkSettingChange(blockUserAgentId,
                          await getSettingListData(blockUserAgentId));
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded" , async function()
     onNetworkSettingChange(collectHeadersId, enabled);
   });
   onNetworkSettingChange(collectHeadersId,
-                         await getSettingListData(collectHeadersId));
+                         await getSettingListData(collectHeadersId), true);
 
   tableList = document.querySelector("#panel-network pm-table");
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded" , async function()
   tableList.addItems(collectedRequests);
 },false);
 
-async function onNetworkSettingChange(settingName, isActive)
+async function onNetworkSettingChange(settingName, isActive, permissionChange)
 {
   switch(settingName)
   {
@@ -78,7 +78,8 @@ async function onNetworkSettingChange(settingName, isActive)
         }
         else
         {
-          alert(await getMessage(permissionNotificationMsgId));
+          if (!permissionChange)
+            alert(await getMessage(permissionNotificationMsgId));
           await resetSettingListData(settingName);
         }
       }
@@ -97,7 +98,8 @@ async function onNetworkSettingChange(settingName, isActive)
         }
         else
         {
-          alert(await getMessage(permissionNotificationMsgId));
+          if (!permissionChange)
+            alert(await getMessage(permissionNotificationMsgId));
           await resetSettingListData(settingName);
         }
       }

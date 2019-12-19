@@ -4,5 +4,4 @@ package-lock.json
 node_modules
 dist
 src/css/pm-tab-panel.css
-src/img
 src/src/components.js
