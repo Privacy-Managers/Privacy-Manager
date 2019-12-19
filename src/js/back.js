@@ -78,6 +78,7 @@ function deleteBrowsingData(data)
   }
   else
   {
+    delete browsingDataObj.removeAll;
     if (browsingDataObj.cookies)
     {
       deleteCookies();
