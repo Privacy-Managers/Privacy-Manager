@@ -8,13 +8,13 @@
       "persistence": false 
    },
    "browser_action": {
-      "default_icon": "css/img/icon.png",
+      "default_icon": "img/logo.png",
       "default_popup": "popup.html"
    },
    "icons": {
-      "128": "css/img/icon.png",
-      "16": "css/img/16x16.png",
-      "48": "css/img/48x48.png"
+      "128": "img/logo.png",
+      "16": "img/logo-16x16.png",
+      "48": "img/logo-48x48.png"
    },
    "optional_permissions": ["<all_urls>"],
    "permissions": ["privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking", "storage"],
