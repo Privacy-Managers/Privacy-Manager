@@ -3,11 +3,11 @@
   "version": "3.4.1",
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
-    "build": "cd src; zip -r ../privacy-manager.zip .",
     "test": "npm run test:eslint && npm run test:stylelint && npm run test:puppeteer",
     "test:puppeteer": "npm run build:webpack && mocha test/puppeteer/*.js",
     "test:eslint": "eslint src",
     "test:stylelint": "stylelint src/**/*.css",
+    "build": "npm run build:webpack:prod && cd dist/;zip -r ../privacy-manager.zip .;cd ..",
     "import:components": "pm-components --single-bundle --prod --output dist",
     "build:webpack": "npm run import:components && webpack --config webpack.config.js",
     "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch",
@@ -24,8 +24,6 @@
   },
   "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd",
   "devDependencies": {
-    "copy-webpack-plugin": "^5.0.4",
-    "csso": "^4.0.2",
     "eslint": "^5.12.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.1",
@@ -34,11 +32,13 @@
     "mocha": "^6.2.1",
     "puppeteer": "^1.20.0",
     "stylelint": "^9.9.0",
-    "stylelint-config-recommended": "^2.1.0",
-    "webextension-polyfill": "github:Manvel/webextension-polyfill#privacy-manager",
-    "webpack": "^4.41.0"
+    "stylelint-config-recommended": "^2.1.0"
   },
   "dependencies": {
-    "privacy-manager-components": "github:Privacy-Managers/pm-components"
+    "copy-webpack-plugin": "^5.1.1",
+    "csso": "^4.0.2",
+    "privacy-manager-components": "github:Privacy-Managers/pm-components",
+    "webextension-polyfill": "github:Manvel/webextension-polyfill#privacy-manager",
+    "webpack": "^4.41.4"
   }
 }
