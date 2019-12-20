@@ -51,3 +51,9 @@ if (argv.watch)
 {
   module.exports.watch = true;
 }
+
+if (argv.prod)
+{
+  module.exports.mode = "production";
+  module.exports.optimization.minimize = true;
+}

@@ -10,7 +10,8 @@
     "test:stylelint": "stylelint src/**/*.css",
     "import:components": "pm-components --single-bundle --output dist",
     "build:webpack": "npm run import:components && webpack --config webpack.config.js",
-    "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch"
+    "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch",
+    "build:webpack:prod": "npm run import:components && webpack --config webpack.config.js --prod"
   },
   "repository": {
     "type": "git",
