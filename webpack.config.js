@@ -19,6 +19,7 @@
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 const CopyPlugin = require('copy-webpack-plugin');
+const csso = require("csso");
 
 module.exports =
 {
@@ -38,7 +39,8 @@ module.exports =
   plugins: [
     new CopyPlugin([
       { from: './src/_locales', to: "_locales" },
-      { from: './src/css', to: "css" },
+      { from: './src/css', to: "css" ,
+        transform: (content) => argv.prod ? csso.minify(content).css : content},
       { from: './src/img', to: "img" },
       { flatten: true, from: './src/*'},
       {from: "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
