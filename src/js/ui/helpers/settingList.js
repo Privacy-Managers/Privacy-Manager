@@ -49,10 +49,12 @@ async function addPrivacyToggle(accessor, privacyObject, parentItem)
     if (details.levelOfControl == "controllable_by_this_extension" ||
     details.levelOfControl == "controlled_by_this_extension")
     {
-      await privacyObject.set({ value: !details.value });
-      if (browser.runtime.lastError != undefined)
+      try
       {
-        const message = browser.runtime.lastError.message;
+        await privacyObject.set({ value: !details.value });
+      }
+      catch ({message})
+      {
         if (message ==
           "Can't modify regular settings from an incognito context.")
         {
