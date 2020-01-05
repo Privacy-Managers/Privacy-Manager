@@ -5,7 +5,7 @@
    "description": "__MSG_chrome_extension_description__",
    "background": {
       "scripts": ["js/browser-polyfill.min.js", "js/common.js", "js/back.js"],
-      "persistence": false 
+      "persistence": false
    },
    "browser_action": {
       "default_icon": "img/logo.png",
@@ -19,6 +19,5 @@
    "optional_permissions": ["<all_urls>"],
    "permissions": ["privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking", "storage"],
    "incognito": "split",
-   "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "3.5.1"
+   "update_url": "https://clients2.google.com/service/update2/crx"
 }
