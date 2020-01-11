@@ -1,6 +1,6 @@
 {
   "name": "privacy-manager",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "Privacy Manager is a chrome extension for data transparency and control",
   "scripts": {
     "test": "npm run test:eslint && npm run test:stylelint && npm run test:puppeteer",
