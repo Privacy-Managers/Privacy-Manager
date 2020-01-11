@@ -224,6 +224,14 @@ describe("Testing Cookies tab", () =>
     await page.waitFor(30);
     equal(await ensureItem("name3", "domain4.com"), false);
     equal(await ensureItem("domain4.com"), false);
+
+    // Ensure that non expanded domain item is removed on delete
+    // https://github.com/Privacy-Managers/Privacy-Manager/issues/83
+    await addCookie("https://domain4.com", "name1", "value1");
+    await page.waitFor(30);
+    await (await deleteButtonHandle("domain4.com")).click();
+    await page.waitFor(30);
+    equal(await ensureItem("domain4.com"), false);
   });
 
   it("Deleting cookies should also unset whitelisting", async() =>

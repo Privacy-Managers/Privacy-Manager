@@ -513,7 +513,7 @@ browser.cookies.onChanged.addListener(async({cookie, removed}) =>
 
   if (removed)
   {
-    if (!pmTable.getItem(domain) || !pmTable.getItem(cookie.name, domain))
+    if (!pmTable.getItem(domain))
       return;
 
     if (!domainCounts[domain])
