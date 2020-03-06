@@ -25,10 +25,10 @@ const permittedUrls = additionalPermission.origins[0];
 const {addStorageToggle, addPermissionToggle,
       getSettingListData} = require("../helpers/settingList");
 
-let cookieWhitelistButtonTitle = "";
-let domainWhitelistButtonTitle = "";
-getMessage("whitelistSublistCookie").then(cookieWhitelistButtonTitle);
-getMessage("whitelistCookieDomain").then(domainWhitelistButtonTitle);
+let cookieWhitelistTitle = "";
+let domainWhitelistTitle = "";
+getMessage("whitelistSublistCookie").then(msg => cookieWhitelistTitle = msg);
+getMessage("whitelistCookieDomain").then(msg => domainWhitelistTitle = msg);
 
 const activeTabCookieId = "activeTabCookies";
 
@@ -148,7 +148,7 @@ function createDomainObj(domain, cookienum, whitelist)
       cookienum: setCookiesNum(cookienum)
     },
     titles: {
-      whitelist: domainWhitelistButtonTitle
+      whitelist: domainWhitelistTitle
     },
     dataset: {whitelist}
   };
@@ -439,7 +439,7 @@ function createCookieSubitemObj(cookie, whitelist)
       value: cookie.value
     },
     titles: {
-        whitelist: cookieWhitelistButtonTitle
+        whitelist: cookieWhitelistTitle
     },
     dataset: {whitelist, path: cookie.path, secure: cookie.secure}
   };
