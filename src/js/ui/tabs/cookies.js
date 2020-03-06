@@ -177,7 +177,7 @@ async function setWhitelistDomain(domain, value)
   await browser.storage.local.set({cookieWhitelist});
 }
 
-async function setWhitelistCookie(domain, cookie)
+async function toggleWhitelistCookie(domain, cookie)
 {
   const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
   if (!(domain in cookieWhitelist))
@@ -186,6 +186,16 @@ async function setWhitelistCookie(domain, cookie)
     cookieWhitelist[domain].cookies = cookieWhitelist[domain].cookies.filter(el => el !== cookie);
   else
     cookieWhitelist[domain].cookies.push(cookie);
+  await browser.storage.local.set({cookieWhitelist});
+}
+
+async function removeWhitelistCookie(domain, cookie)
+{
+  if (!await isCookieWhitelisted(domain, cookie))
+    return;
+
+  const {cookieWhitelist} = await browser.storage.local.get("cookieWhitelist");
+  cookieWhitelist[domain].cookies = cookieWhitelist[domain].cookies.filter(el => el !== cookie);
   await browser.storage.local.set({cookieWhitelist});
 }
 
@@ -234,7 +244,7 @@ async function onCookiesAction(action, item, parentItem)
     {
       const cookie = item.texts.name;
       const domain = parentItem.texts.domain;
-      await setWhitelistCookie(domain, cookie);
+      await toggleWhitelistCookie(domain, cookie);
       break;
     }
     case "delete-domain":
@@ -526,7 +536,7 @@ browser.cookies.onChanged.addListener(async({cookie, removed}) =>
     else
     {
       pmTable.removeItem(cookie.name, domain);
-      setWhitelistCookie(domain, cookie.name, false);
+      removeWhitelistCookie(domain, cookie.name);
       const domainItem = pmTable.getItem(domain);
       domainItem.texts.cookienum = setCookiesNum(domainCounts[domain]);
       pmTable.updateItem(domainItem, domain);

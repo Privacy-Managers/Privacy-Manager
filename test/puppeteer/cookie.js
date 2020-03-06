@@ -261,6 +261,13 @@ describe("Testing Cookies tab", () =>
     await page.waitFor(30);
     equal(await isWhitelisted("name2", "domain5.com"), "false");
     equal(await isWhitelisted("domain5.com"), "false");
+
+    // see https://github.com/Privacy-Managers/Privacy-Manager/issues/85
+    equal(await isWhitelisted("name2", "domain5.com"), "false");
+    await (await deleteButtonHandle("name1", "domain5.com")).click();
+    await addCookie("https://domain5.com", "name1", "value1");
+    await page.waitFor(30);
+    equal(await isWhitelisted("name1", "domain5.com"), "false");
   });
   it("Cookie is added using 'add cookies' dialog", async() =>
   {
