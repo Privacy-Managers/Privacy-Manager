@@ -91,3 +91,5 @@ translation language in crowdin.
   - For [making whitelisting of cookies possible](https://github.com/Manvel/Privacy-Manager/pull/31)
 - [@leonid-panich](https://github.com/leonid-panich)
   - For helping with Russian Translations
+- [@alexdevero](https://github.com/alexdevero)
+  - For helping identify critical issues - #85, #83
