@@ -93,3 +93,5 @@ translation language in crowdin.
   - For helping with Russian Translations
 - [@alexdevero](https://github.com/alexdevero)
   - For helping identify critical issues - #85, #83
+- [Andy K.](https://crowdin.com/profile/AndyKl)
+  - For helping with German Translations
