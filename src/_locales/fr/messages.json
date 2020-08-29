@@ -1,15 +1,15 @@
 {
   "chrome_extension_name": {
     "description": "Extension name, used in the Web Store",
-    "message": "Privacy Manager"
+    "message": "Privacy manager"
   },
   "chrome_extension_description": {
     "description": "Extension description, used in the Web Store",
-    "message": "Manage privacy settings, browsing data deletion, quickly access page in incognito mode, manage cookies and monitor network traffic"
+    "message": "Gestion des paramètres de confidentialité. Suppression des données de navigation. Accès rapide au mode vie privée. Gestion des cookies et surveillance du trafic réseau"
   },
   "main_tab": {
     "description": "Tab label",
-    "message": "Main"
+    "message": "Général"
   },
   "cookies_general": {
     "description": "General text used in various places",
@@ -17,7 +17,7 @@
   },
   "network_tab": {
     "description": "Tab label",
-    "message": "Network"
+    "message": "Réseau"
   },
   "off": {
     "description": "Switch's 'off' text",
@@ -29,51 +29,51 @@
   },
   "privacyManagement": {
     "description": "Section name",
-    "message": "Privacy management"
+    "message": "Gestion de la vie privée"
   },
   "regularSettingChangeIncognito_error": {
     "description": "Error thrown in the incognito mode when privacy setting is being modified",
-    "message": "Can't modify regular settings from an incognito context, to change the setting please use attached profile (the one from which the extension was enabled to be available in the incognito mode) instead."
+    "message": "Les paramètres courants ne peuvent être modifiés en mode \"vie privée\" que lorsque vous cochez la case \"Autoriser en mode de navigation privée\" dans votre gestionnaire d'extensions."
   },
   "thirdPartyCookiesAllowed": {
     "description": "Privacy setting label",
-    "message": "3-rd party cookies"
+    "message": "Cookies tiers"
   },
   "thirdPartyCookiesAllowed_desc": {
     "description": "Privacy setting description",
-    "message": "If disabled, Chrome blocks third-party sites from setting cookies. Third-party cookies are cookies being set with different domains from the one shown on the address bar."
+    "message": "Si désactivé, Chrome bloque les cookies tiers provenant d'autres sites. Les cookies tiers sont des cookies déposés par des domaines différents de celui présenté dans la barre d’adresse."
   },
   "hyperlinkAuditingEnabled": {
     "description": "Privacy setting label",
-    "message": "Hyperlink auditing"
+    "message": "Audit de lien hypertexte"
   },
   "hyperlinkAuditingEnabled_desc": {
     "description": "Privacy setting description",
-    "message": "Hyperlink auditing allows you to 'attach' resources to a link which, when clicked, will ping a source. This enables the click to be tracked via the desired method e.g. dropping a cookie or sending a HTTP request."
+    "message": "Audit de lien hypertexte permet \"d'attacher\" des ressources à un lien qui, lorsque vous cliquez dessus, interroge une source. Cela enclenche des méthodes de suivis, par exemple déposer un cookie ou envoyer une requête HTTP."
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Referrers"
+    "message": "Référents"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
-    "message": "If enabled, Chrome sends referer headers with your requests, so browser sends a request to the server holding the destination webpage. The request includes the referer field, which says the last page the user was on"
+    "message": "Si activé, Chrome envoie des en-têtes de site référant avec vos demandes, alors le navigateur envoie une requête vers le serveur détenant la page Web de destination. La demande comprend le champ référant, qui indique la page sur laquelle vous étiez."
   },
   "protectedContentEnabled": {
     "description": "Privacy setting label",
-    "message": "Protect content"
+    "message": "Contenu Protégé"
   },
   "protectedContentEnabled_desc": {
     "description": "'Protect content' privacy setting description (ChromeOS specific)",
-    "message": "If enabled, Chrome provides a unique ID to plugins in order to run protected content. It's used for example to provide Adobe Flash an access to the device ID in order to play music or movies that are protected by a copyright."
+    "message": "Si activé, Chrome fournit un identifiant unique aux plugins afin d’exécuter du contenu protégé. C'est utilisé par exemple pour fournir à Adobe Flash un accès à l’identifiant de périphérique afin de jouer de la musique ou des films qui sont protégés par un copyright."
   },
   "alternateErrorPagesEnabled": {
     "description": "Privacy setting label",
-    "message": "Alternate error pages"
+    "message": "Page d’erreur alternative"
   },
   "alternateErrorPagesEnabled_desc": {
     "description": "'Alternate error pages' privacy setting description",
-    "message": "If enabled, Chrome uses a web service to help resolve navigation errors. It Controls whether Google Chrome shows suggestions for the page you were trying to reach when it is unable to connect to a web address. The user sees suggestions to navigate to other parts of the website or to search for the page with Google."
+    "message": "Si activé, Chrome utilise un service web pour aider à résoudre les erreurs de navigation. Il contrôle si Google Chrome affiche des suggestions pour la page que vous tentiez d’atteindre lorsqu’il est impossible d'atteindre l'adresse web. L’utilisateur voit des suggestions pour naviguer vers d’autres parties du site ou pour rechercher la page avec Google."
   },
   "autofillEnabled": {
     "description": "Privacy setting label",
@@ -101,7 +101,7 @@
   },
   "safeBrowsingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsing mode"
+    "message": "Safe browsiong mode"
   },
   "safeBrowsingEnabled_desc": {
     "description": "'Safe browsing mode' privacy setting description",
@@ -153,7 +153,7 @@
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
-    "message": "Allow users to specify the media performance\/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
+    "message": "Allow users to specify the media performance/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
   },
   "openIncognito": {
     "description": "Button text",
