@@ -5,11 +5,11 @@
   },
   "chrome_extension_description": {
     "description": "Extension description, used in the Web Store",
-    "message": "Manage privacy settings, browsing data deletion, quickly access page in incognito mode, manage cookies and monitor network traffic"
+    "message": "Verwalten von Datenschutzeinstellungen, Löschen von Surfdaten, schneller Zugriff auf die Seite im Privaten Modus, Verwaltung von Cookies und Überwachung des Netzwerkverkehrs"
   },
   "main_tab": {
     "description": "Tab label",
-    "message": "Main"
+    "message": "Allgemein"
   },
   "cookies_general": {
     "description": "General text used in various places",
@@ -17,167 +17,167 @@
   },
   "network_tab": {
     "description": "Tab label",
-    "message": "Network"
+    "message": "Netzwerk"
   },
   "off": {
     "description": "Switch's 'off' text",
-    "message": "Off"
+    "message": "Aus"
   },
   "on": {
     "description": "Switch's 'on' text",
-    "message": "On"
+    "message": "Ein"
   },
   "privacyManagement": {
     "description": "Section name",
-    "message": "Privacy management"
+    "message": "Datenschutz-Verwaltung"
   },
   "regularSettingChangeIncognito_error": {
     "description": "Error thrown in the incognito mode when privacy setting is being modified",
-    "message": "Can't modify regular settings from an incognito context, to change the setting please use attached profile (the one from which the extension was enabled to be available in the incognito mode) instead."
+    "message": "Reguläre Einstellungen können nicht aus einem inkognitiven Kontext heraus geändert werden. Um die Einstellung zu ändern, verwenden Sie bitte stattdessen das angehängte Profil (das Profil, von dem aus die Erweiterung im inkognitiven Modus aktiviert wurde)."
   },
   "thirdPartyCookiesAllowed": {
     "description": "Privacy setting label",
-    "message": "3-rd party cookies"
+    "message": "Cookies von Drittanbietern"
   },
   "thirdPartyCookiesAllowed_desc": {
     "description": "Privacy setting description",
-    "message": "If disabled, Chrome blocks third-party sites from setting cookies. Third-party cookies are cookies being set with different domains from the one shown on the address bar."
+    "message": "Wenn deaktiviert, sperrt Chrome die Websites von Drittanbietern für das Anlegen von Cookies. Cookies von Drittanbietern sind Cookies, die mit anderen Domänen als der in der Adressleiste angezeigten gesetzt werden."
   },
   "hyperlinkAuditingEnabled": {
     "description": "Privacy setting label",
-    "message": "Hyperlink auditing"
+    "message": "Prüfung von Hyperlinks"
   },
   "hyperlinkAuditingEnabled_desc": {
     "description": "Privacy setting description",
-    "message": "Hyperlink auditing allows you to 'attach' resources to a link which, when clicked, will ping a source. This enables the click to be tracked via the desired method e.g. dropping a cookie or sending a HTTP request."
+    "message": "Die Prüfung von Hyperlinks ermöglicht es Ihnen, Ressourcen an einen Link „anzuhängen”, der, wenn er angeklickt wird, eine Quelle anpingt. Dies ermöglicht es, den Klick über die gewünschte Methode zu verfolgen, z.B. das Setzen eines Cookies oder das Senden einer HTTP-Anfrage."
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Referrers"
+    "message": "Referrer"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
-    "message": "If enabled, Chrome sends referer headers with your requests, so browser sends a request to the server holding the destination webpage. The request includes the referer field, which says the last page the user was on"
+    "message": "Wenn aktiviert, sendet Chrome Referrer-Kopfzeilen mit Ihren Anfragen, so dass der Browser eine Anfrage an den Server sendet, der die Ziel-Webseite enthält. Die Anforderung enthält das Referer-Feld, das die letzte Seite angibt, auf der der Benutzer war."
   },
   "protectedContentEnabled": {
     "description": "Privacy setting label",
-    "message": "Protect content"
+    "message": "Inhalte schützen"
   },
   "protectedContentEnabled_desc": {
     "description": "'Protect content' privacy setting description (ChromeOS specific)",
-    "message": "If enabled, Chrome provides a unique ID to plugins in order to run protected content. It's used for example to provide Adobe Flash an access to the device ID in order to play music or movies that are protected by a copyright."
+    "message": "Wenn aktiviert, vergibt Chrome eine eindeutige ID an Plugins, um geschützte Inhalte auszuführen. Dies wird beispielsweise verwendet, um Adobe Flash einen Zugriff auf die Geräte-ID zu ermöglichen, um Musik oder Filme abzuspielen, die durch ein Urheberrecht geschützt sind."
   },
   "alternateErrorPagesEnabled": {
     "description": "Privacy setting label",
-    "message": "Alternate error pages"
+    "message": "Alternative Fehlerseiten"
   },
   "alternateErrorPagesEnabled_desc": {
     "description": "'Alternate error pages' privacy setting description",
-    "message": "If enabled, Chrome uses a web service to help resolve navigation errors. It Controls whether Google Chrome shows suggestions for the page you were trying to reach when it is unable to connect to a web address. The user sees suggestions to navigate to other parts of the website or to search for the page with Google."
+    "message": "Wenn aktiviert, verwendet Chrome einen Webdienst, der bei der Behebung von Navigationsfehlern hilft. Dieser steuert, ob Google Chrome Vorschläge für die zu erreichende Seite anzeigt, wenn keine Verbindung zu einer Webadresse hergestellt werden kann. Der Nutzer sieht Vorschläge, um zu anderen Teilen der Website zu navigieren oder mit Google nach der Seite zu suchen."
   },
   "autofillEnabled": {
     "description": "Privacy setting label",
-    "message": "Auto fill"
+    "message": "Automatisches Auffüllen"
   },
   "autofillEnabled_desc": {
     "description": "'Auto fill' privacy setting description",
-    "message": "If enabled, Chrome offers to automatically fill in forms. If Autofill is enabled, and you submit a form, Chrome sends the data types you actually used for filling in the form in order to improve its guesses over time. The actual text you typed into the form is not sent. It's important that you use Autofill only on websites you trust, as certain websites might try to capture your information in hidden or hard-to-see fields. Some websites prevent browsers from saving text that you've entered, so Google Chrome won't be able to complete forms on those sites."
+    "message": "Wenn aktiviert, bietet Chrome an, Formulare automatisch auszufüllen. Wenn das automatische Ausfüllen aktiviert ist und Sie ein Formular absenden, sendet Chrome die Datentypen, die Sie tatsächlich zum Ausfüllen des Formulars verwendet haben, um die Vermutungen mit der Zeit zu verbessern. Der von Ihnen tatsächlich in das Formular eingegebene Text wird nicht gesendet. Es ist wichtig, dass Sie das automatische Ausfüllen nur auf Websites verwenden, denen Sie vertrauen, da bestimmte Websites versuchen könnten, Ihre Informationen in ausgeblendeten oder schwer einsehbaren Feldern zu erfassen. Einige Websites verhindern, dass Browser den von Ihnen eingegebenen Text speichern, sodass Google Chrome auf diesen Websites keine Formulare ausfüllen kann."
   },
   "hotwordSearchEnabled": {
     "description": "Privacy setting label",
-    "message": "Hot word search"
+    "message": "Suchen mit Sprachaufforderung"
   },
   "hotwordSearchEnabled_desc": {
     "description": "'Hot word search' privacy setting description",
-    "message": "If enabled, Chrome will enable 'OK, Google' to start a voice search. This preference's value is a boolean, defaulting to true"
+    "message": "Wenn aktiviert, aktiviert Chrome „OK, Google”, um eine Suche mit Ihrer Sprachaufforderung zu starten. Der Wert dieser Einstellung ist ein boolescher Wert, der standardmäßig auf „true” festgelegt ist."
   },
   "passwordSavingEnabled": {
     "description": "Privacy setting label",
-    "message": "Password saving"
+    "message": "Passwortspeicherung"
   },
   "passwordSavingEnabled_desc": {
     "description": "'Password saving' privacy setting description",
-    "message": "Offer to save your web passwords"
+    "message": "Ermöglicht, Ihre Web-Passwörter zu speichern"
   },
   "safeBrowsingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsing mode"
+    "message": "Schutzfunktion „Sicheres Surfen”"
   },
   "safeBrowsingEnabled_desc": {
-    "description": "'Safe browsing mode' privacy setting description",
-    "message": "If enabled, Chrome help protect you against phishing and malware attacks. This helps prevent evil-doers from tricking you into sharing personal information with them (phishing) or installing malicious software on your computer (malware). Please be aware that Chrome will no longer be able to protect you from websites that try to steal your information or install harmful software if you disable this feature. It's not recomended to turn it off."
+    "description": "'Safe browsiong mode' privacy setting description",
+    "message": "Wenn aktiviert, hilft Chrome, Sie vor Phishing- und Malware-Angriffen zu schützen. Dadurch wird verhindert, dass Sie von Angreifern dazu verleitet werden, persönliche Daten mit ihnen auszutauschen (Phishing) oder schädliche Software auf Ihrem Computer zu installieren (Malware). Bitte beachten Sie, dass Chrome Sie nicht mehr vor Websites schützen kann, die versuchen, Ihre Daten zu stehlen oder schädliche Software zu installieren, wenn Sie diese Funktion deaktivieren. Es ist nicht empfehlenswert, diese Funktion zu deaktivieren."
   },
   "safeBrowsingExtendedReportingEnabled": {
     "description": "Privacy setting label",
-    "message": "Safe browsing reporting"
+    "message": "Safe Browsing-Meldungen"
   },
   "safeBrowsingExtendedReportingEnabled_desc": {
     "description": "'Safe browsing reporting' privacy setting description",
-    "message": "If enabled, Chrome will send additional information to Google when SafeBrowsing blocks a page, such as the content of the blocked page."
+    "message": "Wenn aktiviert, sendet Chrome zusätzliche Informationen an Google, wenn SafeBrowsing eine Seite sperrt, z. B. den Inhalt der gesperrten Seite."
   },
   "searchSuggestEnabled": {
     "description": "Privacy setting label",
-    "message": "Search suggestions"
+    "message": "Suchvorschläge"
   },
   "searchSuggestEnabled_desc": {
     "description": "'Search suggestions' privacy setting description",
-    "message": "If enabled, Chrome sends the text you type into the Omnibox to your default search engine, which provides predictions of websites and searches that are likely completions of what you've typed so far."
+    "message": "Wenn aktiviert, sendet Chrome den Text, den Sie in die Omnibox (URL-Leiste) eingeben, an Ihre Standardsuchmaschine, die Vorhersagen zu Websites und Suchvorgängen liefert, die wahrscheinlich eine Vervollständigung dessen darstellen, was Sie bisher getippt haben."
   },
   "spellingServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Spelling service"
+    "message": "Rechtschreibprüfung"
   },
   "spellingServiceEnabled_desc": {
     "description": "'Spelling service' privacy setting description",
-    "message": "If enabled, Chrome uses a web service to help correct spelling errors. Chrome spell-checking service sends the text you type into the browser to Google's servers. This allows Chrome to use the same spell-checking technology as Google search."
+    "message": "Wenn aktiviert, verwendet Chrome einen Webdienst, der bei der Korrektur von Rechtschreibfehlern hilft. Der Rechtschreibprüfungsdienst von Chrome sendet den von Ihnen in den Browser eingegebenen Text an die Server von Google. Dadurch kann Chrome die gleiche Rechtschreibprüfungstechnologie wie die Google-Suche verwenden."
   },
   "translationServiceEnabled": {
     "description": "Privacy setting label",
-    "message": "Translation service"
+    "message": "Übersetzungsdienst"
   },
   "translationServiceEnabled_desc": {
     "description": "'Translation service' privacy setting description",
-    "message": "If enabled, Chrome offers to translate pages that aren't in a language you read. If you do choose to translate a web page, the text of that page is sent to Google's translation service for translation. Your cookies are not sent along with that request and, if the page you are on is encrypted with SSL, Google Chrome also sends the translation request over SSL."
+    "message": "Wenn aktiviert, bietet Chrome die Übersetzung von Seiten an, die nicht in einer von Ihnen lesbaren Sprache vorliegen. Wenn Sie sich für die Übersetzung einer Webseite entscheiden, wird der Text dieser Seite zur Übersetzung an den Übersetzungsdienst von Google gesendet. Ihre Cookies werden nicht zusammen mit dieser Anfrage gesendet, und wenn die Seite, auf der Sie sich befinden, mit SSL verschlüsselt ist, sendet Google Chrome die Übersetzungsanfrage ebenfalls über SSL."
   },
   "networkPredictionEnabled": {
     "description": "Privacy setting label",
-    "message": "Network prediction"
+    "message": "Netzwerk-Vorabruf"
   },
   "networkPredictionEnabled_desc": {
     "description": "'Network prediction' privacy setting description",
-    "message": "If enabled, Chrome attempts to speed up your web browsing experience by pre-resolving DNS entries, prerendering sites (<link rel='prefetch' ...>), and preemptively opening TCP and SSL connections to servers."
+    "message": "Wenn aktiviert, versucht Chrome, Ihr Surfen im Web zu beschleunigen, indem es DNS-Einträge vorauflöst, Sites vorabruft (<link rel='prefetch' ...>) und TCP- und SSL-Verbindungen zu Servern vorzeitig öffnet."
   },
   "webRTCIPHandlingPolicy": {
     "description": "Privacy setting label",
-    "message": "Web RTC IP handling"
+    "message": "Web RTC IP-Handlungsanweisungen"
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
-    "message": "Allow users to specify the media performance/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
+    "message": "Ermöglichen es Benutzern, die Kompromisse zwischen Medienleistung und Datenschutz festzulegen, die sich auf die Art und Weise auswirken, wie der WebRTC-Verkehr weitergeleitet wird und wie viele lokale Adressinformationen offengelegt werden."
   },
   "openIncognito": {
     "description": "Button text",
-    "message": "Open in incognito mode"
+    "message": "In Privatem Modus öffnen"
   },
   "startupClear": {
     "description": "Section name",
-    "message": "Clear on startup"
+    "message": "Beim Start löschen"
   },
   "removeAll": {
     "description": "Clear on startup setting label",
-    "message": "Remove All"
+    "message": "Alles entfernen"
   },
   "removeAll_desc": {
     "description": "Remove All description in 'Clear on startup' section",
-    "message": "Clears all browsing data at browser startup."
+    "message": "Löscht alle Surferdaten beim Start des Browsers."
   },
   "appcache": {
     "description": "Clear on startup setting label",
-    "message": "App. cache"
+    "message": "App-Cache"
   },
   "appcache_desc": {
     "description": "App. cache description in 'Clear on startup' section",
-    "message": "Clear websites Application cache at browser startup. Application caching mechanism lets web-based applications run offline. Developers can use the Application Cache (AppCache) interface to specify resources that the browser should cache and make available to offline users. Applications that are cached load and work correctly even if users click the refresh button when they are offline."
+    "message": "Leert den Zwischenspeicher der Anwendung von Webseiten beim Start des Browsers. Der Anwendungszwischenspeicher-Mechanismus ermöglicht es, webbasierte Anwendungen offline auszuführen. Entwickler können die Schnittstelle für den Anwendungszwischenspeicher (AppCache) verwenden, um Ressourcen anzugeben, die der Browser zwischenspeichern und Offline-Benutzern zur Verfügung stellen soll. Zwischengespeicherte Anwendungen werden geladen und funktionieren auch dann korrekt, wenn Benutzer auf die Aktualisierungsschaltfläche klicken, während sie Offline sind."
   },
   "cache": {
     "description": "Clear on startup setting label",
@@ -185,7 +185,7 @@
   },
   "cache_desc": {
     "description": "Cache description in 'Clear on startup' section",
-    "message": "Clear browser cache at browser startup. Browsers store elements of webpages to speed up the loading of the webpage during your next visit."
+    "message": "Leert den Zwischenspeicher des Browsers beim Start des Browsers. Browser speichern Elemente von Webseiten, um das Laden der Webseite bei Ihrem nächsten Besuch zu beschleunigen."
   },
   "cookies": {
     "description": "Clear on startup setting label",
@@ -193,79 +193,79 @@
   },
   "cookies_desc": {
     "description": "Cookies description in 'Clear on startup' section",
-    "message": "Clear browser cookies at browser startup. Cookies are files created by websites you've visited that store browsing information, such as your site preferences or profile information. Cookies that are set by the site domain listed in the address bar are called 'First-party cookies', cookies that are set by other domain sources are called 'Third-party cookies' (e.g.: by ads or images embedded on the page)."
+    "message": "Löscht Cookies des Browsers beim Start des Browsers. Cookies sind Dateien, die von Websites, die Sie besucht haben, erstellt werden und in denen Informationen zum Surfen gespeichert werden, wie z.B. Ihre Website-Einstellungen oder Profilinformationen. Cookies, die von der in der Adressleiste aufgeführten Website-Domäne gesetzt werden, werden als „Erstanbieter-Cookies” bezeichnet, Cookies, die von anderen Domänenquellen gesetzt werden, werden als „Drittpartei-Cookies” bezeichnet (z.B.: durch auf der Seite eingebettete Anzeigen oder Bilder)."
   },
   "downloads": {
     "description": "Clear on startup setting label",
-    "message": "Downloads"
+    "message": "Heruntergeladene Dateien"
   },
   "downloads_desc": {
     "description": "Downloads description in 'Clear on startup' section",
-    "message": "Clear browser download list maintained by Google Chrome at browser startup. This action doesn't remove the actual files from your computer."
+    "message": "Leert die Liste der heruntergeladenen Dateien, die von Google Chrome beim Start des Browsers verwaltet wird. Diese Aktion entfernt KEINE der tatsächliche heruntergeladenen Dateien von Ihrem Computer."
   },
   "fileSystems": {
     "description": "Clear on startup setting label",
-    "message": "File systems"
+    "message": "Dateisysteme"
   },
   "fileSystems_desc": {
     "description": "File system description in 'Clear on startup' section",
-    "message": "Clear browser file system at browser startup. A website may use sandboxed sections of a user's local filesystem. A sanboxed section is just a subdirectory named File System in your Chrome profile directory, where data is stored in files. Websites can manage (create, delete, read, write) files and folders in this sandboxed subdirectory."
+    "message": "Leert das Dateisystem des Browsers beim Start des Browsers. Eine Website kann in der Sandbox gespeicherte Abschnitte des lokalen Dateisystems eines Benutzers verwenden. Ein n der Sandbox gespeicherte Abschnitt ist nur ein Unterverzeichnis namens File System in Ihrem Chrome-Profil-Verzeichnis, in dem Daten in Dateien gespeichert werden. Websites können Dateien und Ordner in diesem Sandbox-Unterverzeichnis verwalten (erstellen, löschen, lesen, schreiben)"
   },
   "formData": {
     "description": "Clear on startup setting label",
-    "message": "Form data"
+    "message": "Formulardaten"
   },
   "formData_desc": {
     "description": "Form data description in 'Clear on startup' section",
-    "message": "Clear browser stored data at browser startup. If enabled, Chrome browser Auto fill data will be removed on browser startup."
+    "message": "Leert die im Browser gespeicherten Formulardaten beim Start des Browsers. Wenn aktiviert, werden die automatisch ausgefüllten Formulardaten des Chrome-Browsers beim Browser-Start entfernt."
   },
   "history": {
     "description": "Clear on startup setting label",
-    "message": "History"
+    "message": "Verlauf"
   },
   "history_desc": {
     "description": "History description in 'Clear on startup' section",
-    "message": "Clears browser history at browser startup."
+    "message": "Leert den Browserverlauf beim Start des Browsers."
   },
   "indexedDB": {
     "description": "Clear on startup setting label",
-    "message": "Indexed DB"
+    "message": "Indizierte Datenbank"
   },
   "indexedDB_desc": {
     "description": "Indexed DB description in 'Clear on startup' section",
-    "message": "Clear websites Indexed DB data at browser startup. IndexedDB is an client-side storage of significant amounts of structured data and for high performance searches on this data using indexes."
+    "message": "Leert die von Webseiten indizierten Datenbank-Daten beim Start des Browsers. IndexedDB ist ein clientseitiger Speicher für signifikante Mengen strukturierter Daten und für die hochperformante Suche auf diesen Daten mit Hilfe von Indizes."
   },
   "localStorage": {
     "description": "Clear on startup setting label",
-    "message": "Local storage"
+    "message": "Lokaler Speicher"
   },
   "localStorage_desc": {
     "description": "Local storage description in 'Clear on startup' section",
-    "message": "Clear websites local storage data at browser startup. Local storage is a database that resides in the users browser"
+    "message": "Leert die lokalen Speicherdaten von Websites beim Start des Browsers. Der lokale Speicher ist eine Datenbank, die sich im Browser des Benutzers befindet."
   },
   "serverBoundCertificates": {
     "description": "Clear on startup setting label",
-    "message": "Server-bound certificates"
+    "message": "Server-gebundene Zertifikate"
   },
   "serverBoundCertificates_desc": {
     "description": "Server-bound certificates description in 'Clear on startup' section",
-    "message": "Clear Server-bound certificates at browser startup."
+    "message": "Löscht Server-gebundene Zertifikate beim Browser-Start."
   },
   "passwords": {
     "description": "Clear on startup setting label",
-    "message": "Passwords"
+    "message": "Passwörter"
   },
   "passwords_desc": {
     "description": "Passwords description in 'Clear on startup' section",
-    "message": "Clear stored passwords at browser startup. Google Chrome can save your usernames and passwords for different websites. The browser can then automatically complete the sign-in fields for you when you next visit these websites."
+    "message": "Löscht gespeicherte Passwörter beim Start des Browsers. Google Chrome kann Ihre Benutzernamen und Passwörter für verschiedene Websites speichern. Der Browser kann dann beim nächsten Besuch dieser Websites die Anmeldefelder automatisch für Sie ausfüllen."
   },
   "pluginData": {
     "description": "Clear on startup setting label",
-    "message": "Plugin data"
+    "message": "Plug-in-Daten"
   },
   "pluginData_desc": {
     "description": "Plugin data description in 'Clear on startup' section",
-    "message": "Clear plugins data at browser startup. Websites also use different types of local storage as well, including Adobe Flash Player Local Shared Objects (LSOs), referred to by some people as Flash cookies, so this option will delete client-side data stored by plug-ins that obey the NPAPI ClearSiteData API, such as Flash Player."
+    "message": "Löscht Plugin-Daten beim Browser-Start. Websites verwenden auch verschiedene Arten der lokalen Speicherung, einschließlich der Adobe Flash Player Local Shared Objects (LSOs), die von einigen Leuten als Flash-Cookies bezeichnet werden. Diese Option löscht also clientseitige Daten, die von Plugins gespeichert werden, die der NPAPI ClearSiteData API gehorchen, wie z.B. Flash Player."
   },
   "serviceWorkers": {
     "description": "Clear on startup setting label",
@@ -273,23 +273,23 @@
   },
   "serviceWorkers_desc": {
     "description": "Service workers description in 'Clear on startup' section",
-    "message": "Clear Service Workers data at browser startup."
+    "message": "Löscht die Daten des „Service Workers” beim Start des Browsers."
   },
   "webSQL": {
     "description": "Clear on startup setting label",
-    "message": "Web SQL"
+    "message": "WebSQL"
   },
   "webSQL_desc": {
     "description": "Web SQL description in 'Clear on startup' section",
-    "message": "Clear websites WebSQL data at browser startup. Web SQL Database is a database that resides in the users browser."
+    "message": "Löscht die WebSQL-Daten von Websites beim Start des Browsers. Web SQL-Datenbank ist eine Datenbank, die sich im Browser des Benutzers befindet."
   },
   "addCookie": {
     "description": "Text in Cookies section",
-    "message": "Add cookie"
+    "message": "Neuer Cookie"
   },
   "editCookie": {
     "description": "Text in Cookies section",
-    "message": "Edit cookie"
+    "message": "Cookie bearbeiten"
   },
   "cookieDialog_domain": {
     "description": "Text in Cookies edit dialog",
@@ -301,110 +301,110 @@
   },
   "cookieDialog_value": {
     "description": "Text in Cookies edit dialog",
-    "message": "Value"
+    "message": "Wert"
   },
   "cookieDialog_path": {
     "description": "Text in Cookies edit dialog",
-    "message": "Path"
+    "message": "Pfad"
   },
   "cookieDialog_expDate": {
     "description": "Text in Cookies edit dialog",
-    "message": "Exp. date"
+    "message": "Gültig bis (Datum)"
   },
   "cookieDialog_expTime": {
     "description": "Text in Cookies edit dialog",
-    "message": "Exp. time"
+    "message": "Gültig bis (Zeit)"
   },
   "cookieDialog_hostOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "Host only"
+    "message": "Nur Host"
   },
   "cookieDialog_httpOnyl": {
     "description": "Text in Cookies edit dialog",
-    "message": "HTTP only"
+    "message": "Nur HTTP"
   },
   "cookieDialog_secure": {
     "description": "Text in Cookies edit dialog",
-    "message": "Secure"
+    "message": "Sicher"
   },
   "cookieDialog_session": {
     "description": "Text in Cookies edit dialog",
-    "message": "Session"
+    "message": "Sitzung"
   },
   "cookieDialog_storeId": {
     "description": "Text in Cookies edit dialog",
-    "message": "Store ID"
+    "message": "Speicher-ID"
   },
   "cookieDialog_add": {
     "description": "Button text in Cookies edit dialog",
-    "message": "Add"
+    "message": "Hinzufügen"
   },
   "cookieDialog_update": {
     "description": "Button text in Cookies edit dialog",
-    "message": "Update"
+    "message": "Aktualisieren"
   },
   "cookieDialog_delete": {
     "description": "Button text in Cookies edit dialog",
-    "message": "Delete"
+    "message": "Löschen"
   },
   "cookieDialog_cancel": {
     "description": "Button text in Cookies 'delete all' dialog",
-    "message": "Cancel"
+    "message": "Abbrechen"
   },
   "cookieDialog_deleteAll_msg": {
     "description": "text in Cookies 'delete all' dialog",
-    "message": "You are about to delete all cookies, are you sure ?"
+    "message": "Möchten Sie wirklich alle Cookies löschen?"
   },
   "whitelistCookieDomain": {
     "description": "text when hovering over Whitelist button for Cookie Domain",
-    "message": "This button adds all cookies from a domain to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
+    "message": "Diese Schaltfläche fügt alle Cookies einer Domäne zu einer Positivliste hinzu und verhindert, dass diese automatisch gelöscht werden. Dies ist nützlich, wenn Sie bei einigen Websites angemeldet bleiben möchten, aber trotzdem alle anderen Cookies gelöscht werden sollen."
   },
   "whitelistSublistCookie": {
     "description": "text when hovering over Whitelist button for Sublist Cookies",
-    "message": "This button adds a specific cookie to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
+    "message": "Diese Schaltfläche fügt ein bestimmtes Cookie zu einer Positivliste hinzu und verhindert, dass dieses automatisch gelöscht wird. Dies ist nützlich, wenn Sie bei einigen Websites angemeldet bleiben möchten, aber trotzdem alle anderen Cookies gelöscht werden sollen."
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
-    "message": "Additional permissions"
+    "message": "Zusätzliche Berechtigungen"
   },
   "additionalPermissions_desc": {
     "description": "Description for requesting additional permission setting",
-    "message": "You need to allow host permission to be able to manipulate cookies and network."
+    "message": "Um Cookies und das Netzwerk modifizieren zu können, müssen Sie dem Host die Berechtigung erteilen."
   },
   "additionalPermissions_notification": {
     "description": "Notification message for the features that require additional permission",
-    "message": "Please enable Additional permissions to use the feature"
+    "message": "Bitte aktivieren Sie Zusätzliche Berechtigungen, um die Funktion nutzen zu können"
   },
   "activeTabCookies": {
     "description": "Setting label in cookies section",
-    "message": "Active tab cookies"
+    "message": "Tab-Cookies aktivieren"
   },
   "activeTabCookies_desc": {
     "description": "Active tab setting description",
-    "message": "If enabled the cookies tab will always be filtered with the cookie data of active tab page domain."
+    "message": "Wenn aktiviert, werden die Tab-Cookies immer mit den Cookie-Daten der aktiven Tab-Domäne gefiltert"
   },
   "blockUserAgent": {
     "description": "Label for blocking user agent setting",
-    "message": "Block user agent"
+    "message": "Browserkennung nicht übermitteln"
   },
   "blockUserAgent_desc": {
     "description": "Descrption for blocking user agent setting",
-    "message": "If enabled user agent data will not be sent with request, that mean websites couldn't determine the browser you are using, that why in some cases websites will not allow you to view the content when user agent is blocked."
+    "message": "Wenn aktivierte,  werden die Informationen zum verwendeten Browser nicht mit der Anfrage gesendet, was bedeutet, dass Websites den von Ihnen verwendeten Browser nicht ermitteln können, weshalb Websites in einigen Fällen die Anzeige der Inhalte nicht zulassen, wenn der User-Agent nicht übermittelt wird."
   },
   "collectHeaders": {
     "description": "Setting label in network section",
-    "message": "Collect headers"
+    "message": "Kopfzeilen sammeln"
   },
   "collectHeaders_desc": {
     "description": "'Collect headers' setting description",
-    "message": "If enabled the headers will start to be collected, only last 1000 headers would be shown."
+    "message": "Wenn aktiviert, werden die Kopfzeilen gesammelt, es werden nur die letzten 1.000 Kopfzeilen angezeigt."
   },
   "downloadAll": {
     "description": "button text in network section",
-    "message": "Download all"
+    "message": "Alle herunterladen"
   },
   "deleteAll": {
     "description": "General text used in various places",
-    "message": "Delete all"
+    "message": "Alle löschen"
   }
 }
