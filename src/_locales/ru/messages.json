@@ -104,7 +104,7 @@
     "message": "Безопасный режим"
   },
   "safeBrowsingEnabled_desc": {
-    "description": "'Safe browsing mode' privacy setting description",
+    "description": "'Safe browsiong mode' privacy setting description",
     "message": "Включить/выключить защиту от фишинга и вредоносного ПО."
   },
   "safeBrowsingExtendedReportingEnabled": {
