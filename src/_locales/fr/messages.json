@@ -104,7 +104,7 @@
     "message": "Safe browsiong mode"
   },
   "safeBrowsingEnabled_desc": {
-    "description": "'Safe browsing mode' privacy setting description",
+    "description": "'Safe browsiong mode' privacy setting description",
     "message": "If enabled, Chrome help protect you against phishing and malware attacks. This helps prevent evil-doers from tricking you into sharing personal information with them (phishing) or installing malicious software on your computer (malware). Please be aware that Chrome will no longer be able to protect you from websites that try to steal your information or install harmful software if you disable this feature. It's not recomended to turn it off."
   },
   "safeBrowsingExtendedReportingEnabled": {
