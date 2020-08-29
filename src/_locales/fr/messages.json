@@ -1,10 +1,10 @@
 {
   "chrome_extension_name": {
-    "description": "Extension name",
+    "description": "Extension name, used in the Web Store",
     "message": "Privacy manager"
   },
   "chrome_extension_description": {
-    "description": "Extension description",
+    "description": "Extension description, used in the Web Store",
     "message": "Gestion des paramètres de confidentialité. Suppression des données de navigation. Accès rapide au mode vie privée. Gestion des cookies et surveillance du trafic réseau"
   },
   "main_tab": {
@@ -153,7 +153,7 @@
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
-    "message": "Allow users to specify the media performance\/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
+    "message": "Allow users to specify the media performance/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
   },
   "openIncognito": {
     "description": "Button text",
@@ -354,6 +354,14 @@
   "cookieDialog_deleteAll_msg": {
     "description": "text in Cookies 'delete all' dialog",
     "message": "You are about to delete all cookies, are you sure ?"
+  },
+  "whitelistCookieDomain": {
+    "description": "text when hovering over Whitelist button for Cookie Domain",
+    "message": "This button adds all cookies from a domain to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
+  },
+  "whitelistSublistCookie": {
+    "description": "text when hovering over Whitelist button for Sublist Cookies",
+    "message": "This button adds a specific cookie to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
