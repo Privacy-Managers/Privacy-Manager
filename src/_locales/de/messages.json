@@ -5,7 +5,7 @@
   },
   "chrome_extension_description": {
     "description": "Extension description, used in the Web Store",
-    "message": "Verwalten von Datenschutzeinstellungen, Löschen von Surfdaten, schneller Zugriff auf die Seite im Privaten Modus, Verwaltung von Cookies und Überwachung des Netzwerkverkehrs"
+    "message": "Datenschutzeinstellungen verwalten, Surf-Daten löschen, Schnellzugriff auf Inkognito-Modus, Cookie-Verwaltung und Netzwerkkontrolle"
   },
   "main_tab": {
     "description": "Tab label",
