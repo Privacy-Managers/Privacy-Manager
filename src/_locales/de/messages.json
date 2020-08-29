@@ -153,7 +153,7 @@
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
-    "message": "Allow users to specify the media performance\/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
+    "message": "Allow users to specify the media performance/privacy tradeoffs which impacts how WebRTC traffic will be routed and how much local address information is exposed."
   },
   "openIncognito": {
     "description": "Button text",
@@ -265,7 +265,7 @@
   },
   "pluginData_desc": {
     "description": "Plugin data description in 'Clear on startup' section",
-    "message": "Clear plugins data at browser startup. Websites also use different types of local storage as well, including Adobe Flash Player Local Shared Objects (LSOs), referred to by some people as Flash cookies, so this option will delete client-side data stored by plug-ins that obey the NPAPI ClearSiteData API, such as Flash Player.”"
+    "message": "Clear plugins data at browser startup. Websites also use different types of local storage as well, including Adobe Flash Player Local Shared Objects (LSOs), referred to by some people as Flash cookies, so this option will delete client-side data stored by plug-ins that obey the NPAPI ClearSiteData API, such as Flash Player."
   },
   "serviceWorkers": {
     "description": "Clear on startup setting label",
