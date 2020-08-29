@@ -1,10 +1,10 @@
 {
   "chrome_extension_name": {
-    "description": "Extension name",
+    "description": "Extension name, used in the Web Store",
     "message": "Privacy manager"
   },
   "chrome_extension_description": {
-    "description": "Extension description",
+    "description": "Extension description, used in the Web Store",
     "message": "Управление личными настройками, данными браузера, быстрый доступ к активной странице в режиме Incognito, работа с куки и мониторинг сетевого трафика"
   },
   "main_tab": {
@@ -105,7 +105,7 @@
   },
   "safeBrowsingEnabled_desc": {
     "description": "'Safe browsiong mode' privacy setting description",
-    "message": "Включить\/выключить защиту от фишинга и вредоносного ПО."
+    "message": "Включить/выключить защиту от фишинга и вредоносного ПО."
   },
   "safeBrowsingExtendedReportingEnabled": {
     "description": "Privacy setting label",
@@ -153,7 +153,7 @@
   },
   "webRTCIPHandlingPolicy_desc": {
     "description": "'Web RTC IP handling' privacy setting description",
-    "message": "Позволяют пользователям указывать компромиссы производительность\/конфиденциальности средства массовой информации, которые влияет как WebRTC трафик будет маршрутизироваться и сколько локальной информаций посылается."
+    "message": "Позволяют пользователям указывать компромиссы производительность/конфиденциальности средства массовой информации, которые влияет как WebRTC трафик будет маршрутизироваться и сколько локальной информаций посылается."
   },
   "openIncognito": {
     "description": "Button text",
@@ -354,6 +354,14 @@
   "cookieDialog_deleteAll_msg": {
     "description": "text in Cookies 'delete all' dialog",
     "message": "Вы собираетесь удалить все cookies, вы уверены?"
+  },
+  "whitelistCookieDomain": {
+    "description": "text when hovering over Whitelist button for Cookie Domain",
+    "message": "This button adds all cookies from a domain to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
+  },
+  "whitelistSublistCookie": {
+    "description": "text when hovering over Whitelist button for Sublist Cookies",
+    "message": "This button adds a specific cookie to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
