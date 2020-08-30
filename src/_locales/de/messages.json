@@ -53,7 +53,7 @@
   },
   "referrersEnabled": {
     "description": "Privacy setting label",
-    "message": "Referrer"
+    "message": "Referrer senden"
   },
   "referrersEnabled_desc": {
     "description": "'Referrers' privacy setting description",
@@ -77,7 +77,7 @@
   },
   "autofillEnabled": {
     "description": "Privacy setting label",
-    "message": "Automatisches Auffüllen"
+    "message": "Formulare automatisch auffüllen"
   },
   "autofillEnabled_desc": {
     "description": "'Auto fill' privacy setting description",
@@ -93,7 +93,7 @@
   },
   "passwordSavingEnabled": {
     "description": "Privacy setting label",
-    "message": "Passwortspeicherung"
+    "message": "Passwörter speichern"
   },
   "passwordSavingEnabled_desc": {
     "description": "'Password saving' privacy setting description",
