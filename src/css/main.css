@@ -142,6 +142,12 @@ pm-dialog.cookies.add #delete-cookie
 /*******************************************************************************
  * Main
  ******************************************************************************/
+
+html[lang="de"] #panel-main
+{
+  min-width: 585px;
+}
+
 #panel-main .settings-list-container
 {
   justify-content: center;
