@@ -361,7 +361,7 @@
   },
   "whitelistSublistCookie": {
     "description": "text when hovering over Whitelist button for Sublist Cookies",
-    "message": "Diese Schaltfläche fügt ein bestimmtes Cookie zu einer Positivliste hinzu und verhindert, dass dieses automatisch gelöscht wird. Dies ist nützlich, wenn Sie bei einigen Websites angemeldet bleiben möchten, aber trotzdem alle anderen Cookies gelöscht werden sollen."
+    "message": "Diese Schaltfläche fügt einen bestimmten Cookie zu einer Positivliste hinzu und verhindert, dass dieses automatisch gelöscht wird. Dies ist nützlich, wenn Sie bei einigen Websites angemeldet bleiben möchten, aber trotzdem alle anderen Cookies gelöscht werden sollen."
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
@@ -381,7 +381,7 @@
   },
   "activeTabCookies_desc": {
     "description": "Active tab setting description",
-    "message": "Wenn aktiviert, werden die Tab-Cookies immer mit den Cookie-Daten der aktiven Tab-Domäne gefiltert"
+    "message": "Wenn aktiviert, werden nur Cookies des aktuell geöffneten Tabs angezeigt."
   },
   "blockUserAgent": {
     "description": "Label for blocking user agent setting",
@@ -397,7 +397,7 @@
   },
   "collectHeaders_desc": {
     "description": "'Collect headers' setting description",
-    "message": "Wenn aktiviert, werden die Kopfzeilen gesammelt, es werden nur die letzten 1.000 Kopfzeilen angezeigt."
+    "message": "Wenn aktiviert, werden Kopfzeilen der besuchten Webseiten gesammelt.\nEs werden jedoch nur die letzten 1.000 Kopfzeilen angezeigt."
   },
   "downloadAll": {
     "description": "button text in network section",
