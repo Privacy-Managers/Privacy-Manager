@@ -377,7 +377,7 @@
   },
   "activeTabCookies": {
     "description": "Setting label in cookies section",
-    "message": "Tab-Cookies aktivieren"
+    "message": "Cookies des aktuellen Tabs"
   },
   "activeTabCookies_desc": {
     "description": "Active tab setting description",
