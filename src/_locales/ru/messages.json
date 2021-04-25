@@ -245,7 +245,7 @@
   },
   "serverBoundCertificates": {
     "description": "Clear on startup setting label",
-    "message": "Server-bound certificates"
+    "message": "Сертификаты сервера"
   },
   "serverBoundCertificates_desc": {
     "description": "Server-bound certificates description in 'Clear on startup' section",
@@ -357,11 +357,11 @@
   },
   "whitelistCookieDomain": {
     "description": "text when hovering over Whitelist button for Cookie Domain",
-    "message": "This button adds all cookies from a domain to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
+    "message": "Эта кнопка добавляет все файлы cookie домена в белый список, предотвращая их автоматическое удаление. Это полезно, если вы хотите сохранить авторизацию на некоторых сайтах, но при этом хотите, чтобы все остальные файлы cookie были удалены."
   },
   "whitelistSublistCookie": {
     "description": "text when hovering over Whitelist button for Sublist Cookies",
-    "message": "This button adds a specific cookie to a Whitelist, preventing them from being automatically deleted, usefull if you want to stay logged in to some websites but still want all other cookies to be deleted"
+    "message": "Эта кнопка добавляет конкретный файл cookie в белый список, предотвращая его автоматическое удаление. Это полезно, если вы хотите сохранить авторизацию на некоторых сайтах, но при этом хотите, чтобы все остальные файлы cookie были удалены."
   },
   "additionalPermissions": {
     "description": "Label for requesting additional permission setting",
