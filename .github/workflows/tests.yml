@@ -13,7 +13,7 @@ jobs:
       uses: actions/setup-node@v2
 
     - name: Prepare dependencies
-      run: npm install
+      run: sudo apt-get install xvfb && npm install
     
     - name: Run tests
-      run: npm test
+      run: xvfb-run npm test
