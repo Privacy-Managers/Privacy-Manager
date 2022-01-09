@@ -1,6 +1,6 @@
 # Privacy Manager
 
-[![Build Status](https://travis-ci.com/Privacy-Managers/Privacy-Manager.svg?branch=release)](https://travis-ci.com/Privacy-Managers/Privacy-Manager)
+[![Tests](https://github.com/Privacy-Managers/Privacy-Manager/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/Privacy-Managers/Privacy-Manager/actions/workflows/tests.yml)
 
 ## About
 
