@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-puppeteer:
-    name: Run puppeteer tests
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -13,7 +13,7 @@ jobs:
       uses: actions/setup-node@v2
 
     - name: Prepare dependencies
-      run: sudo apt-get install xvfb && npm install
+      run: npm install
     
-    - name: Test Code
-      run: xvfb-run npm test
+    - name: Run tests
+      run: npm test
