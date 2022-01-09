@@ -18,6 +18,7 @@
 
 "use strict";
 
+require("./../webextPolyfill");
 require("./tabs/cookies");
 require("./tabs/main");
 require("./tabs/network");

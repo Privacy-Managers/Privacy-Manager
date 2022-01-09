@@ -18,6 +18,7 @@
 
 "use strict";
 
+require("./webextPolyfill");
 const {additionalPermission, addRequestListener, removeRequestListener,
       updateRequestObj, addBlockAgentListener, removeBlockAgentListener,
       deleteCookies} = require("./common");
