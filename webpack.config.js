@@ -45,9 +45,7 @@ module.exports =
       { from: './src/img', to: "img" },
       { from: "./src/popup.html", to: "popup.html" },
       { from: "./src/manifest.json", to: "manifest.json",
-        transform: manifest.transform },
-      { from: "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
-        to: "js" }
+        transform: manifest.transform }
     ])
   ]
 };
