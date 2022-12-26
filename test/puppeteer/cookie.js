@@ -181,19 +181,19 @@ describe("Testing Cookies tab", () =>
   {
     equal(await ensureItem("name1", "domain1.com"), false);
     await (await getItemElemHandle("domain1.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("name1", "domain1.com"), true);
 
     equal(await ensureItem("name1", "domain2.com"), false);
     equal(await ensureItem("name2", "domain2.com"), false);
     await (await getItemElemHandle("domain2.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("name1", "domain2.com"), true);
     equal(await ensureItem("name2", "domain2.com"), true);
 
     equal(await ensureItem("name3", "domain3.com"), false);
     await (await getItemElemHandle("domain3.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("name3", "domain3.com"), true);
   });
 
@@ -201,36 +201,36 @@ describe("Testing Cookies tab", () =>
   {
     equal(await isWhitelisted("domain3.com"), "false");
     await (await whitelistButtonHandle("domain3.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await isWhitelisted("domain3.com"), "true");
 
     equal(await isWhitelisted("name2", "domain3.com"), "false");
     await (await whitelistButtonHandle("name2", "domain3.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await isWhitelisted("name2", "domain3.com"), "true");
   });
 
   it("Clicking delete button should delete domain and/or cookie accordingly", async() =>
   {
     await (await getItemElemHandle("domain4.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("domain4.com"), true);
     equal(await ensureItem("name2", "domain4.com"), true);
     await (await deleteButtonHandle("name2", "domain4.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("name2", "domain4.com"), false);
     equal(await ensureItem("name3", "domain4.com"), true);
     await (await deleteButtonHandle("domain4.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("name3", "domain4.com"), false);
     equal(await ensureItem("domain4.com"), false);
 
     // Ensure that non expanded domain item is removed on delete
     // https://github.com/Privacy-Managers/Privacy-Manager/issues/83
     await addCookie("https://domain4.com", "name1", "value1");
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await (await deleteButtonHandle("domain4.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("domain4.com"), false);
   });
 
@@ -238,27 +238,27 @@ describe("Testing Cookies tab", () =>
   {
     await addCookie("https://domain5.com", "name1", "value1");
     await addCookie("https://domain5.com", "name2", "value2");
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
 
     await (await getItemElemHandle("domain5.com")).click();
     equal(await ensureItem("name1", "domain5.com"), true);
     equal(await isWhitelisted("name1", "domain5.com"), "false");
 
     await (await whitelistButtonHandle("domain5.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await (await whitelistButtonHandle("name2", "domain5.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await isWhitelisted("name2", "domain5.com"), "true");
     equal(await isWhitelisted("domain5.com"), "true");
 
     await (await deleteButtonHandle("domain5.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await addCookie("https://domain5.com", "name1", "value1");
     await addCookie("https://domain5.com", "name2", "value2");
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
 
     await (await getItemElemHandle("domain5.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await isWhitelisted("name2", "domain5.com"), "false");
     equal(await isWhitelisted("domain5.com"), "false");
 
@@ -266,7 +266,7 @@ describe("Testing Cookies tab", () =>
     equal(await isWhitelisted("name2", "domain5.com"), "false");
     await (await deleteButtonHandle("name1", "domain5.com")).click();
     await addCookie("https://domain5.com", "name1", "value1");
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await isWhitelisted("name1", "domain5.com"), "false");
   });
   it("Cookie is added using 'add cookies' dialog", async() =>
@@ -283,21 +283,21 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("secure", true);
     await setCookieDialog("storeId", "0");
     const handle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await handle.click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
 
     equal(await ensureItem("domain6.com"), true);
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await (await getItemElemHandle("domain6.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("name1", "domain6.com"), true);
   });
 
   it("Cookie is updated using 'edit cookies' dialog", async() =>
   {
     await (await editButtonHandle("name1", "domain6.com")).click();
-    await page.waitFor(100);
+    await page.waitForTimeout(100);
     equal(await getCookieDialogField("domain"), "domain6.com");
     equal(await getCookieDialogField("name"), "name1");
     equal(await getCookieDialogField("value"), "value1");
@@ -317,13 +317,13 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("expirationTime", "02:02:02");
 
     const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
-    await page.waitFor(100);
+    await page.waitForTimeout(100);
     await updateButtonHandle.click();
-    await page.waitFor(100);
+    await page.waitForTimeout(100);
     await (await getItemElemHandle("domain6.com")).click();
-    await page.waitFor(100);
+    await page.waitForTimeout(100);
     await (await editButtonHandle("name1", "domain6.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
 
     equal(await getCookieDialogField("domain"), "domain6.com");
     equal(await getCookieDialogField("name"), "name1");
@@ -334,11 +334,11 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("session", true);
     await updateButtonHandle.click();
 
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await (await getItemElemHandle("domain6.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     await (await editButtonHandle("name1", "domain6.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await getCookieDialogField("session"), true);
     equal(await getCookieDialogField("expirationDate"), "");
     equal(await getCookieDialogField("expirationTime"), "");
@@ -348,13 +348,13 @@ describe("Testing Cookies tab", () =>
   it("'Delete all' button in the delete all cookies dialog should remove all cookies instead of those which were whitelisted", async() =>
   {
     await (await whitelistButtonHandle("name1", "domain5.com")).click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     equal(await ensureItem("domain1.com"), true);
     equal(await ensureItem("domain2.com"), true);
 
     const dialogOpener = await page.evaluateHandle(() => document.querySelector("pm-button[data-action='open-cookie-removal-dialog']"));
     await dialogOpener.click();
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     const deleteAllCookieButton = await page.evaluateHandle(() => document.querySelector("pm-button[data-action='delete-all-cookies']"));
     await deleteAllCookieButton.click();
 
@@ -377,7 +377,7 @@ describe("Testing Cookies tab", () =>
     equal(await ensureItem("domain5.com"), true);
     await page.focus("#search-domain");
     await page.keyboard.type("3");
-    await page.waitFor(100);
+    await page.waitForTimeout(100);
     equal(await ensureItem("domain5.com"), false);
     equal(await ensureItem("domain3.com"), true);
   });
@@ -386,7 +386,7 @@ describe("Testing Cookies tab", () =>
   {
     equal(await ensureItem("domain3.com"), true);
     await clickToggle(await getHandle("activeTabCookies"));
-    await page.waitFor(30);
+    await page.waitForTimeout(30);
     const searchDomainValue = await page.evaluate(element => element.value, await page.$("#search-domain"));
     equal(searchDomainValue, page.url().split('/')[2].split(':')[0]);
     equal(await ensureItem("domain3.com"), false);

@@ -10,8 +10,8 @@
     "build": "npm run build:webpack:prod && cd dist/;zip -r ../privacy-manager.zip .;cd ..",
     "import:components": "pm-components --single-bundle --prod --output dist",
     "build:webpack": "npm run import:components && webpack --config webpack.config.js",
-    "build:webpack:watch": "npm run import:components && webpack --config webpack.config.js --watch",
-    "build:webpack:prod": "npm run import:components && webpack --config webpack.config.js --prod"
+    "build:webpack:watch": "npm run import:components && WATCH=1 webpack --config webpack.config.js",
+    "build:webpack:prod": "npm run import:components && PROD=1 webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -24,21 +24,21 @@
   },
   "homepage": "https://chrome.google.com/webstore/detail/privacy-manager/giccehglhacakcfemddmfhdkahamfcmd",
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.2.1",
-    "puppeteer": "^1.20.0",
-    "stylelint": "^9.9.0",
-    "stylelint-config-recommended": "^2.1.0"
+    "eslint": "^8.30.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-standard": "^4.1.0",
+    "mocha": "^10.2.0",
+    "puppeteer": "^19.4.1",
+    "stylelint": "^14.16.0",
+    "stylelint-config-recommended": "^9.0.0"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^5.1.1",
-    "csso": "^4.0.2",
-    "privacy-manager-components": "^1.0.1",
-    "webextension-polyfill": "^0.6.0",
-    "webpack": "^4.41.4"
+    "copy-webpack-plugin": "^11.0.0",
+    "csso": "^5.0.5",
+    "privacy-manager-components": "^1.0.2",
+    "webextension-polyfill": "^0.10.0",
+    "webpack": "^5.75.0"
   }
 }
