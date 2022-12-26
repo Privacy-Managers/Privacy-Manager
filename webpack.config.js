@@ -38,7 +38,7 @@ module.exports =
     minimize: false
   },
   plugins: [
-    new CopyPlugin([
+    new CopyPlugin({patterns : [
       { from: './src/_locales', to: "_locales" },
       { from: './src/css', to: "css" ,
         transform: (content) => argv.prod ? csso.minify(content).css : content},
@@ -46,16 +46,16 @@ module.exports =
       { from: "./src/popup.html", to: "popup.html" },
       { from: "./src/manifest.json", to: "manifest.json",
         transform: manifest.transform }
-    ])
+    ]})
   ]
 };
 
-if (argv.watch)
+if (process.env.WATCH)
 {
   module.exports.watch = true;
 }
 
-if (argv.prod)
+if (argv.PROD)
 {
   module.exports.mode = "production";
   module.exports.optimization.minimize = true;

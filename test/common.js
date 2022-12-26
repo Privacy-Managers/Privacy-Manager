@@ -31,16 +31,17 @@ async function openPopupPage()
     ]
   });
   const targets = await browser.targets();
-  const extensionTarget = targets.find(({ _targetInfo }) =>
-  {
-    return _targetInfo.title === "Privacy Manager";
-  });
-  const extensionUrl = extensionTarget._targetInfo.url || '';
+  const extensionTarget = targets.find((target) =>
+    target.url().startsWith("chrome-extension://") && target.type() === "background_page"
+  );
+  const extensionUrl = extensionTarget.url() || '';
   const [,, extensionID] = extensionUrl.split('/');
   const extensionPopupHtml = "popup.html";
 
   const page = await browser.newPage();
-  await page.goto(`chrome-extension://${extensionID}/${extensionPopupHtml}`);
+  await page.goto(`chrome-extension://${extensionID}/${extensionPopupHtml}`, {
+    waitUntil: "networkidle0"
+  });
   return page;
 }
 

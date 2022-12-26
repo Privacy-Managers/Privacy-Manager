@@ -178,10 +178,10 @@ describe("Testing main tab and tabs component", () =>
   {
     const handle = await getHandle("cookies");
     await clickToggle(handle);
-    await page.waitFor(10);
+    await page.waitForTimeout(10);
     assert.equal(await getSettingListData("cookies"), true);
     await clickToggle(handle);
-    await page.waitFor(10);
+    await page.waitForTimeout(10);
     assert.equal(await getSettingListData("cookies"), false);
   });
   it("Setting settingList.cookies in local storage should switch 'Cookies' toggle", async() =>
@@ -197,7 +197,7 @@ describe("Testing main tab and tabs component", () =>
     const handle = await getHandle("activeTabCookies");
     assert.equal(await getSearchDomainValue(), "");
     await clickToggle(handle);
-    await page.waitFor(10);
+    await page.waitForTimeout(10);
     assert.equal(await getSettingListData("activeTabCookies"), true);
     const url = await page.url();
     const domain = url.split('/')[2].split(':')[0].replace("www.", "");
@@ -208,7 +208,7 @@ describe("Testing main tab and tabs component", () =>
   {
     assert.equal(await isDialogHidden("pm-dialog.info"), true);
     await clickToggleLabel(await getHandle("thirdPartyCookiesAllowed"));
-    await page.waitFor(10);
+    await page.waitForTimeout(10);
     assert.equal(await isDialogHidden("pm-dialog.info"), false);
     await closeDialog("pm-dialog.info");
   });
