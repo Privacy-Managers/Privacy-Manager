@@ -212,7 +212,8 @@ describe("Testing Network tab", () =>
 
   it("Clicking on 'Download All' button should download all collected requests", async() =>
   {
-    await page._client.send('Page.setDownloadBehavior', {
+    const pageCDP = await (await page.target().createCDPSession());
+    await pageCDP.send('Page.setDownloadBehavior', {
       behavior: "allow",
       downloadPath: __dirname
     });
