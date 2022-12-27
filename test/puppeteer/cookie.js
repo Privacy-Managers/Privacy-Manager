@@ -284,10 +284,10 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("storeId", "0");
     const handle = await page.waitForSelector("pm-dialog.cookies pm-button[data-action='update-cookie']", {timeout: 30});
     await handle.click();
-    await page.waitForTimeout(30);
+    await page.waitForTimeout(150);
 
     equal(await ensureItem("domain6.com"), true);
-    await page.waitForTimeout(30);
+    await page.waitForTimeout(100);
     await (await getItemElemHandle("domain6.com")).click();
     await page.waitForTimeout(30);
     equal(await ensureItem("name1", "domain6.com"), true);
