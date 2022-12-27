@@ -318,7 +318,7 @@ describe("Testing Cookies tab", () =>
     const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
     await page.waitForTimeout(100);
     await updateButtonHandle.click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(200);
     await (await getItemElemHandle("domain6.com")).click();
     await page.waitForTimeout(100);
     await (await editButtonHandle("name1", "domain6.com")).click();
@@ -333,7 +333,7 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("session", true);
     await updateButtonHandle.click();
 
-    await page.waitForTimeout(30);
+    await page.waitForTimeout(100);
     await (await getItemElemHandle("domain6.com")).click();
     await page.waitForTimeout(30);
     await (await editButtonHandle("name1", "domain6.com")).click();
