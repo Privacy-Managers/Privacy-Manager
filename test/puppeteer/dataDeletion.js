@@ -137,12 +137,12 @@ describe("Testing Data deletion", () =>
   it("Data deletion should clear data for the toggles that are enabled in the 'Clear on startup' section", async() =>
   {
     await page2.goto("http://127.0.0.1:4000/");
-    await page2.waitFor(50);
+    await page2.waitForTimeout(50);
     ok(!await isLocalStorageSet());
     ok(!await isCookieSet());
     await setCookie();
     await setStorage();
-    await page2.waitFor(50);
+    await page2.waitForTimeout(50);
     ok(await isLocalStorageSet());
     ok(await isCookieSet());
 
@@ -153,12 +153,12 @@ describe("Testing Data deletion", () =>
     equal(await isEnabled(cookieHandle), true);
     equal(await isEnabled(localStorage), true);
     await triggerDataDeletion();
-    await page2.waitFor(50);
+    await page2.waitForTimeout(50);
     ok(!await isLocalStorageSet());
     ok(!await isCookieSet());
     await clickToggle(await getHandle("cookies"));
     await clickToggle(await getHandle("localStorage"));
-    await page2.waitFor(200);
+    await page2.waitForTimeout(200);
     equal(await isEnabled(cookieHandle), false);
     equal(await isEnabled(localStorage), false);
   });
@@ -167,14 +167,14 @@ describe("Testing Data deletion", () =>
   {
     await setCookie();
     await setStorage();
-    await page2.waitFor(50);
+    await page2.waitForTimeout(50);
     ok(await isLocalStorageSet());
     ok(await isCookieSet());
 
     await clickToggle(await getHandle("removeAll"));
-    await page2.waitFor(50);
+    await page2.waitForTimeout(50);
     await triggerDataDeletion();
-    await page2.waitFor(50);
+    await page2.waitForTimeout(50);
     ok(!await isLocalStorageSet());
     ok(!await isCookieSet());
   });
@@ -182,7 +182,7 @@ describe("Testing Data deletion", () =>
   after(async() =>
   {
     await restorePermissions();
-    await closeBrowser();
+    // await closeBrowser();
     server.close();
   });
 });
