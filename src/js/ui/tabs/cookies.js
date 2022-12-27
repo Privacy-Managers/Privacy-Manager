@@ -287,7 +287,7 @@ async function onCookiesAction(action, item, parentItem)
       let date, time = "";
       if (expirationDate)
       {
-        const dateTime = new Date(expirationDate);
+        const dateTime = new Date(expirationDate * 1000);
         // <input type="date"> supports -> yyyy-mm-dd
         const convertMonth = (month) => month < 9 ? `0${month + 1}` : month + 1;
         const convertDate = (date) => date < 10 ? `0${date}` : date;
@@ -347,7 +347,7 @@ async function onCookiesAction(action, item, parentItem)
         "secure": getDialogField("secure").checked,
         "httpOnly": getDialogField("httpOnly").checked,
         "storeId": getDialogField("storeId").value,
-        "expirationDate": new Date(dateTime).getTime()
+        "expirationDate": new Date(dateTime).getTime() / 1000
       };
 
       if (getDialogField("hostOnly").checked)
