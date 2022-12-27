@@ -276,14 +276,13 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("name", "name1");
     await setCookieDialog("value", "value1");
     await setCookieDialog("path", "/about1");
-    await setCookieDialog("expirationDate", "2051-01-01");
+    await setCookieDialog("expirationDate", `${new Date().getFullYear() + 1}-01-01`);
     await setCookieDialog("expirationTime", "01:01:01");
     await setCookieDialog("hostOnly", true);
     await setCookieDialog("httpOnly", true);
     await setCookieDialog("secure", true);
     await setCookieDialog("storeId", "0");
-    const handle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
-    await page.waitForTimeout(30);
+    const handle = await page.waitForSelector("pm-dialog.cookies pm-button[data-action='update-cookie']", {timeout: 30});
     await handle.click();
     await page.waitForTimeout(30);
 
@@ -302,7 +301,7 @@ describe("Testing Cookies tab", () =>
     equal(await getCookieDialogField("name"), "name1");
     equal(await getCookieDialogField("value"), "value1");
     equal(await getCookieDialogField("path"), "/about1");
-    equal(await getCookieDialogField("expirationDate"), "2051-01-01");
+    equal(await getCookieDialogField("expirationDate"), `${new Date().getFullYear() + 1}-01-01`);
     equal(await getCookieDialogField("expirationTime"), "01:01:01");
     equal(await getCookieDialogField("hostOnly"), true);
     equal(await getCookieDialogField("httpOnly"), true);
@@ -313,7 +312,7 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("domain", "domain6.com");
     await setCookieDialog("value", "value2");
     await setCookieDialog("path", "/about1");
-    await setCookieDialog("expirationDate", "2052-02-02");
+    await setCookieDialog("expirationDate", `${new Date().getFullYear() + 1}-02-02`);
     await setCookieDialog("expirationTime", "02:02:02");
 
     const updateButtonHandle = await page.evaluateHandle(() => document.querySelector("pm-dialog.cookies pm-button[data-action='update-cookie']"));
@@ -329,7 +328,7 @@ describe("Testing Cookies tab", () =>
     equal(await getCookieDialogField("name"), "name1");
     equal(await getCookieDialogField("value"), "value2");
     equal(await getCookieDialogField("path"), "/about1");
-    equal(await getCookieDialogField("expirationDate"), "2052-02-02");
+    equal(await getCookieDialogField("expirationDate"), `${new Date().getFullYear() + 1}-02-02`);
     equal(await getCookieDialogField("expirationTime"), "02:02:02");
     await setCookieDialog("session", true);
     await updateButtonHandle.click();
