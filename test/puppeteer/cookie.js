@@ -282,7 +282,8 @@ describe("Testing Cookies tab", () =>
     await setCookieDialog("httpOnly", true);
     await setCookieDialog("secure", true);
     await setCookieDialog("storeId", "0");
-    const handle = await page.waitForSelector("pm-dialog.cookies pm-button[data-action='update-cookie']", {timeout: 30});
+    await page.waitForTimeout(100);
+    const handle = await page.waitForSelector("pm-dialog.cookies pm-button[data-action='update-cookie']");
     await handle.click();
     await page.waitForTimeout(150);
 
