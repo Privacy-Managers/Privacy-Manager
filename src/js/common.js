@@ -18,6 +18,7 @@
 
 "use strict";
 
+const browser = require("webextension-polyfill");
 const additionalPermission = {"origins": ["<all_urls>"]};
 const getAllCookies = browser.cookies.getAll;
 const removeCookie = browser.cookies.remove;

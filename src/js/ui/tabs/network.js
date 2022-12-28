@@ -23,6 +23,7 @@ const {registerActionListener} = require("../helpers/actionListener");
 const {additionalPermission, addRequestListener, removeRequestListener,
        updateRequestObj, addBlockAgentListener, removeBlockAgentListener} = require("../../common");
 const {addStorageToggle, addPermissionToggle, getSettingListData, resetSettingListData} = require("../helpers/settingList");
+const browser = require("webextension-polyfill");
 
 const blockUserAgentId = "blockUserAgent";
 const collectHeadersId = "collectHeaders";
