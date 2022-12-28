@@ -24,6 +24,7 @@ const {deleteCookies, additionalPermission} = require("../../common");
 const permittedUrls = additionalPermission.origins[0];
 const {addStorageToggle, addPermissionToggle,
       getSettingListData} = require("../helpers/settingList");
+const browser = require("webextension-polyfill");
 
 let cookieWhitelistTitle = "";
 let domainWhitelistTitle = "";

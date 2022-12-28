@@ -17,6 +17,7 @@
  */
 
 "use strict";
+const browser = require("webextension-polyfill");
 
 function $(selector, parent)
 {

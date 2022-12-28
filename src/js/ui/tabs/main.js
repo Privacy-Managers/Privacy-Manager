@@ -22,6 +22,7 @@ const {$} = require("../helpers/utils");
 const {addStorageToggle, addPrivacyToggle} = require("../helpers/settingList");
 const {privacyData, browsingData} = require("../../data");
 const {registerActionListener} = require("../helpers/actionListener");
+const browser = require("webextension-polyfill");
 
 async function generateMainContent()
 {

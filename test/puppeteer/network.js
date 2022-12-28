@@ -258,7 +258,10 @@ describe("Testing Network tab", () =>
   {
     unlinkSync(path.join(__dirname, "requests.json"));
     await restorePermissions();
-    await closeBrowser();
+    if (!process.env.KEEP_BROWSER)
+    {
+      await closeBrowser();
+    }
     server.close();
   });
 });

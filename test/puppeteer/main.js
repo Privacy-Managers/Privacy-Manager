@@ -233,6 +233,9 @@ describe("Testing main tab and tabs component", () =>
   after(async() =>
   {
     await restorePermissions();
-    await closeBrowser();
+    if (!process.env.KEEP_BROWSER)
+    {
+      await closeBrowser();
+    }
   });
 });

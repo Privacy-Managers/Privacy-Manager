@@ -18,6 +18,7 @@
 
 const {$, getMessage, $$} = require("./utils");
 const {additionalPermission} = require("../../common");
+const browser = require("webextension-polyfill");
 
 async function _createPmToggle(accessor)
 {

@@ -18,12 +18,15 @@
 
 "use strict";
 
-require("../webextPolyfill");
 require("./tabs/cookies");
 require("./tabs/main");
 require("./tabs/network");
 
+const browser = require("webextension-polyfill");
+window.browser = browser;
+
 const {getMessage} = require("./helpers/utils");
+
 
 /*******************************************************************************
  * i18n

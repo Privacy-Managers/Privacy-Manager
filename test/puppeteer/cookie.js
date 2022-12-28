@@ -394,6 +394,9 @@ describe("Testing Cookies tab", () =>
   after(async() =>
   {
     await restorePermissions();
-    await closeBrowser();
+    if (!process.env.KEEP_BROWSER)
+    {
+      await closeBrowser();
+    }
   });
 });

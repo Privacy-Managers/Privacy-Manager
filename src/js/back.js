@@ -18,7 +18,8 @@
 
 "use strict";
 
-require("./webextPolyfill");
+const browser = require("webextension-polyfill");
+window.browser = browser;
 const {additionalPermission, addRequestListener, removeRequestListener,
       updateRequestObj, addBlockAgentListener, removeBlockAgentListener,
       deleteCookies} = require("./common");
