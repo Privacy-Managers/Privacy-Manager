@@ -25,7 +25,15 @@ const {additionalPermission, addRequestListener, removeRequestListener,
       deleteCookies} = require("./common");
 const {browsingData} = require("./data");
 
-self.collectedRequests = [];
+let collectedRequests = [];
+let collectedRequestsReady = false;
+let savingProgress = false; // Network requests saving indication.
+getCollectedNetworkRequests().then((requests) =>
+{
+  collectedRequests = requests;
+  collectedRequestsReady = true;
+});
+
 const requestCollectionLength = 500;
 
 async function profileStart()
@@ -35,6 +43,39 @@ async function profileStart()
     browser.storage.local.set({"cookieWhitelist": {} });
   const {settingList} = await browser.storage.local.get("settingList");
   deleteBrowsingData(settingList);
+  deleteCollectedNetworkRequests();
+}
+
+async function getCollectedNetworkRequests()
+{
+  try
+  {
+    const {networkRequests} = await browser.storage.local.get("networkRequests");
+    return networkRequests ? JSON.parse(networkRequests) : [];
+  }
+  catch(e)
+  {
+    console.error("Couldn't fetch networkRequests from storage");
+    return [];
+  }
+}
+
+function deleteCollectedNetworkRequests()
+{
+  collectedRequests = [];
+  try
+  {
+    return browser.storage.local.remove("networkRequests");
+  }
+  catch(e)
+  {
+    console.error("Couldn't delete networkRequests from the storage");
+  }
+}
+
+function saveRequestsToStorage()
+{
+  browser.storage.local.set({"networkRequests": JSON.stringify(collectedRequests)});
 }
 
 browser.storage.local.get("settingList").then((data) =>
@@ -118,6 +159,16 @@ function addToRequestArray(details)
     collectedRequests.shift();
 
   collectedRequests.push(details);
+  // Optimization for saving requests in storage.
+  if (!savingProgress)
+  {
+    savingProgress = true;
+    setTimeout(() =>
+    {
+      savingProgress = false;
+      saveRequestsToStorage();
+    }, 5000);
+  }
 }
 
 async function handleMessage(request)
@@ -129,6 +180,14 @@ async function handleMessage(request)
       const {settingList} = await browser.storage.local.get("settingList");
       deleteBrowsingData(settingList);
       break;
+    case "getCollectedRequests":
+      if (collectedRequestsReady) {
+        return collectedRequests
+      } else {
+        return getCollectedNetworkRequests();
+      }
+    case "deleteCollectedNetworkRequests":
+      return deleteCollectedNetworkRequests();
     default:
       break;
   }

@@ -59,10 +59,10 @@ document.addEventListener("DOMContentLoaded" , async function()
 
   registerActionListener($("#requestsWidget"), onRequestsWidgetAction);
   tableList.setListener(onRequestsWidgetActionComp);
-  const window = await browser.runtime.getBackgroundPage();
-
-  collectedRequests = window.collectedRequests;
-  tableList.addItems(collectedRequests);
+  browser.runtime.sendMessage({message: "getCollectedRequests"}).then((requests) =>
+  {
+    tableList.addItems(requests);
+  });
 },false);
 
 async function onNetworkSettingChange(settingName, isActive, permissionChange)
@@ -177,8 +177,7 @@ async function onRequestsWidgetAction(action, element)
   switch (action)
   {
     case "delete-all": {
-      const window = await browser.runtime.getBackgroundPage();
-      window.collectedRequests = [];
+      await browser.runtime.sendMessage({message: "deleteCollectedNetworkRequests"});
       tableList.empty();
       break;
     }
