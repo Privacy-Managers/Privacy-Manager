@@ -30,9 +30,12 @@ async function openPopupPage()
       `--load-extension=${extensionPath}`
     ]
   });
+  // The extension target is not ready at this point, so we wait a bit.
+  await sleep(1000);
+
   const targets = await browser.targets();
   const extensionTarget = targets.find((target) =>
-    target.url().startsWith("chrome-extension://") && target.type() === "background_page"
+    target.url().startsWith("chrome-extension://") && target.type() === "service_worker"
   );
   const extensionUrl = extensionTarget.url() || '';
   const [,, extensionID] = extensionUrl.split('/');
@@ -43,6 +46,11 @@ async function openPopupPage()
     waitUntil: "networkidle0"
   });
   return page;
+}
+
+function sleep(ms)
+{
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function closeBrowser()
