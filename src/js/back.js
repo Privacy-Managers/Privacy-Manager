@@ -19,13 +19,13 @@
 "use strict";
 
 const browser = require("webextension-polyfill");
-window.browser = browser;
+self.browser = browser;
 const {additionalPermission, addRequestListener, removeRequestListener,
       updateRequestObj, addBlockAgentListener, removeBlockAgentListener,
       deleteCookies} = require("./common");
 const {browsingData} = require("./data");
 
-window.collectedRequests = [];
+self.collectedRequests = [];
 const requestCollectionLength = 500;
 
 async function profileStart()
@@ -89,12 +89,6 @@ function deleteBrowsingData(data)
     browser.browsingData.remove({}, browsingDataObj);
   }
 }
-
-window.deleteBrowsingData = async() =>
-{
-  const {settingList} = await browser.storage.local.get("settingList");
-  deleteBrowsingData(settingList);
-};
 
 function startCollectingRequests()
 {

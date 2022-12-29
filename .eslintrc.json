@@ -14,6 +14,7 @@
     "after": true,
     "before": true,
     "window": true,
+    "self": true,
     "require": true,
     "module": true,
     "__dirname": true,
