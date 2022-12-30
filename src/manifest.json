@@ -15,8 +15,15 @@
       "16": "img/logo-16x16.png",
       "48": "img/logo-48x48.png"
    },
+   "declarative_net_request" : {
+      "rule_resources": [{
+         "id" : "block-agent",
+         "enabled": false,
+         "path": "agent-block.json"
+      }]
+   },
    "optional_host_permissions": ["<all_urls>"],
-   "permissions": ["privacy", "cookies", "browsingData", "tabs", "webRequest", "webRequestBlocking", "storage"],
+   "permissions": ["privacy", "cookies", "browsingData", "tabs", "webRequest", "declarativeNetRequestWithHostAccess", "storage"],
    "incognito": "split",
    "update_url": "https://clients2.google.com/service/update2/crx"
 }
