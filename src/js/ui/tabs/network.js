@@ -30,7 +30,6 @@ const collectHeadersId = "collectHeaders";
 const permissionNotificationMsgId = "additionalPermissions_notification";
 const filterParams = ["statusLine", "statusCode", "type", "url", "method"];
 
-let collectedRequests = [];
 let tableList = null;
 
 document.addEventListener("DOMContentLoaded" , async function()
@@ -183,7 +182,7 @@ async function onRequestsWidgetAction(action, element)
     }
     case "download-all": {
       const downloadJson = [];
-      for (const {request, data} of collectedRequests)
+      for (const {request, data} of tableList.items)
       {
         const requestObj = {};
         requestObj["action"] = data.type;
