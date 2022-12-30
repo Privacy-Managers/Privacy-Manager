@@ -1,0 +1,22 @@
+[
+  {
+    "id" : 1,
+    "priority": 1,
+    "action" : { 
+      "type" : "modifyHeaders",
+      "requestHeaders": [
+          { 
+            "header": "user-agent", 
+            "operation": "remove"
+          }
+        ] 
+    },
+    "condition" : {
+      "urlFilter" : "*",
+      "resourceTypes": [
+        "main_frame",
+        "sub_frame"
+      ]
+    }
+  }
+]

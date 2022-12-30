@@ -29,13 +29,13 @@ const manifestFile = "dist/manifest.json";
 const allOrigins = "<all_urls>";
 
 /**
- * Move "<all_urls>" from optional_permissions to permissions
+ * Move "<all_urls>" from optional_host_permissions to host_permissions
  */
 async function allUrlsToPermissions()
 {
   const manifest = await getManifestFile();
-  manifest.permissions.push(manifest.optional_permissions[0]);
-  delete manifest.optional_permissions;
+  manifest.host_permissions = manifest.optional_host_permissions;
+  delete manifest.optional_host_permissions;
   await writeFile(manifestFile, JSON.stringify(manifest, null, 2), "utf8");
 }
 
@@ -45,8 +45,8 @@ async function allUrlsToPermissions()
 async function restorePermissions()
 {
   const manifest = await getManifestFile();
-  manifest.optional_permissions = [allOrigins];
-  manifest.permissions = manifest.permissions.filter(e => e !== allOrigins);
+  manifest.optional_host_permissions = [allOrigins];
+  delete manifest.host_permissions;
   await writeFile(manifestFile, JSON.stringify(manifest, null, 2), "utf8");
 }
 

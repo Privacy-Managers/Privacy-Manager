@@ -44,6 +44,7 @@ module.exports =
         transform: (content) => argv.prod ? csso.minify(content).css : content},
       { from: './src/img', to: "img" },
       { from: "./src/popup.html", to: "popup.html" },
+      { from: "./src/agent-block.json", to: "agent-block.json" },
       { from: "./src/manifest.json", to: "manifest.json",
         transform: manifest.transform }
     ]})

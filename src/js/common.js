@@ -54,21 +54,16 @@ function updateRequestObj(details, actionType)
  ******************************************************************************/
 function addBlockAgentListener()
 {
-  onBeforeSendHeaders.addListener(blockUserAgent,
-                                  {urls: ["<all_urls>"]},
-                                  ["blocking", "requestHeaders"]);
+  browser.declarativeNetRequest.updateEnabledRulesets({
+    enableRulesetIds: ["block-agent"]
+  });
 }
 
 function removeBlockAgentListener()
 {
-  onBeforeSendHeaders.removeListener(blockUserAgent);
-}
-
-function blockUserAgent(details)
-{
-  const filterUserAgent = (request) => request.name != "User-Agent";
-  const requestHeaders = details.requestHeaders.filter(filterUserAgent);
-  return {requestHeaders};
+  browser.declarativeNetRequest.updateEnabledRulesets({
+    disableRulesetIds: ["block-agent"]
+  });
 }
 
 function removeStartDot(string)

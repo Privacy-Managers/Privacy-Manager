@@ -144,7 +144,7 @@ describe("Testing Network tab", () =>
     await clickToggle(handle);
     await page.waitForTimeout(10);
     await page2.goto("http://127.0.0.1:4000/");
-    await page.waitForTimeout(50);
+    await page.waitForTimeout(100);
     equal((await getItemText("pm-table-item1", null, "type")), "main_frame");
     equal((await getItemText("pm-table-item1", null, "url")), "http://127.0.0.1:4000/");
     equal((await getItemData("pm-table-item1", null, "type")), "send");
